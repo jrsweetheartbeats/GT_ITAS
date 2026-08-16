@@ -240,6 +240,7 @@ export function renderLearningDetail() {
   const submission = question.latestSubmission || {};
   const isSql = question.questionType === 'sql';
   const queryEnabled = isSql && question.validationRules?.query_enabled === true;
+  const verifyExecution = isSql && question.validationRules?.verify_execution === true;
   const defaultLimit = Number(question.validationRules?.default_limit || 50);
   const tableHints = Array.isArray(question.validationRules?.table_hints) ? question.validationRules.table_hints : [];
   const catalogQuestions = allLearningQuestions();
@@ -266,6 +267,7 @@ export function renderLearningDetail() {
         <div class="leetcode-description"><h3>题目描述</h3><p>${esc(question.prompt)}</p></div>
         ${tableHints.length ? `<div class="practice-notice"><strong>查询表提示</strong>：${tableHints.map(esc).join('；')}</div>` : ''}
         <div class="practice-notice"><strong>${isSql ? '查询边界' : '作答要求'}</strong>：${isSql ? `只允许单条只读 SQL；${queryEnabled ? `未写 LIMIT 时默认添加 LIMIT ${defaultLimit}` : '按题目要求完成静态校验'}` : '填写完整分析、核对过程和结论边界'}。</div>
+        ${verifyExecution ? '<div class="practice-notice success"><strong>自动判题</strong>：正式提交时会实际执行只读查询，并核对返回字段、结果是否非空，以及每行是否符合指定筛选条件。</div>' : ''}
         ${questionRankingHtml(question)}
         <div class="courseware-grid compact">${courseware}</div>
       </section>

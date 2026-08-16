@@ -111,8 +111,10 @@ def _json_value(value: Any) -> Any:
         return value
     if isinstance(value, str):
         return value if len(value) <= 5000 else value[:5000] + "…[已截断]"
-    if isinstance(value, (date, datetime)):
+    if isinstance(value, datetime):
         return value.isoformat(sep=" ")
+    if isinstance(value, date):
+        return value.isoformat()
     if isinstance(value, Decimal):
         return str(value)
     if isinstance(value, bytes):

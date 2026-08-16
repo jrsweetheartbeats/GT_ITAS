@@ -16,7 +16,7 @@ from ..models import AuditLog, PracticeQuestion, PracticeSubmission, TrainingWee
 from ..schemas import PracticeExecuteIn, PracticeReviewIn, PracticeSubmissionIn, PracticeValidateIn
 from ..services.sql_practice_executor import execute_practice_sql
 from ..services.audit_log import record_audit_log
-from ..services.sql_practice_validator import validate_practice_sql
+from ..services.sql_practice_validator import validate_practice_result, validate_practice_sql
 
 
 router = APIRouter(prefix="/api/learning", tags=["learning"])
@@ -453,7 +453,24 @@ def submit_answer(
     row.answer_text = payload.answer_text.strip()
     row.sql_text = payload.sql_text.strip()
     if question.question_type == "sql":
-        validation = validate_practice_sql(row.sql_text, _json(question.validation_rules_json, {}))
+        rules = _json(question.validation_rules_json, {})
+        validation = validate_practice_sql(row.sql_text, rules)
+        if validation["passed"] and rules.get("verify_execution") is True:
+            try:
+                execution = execute_practice_sql(row.sql_text, rules)
+                result_validation = validate_practice_result(execution, rules)
+            except HTTPException as exc:
+                detail = exc.detail.get("message") if isinstance(exc.detail, dict) else str(exc.detail)
+                result_validation = {
+                    "passed": False,
+                    "errors": [f"实际执行未通过：{detail}"],
+                    "warnings": [],
+                    "checks": [{"name": "实际执行", "passed": False, "detail": str(detail)}],
+                }
+            validation["errors"].extend(result_validation["errors"])
+            validation["warnings"].extend(result_validation["warnings"])
+            validation["checks"].extend(result_validation["checks"])
+            validation["passed"] = bool(validation["passed"] and result_validation["passed"])
     else:
         validation = {
             "passed": bool(row.answer_text),

@@ -125,6 +125,26 @@ def validate_practice_sql(sql: str, rules: Optional[dict[str, Any]] = None) -> d
     if rules.get("forbid_select_star") and re.search(r"\bselect\s+(?:distinct\s+)?\*", normalized):
         errors.append("本题禁止SELECT *，请明确列出所需字段")
 
+    required_select_columns = [str(item).strip().lower() for item in rules.get("required_select_columns", []) if str(item).strip()]
+    if required_select_columns:
+        select_match = re.search(r"\bselect\s+(.*?)\s+\bfrom\b", masked.lower().replace("`", ""), flags=re.DOTALL)
+        select_clause = select_match.group(1) if select_match else ""
+        missing_columns = [item for item in required_select_columns if item not in select_clause]
+        if missing_columns:
+            errors.append("SELECT缺少题目要求的字段：" + "、".join(missing_columns))
+        checks.append({"name": "指定返回字段", "passed": not missing_columns, "detail": "、".join(required_select_columns)})
+
+    required_equalities = rules.get("required_equalities", {})
+    missing_equalities = []
+    for field, expected in required_equalities.items():
+        pattern = rf"`?{re.escape(str(field).lower())}`?\s*=\s*{re.escape(str(expected).lower())}(?![\w.])"
+        if not re.search(pattern, normalized):
+            missing_equalities.append(f"{field}={expected}")
+    if missing_equalities:
+        errors.append("WHERE缺少指定条件：" + "、".join(missing_equalities))
+    if required_equalities:
+        checks.append({"name": "指定筛选条件", "passed": not missing_equalities, "detail": "、".join(f"{key}={value}" for key, value in required_equalities.items())})
+
     if rules.get("require_limit"):
         limit_match = re.search(r"\blimit\s+(?:(\d+)\s*,\s*)?(\d+)\b", normalized)
         if not limit_match:
@@ -134,10 +154,40 @@ def validate_practice_sql(sql: str, rules: Optional[dict[str, Any]] = None) -> d
             max_limit = int(rules.get("max_limit", 1000))
             if limit_value > max_limit:
                 errors.append(f"LIMIT不得超过{max_limit}")
-            checks.append({"name": "结果行数限制", "passed": limit_value <= max_limit, "detail": f"LIMIT {limit_value}"})
+            exact_limit = rules.get("exact_limit")
+            if exact_limit is not None and limit_value != int(exact_limit):
+                errors.append(f"本题要求使用LIMIT {int(exact_limit)}")
+            checks.append({"name": "结果行数限制", "passed": limit_value <= max_limit and (exact_limit is None or limit_value == int(exact_limit)), "detail": f"LIMIT {limit_value}"})
 
     if first in {"select", "with"} and not re.search(r"\bfrom\b", normalized):
         warnings.append("未发现FROM，请确认是否为题目所需的常量查询")
     passed = not errors
     checks.insert(0, {"name": "只读与单语句", "passed": not any("只允许" in item or "禁止" in item or "一条" in item for item in errors), "detail": "不会连接或执行SQL"})
     return {"passed": passed, "errors": errors, "warnings": warnings, "checks": checks}
+
+
+def validate_practice_result(result: dict[str, Any], rules: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    rules = rules or {}
+    columns = [str(item) for item in result.get("columns", [])]
+    rows = result.get("rows", []) or []
+    errors: list[str] = []
+    checks: list[dict[str, Any]] = []
+    expected_values = rules.get("expected_result_values", {})
+    missing_columns = [str(item) for item in expected_values if str(item) not in columns]
+    if missing_columns:
+        errors.append("查询结果缺少校验字段：" + "、".join(missing_columns))
+    checks.append({"name": "结果字段", "passed": not missing_columns, "detail": "、".join(columns)})
+    if rules.get("require_nonempty_result") and not rows:
+        errors.append("查询结果为空，请检查筛选条件")
+    checks.append({"name": "结果非空", "passed": bool(rows) or not rules.get("require_nonempty_result"), "detail": f"返回{len(rows)}行"})
+    mismatches: list[str] = []
+    if not missing_columns:
+        for field, expected in expected_values.items():
+            index = columns.index(str(field))
+            if any(str(row[index]) != str(expected) for row in rows):
+                mismatches.append(f"{field}应全部等于{expected}")
+    if mismatches:
+        errors.append("查询结果不符合题目条件：" + "、".join(mismatches))
+    if expected_values:
+        checks.append({"name": "结果值核对", "passed": not mismatches and not missing_columns, "detail": "、".join(f"{key}={value}" for key, value in expected_values.items())})
+    return {"passed": not errors, "errors": errors, "warnings": [], "checks": checks}
