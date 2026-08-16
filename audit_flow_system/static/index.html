@@ -6,7 +6,7 @@
   <title>ITAS</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-  <link rel="stylesheet" href="/static/css/app.css?v=20260816a">
+  <link rel="stylesheet" href="/static/css/app.css?v=20260816b">
 </head>
 <body>
   <div class="login-screen" id="loginScreen">
@@ -40,7 +40,7 @@
     <main>
       <div class="topbar">
         <h1 id="pageTitle">工作台</h1>
-        <div class="search-combo">
+        <div class="search-combo" id="projectSearchCombo">
           <input id="activeProjectSearch" list="projectOptions" placeholder="搜索项目名称 / 编号">
           <datalist id="projectOptions"></datalist>
           <select id="activeProject" class="project-select-hidden" title="当前项目"></select>
@@ -1058,6 +1058,7 @@
             </div>
             <div class="actions"><button class="secondary" type="button" onclick="window.refreshLearning?.()"><i class="ti ti-refresh"></i> 刷新</button></div>
           </div>
+          <div id="learningDashboard"><div class="empty">正在加载学习数据看板</div></div>
           <div class="learning-layout">
             <aside class="learning-week-list" id="learningWeekList"><div class="empty">登录后加载课程</div></aside>
             <div id="learningDetail"><div class="empty">请选择学习周</div></div>
@@ -1087,6 +1088,6 @@
     </div>
   </div>
 
-  <script type="module" src="/static/js/app.js?v=20260816e"></script>
+  <script type="module" src="/static/js/app.js?v=20260816f"></script>
 </body>
 </html>

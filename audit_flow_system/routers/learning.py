@@ -1,16 +1,18 @@
 from __future__ import annotations
 
-from datetime import datetime
+from collections import defaultdict
+from datetime import date, datetime, timedelta, timezone
 import json
 from typing import Any, Optional
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from sqlalchemy import func, select
+from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session
 
 from ..core.db import get_db
 from ..core.security import current_user, ensure_feature_permission, has_feature_permission
-from ..models import PracticeQuestion, PracticeSubmission, TrainingWeek, User
+from ..models import AuditLog, PracticeQuestion, PracticeSubmission, TrainingWeek, User
 from ..schemas import PracticeExecuteIn, PracticeReviewIn, PracticeSubmissionIn, PracticeValidateIn
 from ..services.sql_practice_executor import execute_practice_sql
 from ..services.audit_log import record_audit_log
@@ -18,6 +20,8 @@ from ..services.sql_practice_validator import validate_practice_sql
 
 
 router = APIRouter(prefix="/api/learning", tags=["learning"])
+LOCAL_TIMEZONE = ZoneInfo("Asia/Shanghai")
+ATTENDANCE_DAYS = 365
 
 
 def _json(value: str, fallback: Any) -> Any:
@@ -73,6 +77,194 @@ def _draft_for(db: Session, question: PracticeQuestion, user: User) -> PracticeS
     return row
 
 
+def _local_date(value: datetime) -> date:
+    source = value.replace(tzinfo=timezone.utc) if value.tzinfo is None else value
+    return source.astimezone(LOCAL_TIMEZONE).date()
+
+
+def _streaks(active_days: set[date], today: date) -> tuple[int, int]:
+    current = 0
+    cursor = today
+    while cursor in active_days:
+        current += 1
+        cursor -= timedelta(days=1)
+    longest = 0
+    running = 0
+    previous: Optional[date] = None
+    for day in sorted(active_days):
+        running = running + 1 if previous is not None and day == previous + timedelta(days=1) else 1
+        longest = max(longest, running)
+        previous = day
+    return current, longest
+
+
+def _question_attempt_stats(db: Session, question_ids: list[int]) -> dict[int, dict[int, dict[str, Any]]]:
+    if not question_ids:
+        return {}
+    rows = db.execute(
+        select(
+            AuditLog.target_id,
+            AuditLog.user_id,
+            func.count(AuditLog.id),
+            func.sum(case((AuditLog.success == True, 1), else_=0)),  # noqa: E712
+            func.min(case((AuditLog.success == True, AuditLog.occurred_at), else_=None)),  # noqa: E712
+        )
+        .where(
+            AuditLog.action == "practice_submission",
+            AuditLog.target_type == "practice_question",
+            AuditLog.target_id.in_(question_ids),
+            AuditLog.user_id.is_not(None),
+        )
+        .group_by(AuditLog.target_id, AuditLog.user_id)
+    ).all()
+    output: dict[int, dict[int, dict[str, Any]]] = defaultdict(dict)
+    for question_id, user_id, attempts, successes, first_success in rows:
+        attempt_count = int(attempts or 0)
+        success_count = int(successes or 0)
+        output[int(question_id)][int(user_id)] = {
+            "submissionCount": attempt_count,
+            "errorCount": attempt_count - success_count,
+            "successCount": success_count,
+            "firstSuccessAt": first_success,
+        }
+    return output
+
+
+def _question_ranking(
+    stats: dict[int, dict[str, Any]],
+    users: dict[int, User],
+    current_user_id: int,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    entries = []
+    for user_id, values in stats.items():
+        person = users.get(user_id)
+        if person is None:
+            continue
+        entries.append({
+            "userId": user_id,
+            "displayName": person.display_name or person.username,
+            "submissionCount": values["submissionCount"],
+            "errorCount": values["errorCount"],
+            "successCount": values["successCount"],
+            "firstSuccessAt": values["firstSuccessAt"],
+            "isCurrentUser": user_id == current_user_id,
+        })
+    entries.sort(key=lambda item: (
+        item["successCount"] <= 0,
+        item["firstSuccessAt"] or datetime.max,
+        item["errorCount"],
+        item["submissionCount"],
+        item["displayName"],
+    ))
+    rank = 0
+    for item in entries:
+        if item["successCount"] > 0:
+            rank += 1
+            item["rank"] = rank
+        else:
+            item["rank"] = None
+        if item["firstSuccessAt"] is not None:
+            first_success = item["firstSuccessAt"]
+            if first_success.tzinfo is None:
+                first_success = first_success.replace(tzinfo=timezone.utc)
+            item["firstSuccessAt"] = first_success.isoformat()
+    mine = stats.get(current_user_id, {})
+    my_rank = next((item["rank"] for item in entries if item["userId"] == current_user_id), None)
+    return entries, {
+        "submissionCount": int(mine.get("submissionCount", 0)),
+        "errorCount": int(mine.get("errorCount", 0)),
+        "successCount": int(mine.get("successCount", 0)),
+        "rank": my_rank,
+    }
+
+
+@router.get("/dashboard")
+def learning_dashboard(
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    ensure_feature_permission(db, user, "learning", "view")
+    today = datetime.now(LOCAL_TIMEZONE).date()
+    calendar_start = today - timedelta(days=ATTENDANCE_DAYS - 1)
+    utc_start = datetime.combine(calendar_start, datetime.min.time(), tzinfo=LOCAL_TIMEZONE).astimezone(timezone.utc).replace(tzinfo=None)
+    login_times = db.execute(
+        select(AuditLog.occurred_at).where(
+            AuditLog.user_id == user.id,
+            AuditLog.action == "login",
+            AuditLog.success == True,  # noqa: E712
+            AuditLog.occurred_at >= utc_start,
+        )
+    ).scalars().all()
+    day_counts: dict[date, int] = defaultdict(int)
+    for occurred_at in login_times:
+        day_counts[_local_date(occurred_at)] += 1
+    active_days = set(day_counts)
+    current_streak, longest_streak = _streaks(active_days, today)
+
+    stats_rows = db.execute(
+        select(
+            AuditLog.user_id,
+            func.count(AuditLog.id),
+            func.sum(case((AuditLog.success == True, 1), else_=0)),  # noqa: E712
+            func.count(func.distinct(case((AuditLog.success == True, AuditLog.target_id), else_=None))),  # noqa: E712
+        )
+        .where(
+            AuditLog.action == "practice_submission",
+            AuditLog.target_type == "practice_question",
+            AuditLog.user_id.is_not(None),
+        )
+        .group_by(AuditLog.user_id)
+    ).all()
+    stats_by_user = {
+        int(user_id): {
+            "submissionCount": int(attempts or 0),
+            "successCount": int(successes or 0),
+            "solvedCount": int(solved or 0),
+        }
+        for user_id, attempts, successes, solved in stats_rows
+    }
+    users = db.execute(select(User).where(User.status == "active").order_by(User.id)).scalars().all()
+    overall = []
+    for person in users:
+        values = stats_by_user.get(person.id, {})
+        overall.append({
+            "userId": person.id,
+            "displayName": person.display_name or person.username,
+            "solvedCount": int(values.get("solvedCount", 0)),
+            "isCurrentUser": person.id == user.id,
+        })
+    overall.sort(key=lambda item: (-item["solvedCount"], item["displayName"]))
+    previous_score: Optional[int] = None
+    previous_rank = 0
+    for index, item in enumerate(overall, start=1):
+        if previous_score is None or item["solvedCount"] != previous_score:
+            previous_rank = index
+        item["rank"] = previous_rank
+        previous_score = item["solvedCount"]
+    mine = stats_by_user.get(user.id, {})
+    my_successes = int(mine.get("successCount", 0))
+    my_submissions = int(mine.get("submissionCount", 0))
+    return {
+        "submissionSummary": {
+            "submissionCount": my_submissions,
+            "errorCount": my_submissions - my_successes,
+            "successCount": my_successes,
+            "solvedCount": int(mine.get("solvedCount", 0)),
+            "rank": next((item["rank"] for item in overall if item["userId"] == user.id), None),
+        },
+        "attendance": {
+            "calendarStart": calendar_start.isoformat(),
+            "calendarEnd": today.isoformat(),
+            "checkedInToday": today in active_days,
+            "activeDayCount": len(active_days),
+            "currentStreak": current_streak,
+            "longestStreak": longest_streak,
+            "days": [{"date": day.isoformat(), "count": count} for day, count in sorted(day_counts.items())],
+        },
+        "overallRanking": overall,
+    }
+
+
 @router.get("/weeks")
 def list_weeks(
     db: Session = Depends(get_db),
@@ -125,10 +317,21 @@ def week_detail(
         .where(PracticeQuestion.training_week_id == week.id, PracticeQuestion.enabled == True)  # noqa: E712
         .order_by(PracticeQuestion.sort_order, PracticeQuestion.id)
     ).scalars().all()
+    attempt_stats = _question_attempt_stats(db, [question.id for question in questions])
+    ranked_user_ids = {
+        user_id
+        for question_stats in attempt_stats.values()
+        for user_id in question_stats
+    }
+    ranked_users = {
+        person.id: person
+        for person in db.execute(select(User).where(User.id.in_(ranked_user_ids))).scalars().all()
+    } if ranked_user_ids else {}
     can_review = _can_review(user) and has_feature_permission(db, user, "learning", "manage")
     question_payload = []
     for question in questions:
         latest = _latest_submission(db, question.id, user.id)
+        ranking, my_stats = _question_ranking(attempt_stats.get(question.id, {}), ranked_users, user.id)
         item = {
             "id": question.id,
             "code": question.code,
@@ -139,6 +342,8 @@ def week_detail(
             "points": question.points,
             "validationRules": _json(question.validation_rules_json, {}),
             "latestSubmission": _submission_payload(latest) if latest else None,
+            "ranking": ranking,
+            "myStats": my_stats,
         }
         if can_review:
             item["answerGuidance"] = question.answer_guidance

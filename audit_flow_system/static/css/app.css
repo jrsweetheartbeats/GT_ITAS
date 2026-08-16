@@ -2746,6 +2746,34 @@ button.ghost:hover:not(:disabled) {
 }
 
 .learning-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 16px; padding: 16px; }
+.learning-dashboard { padding: 16px 16px 0; display: grid; gap: 12px; }
+.learning-stat-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.learning-stat { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.learning-stat span { color: var(--muted); font-size: 12px; }
+.learning-stat strong { font-size: 24px; }
+.learning-stat.danger strong { color: #b42318; }
+.learning-stat.success strong { color: #15803d; }
+.learning-stat.rank { background: var(--primary-soft); }
+.learning-dashboard-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 12px; }
+.learning-activity-card, .learning-ranking-card { min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.learning-card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.learning-card-head > div:first-child { display: grid; gap: 3px; }
+.learning-card-head span { color: var(--muted); font-size: 12px; }
+.learning-streak { color: var(--muted); font-size: 13px; }
+.learning-streak b { color: var(--primary); font-size: 18px; }
+.learning-heatmap { display: grid; grid-template-rows: repeat(7, 11px); grid-auto-flow: column; grid-auto-columns: 11px; gap: 3px; max-width: 100%; padding: 3px 0 8px; overflow-x: auto; }
+.learning-day, .learning-heatmap-note i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; background: #ebedf0; }
+.learning-day.blank { visibility: hidden; }
+.learning-day.level-1, .learning-heatmap-note .level-1 { background: #9be9a8; }
+.learning-day.level-2, .learning-heatmap-note .level-2 { background: #40c463; }
+.learning-day.level-3, .learning-heatmap-note .level-3 { background: #30a14e; }
+.learning-day.level-4, .learning-heatmap-note .level-4 { background: #216e39; }
+.learning-heatmap-note { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
+.learning-heatmap-note span:last-child { display: flex; align-items: center; gap: 3px; }
+.learning-overall-list { display: grid; gap: 5px; max-height: 180px; overflow: auto; }
+.learning-rank-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 6px 8px; border-radius: 6px; }
+.learning-rank-row.current { background: var(--primary-soft); }
+.learning-rank-row b { color: var(--primary); }
 .learning-week-list { display: grid; align-content: start; gap: 8px; }
 .learning-week-card { display: grid; gap: 4px; width: 100%; padding: 12px; text-align: left; color: var(--text); background: #fff; border: 1px solid var(--line); }
 .learning-week-card span, .practice-code { color: var(--primary); font-size: 12px; font-weight: 700; }
@@ -2754,6 +2782,33 @@ button.ghost:hover:not(:disabled) {
 .learning-hero { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; padding: 4px 0 14px; }
 .learning-hero h2 { margin: 3px 0; }
 .learning-hero p { margin: 0; color: var(--muted); }
+.learning-problem-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.learning-problem-head > div:first-child { display: grid; gap: 3px; }
+.learning-problem-head > div:first-child span { color: var(--muted); font-size: 12px; }
+.learning-problem-head > div:first-child strong { font-size: 18px; }
+.learning-question-tabs { display: flex; gap: 6px; padding: 8px; margin-bottom: 10px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #f7f8fa; }
+.learning-question-tabs button { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; padding: 7px 10px; color: var(--text); background: #fff; border: 1px solid var(--line); }
+.learning-question-tabs button span { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #eef1f5; font-size: 11px; }
+.learning-question-tabs button.active { color: #fff; border-color: var(--primary); background: var(--primary); }
+.learning-question-tabs button.active span { color: var(--primary); background: #fff; }
+.leetcode-question-layout { display: grid; grid-template-columns: minmax(320px, .9fr) minmax(420px, 1.1fr); gap: 10px; min-height: 620px; }
+.leetcode-problem-panel, .leetcode-editor-panel { min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.leetcode-problem-panel { align-content: start; display: grid; gap: 12px; }
+.leetcode-description { padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.leetcode-description h3 { margin: 0 0 8px; }
+.leetcode-description p { margin: 0; line-height: 1.7; }
+.leetcode-editor-panel { display: grid; align-content: start; gap: 12px; background: #fbfbfc; }
+.leetcode-editor-head { display: flex; justify-content: space-between; align-items: center; }
+.leetcode-editor-head span { color: var(--muted); font-size: 12px; }
+.leetcode-editor-panel textarea.practice-sql { min-height: 300px; background: #15181d; color: #e6edf3; border-color: #30363d; line-height: 1.55; }
+.leetcode-editor-panel textarea.practice-answer { min-height: 110px; }
+.editor-actions { justify-content: flex-end; }
+.practice-ranking { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.practice-ranking summary { display: grid; gap: 3px; padding: 10px 12px; cursor: pointer; background: #f7f8fa; }
+.practice-ranking summary span { color: var(--muted); font-size: 12px; }
+.practice-ranking .table-wrap { max-height: 260px; overflow: auto; }
+.current-ranking-row { background: var(--primary-soft); }
+.courseware-grid.compact { grid-template-columns: 1fr; margin: 0; }
 .button-link { display: inline-flex; gap: 6px; align-items: center; flex: 0 0 auto; padding: 9px 12px; border-radius: var(--radius); color: #fff; background: var(--primary); text-decoration: none; }
 .courseware-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
 .courseware-link { display: flex; gap: 8px; align-items: center; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius); color: var(--text); text-decoration: none; background: #fff; }
@@ -2777,11 +2832,15 @@ button.ghost:hover:not(:disabled) {
 @media (max-width: 900px) {
   .learning-layout { grid-template-columns: 1fr; }
   .learning-week-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .learning-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .learning-dashboard-grid, .leetcode-question-layout { grid-template-columns: 1fr; }
   .courseware-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   .learning-week-list { grid-template-columns: 1fr; }
   .learning-hero { display: grid; }
+  .learning-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .learning-problem-head, .learning-card-head, .learning-heatmap-note { align-items: stretch; display: grid; }
 }
 @media (max-width: 640px) {
   .detail-grid { grid-template-columns: 1fr; }

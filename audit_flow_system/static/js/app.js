@@ -11,7 +11,7 @@ import { bindRuleVisualization, loadRuleVisualization } from './modules/ruleVisu
 import { bindQualityModules, refreshQualityModules, renderQualityModules } from './modules/quality.js?v=20260701b';
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
 import { bindWorkflowPrototype, loadWorkflowPrototypeData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260816b';
-import { bindLearning, loadLearning } from './modules/learning.js?v=20260816c';
+import { bindLearning, loadLearning } from './modules/learning.js?v=20260816d';
 
 let projectScopedRefreshSeq = 0;
 
@@ -608,6 +608,7 @@ export function activateSection(section) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   target.classList.add('active');
   $('pageTitle').textContent = sectionTitles[section] || moduleLabel(section);
+  $('projectSearchCombo')?.classList.toggle('hidden', primaryForSection(section) === 'learning');
   $('projectContextBar').classList.toggle('hidden', primaryForSection(section) !== 'projectWorkspace');
   $('boardContextBar').classList.toggle('hidden', primaryForSection(section) !== 'qualityDashboard');
   $('systemContextBar').classList.toggle('hidden', !['templates', 'config'].includes(primaryForSection(section)));
