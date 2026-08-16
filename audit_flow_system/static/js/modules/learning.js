@@ -2,6 +2,9 @@ import { request } from '../api.js?v=20260816a';
 import { state } from '../state.js?v=20260816a';
 import { $, esc, setStatus, tag } from '../utils.js?v=20260816a';
 
+let learningLoadSequence = 0;
+let learningPrefetchStarted = false;
+
 
 function validationHtml(validation) {
   if (!validation || !Object.keys(validation).length) return '<span class="muted">尚未校验</span>';
@@ -125,7 +128,7 @@ export function renderLearningWeeks() {
   list.innerHTML = (state.learningWeeks || []).map(week => {
     const active = Number(state.selectedLearningWeekId) === Number(week.id);
     const percent = week.questionCount ? Math.round(week.completedCount * 100 / week.questionCount) : 0;
-    return `<button type="button" class="learning-week-card ${active ? 'active' : ''}" data-learning-week="${week.id}">
+    return `<button type="button" class="learning-week-card ${active ? 'active' : ''}" data-learning-week="${week.id}" aria-pressed="${active}">
       <span>第${week.weekNo}周</span><strong>${esc(week.title)}</strong>
       <small>${week.completedCount}/${week.questionCount} 已提交 · ${percent}%</small>
     </button>`;
@@ -194,22 +197,59 @@ export function renderLearningDetail() {
     </div>`;
 }
 
-export async function loadLearning({weekId = null, silent = false} = {}) {
+function prefetchLearningWeeks() {
+  if (learningPrefetchStarted || !state.learningWeeks?.length) return;
+  learningPrefetchStarted = true;
+  const prefetch = async () => {
+    for (const week of state.learningWeeks) {
+      const id = Number(week.id);
+      if (!id || state.learningWeekCache[id]) continue;
+      try {
+        state.learningWeekCache[id] = await request(`/api/learning/weeks/${id}`);
+      } catch (_err) {
+        // 预取失败不影响当前页面；用户点击时仍会正常重试。
+      }
+    }
+  };
+  if ('requestIdleCallback' in window) window.requestIdleCallback(() => void prefetch(), {timeout: 1500});
+  else window.setTimeout(() => void prefetch(), 100);
+}
+
+export async function loadLearning({weekId = null, silent = false, refresh = false} = {}) {
+  const sequence = ++learningLoadSequence;
   try {
-    const [weeks, dashboard] = await Promise.all([request('/api/learning/weeks'), request('/api/learning/dashboard')]);
-    state.learningWeeks = weeks;
-    state.learningDashboard = dashboard;
+    if (refresh || !state.learningWeeks?.length || !state.learningDashboard) {
+      const [weeks, dashboard] = await Promise.all([request('/api/learning/weeks'), request('/api/learning/dashboard')]);
+      if (sequence !== learningLoadSequence) return;
+      state.learningWeeks = weeks;
+      state.learningDashboard = dashboard;
+      if (refresh) {
+        state.learningWeekCache = {};
+        learningPrefetchStarted = false;
+      }
+      renderLearningDashboard();
+    }
     const selected = Number(weekId || state.selectedLearningWeekId || state.learningWeeks[0]?.id || 0);
     const weekChanged = Number(state.selectedLearningWeekId) !== selected;
     state.selectedLearningWeekId = selected || null;
-    state.learningWeek = selected ? await request(`/api/learning/weeks/${selected}`) : null;
+    renderLearningWeeks();
+    if (weekChanged && !state.learningWeekCache[selected]) {
+      const detail = $('learningDetail');
+      if (detail) detail.innerHTML = '<div class="empty">正在加载本周题目</div>';
+    }
+    if (selected) {
+      state.learningWeek = state.learningWeekCache[selected] || await request(`/api/learning/weeks/${selected}`);
+      if (sequence !== learningLoadSequence) return;
+      state.learningWeekCache[selected] = state.learningWeek;
+    } else {
+      state.learningWeek = null;
+    }
     const questionIds = (state.learningWeek?.questions || []).map(item => Number(item.id));
     const hashQuestion = Number(location.hash.match(/^#learning-question-(\d+)$/)?.[1] || 0);
     const preferredQuestion = weekChanged ? hashQuestion : Number(state.selectedLearningQuestionId || hashQuestion || 0);
     state.selectedLearningQuestionId = questionIds.includes(preferredQuestion) ? preferredQuestion : (questionIds[0] || null);
-    renderLearningWeeks();
-    renderLearningDashboard();
     renderLearningDetail();
+    prefetchLearningWeeks();
     if (state.learningWeek?.canReview) await loadReviewSubmissions();
     else $('learningReviewPanel')?.classList.add('hidden');
   } catch (err) {
@@ -242,9 +282,7 @@ export function bindLearning() {
   $('learningWeekList')?.addEventListener('click', async event => {
     const button = event.target.closest('[data-learning-week]');
     if (!button) return;
-    setStatus('正在加载本周题目');
     await loadLearning({weekId: Number(button.dataset.learningWeek)});
-    setStatus('就绪');
   });
   $('learningDetail')?.addEventListener('click', async event => {
     const questionButton = event.target.closest('[data-learning-question]');
@@ -284,7 +322,7 @@ export function bindLearning() {
         const result = await request(`/api/learning/questions/${questionId}/submit`, {method: 'POST', body: JSON.stringify(payload)});
         setStatus(result.submitted ? '作业已正式提交' : '校验未通过，已保留为草稿');
       }
-      await loadLearning({weekId: state.selectedLearningWeekId, silent: true});
+      await loadLearning({weekId: state.selectedLearningWeekId, silent: true, refresh: true});
     } catch (err) { setStatus('错误：' + err.message); }
   });
   $('learningReviewRows')?.addEventListener('click', async event => {

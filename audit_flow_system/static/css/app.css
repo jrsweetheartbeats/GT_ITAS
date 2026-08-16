@@ -2745,7 +2745,7 @@ button.ghost:hover:not(:disabled) {
   .workflow-tree-panel { position: static; }
 }
 
-.learning-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 16px; padding: 16px; }
+.learning-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 16px; }
 .learning-dashboard { padding: 16px 16px 0; display: grid; gap: 12px; }
 .learning-stat-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
 .learning-stat { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
@@ -2774,7 +2774,7 @@ button.ghost:hover:not(:disabled) {
 .learning-rank-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 6px 8px; border-radius: 6px; }
 .learning-rank-row.current { background: var(--primary-soft); }
 .learning-rank-row b { color: var(--primary); }
-.learning-week-list { display: grid; align-content: start; gap: 8px; }
+.learning-week-list { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: stretch; gap: 8px; }
 .learning-week-card { display: grid; gap: 4px; width: 100%; padding: 12px; text-align: left; color: var(--text); background: #fff; border: 1px solid var(--line); }
 .learning-week-card span, .practice-code { color: var(--primary); font-size: 12px; font-weight: 700; }
 .learning-week-card small { color: var(--muted); }
@@ -2830,14 +2830,13 @@ button.ghost:hover:not(:disabled) {
 .practice-feedback { padding: 10px 12px; border-left: 3px solid #2f855a; background: #f3faf6; }
 .practice-feedback p { margin: 4px 0; }
 @media (max-width: 900px) {
-  .learning-layout { grid-template-columns: 1fr; }
-  .learning-week-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .learning-week-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .learning-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .learning-dashboard-grid, .leetcode-question-layout { grid-template-columns: 1fr; }
   .courseware-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  .learning-week-list { grid-template-columns: 1fr; }
+  .learning-week-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .learning-hero { display: grid; }
   .learning-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .learning-problem-head, .learning-card-head, .learning-heatmap-note { align-items: stretch; display: grid; }

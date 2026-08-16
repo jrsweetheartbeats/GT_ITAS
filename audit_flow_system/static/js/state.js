@@ -23,6 +23,7 @@ export const state = {
   learningWeeks: [],
   learningDashboard: null,
   learningWeek: null,
+  learningWeekCache: {},
   selectedLearningWeekId: null,
   selectedLearningQuestionId: null,
   overviewWorkpapers: [],
