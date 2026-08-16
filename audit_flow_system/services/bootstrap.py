@@ -66,23 +66,23 @@ def initial_password() -> str:
 
 DEFAULT_ROLE_PERMISSIONS = {
     "partner": {
-        "view": {"dashboard", "projectWorkspace", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
-        "edit": {"reviewCenter", "reviews", "quality"},
+        "view": {"dashboard", "projectWorkspace", "projects", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
+        "edit": {"projects", "reviewCenter", "reviews", "quality"},
         "manage": {"learning"},
     },
     "director": {
-        "view": {"dashboard", "projectWorkspace", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
-        "edit": {"reviewCenter", "reviews", "quality"},
+        "view": {"dashboard", "projectWorkspace", "projects", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
+        "edit": {"projects", "reviewCenter", "reviews", "quality"},
         "manage": {"learning"},
     },
     "senior_manager": {
-        "view": {"dashboard", "projectWorkspace", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
-        "edit": {"reviewCenter", "reviews", "quality"},
+        "view": {"dashboard", "projectWorkspace", "projects", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
+        "edit": {"projects", "reviewCenter", "reviews", "quality"},
         "manage": {"learning"},
     },
     "quality": {
-        "view": {"dashboard", "projectWorkspace", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
-        "edit": {"reviewCenter", "reviews", "quality"},
+        "view": {"dashboard", "projectWorkspace", "projects", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning"},
+        "edit": {"projects", "reviewCenter", "reviews", "quality"},
         "manage": {"learning"},
     },
     "manager": {

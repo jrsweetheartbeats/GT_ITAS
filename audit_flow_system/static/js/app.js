@@ -3,14 +3,14 @@ import { clearToken, defaultModuleOrder, setToken, state } from './state.js?v=20
 import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from './utils.js?v=20260630b';
 import { bindClients, openNewClientForm, renderClients } from './modules/clients.js?v=20260707a';
 import { bindProjects, renderMembers, renderProjectSnapshot, renderProjects, setProjectFormMode, syncProjectPicker } from './modules/projects.js?v=20260707b';
-import { bindWorkpapers, loadWorkpaperTree, renderWorkpaperTemplateTree, renderWorkpapers } from './modules/workpapers.js?v=20260629b';
+import { bindWorkpapers, loadWorkpaperTree, renderWorkpaperTemplateTree, renderWorkpapers } from './modules/workpapers.js?v=20260816a';
 import { bindMaterials, renderAttachments, renderMaterials } from './modules/materials.js?v=20260627a';
 import { bindReview, renderAutofillRuns, renderAutofillSummary, renderRuns } from './modules/review.js?v=20260625f';
 import { bindRuleInspection, loadRuleInspection } from './modules/ruleInspection.js';
 import { bindRuleVisualization, loadRuleVisualization } from './modules/ruleVisualization.js?v=20260701a';
 import { bindQualityModules, refreshQualityModules, renderQualityModules } from './modules/quality.js?v=20260701b';
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
-import { bindWorkflowPrototype, loadWorkflowPrototypeData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260725a';
+import { bindWorkflowPrototype, loadWorkflowPrototypeData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260816a';
 import { bindLearning, loadLearning } from './modules/learning.js?v=20260816a';
 
 let projectScopedRefreshSeq = 0;

@@ -100,6 +100,19 @@ def is_admin(user: User) -> bool:
     return bool(user.role and user.role.code == "admin")
 
 
+MANAGER_MIN_RANK = 700
+
+
+def is_manager_or_above(user: User) -> bool:
+    """Return whether the user may create and arrange projects."""
+    return is_admin(user) or bool(user.role and int(user.role.rank or 0) >= MANAGER_MIN_RANK)
+
+
+def ensure_manager_or_above(user: User) -> None:
+    if not is_manager_or_above(user):
+        raise HTTPException(status_code=403, detail="仅项目经理级别及以上人员可新建或安排项目")
+
+
 def role_feature_permissions(db: Session, user: User) -> dict[str, dict[str, bool]]:
     if not user.role_id:
         return {}
@@ -168,7 +181,7 @@ def require_admin(user: User = Depends(current_user)) -> User:
 
 
 def can_edit_project(user: User, project: Project) -> bool:
-    if is_admin(user):
+    if is_manager_or_above(user):
         return True
     allowed = {
         project.creator_user_id,

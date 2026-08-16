@@ -199,6 +199,10 @@ class ReviewFindingPatchIn(BaseModel):
     history_comment: Optional[str] = None
 
 
+class ReviewFindingReplyIn(BaseModel):
+    reply: str = Field(min_length=1, max_length=10000)
+
+
 class ReviewFindingAssignIn(BaseModel):
     assignee_user_id: int
     due_date: date

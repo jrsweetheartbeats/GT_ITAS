@@ -24,9 +24,11 @@ from ..core.security import (
     DEFAULT_PASSWORD_POLICY,
     can_edit_project,
     can_upload_documents,
+    can_view_project,
     current_user,
     default_audit_scope,
     ensure_document_uploader,
+    ensure_feature_permission,
     ensure_project_editor,
     ensure_project_viewer,
     get_setting,
@@ -79,6 +81,7 @@ from ..schemas import (
     ReviewDecisionIn,
     ReviewFindingIn,
     ReviewFindingPatchIn,
+    ReviewFindingReplyIn,
     ReviewRunIn,
     RoleIn,
     TaskIn,
@@ -284,8 +287,12 @@ def list_review_runs(
 ) -> list[dict[str, Any]]:
     stmt = select(ReviewRun).order_by(ReviewRun.id.desc())
     if projectId is not None:
+        project = get_or_404(db, Project, projectId, "项目")
+        ensure_project_viewer(db, project, user)
         stmt = stmt.where(ReviewRun.project_id == projectId)
     rows = db.execute(stmt).scalars().all()
+    if projectId is None:
+        rows = [row for row in rows if can_view_project(db, user, get_or_404(db, Project, row.project_id, "项目"))]
     payload = []
     for row in rows:
         data = obj_dict(row)
@@ -345,7 +352,9 @@ def list_review_findings(
     db: Session = Depends(get_db),
     user: User = Depends(current_user),
 ) -> list[dict[str, Any]]:
-    get_or_404(db, ReviewRun, run_id, "复核任务")
+    run = get_or_404(db, ReviewRun, run_id, "复核任务")
+    project = get_or_404(db, Project, run.project_id, "项目")
+    ensure_project_viewer(db, project, user)
     rows = db.execute(
         select(ReviewFinding).where(ReviewFinding.run_id == run_id).order_by(ReviewFinding.severity.desc(), ReviewFinding.id)
     ).scalars().all()
@@ -362,12 +371,16 @@ def list_all_review_findings(
 ) -> list[dict[str, Any]]:
     stmt = _finding_query().order_by(ReviewFinding.id.desc())
     if projectId is not None:
+        project = get_or_404(db, Project, projectId, "项目")
+        ensure_project_viewer(db, project, user)
         stmt = stmt.where(ReviewRun.project_id == projectId)
     if status:
         stmt = stmt.where(ReviewFinding.status == status)
     if severity:
         stmt = stmt.where(ReviewFinding.severity == severity)
     rows = db.execute(stmt).all()
+    if projectId is None:
+        rows = [row for row in rows if can_view_project(db, user, row[2])]
     return [_finding_payload(finding, run, project, db) for finding, run, project in rows]
 
 
@@ -400,7 +413,7 @@ def create_manual_review_finding(
             )
             db.add(run)
             db.flush()
-    ensure_document_uploader(db, project, user)
+    ensure_project_editor(project, user)
     finding = ReviewFinding(
         run_id=run.id,
         rule_code=body.rule_code or "MANUAL",
@@ -450,7 +463,7 @@ def update_review_finding(
     if row is None:
         raise HTTPException(status_code=404, detail="复核问题不存在")
     finding, run, project = row
-    ensure_document_uploader(db, project, user)
+    ensure_project_editor(project, user)
     payload = body.model_dump(exclude_unset=True)
     history_comment = str(payload.pop("history_comment", "") or "")
     old_status = finding.status or ""
@@ -490,6 +503,42 @@ def update_review_finding(
     return _finding_payload(finding, run, project, db)
 
 
+@router.post("/api/review-findings/{finding_id}/reply")
+def reply_review_finding(
+    finding_id: int,
+    body: ReviewFindingReplyIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    row = db.execute(_finding_query().where(ReviewFinding.id == finding_id)).first()
+    if row is None:
+        raise HTTPException(status_code=404, detail="复核问题不存在")
+    finding, run, project = row
+    ensure_feature_permission(db, user, "findingKanban", "edit")
+    ensure_document_uploader(db, project, user)
+    reply = body.reply.strip()
+    if not reply:
+        raise HTTPException(status_code=400, detail="回复内容不能为空")
+    old_status = finding.status or ""
+    finding.review_comment = reply
+    finding.status = "revised"
+    db.add(
+        ReviewFindingHistory(
+            finding_id=finding.id,
+            operator_user_id=user.id,
+            old_status=old_status,
+            new_status=finding.status,
+            comment=reply,
+            change_summary="项目成员提交整改回复，等待复核人员确认",
+        )
+    )
+    if run.mode == "manual":
+        run.finished_at = datetime.utcnow()
+    db.commit()
+    db.refresh(finding)
+    return _finding_payload(finding, run, project, db)
+
+
 @router.post("/api/review-findings/{finding_id}/assign")
 def assign_review_finding(
     finding_id: int,
@@ -501,7 +550,7 @@ def assign_review_finding(
     if row is None:
         raise HTTPException(status_code=404, detail="复核问题不存在")
     finding, run, project = row
-    ensure_document_uploader(db, project, user)
+    ensure_project_editor(project, user)
     assignee = get_or_404(db, User, body.assignee_user_id, "责任人")
     old_status = finding.status or ""
     finding.assignee_user_id = assignee.id
@@ -556,6 +605,7 @@ def review_dashboard(
     user: User = Depends(current_user),
 ) -> dict[str, Any]:
     rows = db.execute(_finding_query().order_by(ReviewFinding.id.desc())).all()
+    rows = [row for row in rows if can_view_project(db, user, row[2])]
     by_project: dict[int, dict[str, Any]] = {}
     by_rule: dict[str, int] = {}
     by_severity: dict[str, int] = {}
@@ -605,6 +655,8 @@ def review_dashboard(
         .order_by(DocumentRequest.due_date, DocumentRequest.id)
     ).all()
     for request_item, project in material_rows:
+        if not can_view_project(db, user, project):
+            continue
         payload = obj_dict(request_item)
         payload.update(overdue_payload(request_item.status, request_item.due_date))
         if not payload.get("is_overdue"):
@@ -637,6 +689,8 @@ def review_dashboard(
         .order_by(ReviewStep.due_date, ReviewStep.id)
     ).all()
     for step, workpaper, project in step_rows:
+        if not can_view_project(db, user, project):
+            continue
         payload = _review_step_payload(step, workpaper, project)
         if not payload.get("is_overdue"):
             continue

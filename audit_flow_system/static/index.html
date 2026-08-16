@@ -545,9 +545,9 @@
                 <label>阶段<select name="stage"><option value="planning">项目准备</option><option value="execution">项目实施</option><option value="delivery">项目交付</option><option value="reporting">项目报告</option></select></label>
               </div>
               <label>底稿名称<input name="name" required></label>
-              <label>文件路径<input name="file_path"></label>
-              <label>编制人<select name="preparer_user_id" id="preparerSelect"></select></label>
-              <button type="submit">保存底稿</button>
+              <label>上传底稿文件<input name="file" type="file" required accept=".xlsx,.xlsm,.xls,.docx,.doc,.pdf,.csv,.txt"></label>
+              <div class="subtle-note">支持 Excel、Word、PDF、CSV、TXT，单个文件不超过 50 MB。上传人自动登记为编制人。</div>
+              <button type="submit">上传并登记</button>
             </form>
           </div>
         </div>

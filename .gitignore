@@ -13,6 +13,7 @@ venv/
 audit_flow_system/tmp/
 audit_flow_system/db_backups/
 audit_flow_system/review_reports/
+audit_flow_system/uploads/
 audit_flow_system/data/rule_manual_correction_imports/
 deployment_backups/
 outputs/

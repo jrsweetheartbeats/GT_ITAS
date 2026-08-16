@@ -1,6 +1,6 @@
 import { request } from '../api.js?v=20260630a';
 import { state } from '../state.js?v=20260630a';
-import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, statusClass, tag } from '../utils.js?v=20260630a';
+import { $, activeProjectId, closeModal, esc, fillSelect, openModal, setStatus, statusClass, tag } from '../utils.js?v=20260630a';
 
 export const workpaperTreeExtension = {
   onTemplateNodeClick(node, event) {
@@ -575,15 +575,14 @@ export function bindWorkpapers(options) {
     e.preventDefault();
     const pid = activeProjectId();
     if (!pid) return setStatus('请先选择项目');
-    const data = formData(e.target);
-    data.project_id = pid;
-    data.extracted_fields = {};
+    const data = new FormData(e.target);
     try {
-      await request('/api/workpapers', {method: 'POST', body: JSON.stringify(data)});
+      await request(`/api/projects/${pid}/workpapers/upload`, {method: 'POST', body: data});
       state.workpaperTreeByProject[pid] = null;
       e.target.reset();
       closeModal('workpaperModal');
       await refreshProjectScoped();
+      setStatus('底稿上传成功');
     } catch (err) { setStatus('错误：' + err.message); }
   });
 

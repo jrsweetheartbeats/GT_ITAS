@@ -25,9 +25,11 @@ from ..core.security import (
     DEFAULT_PASSWORD_POLICY,
     can_edit_project,
     can_upload_documents,
+    can_view_project,
     current_user,
     default_audit_scope,
     ensure_document_uploader,
+    ensure_feature_permission,
     ensure_project_editor,
     ensure_project_viewer,
     get_setting,
@@ -108,6 +110,9 @@ from ..services.workpaper_reader import read_workpaper_preview
 
 router = APIRouter()
 
+WORKPAPER_UPLOAD_EXTENSIONS = {".xlsx", ".xlsm", ".xls", ".docx", ".doc", ".pdf", ".csv", ".txt"}
+MAX_WORKPAPER_UPLOAD_BYTES = 50 * 1024 * 1024
+
 
 def _template_source_path(template: WorkpaperTemplate) -> Path:
     source = Path(template.source_path or "").expanduser()
@@ -130,11 +135,14 @@ def list_workpapers(
 ) -> list[dict[str, Any]]:
     stmt = select(Workpaper).order_by(Workpaper.stage, Workpaper.code)
     if projectId is not None:
+        project = get_or_404(db, Project, projectId, "项目")
+        ensure_project_viewer(db, project, user)
         stmt = stmt.where(Workpaper.project_id == projectId)
     if status:
         stmt = stmt.where(Workpaper.status == status)
     rows = db.execute(stmt).scalars().all()
     if projectId is None:
+        rows = [row for row in rows if can_view_project(db, user, get_or_404(db, Project, row.project_id, "项目"))]
         return list_dict(rows)
     payload: list[dict[str, Any]] = []
     for row in rows:
@@ -331,6 +339,60 @@ def create_workpaper(body: WorkpaperIn, db: Session = Depends(get_db), user: Use
     db.commit()
     db.refresh(item)
     return obj_dict(item)
+
+
+@router.post("/api/projects/{project_id}/workpapers/upload", status_code=201)
+async def upload_project_workpaper(
+    project_id: int,
+    file: UploadFile = File(...),
+    code: str = Form(...),
+    name: str = Form(...),
+    stage: str = Form("execution"),
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    project = get_or_404(db, Project, project_id, "项目")
+    ensure_feature_permission(db, user, "workpaperExecution", "edit")
+    ensure_document_uploader(db, project, user)
+    original_name = Path(file.filename or "").name
+    extension = Path(original_name).suffix.lower()
+    if not original_name or extension not in WORKPAPER_UPLOAD_EXTENSIONS:
+        raise HTTPException(status_code=400, detail="仅支持 Excel、Word、PDF、CSV 和 TXT 底稿文件")
+    safe_name = _safe_template_filename(original_name)
+    target_dir = BASE_DIR / "uploads" / "workpapers" / str(project_id)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    target_path = target_dir / f"{datetime.utcnow():%Y%m%d%H%M%S}_{secrets.token_hex(5)}_{safe_name}"
+    written = 0
+    try:
+        with target_path.open("wb") as output:
+            while chunk := await file.read(1024 * 1024):
+                written += len(chunk)
+                if written > MAX_WORKPAPER_UPLOAD_BYTES:
+                    raise HTTPException(status_code=413, detail="底稿文件不能超过 50 MB")
+                output.write(chunk)
+        item = Workpaper(
+            project_id=project_id,
+            code=code.strip(),
+            name=name.strip(),
+            stage=stage.strip() or "execution",
+            file_path=str(target_path),
+            status="draft",
+            preparer_user_id=user.id,
+            extracted_fields_json="{}",
+        )
+        if not item.code or not item.name:
+            raise HTTPException(status_code=400, detail="底稿编号和名称不能为空")
+        db.add(item)
+        db.commit()
+        db.refresh(item)
+    except Exception:
+        db.rollback()
+        target_path.unlink(missing_ok=True)
+        raise
+    data = obj_dict(item)
+    data["uploaded_filename"] = original_name
+    data["uploaded_size"] = written
+    return data
 
 
 @router.patch("/api/workpapers/{workpaper_id}")

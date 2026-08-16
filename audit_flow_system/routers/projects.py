@@ -24,15 +24,18 @@ from ..core.security import (
     DEFAULT_PASSWORD_POLICY,
     can_edit_project,
     can_upload_documents,
+    can_view_project,
     current_user,
     default_audit_scope,
     ensure_document_uploader,
     ensure_feature_permission,
+    ensure_manager_or_above,
     ensure_project_editor,
     ensure_project_viewer,
     get_setting,
     hash_password,
     is_admin,
+    is_manager_or_above,
     normalize_module_order,
     require_admin,
     set_setting,
@@ -122,6 +125,8 @@ def list_projects(
     elif status:
         stmt = stmt.where(Project.status == status)
     rows = db.execute(stmt).scalars().all()
+    if not is_manager_or_above(user):
+        rows = [row for row in rows if can_view_project(db, user, row)]
     project_ids = {row.id for row in rows}
     member_counts = dict(
         db.execute(select(ProjectMember.project_id, func.count(ProjectMember.id)).group_by(ProjectMember.project_id)).all()
@@ -172,6 +177,7 @@ def list_projects(
 
 @router.post("/api/projects", status_code=201)
 def create_project(body: ProjectIn, db: Session = Depends(get_db), user: User = Depends(current_user)) -> dict[str, Any]:
+    ensure_manager_or_above(user)
     ensure_feature_permission(db, user, "projects", "edit")
     payload = body.model_dump()
     if payload.get("client_id"):
@@ -195,6 +201,7 @@ def create_project(body: ProjectIn, db: Session = Depends(get_db), user: User = 
 @router.patch("/api/projects/{project_id}")
 def update_project(project_id: int, body: ProjectIn, db: Session = Depends(get_db), user: User = Depends(current_user)) -> dict[str, Any]:
     item = get_or_404(db, Project, project_id, "项目")
+    ensure_manager_or_above(user)
     ensure_feature_permission(db, user, "projects", "edit")
     ensure_project_editor(item, user)
     payload = body.model_dump()
@@ -239,7 +246,8 @@ def delete_project(project_id: int, db: Session = Depends(get_db), user: User = 
 
 @router.get("/api/projects/{project_id}/contacts")
 def list_contacts(project_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)) -> list[dict[str, Any]]:
-    get_or_404(db, Project, project_id, "项目")
+    project = get_or_404(db, Project, project_id, "项目")
+    ensure_project_viewer(db, project, user)
     rows = db.execute(
         select(EnterpriseContact).where(EnterpriseContact.project_id == project_id).order_by(EnterpriseContact.id)
     ).scalars().all()
@@ -306,6 +314,7 @@ def get_project_workpaper_tree(
 @router.post("/api/projects/{project_id}/members", status_code=201)
 def create_member(project_id: int, body: MemberIn, db: Session = Depends(get_db), user: User = Depends(current_user)) -> dict[str, Any]:
     project = get_or_404(db, Project, project_id, "项目")
+    ensure_manager_or_above(user)
     ensure_feature_permission(db, user, "projects", "edit")
     ensure_project_editor(project, user)
     get_or_404(db, User, body.user_id, "用户")
@@ -320,6 +329,7 @@ def create_member(project_id: int, body: MemberIn, db: Session = Depends(get_db)
 def delete_member(member_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)) -> Response:
     item = get_or_404(db, ProjectMember, member_id, "项目成员")
     project = get_or_404(db, Project, item.project_id, "项目")
+    ensure_manager_or_above(user)
     ensure_feature_permission(db, user, "projects", "edit")
     ensure_project_editor(project, user)
     db.delete(item)

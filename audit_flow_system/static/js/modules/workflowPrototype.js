@@ -1160,6 +1160,7 @@ function renderFindingKanban() {
                     <p title="${esc(item.evidence || item.review_comment || '')}">${esc(compactText(item.evidence || item.review_comment || '暂无整改说明', 140))}</p>
                     <small title="${esc(item.target || '')}">${esc(compactText(item.target || item.workpaper_code || '未定位', 72))} / ${esc(item.assignee_name || item.owner_name || '未分派')} / ${esc(item.due_date || '无截止日期')}</small>
                     <div class="workflow-card-action" title="${esc(item.review_comment || '')}">${esc(compactText(item.review_comment || '补充整改说明后提交复核', 90))}</div>
+                    ${findingBucket(item) === '已关闭' ? '' : `<button type="button" class="secondary" data-finding-reply="${esc(item.id)}">回复问题</button>`}
                   </article>
                 `).join('') || '<div class="workflow-empty-small">暂无</div>'}
               </section>
@@ -1459,6 +1460,22 @@ export function bindWorkflowPrototype() {
     const routeButton = event.target.closest('[data-workflow-route]');
     if (routeButton) {
       window.activateAppSection?.(routeButton.dataset.workflowRoute);
+      return;
+    }
+    const replyButton = event.target.closest('[data-finding-reply]');
+    if (replyButton) {
+      const reply = window.prompt('请输入整改说明或底稿修改情况：');
+      if (!reply?.trim()) return;
+      try {
+        await request(`/api/review-findings/${replyButton.dataset.findingReply}/reply`, {
+          method: 'POST',
+          body: JSON.stringify({reply: reply.trim()}),
+        });
+        await loadWorkflowProjectData(currentWorkflowProjectKey());
+        renderWorkflowPrototype();
+      } catch (err) {
+        window.alert(`回复失败：${err.message}`);
+      }
       return;
     }
     const workpaperButton = event.target.closest('[data-workflow-workpaper]');

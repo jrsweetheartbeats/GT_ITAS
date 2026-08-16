@@ -27,6 +27,7 @@ from ..core.security import (
     DEFAULT_PASSWORD_POLICY,
     can_edit_project,
     can_upload_documents,
+    can_view_project,
     current_user,
     default_audit_scope,
     ensure_document_uploader,
@@ -534,8 +535,12 @@ def list_autofill_runs(
 ) -> list[dict[str, Any]]:
     stmt = select(AutofillRun).order_by(AutofillRun.id.desc()).limit(50)
     if projectId is not None:
+        project = get_or_404(db, Project, projectId, "项目")
+        ensure_project_viewer(db, project, user)
         stmt = select(AutofillRun).where(AutofillRun.project_id == projectId).order_by(AutofillRun.id.desc()).limit(50)
     rows = db.execute(stmt).scalars().all()
+    if projectId is None:
+        rows = [row for row in rows if can_view_project(db, user, get_or_404(db, Project, row.project_id, "项目"))]
     return list_dict(rows)
 
 
@@ -545,7 +550,9 @@ def list_autofill_run_items(
     db: Session = Depends(get_db),
     user: User = Depends(current_user),
 ) -> list[dict[str, Any]]:
-    get_or_404(db, AutofillRun, run_id, "自动填写记录")
+    run = get_or_404(db, AutofillRun, run_id, "自动填写记录")
+    project = get_or_404(db, Project, run.project_id, "项目")
+    ensure_project_viewer(db, project, user)
     rows = db.execute(
         select(AutofillPlanItem).where(AutofillPlanItem.run_id == run_id).order_by(AutofillPlanItem.id)
     ).scalars().all()
