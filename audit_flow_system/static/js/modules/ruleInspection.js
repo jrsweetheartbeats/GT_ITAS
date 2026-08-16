@@ -1,6 +1,6 @@
 import { api, authHeaders, request } from '../api.js?v=20260630a';
 import { state } from '../state.js?v=20260630a';
-import { $, activeProjectId, esc, setStatus, tag } from '../utils.js?v=20260630a';
+import { $, activeProjectId, esc, setStatus, tag } from '../utils.js?v=20260816a';
 
 const STATUS_LABELS = {
   ready: '可用',

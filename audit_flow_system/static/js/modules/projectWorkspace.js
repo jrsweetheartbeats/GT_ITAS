@@ -1,5 +1,5 @@
 import { state } from '../state.js?v=20260630a';
-import { $, activeProjectId, cleanClientDescription, esc, statusClass, tag } from '../utils.js?v=20260630a';
+import { $, activeProjectId, cleanClientDescription, esc, statusClass, tag } from '../utils.js?v=20260816a';
 
 const PROJECT_SECTIONS = [
   ['workpapers', '底稿管理', '查看底稿树、预览和台账状态'],

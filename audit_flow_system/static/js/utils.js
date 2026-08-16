@@ -69,6 +69,7 @@ export function activeProjectId() {
 }
 
 export function fillSelect(el, rows, label, includeBlank = true) {
+  if (!el) return;
   el.innerHTML = includeBlank ? '<option value="">未选择</option>' : '';
   rows.forEach(row => {
     const option = document.createElement('option');

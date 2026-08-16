@@ -1,6 +1,6 @@
 import { request } from '../api.js?v=20260816a';
 import { state } from '../state.js?v=20260816a';
-import { $, esc, setStatus, tag } from '../utils.js?v=20260630b';
+import { $, esc, setStatus, tag } from '../utils.js?v=20260816a';
 
 
 function validationHtml(validation) {
@@ -150,14 +150,16 @@ export function bindLearning() {
     try {
       if (validateButton) {
         const validation = await request(`/api/learning/questions/${questionId}/validate`, {method: 'POST', body: JSON.stringify({sql_text: payload.sql_text})});
-        document.querySelector(`[data-practice-result="${questionId}"]`).innerHTML = validationHtml(validation);
+        const validationBox = document.querySelector(`[data-practice-result="${questionId}"]`);
+        if (validationBox) validationBox.innerHTML = validationHtml(validation);
         setStatus(validation.passed ? 'SQL静态校验通过' : 'SQL静态校验未通过');
         return;
       }
       if (executeButton) {
         setStatus('正在运行只读查询');
         const result = await request(`/api/learning/questions/${questionId}/execute`, {method: 'POST', body: JSON.stringify({sql_text: payload.sql_text})});
-        document.querySelector(`[data-practice-query-result="${questionId}"]`).innerHTML = queryResultHtml(result);
+        const queryResultBox = document.querySelector(`[data-practice-query-result="${questionId}"]`);
+        if (queryResultBox) queryResultBox.innerHTML = queryResultHtml(result);
         setStatus(`查询完成：${result.rowCount || 0} 行`);
         return;
       }

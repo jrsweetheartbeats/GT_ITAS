@@ -1,6 +1,6 @@
 import { request } from '../api.js?v=20260630a';
 import { state } from '../state.js?v=20260630a';
-import { $, PROJECT_STATUS_OPTIONS, activeProjectId, closeModal, defaultAuditScope, esc, fillSelect, formData, isActiveProjectStatus, openModal, projectStatusLabel, setStatus, statusClass, tag } from '../utils.js?v=20260630b';
+import { $, PROJECT_STATUS_OPTIONS, activeProjectId, closeModal, defaultAuditScope, esc, fillSelect, formData, isActiveProjectStatus, openModal, projectStatusLabel, setStatus, statusClass, tag } from '../utils.js?v=20260816a';
 
 export const projectMembersExtension = {
   onProjectSelected(_project, _members) {}

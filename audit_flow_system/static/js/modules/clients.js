@@ -1,6 +1,6 @@
 import { request } from '../api.js?v=20260630a';
 import { state } from '../state.js?v=20260630a';
-import { $, cleanClientDescription, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from '../utils.js?v=20260630a';
+import { $, cleanClientDescription, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from '../utils.js?v=20260816a';
 
 export const clientIssueTabsExtension = {
   renderTabs(client) {

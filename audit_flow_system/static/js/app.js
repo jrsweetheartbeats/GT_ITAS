@@ -1,6 +1,6 @@
 import { login, request, setUnauthorizedHandler } from './api.js?v=20260630a';
 import { clearToken, defaultModuleOrder, setToken, state } from './state.js?v=20260630a';
-import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from './utils.js?v=20260630b';
+import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from './utils.js?v=20260816a';
 import { bindClients, openNewClientForm, renderClients } from './modules/clients.js?v=20260707a';
 import { bindProjects, renderMembers, renderProjectSnapshot, renderProjects, setProjectFormMode, syncProjectPicker } from './modules/projects.js?v=20260707b';
 import { bindWorkpapers, loadWorkpaperTree, renderWorkpaperTemplateTree, renderWorkpapers } from './modules/workpapers.js?v=20260816a';
