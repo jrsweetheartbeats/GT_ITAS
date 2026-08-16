@@ -5,7 +5,7 @@
 ## 技术栈
 
 - 后端：FastAPI + SQLAlchemy
-- 默认数据库：MariaDB `ITA`
+- 默认数据库：MariaDB `ITAS`
 - 前端：FastAPI 托管的单页 HTML
 - 复核脚本接入：可调用当前目录上级的 `复核规则/run_project_rules.py`
 
@@ -22,7 +22,7 @@ export AUDIT_FLOW_DB_HOST=127.0.0.1
 export AUDIT_FLOW_DB_PORT=3306
 export AUDIT_FLOW_DB_USER=root
 export AUDIT_FLOW_DB_PASSWORD='你的密码'
-export AUDIT_FLOW_DB_NAME=ITA
+export AUDIT_FLOW_DB_NAME=ITAS
 export AUDIT_FLOW_DB_POOL_SIZE=5
 export AUDIT_FLOW_DB_MAX_OVERFLOW=10
 export AUDIT_FLOW_DB_POOL_RECYCLE=26600
