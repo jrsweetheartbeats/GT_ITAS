@@ -1,0 +1,1471 @@
+import { request } from '../api.js?v=20260630a';
+import { state } from '../state.js?v=20260630a';
+import { $, activeProjectId, esc, statusClass, tag } from '../utils.js?v=20260630a';
+import {
+  getProjectChecks,
+  getProjectFindings,
+  getProjectPbc,
+  getProjectReviews,
+  getProjectSystems,
+  getProjectWorkpapers,
+  getWorkflowProject,
+  getWorkpaper,
+  workflowChecks,
+  workflowFindings,
+  workflowProjects,
+  workflowStages,
+  workflowTemplates,
+  workflowUsers,
+  workflowWorkpapers,
+} from './workflowMock.js';
+
+const closedStatuses = new Set(['已关闭', '已解决', 'closed', 'resolved']);
+const kanbanColumns = [
+  ['待处理', '待处理'],
+  ['已分派', '已分派'],
+  ['保留', '保留/待确认'],
+  ['已修订', '已修订'],
+  ['待复核', '待复核'],
+  ['已关闭', '已关闭'],
+];
+
+const demoMode = new URLSearchParams(location.search).get('demoMode') === 'true';
+let workflowDashboardApi = null;
+let workflowApiError = '';
+let workflowQualityApi = null;
+let workflowProjectApi = {
+  projectId: null,
+  summary: null,
+  scope: null,
+  pbc: null,
+  workpapers: null,
+  reviewRuns: [],
+  findings: [],
+  autofillRuns: [],
+};
+let selectedProjectId = workflowProjects[0].id;
+let selectedWorkpaperId = localStorage.getItem('itas_workflow_workpaper') || '';
+
+function isRealMode() {
+  return !demoMode;
+}
+
+function currentWorkflowProjectId() {
+  return demoMode ? selectedProjectId : activeProjectId();
+}
+
+function currentWorkflowProjectKey() {
+  const value = currentWorkflowProjectId();
+  return value === null || value === undefined ? '' : String(value);
+}
+
+function setProject(projectId) {
+  const value = String(projectId || '');
+  if (!demoMode) {
+    const activeProject = $('activeProject');
+    if (activeProject) activeProject.value = value;
+    return;
+  }
+  selectedProjectId = workflowProjects.some(project => project.id === value) ? value : workflowProjects[0].id;
+  const firstWorkpaper = getProjectWorkpapers(selectedProjectId)[0];
+  selectedWorkpaperId = firstWorkpaper?.id || '';
+  if (selectedWorkpaperId) localStorage.setItem('itas_workflow_workpaper', selectedWorkpaperId);
+}
+
+function project() {
+  return getWorkflowProject(selectedProjectId);
+}
+
+function percent(value, tone = 'blue') {
+  const safe = Math.max(0, Math.min(100, Number(value) || 0));
+  return `<div class="workflow-progress ${tone}"><span style="width:${safe}%"></span></div>`;
+}
+
+function severityTag(value) {
+  const key = String(value || '').toLowerCase();
+  const label = {
+    high: '高',
+    medium: '中',
+    low: '低',
+    info: '提示',
+    critical: '高',
+  }[key] || value || '待评估';
+  const cls = ['high', 'critical', '高', '重大'].includes(key) || value === '高'
+    ? 'red'
+    : ['medium', '中'].includes(key) || value === '中'
+      ? 'amber'
+      : ['low', '低'].includes(key) || value === '低'
+        ? 'blue'
+        : 'gray';
+  return tag(label, cls);
+}
+
+function statusTag(value) {
+  return tag(value, statusClass(value));
+}
+
+function compactText(value, limit = 120) {
+  const text = String(value || '').replace(/\s+/g, ' ').trim();
+  return text.length > limit ? `${text.slice(0, limit)}...` : text;
+}
+
+function isOpenFindingStatus(status) {
+  const value = String(status || '').toLowerCase();
+  return ['open', 'assigned', 'retained', 'revised', 'returned', 'blocked', '待处理', '已分派', '保留', '已修订', '退回', '阻塞', '待复核'].includes(value);
+}
+
+function findingSource(row) {
+  return row.run_mode === 'manual' || row.rule_code === 'MANUAL' ? '人工' : '系统';
+}
+
+function findingBucket(row) {
+  const status = String(row.status || '').toLowerCase();
+  if (['assigned', '已分派'].includes(status)) return '已分派';
+  if (['retained', '保留'].includes(status)) return '保留';
+  if (['revised', '已修订'].includes(status)) return '已修订';
+  if (['resolved', '待复核', '已解决'].includes(status)) return '待复核';
+  if (['closed', '已关闭'].includes(status)) return '已关闭';
+  return '待处理';
+}
+
+function renderInto(id, html) {
+  const node = $(id);
+  if (node) node.innerHTML = html;
+}
+
+function workflowProjectSelect() {
+  if (!demoMode) return '';
+  return `
+    <label class="workflow-project-picker">项目
+      <select data-workflow-project-select>
+        ${workflowProjects.map(row => `<option value="${esc(row.id)}" ${row.id === selectedProjectId ? 'selected' : ''}>${esc(row.name)}</option>`).join('')}
+      </select>
+    </label>
+  `;
+}
+
+function realDashboardProjectRows() {
+  return (workflowDashboardApi?.projects || []).map(row => {
+    const monitoring = row.monitoring || {};
+    const workpapers = monitoring.workpapers || {};
+    const review = monitoring.review || {};
+    return {
+      id: row.id,
+      shortName: row.client || row.name,
+      name: row.name,
+      auditScope: `${row.audit_scope?.start || '未维护'} 至 ${row.audit_scope?.end || '未维护'}`,
+      stage: row.stage || '未维护',
+      progress: row.progress || 0,
+      materialRate: row.material_rate || 0,
+      workpaperRate: row.workpaper_rate || 0,
+      reviewRate: row.review_rate || 0,
+      dueDays: row.due_days ?? '-',
+      deliveryDate: row.delivery_date || '',
+      projectExitDate: row.project_exit_date || '',
+      deliverySource: row.delivery_source || '',
+      riskLevel: row.risk_level || '待评估',
+      pbcGaps: row.pbc_gap_count || 0,
+      openFindings: row.open_finding_count || 0,
+      monitoring,
+      workpapers,
+      review,
+    };
+  });
+}
+
+function deliveryText(row) {
+  const days = Number(row?.dueDays);
+  if (row?.dueDays === '-' || Number.isNaN(days)) return '交付日期未维护';
+  return days < 0 ? `已逾期${Math.abs(days)}天` : `${days}天后交付`;
+}
+
+function deliverySourceText(row) {
+  if (row?.deliveryDate) {
+    return `${row.deliveryDate}${row.deliverySource ? ' / ' + row.deliverySource : ''}`;
+  }
+  return row?.deliverySource || '';
+}
+
+function monitoringTone(status) {
+  if (status === 'red') return 'risk';
+  if (status === 'amber') return 'warn';
+  return '';
+}
+
+function reviewSourceLabel(review = {}) {
+  return review.source === 'review_workbook' ? '最新复核表' : '系统复核记录';
+}
+
+function mergeWorkflowDeliveryToProjects() {
+  const rows = workflowDashboardApi?.projects || [];
+  if (!rows.length || !state.projects?.length) return;
+  rows.forEach(row => {
+    const project = state.projects.find(item => Number(item.id) === Number(row.id));
+    if (!project) return;
+    project.due_days = row.due_days;
+    project.delivery_date = row.delivery_date || '';
+    project.project_exit_date = row.project_exit_date || '';
+    project.delivery_source = row.delivery_source || '';
+    project.delivery_source_type = row.delivery_source_type || '';
+    project.delivery_source_workpaper_id = row.delivery_source_workpaper_id || null;
+    project.delivery_source_workpaper_code = row.delivery_source_workpaper_code || '';
+    project.delivery_source_workpaper_name = row.delivery_source_workpaper_name || '';
+  });
+}
+
+async function loadWorkflowProjectData(projectId) {
+  if (demoMode || !projectId) return;
+  const id = String(projectId);
+  const [summary, scope, pbc, workpapers, reviewRuns, findings, autofillRuns] = await Promise.all([
+    request(`/api/projects/${id}/workflow-summary`),
+    request(`/api/projects/${id}/scope-items`),
+    request(`/api/projects/${id}/pbc-gaps`),
+    request(`/api/projects/${id}/workpaper-execution-summary`),
+    request(`/api/review-runs?projectId=${id}`),
+    request(`/api/review-findings?projectId=${id}`),
+    request(`/api/autofill-runs?projectId=${id}`),
+  ]);
+  workflowProjectApi = {projectId: id, summary, scope, pbc, workpapers, reviewRuns, findings, autofillRuns};
+  const firstWorkpaper = workpapers?.items?.[0];
+  if (firstWorkpaper && !workpapers.items.some(row => String(row.id) === String(selectedWorkpaperId))) {
+    selectedWorkpaperId = String(firstWorkpaper.id);
+    localStorage.setItem('itas_workflow_workpaper', selectedWorkpaperId);
+  }
+}
+
+function renderRealWorkflowDashboard() {
+  const metrics = workflowDashboardApi?.metrics || {};
+  const rows = realDashboardProjectRows();
+  const alerts = workflowDashboardApi?.alerts || [];
+  renderInto('workflowDashboardPanel', `
+    <div class="workflow-shell">
+      ${pageHeader('项目监控', '以最新底稿文件、编制/复核签名和复核问题闭环为核心，集中识别交付阻塞。', `
+        ${actionButton('projectWorkspace', 'ti-folder-open', '项目总览')}
+        ${actionButton('qualityDashboard', 'ti-chart-dots-3', '复核质控')}
+      `)}
+      <div class="workflow-metric-grid">
+        ${metricCard('在审项目', metrics.visible_projects ?? rows.length, '含计划、实施与复核整改阶段')}
+        ${metricCard('底稿路径失联', metrics.workpaper_missing_count ?? 0, '系统登记路径中找不到文件', Number(metrics.workpaper_missing_count || 0) ? 'risk' : '')}
+        ${metricCard('编制签名缺口', metrics.preparation_gap_count ?? 0, '可用底稿中编制人或日期不完整', Number(metrics.preparation_gap_count || 0) ? 'warn' : '')}
+        ${metricCard('待复核确认', metrics.review_pending_confirmation_count ?? 0, '项目组已回复、复核人尚未确认', Number(metrics.review_pending_confirmation_count || 0) ? 'warn' : '')}
+      </div>
+      <div class="workflow-grid">
+        <div class="panel">
+          <div class="panel-head"><h2>项目交付准备度</h2><span class="muted">文件25% · 编制30% · 复核25% · 问题关闭20%</span></div>
+          <div class="table-wrap workflow-table">
+            <table>
+              <thead><tr><th>项目</th><th>阶段/交付</th><th>准备度</th><th>文件</th><th>编制</th><th>复核</th><th>整改确认</th><th>状态</th><th></th></tr></thead>
+              <tbody>
+                ${rows.map(row => `
+                  <tr>
+                    <td><strong>${esc(row.shortName)}</strong><div class="muted">${esc(row.auditScope)}</div></td>
+                    <td>${statusTag(row.stage)}<div class="muted">${esc(deliveryText(row))}</div></td>
+                    <td>${percent(row.progress, row.progress < 70 ? 'amber' : 'green')}<div class="muted">${row.progress}%</div></td>
+                    <td><strong>${esc(row.workpapers.available_count || 0)}/${esc(row.workpapers.total || 0)}</strong><div class="muted">可定位</div></td>
+                    <td><strong>${esc(row.workpapers.prepared_count || 0)}/${esc(row.workpapers.total || 0)}</strong><div class="muted">签名完整</div></td>
+                    <td><strong>${esc(row.workpapers.reviewed_count || 0)}/${esc(row.workpapers.total || 0)}</strong><div class="muted">签名完整</div></td>
+                    <td><strong>${esc(row.review.resolved_count || 0)}/${esc(row.review.issue_count || 0)}</strong><div class="muted">${esc(row.review.pending_confirmation_count || 0)} 待确认</div></td>
+                    <td>${severityTag(row.riskLevel)}<div class="muted">${esc(row.monitoring.next_action || '')}</div></td>
+                    <td><button type="button" class="secondary" data-workflow-open-real-project="${esc(row.id)}">打开</button></td>
+                  </tr>
+                `).join('') || '<tr><td colspan="9" class="empty">暂无在审项目</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>优先处理</h2></div>
+          <div class="workflow-alert-list">
+            ${alerts.slice(0, 8).map(row => `
+              <button type="button" data-workflow-open-real-project="${esc(row.project_id)}">
+                <span>${tag(row.level === 'high' ? '阻塞' : '关注', row.level === 'high' ? 'red' : 'amber')}</span>
+                <strong>${esc(row.project_name)}：${esc(row.title)}</strong>
+                <small>${esc(row.detail || '进入项目查看明细')}</small>
+              </button>
+            `).join('') || '<div class="empty">当前项目底稿与复核未识别到阻塞。</div>'}
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function pageHeader(title, subtitle, actions = '') {
+  return `
+    <div class="workflow-page-head">
+      <div>
+        <div class="muted">ITAS 核心监控</div>
+        <h2>${esc(title)}</h2>
+        <p>${esc(subtitle)}</p>
+      </div>
+      <div class="workflow-head-actions">
+        ${workflowProjectSelect()}
+        ${actions}
+      </div>
+    </div>
+  `;
+}
+
+function metricCard(label, value, note, tone = '') {
+  return `
+    <div class="workflow-metric ${esc(tone)}">
+      <span>${esc(label)}</span>
+      <strong>${esc(value)}</strong>
+      <small>${esc(note)}</small>
+    </div>
+  `;
+}
+
+function actionButton(section, icon, text, cls = 'secondary') {
+  return `<button type="button" class="${esc(cls)}" data-workflow-route="${esc(section)}"><i class="ti ${esc(icon)}"></i> ${esc(text)}</button>`;
+}
+
+function renderRealProjectPending(containerId, title) {
+  const projectId = currentWorkflowProjectKey();
+  renderInto(containerId, `
+    <div class="workflow-shell">
+      ${pageHeader(title, projectId ? '正在加载当前全局项目的真实工作流数据。' : '请先选择一个正在执行项目。', '')}
+      <div class="panel"><div class="panel-body">${projectId ? `当前项目 #${esc(projectId)} 的工作流数据尚未加载完成。` : '请选择一个正在执行项目后查看工作流详情。'}</div></div>
+    </div>
+  `);
+}
+
+function openItems(rows) {
+  return rows.filter(row => !closedStatuses.has(String(row.status || '').toLowerCase()) && !closedStatuses.has(row.status));
+}
+
+function projectSummary(projectRow) {
+  const pbc = getProjectPbc(projectRow.id);
+  const workpapers = getProjectWorkpapers(projectRow.id);
+  const checks = getProjectChecks(projectRow.id);
+  const findings = getProjectFindings(projectRow.id);
+  const pbcGaps = pbc.filter(row => row.status !== '已收到').length;
+  const openFindings = openItems(findings).length;
+  const failedChecks = checks.filter(row => row.result !== '通过').length;
+  const returned = getProjectReviews(projectRow.id).filter(row => row.status === '退回').length;
+  return {
+    pbcGaps,
+    openFindings,
+    failedChecks,
+    returned,
+    workpapers: workpapers.length,
+    completedWorkpapers: workpapers.filter(row => ['已完成', '已关闭'].includes(row.status)).length,
+  };
+}
+
+function renderWorkflowDashboard() {
+  if (!demoMode && workflowDashboardApi) return renderRealWorkflowDashboard();
+  if (!demoMode && workflowApiError) {
+    renderInto('workflowDashboardPanel', `
+      <div class="workflow-shell">
+        ${pageHeader('首页驾驶舱', '真实工作流聚合数据加载失败。', '')}
+        <div class="panel"><div class="panel-body">${tag('API异常', 'red')} <span class="muted">${esc(workflowApiError)}</span></div></div>
+      </div>
+    `);
+    return;
+  }
+  if (!demoMode) {
+    renderInto('workflowDashboardPanel', `
+      <div class="workflow-shell">
+        ${pageHeader('首页驾驶舱', '正在加载真实工作流聚合数据。', '')}
+        <div class="panel"><div class="panel-body">正在读取 /api/workflow/dashboard。</div></div>
+      </div>
+    `);
+    return;
+  }
+  const openFindingRows = openItems(workflowFindings);
+  const pbcGaps = workflowProjects.reduce((sum, row) => sum + projectSummary(row).pbcGaps, 0);
+  const returned = workflowProjects.reduce((sum, row) => sum + projectSummary(row).returned, 0);
+  const highRisks = workflowFindings.filter(row => row.severity === '高' && row.status !== '已关闭').length;
+  renderInto('workflowDashboardPanel', `
+    <div class="workflow-shell">
+      ${pageHeader('首页驾驶舱', '围绕项目生命周期集中展示进度、资料缺口、底稿执行、自动检核、复核退回和质量风险。', `
+        ${actionButton('projectWorkspace', 'ti-folder-open', '进入项目')}
+        ${actionButton('findingKanban', 'ti-layout-kanban', '查看整改')}
+      `)}
+      <div class="workflow-metric-grid">
+        ${metricCard('在审项目', workflowProjects.length, '含准备、实施、复核整改')}
+        ${metricCard('资料缺口', pbcGaps, 'PBC待补充、部分收到、缺失', 'warn')}
+        ${metricCard('复核退回', returned, '需编制人处理', 'warn')}
+        ${metricCard('高风险问题', highRisks, '未关闭高风险', 'risk')}
+      </div>
+      <div class="workflow-grid">
+        <div class="panel">
+          <div class="panel-head"><h2>项目进度</h2><span class="muted">按交付压力排序</span></div>
+          <div class="table-wrap workflow-table">
+            <table>
+              <thead><tr><th>项目</th><th>阶段</th><th>整体进度</th><th>资料</th><th>底稿</th><th>检核</th><th>风险</th><th></th></tr></thead>
+              <tbody>
+                ${workflowProjects.map(row => `
+                  <tr>
+                    <td><strong>${esc(row.shortName)}</strong><div class="muted">${esc(row.auditScope)}</div></td>
+                    <td>${statusTag(row.stage)}<div class="muted">${esc(deliveryText(row))}</div></td>
+                    <td>${percent(row.progress)}<div class="muted">${row.progress}%</div></td>
+                    <td>${percent(row.materialRate, row.materialRate < 70 ? 'amber' : 'green')}<div class="muted">${row.materialRate}%</div></td>
+                    <td>${percent(row.workpaperRate, row.workpaperRate < 70 ? 'amber' : 'green')}<div class="muted">${row.workpaperRate}%</div></td>
+                    <td>${percent(row.checkPassRate, row.checkPassRate < 75 ? 'amber' : 'green')}<div class="muted">${row.checkPassRate}%</div></td>
+                    <td>${severityTag(row.riskLevel)}</td>
+                    <td><button type="button" class="secondary" data-workflow-open-project="${esc(row.id)}">打开</button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>待办与风险提醒</h2></div>
+          <div class="workflow-alert-list">
+            ${openFindingRows.slice(0, 5).map(row => `
+              <button type="button" data-workflow-open-project="${esc(row.projectId)}" data-workflow-route="findingKanban">
+                <span>${severityTag(row.severity)} ${tag(row.source, row.source === '系统' ? 'blue' : 'purple')}</span>
+                <strong>${esc(row.title)}</strong>
+                <small>${esc(getWorkflowProject(row.projectId).shortName)} / ${esc(row.workpaper)} / ${esc(row.owner)} / ${esc(row.due)}</small>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>模板与规则更新</h2></div>
+        <div class="workflow-template-strip">
+          ${workflowTemplates.map(row => `
+            <div>
+              <strong>${esc(row.name)}</strong>
+              <span>${esc(row.version)}</span>
+              <small>${esc(row.changed)}</small>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderProjectWorkspacePrototype() {
+  if (isRealMode()) {
+    const rows = realDashboardProjectRows();
+    const projectId = currentWorkflowProjectKey();
+    const row = rows.find(item => String(item.id) === projectId);
+    if (!row) {
+      renderInto('workflowProjectPanel', `
+        <div class="workflow-shell">
+          ${pageHeader('项目中心', workflowDashboardApi ? '当前全局项目未出现在正在执行项目列表中。' : '正在加载当前全局项目的工作流数据。', `
+            ${actionButton('dashboard', 'ti-layout-dashboard', '返回驾驶舱')}
+          `)}
+          <div class="panel"><div class="panel-body">${workflowDashboardApi ? '请选择一个正在执行项目后查看工作流详情。' : '正在读取 /api/workflow/dashboard。'}</div></div>
+        </div>
+      `);
+      return;
+    }
+    const workpapers = row.workpapers || {};
+    const review = row.review || {};
+    const blockers = row.monitoring?.blockers || [];
+    renderInto('workflowProjectPanel', `
+      <div class="workflow-shell">
+        ${pageHeader('项目执行总览', '围绕底稿定位、编制、复核和问题闭环展示当前项目真实进展。', `
+          ${actionButton('workpaperExecution', 'ti-file-analytics', '底稿进度')}
+          ${actionButton('attachments', 'ti-paperclip', '资料附件')}
+          ${actionButton('findingKanban', 'ti-layout-kanban', '复核整改')}
+        `)}
+        <div class="workflow-project-hero">
+          <div>
+            <span>${statusTag(row.stage)} ${severityTag(row.riskLevel)}</span>
+            <h2>${esc(row.name)}</h2>
+            <p>${esc(row.shortName)} / ${esc(row.auditScope)}</p>
+            <div class="workflow-inline-meta">
+              <span>最近底稿/复核活动：${esc(row.monitoring?.last_activity_at || '未识别')}</span>
+              <span>复核来源：${esc(reviewSourceLabel(review))}</span>
+              <span>当前阻塞：${esc(row.monitoring?.blocker_count || 0)}</span>
+            </div>
+          </div>
+          <div class="workflow-delivery-box">
+            <strong>${esc(row.progress)}%</strong>
+            <span>交付准备度</span>
+            ${deliverySourceText(row) ? `<small>${esc(deliverySourceText(row))}</small>` : ''}
+            ${percent(row.progress, row.progress < 60 ? 'amber' : 'green')}
+          </div>
+        </div>
+        <div class="workflow-metric-grid">
+          ${metricCard('文件可用', `${workpapers.available_count || 0}/${workpapers.total || 0}`, `${workpapers.missing_count || 0} 份路径失联`, Number(workpapers.missing_count || 0) ? 'risk' : '')}
+          ${metricCard('编制完成', `${workpapers.prepared_count || 0}/${workpapers.total || 0}`, `${workpapers.preparation_partial_count || 0} 份仅部分签名`, (workpapers.prepared_count || 0) < (workpapers.total || 0) ? 'warn' : '')}
+          ${metricCard('复核完成', `${workpapers.reviewed_count || 0}/${workpapers.total || 0}`, `${workpapers.review_partial_count || 0} 份仅部分签名`, (workpapers.reviewed_count || 0) < (workpapers.total || 0) ? 'warn' : '')}
+          ${metricCard('整改已回复', `${review.replied_count || 0}/${review.issue_count || 0}`, `${review.unreplied_count || 0} 条尚未回复`, Number(review.unreplied_count || 0) ? 'risk' : '')}
+          ${metricCard('复核已确认', `${review.resolved_count || 0}/${review.issue_count || 0}`, `${review.pending_confirmation_count || 0} 条回复待确认`, Number(review.pending_confirmation_count || 0) ? 'warn' : '')}
+          ${metricCard('距交付', deliveryText(row), deliverySourceText(row) || '交付日期未维护', Number(row.dueDays) < 0 ? 'risk' : '')}
+        </div>
+        <div class="workflow-grid">
+          <div class="panel">
+            <div class="panel-head"><h2>下一步动作</h2></div>
+            <div class="workflow-list">
+              ${blockers.map(item => `
+                <div>
+                  <i class="ti ${item.level === 'high' ? 'ti-alert-triangle' : 'ti-circle-dot'}"></i>
+                  <span>${tag(item.level === 'high' ? '阻塞' : '关注', item.level === 'high' ? 'red' : 'amber')} ${esc(item.message)}</span>
+                </div>
+              `).join('') || '<div><i class="ti ti-circle-check"></i><span>底稿、复核与整改均已形成闭环。</span></div>'}
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>监控口径</h2></div>
+            <div class="workflow-list">
+              <div><i class="ti ti-file-check"></i><span>底稿文件：以系统登记路径能否读取为准。</span></div>
+              <div><i class="ti ti-signature"></i><span>编制/复核：以底稿页眉姓名与日期是否同时完整为准。</span></div>
+              <div><i class="ti ti-message-check"></i><span>整改闭环：${esc(reviewSourceLabel(review))}优先于历史系统问题记录。</span></div>
+              <div><i class="ti ti-calculator"></i><span>${esc(row.monitoring?.readiness_formula || '')}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  const row = project();
+  const summary = projectSummary(row);
+  renderInto('workflowProjectPanel', `
+    <div class="workflow-shell">
+      ${pageHeader('项目工作台', '在项目上下文内串起基本信息、系统范围、PBC、底稿、检核、复核和问题整改。', `
+        ${actionButton('scopeCenter', 'ti-sitemap', '审计范围')}
+        ${actionButton('pbcCenter', 'ti-inbox', '资料缺口')}
+      `)}
+      <div class="workflow-project-hero">
+        <div>
+          <span>${statusTag(row.stage)} ${severityTag(row.riskLevel)}</span>
+          <h2>${esc(row.name)}</h2>
+          <p>${esc(row.client)} / ${row.auditYear} / ${esc(row.auditScope)}</p>
+          <div class="workflow-inline-meta">
+            <span>项目负责人：${esc(row.leader)}</span>
+            <span>现场负责人：${esc(row.fieldLead)}</span>
+            <span>质控复核：${esc(row.qualityReviewer)}</span>
+          </div>
+        </div>
+        <div class="workflow-delivery-box">
+          <strong>${esc(row.dueDays)}</strong>
+          <span>距交付天数</span>
+          ${deliverySourceText(row) ? `<small>${esc(deliverySourceText(row))}</small>` : ''}
+          ${percent(row.progress, row.progress < 60 ? 'amber' : 'green')}
+        </div>
+      </div>
+      <div class="workflow-metric-grid">
+        ${metricCard('系统范围', getProjectSystems(row.id).length, row.auditScopeSource)}
+        ${metricCard('PBC缺口', summary.pbcGaps, '待补充或缺失资料', summary.pbcGaps ? 'warn' : '')}
+        ${metricCard('底稿执行', `${summary.completedWorkpapers}/${summary.workpapers}`, '已完成/全部底稿')}
+        ${metricCard('检核异常', summary.failedChecks, '自动与人工检核未通过', summary.failedChecks ? 'risk' : '')}
+      </div>
+      <div class="workflow-stage-grid">
+        ${workflowStages.map(stage => {
+          const isActive = (stage.id === 'execute' && row.stage === '项目实施') || (stage.id === 'deliver' && row.stage === '复核整改') || (stage.id === 'prepare' && row.stage === '项目准备');
+          return `
+            <div class="workflow-stage ${isActive ? 'active' : ''}">
+              <strong>${esc(stage.name)}</strong>
+              <span>${esc(stage.description)}</span>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <div class="workflow-grid three-col">
+        <div class="panel">
+          <div class="panel-head"><h2>下一步动作</h2></div>
+          <div class="workflow-list">
+            ${row.nextActions.map(item => `<div><i class="ti ti-circle-dot"></i><span>${esc(item)}</span></div>`).join('')}
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>成员安排</h2></div>
+          <div class="workflow-user-list">
+            ${workflowUsers.filter(user => row.members.includes(user.name) || user.name === row.qualityReviewer || user.name === row.manager).map(user => `
+              <div>
+                <strong>${esc(user.name)}</strong>
+                <span>${esc(user.role)}</span>
+                <small>${esc(user.email)} / ${esc(user.phone)}</small>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>快速入口</h2></div>
+          <div class="workflow-quick-actions">
+            ${actionButton('workpaperExecution', 'ti-file-analytics', '底稿详情')}
+            ${actionButton('autoCheck', 'ti-shield-check', '自动检核')}
+            ${actionButton('reviewCenter', 'ti-user-check', '复核中心')}
+            ${actionButton('qualityDashboard', 'ti-chart-dots-3', '质量看板')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderScopeCenter() {
+  const projectId = currentWorkflowProjectKey();
+  if (isRealMode() && String(workflowProjectApi.projectId) === projectId && workflowProjectApi.scope?.items) {
+    const row = realDashboardProjectRows().find(item => String(item.id) === projectId) || realDashboardProjectRows()[0];
+    const systems = workflowProjectApi.scope.items || [];
+    const confirmed = systems.filter(item => item.manager_confirmed).length;
+    renderInto('scopeCenterContent', `
+      <div class="workflow-shell">
+        ${pageHeader('审计范围识别', '真实接口优先展示系统清单、纳入理由、证据来源、置信度和经理确认状态。', actionButton('pbcCenter', 'ti-inbox', '查看PBC缺口'))}
+        <div class="workflow-metric-grid">
+          ${metricCard('识别系统', systems.length, '从现有项目记录或范围表读取')}
+          ${metricCard('纳入范围', systems.filter(item => item.in_scope).length, '参与IT审计测试')}
+          ${metricCard('经理确认', `${confirmed}/${systems.length}`, 'SystemScopeItem落地前为推导状态', confirmed === systems.length && systems.length ? '' : 'warn')}
+          ${metricCard('项目风险', row?.riskLevel || '待评估', '按资料缺口和问题推导', row?.riskLevel === '高' ? 'risk' : '')}
+        </div>
+        <div class="panel">
+            <div class="panel-head"><h2>系统范围矩阵</h2><span class="muted">/api/projects/${esc(projectId)}/scope-items</span></div>
+          <div class="table-wrap workflow-table">
+            <table>
+              <thead><tr><th>系统</th><th>业务流程</th><th>范围判断</th><th>纳入/排除理由</th><th>风险</th><th>置信度</th><th>来源</th></tr></thead>
+              <tbody>
+                ${systems.map(item => `
+                  <tr>
+                    <td><strong>${esc(item.system_name)}</strong><div class="muted">${esc(item.system_type || item.owner || '')}</div></td>
+                    <td>${esc(item.business_process || '')}<div class="muted">${esc(item.data_sensitivity || '')}</div></td>
+                    <td>${item.in_scope ? tag('纳入', 'green') : tag('待确认', 'amber')}</td>
+                    <td>${esc(item.scope_reason || '')}</td>
+                    <td>${severityTag(item.risk_level || '待评估')}</td>
+                    <td>${percent(item.confidence || 0, Number(item.confidence || 0) < 75 ? 'amber' : 'green')}<div class="muted">${esc(item.confidence || 0)}%</div></td>
+                    <td>${esc(item.source || '')}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  if (isRealMode()) {
+    renderRealProjectPending('scopeCenterContent', '审计范围识别');
+    return;
+  }
+  const row = project();
+  const systems = getProjectSystems(row.id);
+  renderInto('scopeCenterContent', `
+    <div class="workflow-shell">
+      ${pageHeader('审计范围识别', '展示系统清单、纳入范围理由、风险等级、依赖关系和识别置信度。', actionButton('pbcCenter', 'ti-inbox', '生成PBC入口'))}
+      <div class="workflow-metric-grid">
+        ${metricCard('纳入范围系统', systems.filter(item => item.inScope).length, '已进入ITGC/ITAC评估')}
+        ${metricCard('高风险系统', systems.filter(item => item.risk === '高').length, '需优先补证据', systems.some(item => item.risk === '高') ? 'risk' : '')}
+        ${metricCard('平均置信度', `${Math.round(systems.reduce((sum, item) => sum + item.confidence, 0) / systems.length)}%`, '来自系统清单、访谈和底稿标识')}
+        ${metricCard('审计范围', row.auditScope, row.auditScopeSource)}
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>系统范围矩阵</h2></div>
+        <div class="table-wrap workflow-table">
+          <table>
+            <thead><tr><th>系统</th><th>业务流程</th><th>范围判断</th><th>纳入理由</th><th>风险</th><th>置信度</th><th>依赖关系</th></tr></thead>
+            <tbody>
+              ${systems.map(item => `
+                <tr>
+                  <td><strong>${esc(item.name)}</strong><div class="muted">${esc(item.owner)}</div></td>
+                  <td>${esc(item.process)}<div class="muted">${esc(item.dataSensitivity)}</div></td>
+                  <td>${item.inScope ? tag('纳入', 'green') : tag('排除', 'gray')}</td>
+                  <td>${esc(item.reason)}</td>
+                  <td>${severityTag(item.risk)}</td>
+                  <td>${percent(item.confidence, item.confidence < 80 ? 'amber' : 'green')}<div class="muted">${item.confidence}%</div></td>
+                  <td>${esc(item.dependencies)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderPbcCenter() {
+  const projectId = currentWorkflowProjectKey();
+  if (isRealMode() && String(workflowProjectApi.projectId) === projectId && workflowProjectApi.pbc?.items) {
+    const pbc = workflowProjectApi.pbc.items || [];
+    const gaps = pbc.filter(row => row.is_gap);
+    renderInto('pbcCenterContent', `
+      <div class="workflow-shell">
+        ${pageHeader('PBC资料管理', '真实 DocumentRequest 数据展示资料需求、状态、缺口原因和关联控制。', actionButton('workpaperExecution', 'ti-file-analytics', '查看底稿执行'))}
+        <div class="workflow-metric-grid">
+          ${metricCard('资料需求', workflowProjectApi.pbc.total || pbc.length, '全部 PBC / DocumentRequest')}
+          ${metricCard('资料缺口', workflowProjectApi.pbc.gap_count || gaps.length, '必需资料未关闭', gaps.length ? 'warn' : '')}
+          ${metricCard('已关闭', pbc.filter(row => !row.is_gap).length, '已上传、已收到或已完成')}
+          ${metricCard('缺口率', pbc.length ? `${Math.round(gaps.length / pbc.length * 100)}%` : '0%', '用于项目质量看板')}
+        </div>
+        <div class="panel">
+          <div class="toolbar">
+            <div class="toolbar-title"><strong>资料缺口工作台</strong><span>/api/projects/${esc(projectId)}/pbc-gaps</span></div>
+            <div class="actions">
+              <button type="button" class="secondary"><i class="ti ti-upload"></i> 批量上传</button>
+              <button type="button" class="secondary"><i class="ti ti-send"></i> 催办</button>
+            </div>
+          </div>
+          <div class="table-wrap workflow-table">
+            <table>
+              <thead><tr><th>资料编号</th><th>资料要求</th><th>控制/方向</th><th>状态</th><th>缺口</th><th>上传文件</th></tr></thead>
+              <tbody>
+                ${pbc.map(item => `
+                  <tr>
+                    <td>${esc(item.code || item.id)}</td>
+                    <td><strong>${esc(item.title)}</strong></td>
+                    <td>${esc(item.control_code || '')}<div class="muted">${esc(item.direction || '')}</div></td>
+                    <td>${statusTag(item.status)}</td>
+                    <td>${item.is_gap ? tag(item.gap_reason || '待补充', 'amber') : tag('无缺口', 'green')}</td>
+                    <td>${esc(item.file_path || '未上传')}</td>
+                  </tr>
+                `).join('') || '<tr><td colspan="6" class="empty">当前项目暂无PBC资料需求</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  if (isRealMode()) {
+    renderRealProjectPending('pbcCenterContent', 'PBC资料管理');
+    return;
+  }
+  const row = project();
+  const pbc = getProjectPbc(row.id);
+  const grouped = ['已收到', '部分收到', '待补充', '缺失'].map(status => [status, pbc.filter(item => item.status === status).length]);
+  renderInto('pbcCenterContent', `
+    <div class="workflow-shell">
+      ${pageHeader('PBC资料管理', '按资料类别、系统、关联底稿和缺口状态管理客户需提供资料。', actionButton('workpaperExecution', 'ti-file-analytics', '查看底稿关联'))}
+      <div class="workflow-metric-grid">
+        ${grouped.map(([label, count]) => metricCard(label, count, label === '已收到' ? '可支持底稿执行' : '需跟进资料缺口', label === '已收到' ? '' : 'warn')).join('')}
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="toolbar-title"><strong>资料清单</strong><span>Mock阶段展示清单状态，不触发真实文件上传。</span></div>
+          <div class="actions">
+            <button type="button" class="secondary"><i class="ti ti-upload"></i> 批量上传</button>
+            <button type="button" class="secondary"><i class="ti ti-list-check"></i> 生成清单</button>
+          </div>
+        </div>
+        <div class="table-wrap workflow-table">
+          <table>
+            <thead><tr><th>资料类别</th><th>系统</th><th>资料要求</th><th>状态</th><th>截止日期</th><th>责任人</th><th>关联底稿</th><th>缺口说明</th></tr></thead>
+            <tbody>
+              ${pbc.map(item => `
+                <tr>
+                  <td>${esc(item.category)}</td>
+                  <td>${esc(item.system)}</td>
+                  <td><strong>${esc(item.requirement)}</strong></td>
+                  <td>${statusTag(item.status)}</td>
+                  <td>${esc(item.due)}</td>
+                  <td>${esc(item.owner)}</td>
+                  <td>${esc(item.linked)}</td>
+                  <td>${item.gap ? esc(item.gap) : tag('无缺口', 'green')}</td>
+                </tr>
+              `).join('') || '<tr><td colspan="8" class="empty">当前项目暂无PBC清单</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function groupedWorkpapers(projectId) {
+  const workpapers = getProjectWorkpapers(projectId);
+  return workflowStages.map(stage => ({
+    stage,
+    rows: workpapers.filter(row => row.group === stage.name),
+  }));
+}
+
+function ensureSelectedWorkpaper(projectId) {
+  const rows = getProjectWorkpapers(projectId);
+  if (!rows.some(row => row.id === selectedWorkpaperId)) {
+    selectedWorkpaperId = rows[0]?.id || workflowWorkpapers[0].id;
+  }
+  localStorage.setItem('itas_workflow_workpaper', selectedWorkpaperId);
+}
+
+function renderWorkpaperExecution() {
+  const projectId = currentWorkflowProjectKey();
+  if (isRealMode() && String(workflowProjectApi.projectId) === projectId && workflowProjectApi.workpapers?.items) {
+    const summary = workflowProjectApi.workpapers;
+    const rows = summary.items || [];
+    const selected = rows.find(item => String(item.id) === String(selectedWorkpaperId)) || rows[0];
+    const selectedMonitor = selected?.monitoring || {};
+    renderInto('workpaperExecutionContent', `
+      <div class="workflow-shell">
+        ${pageHeader('底稿进度', '逐份核对文件可用性、编制签名、复核签名及关联问题，避免仅依赖台账状态。', actionButton('findingKanban', 'ti-layout-kanban', '复核整改'))}
+        <div class="workflow-metric-grid">
+          ${metricCard('登记底稿', summary.total || 0, '当前项目底稿总数')}
+          ${metricCard('文件可用', `${summary.available_count || 0}/${summary.total || 0}`, `${summary.missing_count || 0} 份路径失联`, Number(summary.missing_count || 0) ? 'risk' : '')}
+          ${metricCard('编制完成', `${summary.prepared_count || 0}/${summary.total || 0}`, `完整签名率 ${summary.execution_rate || 0}%`, (summary.prepared_count || 0) < (summary.total || 0) ? 'warn' : '')}
+          ${metricCard('复核完成', `${summary.reviewed_count || 0}/${summary.total || 0}`, `完整签名率 ${summary.review_rate || 0}%`, (summary.reviewed_count || 0) < (summary.total || 0) ? 'warn' : '')}
+        </div>
+        <div class="workflow-workpaper-layout">
+          <aside class="tree-panel workflow-tree-panel">
+            <div class="tree-head">底稿结构</div>
+            <div class="tree-list">
+              ${rows.map(item => `
+                <button type="button" class="workflow-tree-item ${String(item.id) === String(selected?.id) ? 'active' : ''}" data-workflow-workpaper="${esc(item.id)}">
+                  <span class="status-dot ${item.monitoring?.file_exists ? (item.monitoring?.review_complete ? 'state-done' : 'state-running') : 'state-risk'}"></span>
+                  <span title="${esc(item.name)}">${esc(item.code)} ${esc(item.name)}</span>
+                </button>
+              `).join('') || '<div class="workflow-tree-empty">暂无底稿</div>'}
+            </div>
+          </aside>
+          <div class="panel">
+            <div class="toolbar">
+              <div class="toolbar-title"><strong>${esc(selected?.code || '未选择')} ${esc(selected?.name || '')}</strong><span>${esc(selected?.stage || '未分阶段')}</span></div>
+            </div>
+            <div class="panel-body">
+              ${selected ? `
+                <div class="workflow-metric-grid compact">
+                  ${metricCard('文件', selectedMonitor.file_exists ? '可用' : '失联', selectedMonitor.file_modified_at || '未找到文件', selectedMonitor.file_exists ? '' : 'risk')}
+                  ${metricCard('编制签名', selectedMonitor.preparation_complete ? '完整' : selectedMonitor.preparation_partial ? '部分' : '缺失', `${selectedMonitor.preparer || '未识别编制人'} / ${selectedMonitor.prepared_date || '未识别日期'}`, selectedMonitor.preparation_complete ? '' : 'warn')}
+                  ${metricCard('复核签名', selectedMonitor.review_complete ? '完整' : selectedMonitor.review_partial ? '部分' : '缺失', `${selectedMonitor.reviewer || '未识别复核人'} / ${selectedMonitor.reviewed_date || '未识别日期'}`, selectedMonitor.review_complete ? '' : 'warn')}
+                  ${metricCard('关联附件', selected.attachment_count || 0, 'Attachment关联数量')}
+                  ${metricCard('关联问题', selected.finding_count || 0, 'ReviewFinding定位数量', Number(selected.finding_count || 0) ? 'warn' : '')}
+                </div>
+                <div class="workflow-detail-grid">
+                  <div>
+                    <h3>底稿路径</h3>
+                    <div class="muted">${esc(selected.file_path || '未维护文件路径')}</div>
+                  </div>
+                  <div>
+                    <h3>当前结论</h3>
+                    <div>${!selectedMonitor.file_exists ? tag('先修复文件定位', 'red') : selectedMonitor.review_complete ? tag('编制复核签名完整', 'green') : tag('待补齐签名', 'amber')}</div>
+                  </div>
+                  <div>
+                    <h3>后续动作</h3>
+                    <div class="workflow-list compact"><div><i class="ti ti-circle-dot"></i><span>${!selectedMonitor.file_exists ? '重新同步最新底稿目录并核对登记路径。' : !selectedMonitor.preparation_complete ? '补齐编制人和编制日期。' : !selectedMonitor.review_complete ? '补齐复核人和复核日期。' : '进入复核整改页确认未关闭问题。'}</span></div></div>
+                  </div>
+                </div>
+              ` : '<div class="empty">当前项目暂无底稿</div>'}
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  if (isRealMode()) {
+    renderRealProjectPending('workpaperExecutionContent', '底稿详情页');
+    return;
+  }
+  const row = project();
+  ensureSelectedWorkpaper(row.id);
+  const selected = getWorkpaper(selectedWorkpaperId);
+  const checks = getProjectChecks(row.id).filter(item => item.workpaperId === selected.id);
+  renderInto('workpaperExecutionContent', `
+    <div class="workflow-shell">
+      ${pageHeader('底稿详情页', '左侧按项目文件夹层级展示底稿，右侧集中查看编制、复核、自动填写建议、问题和附件。', actionButton('autoCheck', 'ti-shield-check', '查看检核'))}
+      <div class="workflow-workpaper-layout">
+        <aside class="tree-panel workflow-tree-panel">
+          <div class="tree-head">底稿结构</div>
+          <div class="tree-list">
+            ${groupedWorkpapers(row.id).map(group => `
+              <div class="workflow-tree-stage">
+                <strong><i class="ti ti-chevron-down"></i>${esc(group.stage.name)}</strong>
+                ${group.rows.length ? group.rows.map(item => `
+                  <button type="button" class="workflow-tree-item ${item.id === selected.id ? 'active' : ''}" data-workflow-workpaper="${esc(item.id)}">
+                    <span class="status-dot ${esc(statusClass(item.status))}"></span>
+                    <span title="${esc(item.name)}">${esc(item.code)} ${esc(item.name)}</span>
+                  </button>
+                `).join('') : '<div class="workflow-tree-empty">暂无底稿</div>'}
+              </div>
+            `).join('')}
+            <div class="workflow-tree-stage">
+              <strong><i class="ti ti-chevron-down"></i>附件</strong>
+              ${selected.attachments.map(item => `<div class="workflow-tree-empty"><i class="ti ti-paperclip"></i>${esc(item)}</div>`).join('') || '<div class="workflow-tree-empty">暂无附件</div>'}
+            </div>
+          </div>
+        </aside>
+        <div class="panel">
+          <div class="toolbar">
+            <div class="toolbar-title"><strong>${esc(selected.code)} ${esc(selected.name)}</strong><span>${esc(selected.group)} / ${esc(selected.type)}</span></div>
+            <div class="actions">
+              <button type="button" class="secondary"><i class="ti ti-download"></i> 下载原始文件</button>
+              <button type="button" class="secondary"><i class="ti ti-copy"></i> 写入测试副本</button>
+              <button type="button" class="secondary"><i class="ti ti-history"></i> 查看历史</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="workflow-metric-grid compact">
+              ${metricCard('状态', selected.status, '底稿执行状态')}
+              ${metricCard('编制人', selected.preparer, '按底稿类型规则带入')}
+              ${metricCard('复核人', selected.reviewer, '项目负责人/经理或财审一签')}
+              ${metricCard('证据齐套率', `${selected.evidenceReady}/${selected.evidenceNeeded}`, '已关联/应收证据')}
+            </div>
+            <div class="workflow-detail-grid">
+              <div>
+                <h3>自动填写建议</h3>
+                <div class="workflow-chip-list">
+                  ${selected.autoFillFields.map(field => tag(field, 'blue')).join('')}
+                </div>
+              </div>
+              <div>
+                <h3>关联附件</h3>
+                <div class="workflow-chip-list">
+                  ${selected.attachments.map(item => tag(item, 'gray')).join('') || '<span class="muted">暂无附件</span>'}
+                </div>
+              </div>
+              <div>
+                <h3>检核问题</h3>
+                <div class="workflow-list compact">
+                  ${checks.map(item => `<div><i class="ti ti-alert-triangle"></i><span>${severityTag(item.severity)} ${esc(item.finding)}</span></div>`).join('') || '<div><i class="ti ti-circle-check"></i><span>当前底稿无未通过检核。</span></div>'}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderAutoCheck() {
+  const projectId = currentWorkflowProjectKey();
+  if (isRealMode() && String(workflowProjectApi.projectId) === projectId) {
+    const findings = workflowProjectApi.findings || [];
+    const systemFindings = findings.filter(item => findingSource(item) === '系统');
+    const rows = systemFindings.length ? systemFindings : findings;
+    const openRows = rows.filter(item => isOpenFindingStatus(item.status));
+    const highRows = openRows.filter(item => ['high', 'critical', '高', '重大'].includes(String(item.severity || '').toLowerCase()));
+    const autofillRuns = workflowProjectApi.autofillRuns || [];
+    renderInto('autoCheckContent', `
+      <div class="workflow-shell">
+        ${pageHeader('自动检核结果', '真实接口展示系统检核/复核发现与自动填写记录；无问题时显示为空状态，不再使用演示清单。', actionButton('reviewCenter', 'ti-user-check', '进入复核'))}
+        <div class="workflow-metric-grid">
+          ${metricCard('检核问题', rows.length, '/api/review-findings?projectId')}
+          ${metricCard('未关闭', openRows.length, '待处理、已分派、保留、已修订、退回', openRows.length ? 'warn' : '')}
+          ${metricCard('高风险', highRows.length, '未关闭高风险问题', highRows.length ? 'risk' : '')}
+          ${metricCard('自动填写记录', autofillRuns.length, '/api/autofill-runs?projectId')}
+        </div>
+        <div class="workflow-grid">
+          <div class="panel">
+            <div class="panel-head"><h2>检核明细</h2><span class="muted">/api/review-findings?projectId=${esc(projectId)}</span></div>
+            <div class="table-wrap workflow-table">
+              <table>
+                <thead><tr><th>结果</th><th>严重程度</th><th>规则</th><th>底稿/位置</th><th>问题描述</th><th>来源</th><th>状态</th><th>建议处理</th></tr></thead>
+                <tbody>
+                  ${rows.map(item => `
+                    <tr>
+                      <td>${isOpenFindingStatus(item.status) ? tag('未通过', 'red') : tag('已关闭', 'green')}</td>
+                      <td>${severityTag(item.severity)}</td>
+                      <td>${esc(item.rule_code || '未分类')}</td>
+                      <td title="${esc(item.target || '')}">${esc(compactText(item.target || item.workpaper_code || '未定位', 80))}<div class="muted">${esc(item.workpaper_name || item.entity_name || '')}</div></td>
+                      <td title="${esc(item.issue || '')}">${esc(compactText(item.issue || '', 120))}</td>
+                      <td>${tag(findingSource(item), findingSource(item) === '系统' ? 'blue' : 'amber')}</td>
+                      <td>${statusTag(item.status || 'open')}</td>
+                      <td title="${esc(item.review_comment || item.evidence || '')}">${esc(compactText(item.review_comment || item.evidence || '补充证据、处理整改并提交复核。', 120))}</td>
+                    </tr>
+                  `).join('') || '<tr><td colspan="8" class="empty">当前项目暂无检核异常。</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>自动填写记录</h2><span class="muted">/api/autofill-runs?projectId=${esc(projectId)}</span></div>
+            <div class="table-wrap workflow-table">
+              <table>
+                <thead><tr><th>批次</th><th>模式</th><th>范围</th><th>建议</th><th>计划</th><th>变更</th><th>阻塞</th></tr></thead>
+                <tbody>
+                  ${autofillRuns.slice(0, 8).map(run => `
+                    <tr>
+                      <td>#${esc(run.id)}</td>
+                      <td>${tag(run.apply ? '写回' : '预览', run.apply ? 'green' : 'blue')}</td>
+                      <td>${esc(run.scope || '全部')}</td>
+                      <td>${esc(run.suggestion_count || 0)}</td>
+                      <td>${esc(run.plan_count || 0)}</td>
+                      <td>${esc(run.changed_count || 0)}</td>
+                      <td>${tag(run.blocked_count || 0, Number(run.blocked_count || 0) ? 'red' : 'green')}</td>
+                    </tr>
+                  `).join('') || '<tr><td colspan="7" class="empty">当前项目暂无自动填写记录。</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  if (isRealMode()) {
+    renderRealProjectPending('autoCheckContent', '自动检核结果');
+    return;
+  }
+  const row = project();
+  const checks = getProjectChecks(row.id);
+  renderInto('autoCheckContent', `
+    <div class="workflow-shell">
+      ${pageHeader('自动检核结果', '集中展示系统范围、PBC、底稿字段、复核闭环等规则的检查结果。', actionButton('reviewCenter', 'ti-user-check', '进入复核'))}
+      <div class="workflow-metric-grid">
+        ${metricCard('检查规则', checks.length, '本项目已执行规则')}
+        ${metricCard('未通过', checks.filter(item => item.result !== '通过').length, '需保留、修订或补证据', 'risk')}
+        ${metricCard('高风险', checks.filter(item => item.severity === '高' && item.result !== '通过').length, '优先跟进', 'risk')}
+        ${metricCard('已关闭', checks.filter(item => item.status === '已关闭').length, '完成验证')}
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>检核明细</h2></div>
+        <div class="table-wrap workflow-table">
+          <table>
+            <thead><tr><th>结果</th><th>严重程度</th><th>规则</th><th>底稿/位置</th><th>问题描述</th><th>来源</th><th>状态</th><th>建议处理</th></tr></thead>
+            <tbody>
+              ${checks.map(item => `
+                <tr>
+                  <td>${item.result === '通过' ? tag('通过', 'green') : tag('未通过', 'red')}</td>
+                  <td>${severityTag(item.severity)}</td>
+                  <td>${esc(item.rule)}</td>
+                  <td>${esc(item.locator)}<div class="muted">${esc(item.evidence)}</div></td>
+                  <td>${esc(item.finding)}</td>
+                  <td>${tag(item.source, item.source === '系统' ? 'blue' : 'purple')}</td>
+                  <td>${statusTag(item.status)}</td>
+                  <td>${esc(item.recommendation)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderReviewCenter() {
+  const projectId = currentWorkflowProjectKey();
+  if (isRealMode() && String(workflowProjectApi.projectId) === projectId) {
+    const runs = workflowProjectApi.reviewRuns || [];
+    const findings = workflowProjectApi.findings || [];
+    const returned = findings.filter(item => ['returned', '退回'].includes(String(item.status || '').toLowerCase()));
+    const waitingReview = findings.filter(item => ['revised', 'resolved', '待复核', '已修订', '已解决'].includes(String(item.status || '').toLowerCase()));
+    const closed = findings.filter(item => !isOpenFindingStatus(item.status));
+    renderInto('reviewCenterContent', `
+      <div class="workflow-shell">
+        ${pageHeader('复核中心', '真实复核任务与整改问题统一展示，按轮次、状态、责任人和处理意见跟踪。', actionButton('findingKanban', 'ti-layout-kanban', '查看整改'))}
+        <div class="workflow-metric-grid">
+          ${metricCard('复核任务', runs.length, '/api/review-runs?projectId')}
+          ${metricCard('退回意见', returned.length, '需编制人处理', returned.length ? 'warn' : '')}
+          ${metricCard('待复核', waitingReview.length, '已修订/已解决等待确认')}
+          ${metricCard('已关闭', closed.length, '完成复核或问题关闭')}
+        </div>
+        <div class="workflow-grid">
+          <div class="panel">
+            <div class="panel-head"><h2>复核任务</h2><span class="muted">/api/review-runs?projectId=${esc(projectId)}</span></div>
+            <div class="table-wrap workflow-table">
+              <table>
+                <thead><tr><th>任务</th><th>状态</th><th>问题数</th><th>范围</th><th>开始时间</th><th>完成时间</th><th>摘要</th></tr></thead>
+                <tbody>
+                  ${runs.map(run => `
+                    <tr>
+                      <td>#${esc(run.id)}</td>
+                      <td>${statusTag(run.status || 'unknown')}</td>
+                      <td>${esc(run.finding_count ?? 0)}</td>
+                      <td>${esc(run.workpaper_id ? `底稿 #${run.workpaper_id}` : '项目')}</td>
+                      <td>${esc(run.started_at || '')}</td>
+                      <td>${esc(run.finished_at || '')}</td>
+                      <td>${esc(run.summary || '')}</td>
+                    </tr>
+                  `).join('') || '<tr><td colspan="7" class="empty">当前项目暂无复核任务。</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>待处理复核意见</h2><span class="muted">来自 ReviewFinding</span></div>
+            <div class="workflow-alert-list">
+              ${findings.filter(item => isOpenFindingStatus(item.status)).slice(0, 8).map(item => `
+                <button type="button" data-workflow-route="findingKanban">
+                  <span>${severityTag(item.severity)} ${statusTag(item.status || 'open')}</span>
+                  <strong title="${esc(item.issue || '')}">${esc(compactText(item.issue || item.rule_code || '未命名问题', 120))}</strong>
+                  <small title="${esc(item.target || '')}">${esc(compactText(item.target || item.workpaper_code || '未定位', 80))} / ${esc(item.assignee_name || item.owner_name || '未分派')} / ${esc(item.due_date || '无截止日期')}</small>
+                </button>
+              `).join('') || '<div class="empty">当前没有待处理复核意见。</div>'}
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  if (isRealMode()) {
+    renderRealProjectPending('reviewCenterContent', '复核中心');
+    return;
+  }
+  const row = project();
+  const reviews = getProjectReviews(row.id);
+  renderInto('reviewCenterContent', `
+    <div class="workflow-shell">
+      ${pageHeader('复核中心', '按复核轮次跟踪退回意见、责任人、截止日期和关闭状态。', actionButton('findingKanban', 'ti-layout-kanban', '查看整改'))}
+      <div class="workflow-metric-grid">
+        ${metricCard('复核任务', reviews.length, '本项目复核记录')}
+        ${metricCard('退回意见', reviews.filter(item => item.status === '退回').length, '需编制人处理', 'warn')}
+        ${metricCard('待复核', reviews.filter(item => item.status === '待复核').length, '等待复核人')}
+        ${metricCard('已关闭', reviews.filter(item => item.status === '已关闭').length, '完成复核')}
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>复核队列</h2></div>
+        <div class="table-wrap workflow-table">
+          <table>
+            <thead><tr><th>状态</th><th>底稿</th><th>复核人</th><th>轮次</th><th>责任人</th><th>截止日期</th><th>复核意见</th></tr></thead>
+            <tbody>
+              ${reviews.map(item => {
+                const wp = getWorkpaper(item.workpaperId);
+                return `
+                  <tr>
+                    <td>${statusTag(item.status)}</td>
+                    <td><strong>${esc(wp.code)}</strong><div class="muted">${esc(wp.name)}</div></td>
+                    <td>${esc(item.reviewer)}</td>
+                    <td>第${esc(item.round)}轮</td>
+                    <td>${esc(item.owner)}</td>
+                    <td>${esc(item.due)}</td>
+                    <td>${esc(item.comment)}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderFindingKanban() {
+  const projectId = currentWorkflowProjectKey();
+  if (isRealMode() && String(workflowProjectApi.projectId) === projectId) {
+    const findings = workflowProjectApi.findings || [];
+    const review = workflowProjectApi.summary?.monitoring?.review || {};
+    renderInto('findingKanbanContent', `
+      <div class="workflow-shell">
+        ${pageHeader('复核整改', '最新复核表用于判断回复与确认闭环；系统问题记录保留为可追溯的整改明细。', actionButton('qualityDashboard', 'ti-chart-dots-3', '复核质控'))}
+        <div class="workflow-metric-grid">
+          ${metricCard('复核问题', review.issue_count || 0, `${reviewSourceLabel(review)} / C22 ${review.source_counts?.C22 || 0} / 非C22 ${review.source_counts?.['非C22'] || 0}`)}
+          ${metricCard('已回复', `${review.replied_count || 0}/${review.issue_count || 0}`, `回复率 ${review.reply_rate ?? 0}%`, Number(review.unreplied_count || 0) ? 'risk' : '')}
+          ${metricCard('待确认', review.pending_confirmation_count || 0, '项目组已回复，等待复核人员确认', Number(review.pending_confirmation_count || 0) ? 'warn' : '')}
+          ${metricCard('已关闭', `${review.resolved_count || 0}/${review.issue_count || 0}`, `关闭率 ${review.closure_rate ?? 0}%`, Number(review.resolved_count || 0) < Number(review.issue_count || 0) ? 'warn' : '')}
+        </div>
+        <div class="panel">
+          <div class="panel-body">
+            <strong>当前闭环判断</strong>
+            <p class="muted">${review.source === 'review_workbook'
+              ? `已读取 ${esc(review.source_name || '最新复核表')}。回复不等于关闭，仍需复核人员在“确认复核问题已解决”列确认。`
+              : '当前未识别到外部复核表，以下状态来自系统复核记录。'}</p>
+          </div>
+        </div>
+        <div class="workflow-kanban">
+          ${kanbanColumns.map(([status, label]) => {
+            const rows = findings.filter(item => findingBucket(item) === status);
+            return `
+              <section class="workflow-kanban-col">
+                <h3>${esc(label)} <span>${rows.length}</span></h3>
+                ${rows.map(item => `
+                  <article class="workflow-finding-card">
+                    <div>${severityTag(item.severity)} ${tag(findingSource(item), findingSource(item) === '系统' ? 'blue' : 'amber')}</div>
+                    <strong title="${esc(item.issue || '')}">${esc(compactText(item.issue || item.rule_code || '未命名问题', 96))}</strong>
+                    <p title="${esc(item.evidence || item.review_comment || '')}">${esc(compactText(item.evidence || item.review_comment || '暂无整改说明', 140))}</p>
+                    <small title="${esc(item.target || '')}">${esc(compactText(item.target || item.workpaper_code || '未定位', 72))} / ${esc(item.assignee_name || item.owner_name || '未分派')} / ${esc(item.due_date || '无截止日期')}</small>
+                    <div class="workflow-card-action" title="${esc(item.review_comment || '')}">${esc(compactText(item.review_comment || '补充整改说明后提交复核', 90))}</div>
+                  </article>
+                `).join('') || '<div class="workflow-empty-small">暂无</div>'}
+              </section>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `);
+    return;
+  }
+  if (isRealMode()) {
+    renderRealProjectPending('findingKanbanContent', '问题整改看板');
+    return;
+  }
+  const row = project();
+  const findings = getProjectFindings(row.id);
+  renderInto('findingKanbanContent', `
+    <div class="workflow-shell">
+      ${pageHeader('问题整改看板', '自动检核和人工复核问题统一进入整改流转，支持保留、修订、待复核和关闭状态。', actionButton('qualityDashboard', 'ti-chart-dots-3', '查看质量风险'))}
+      <div class="workflow-kanban">
+        ${kanbanColumns.map(([status, label]) => {
+          const rows = findings.filter(item => item.status === status);
+          return `
+            <section class="workflow-kanban-col">
+              <h3>${esc(label)} <span>${rows.length}</span></h3>
+              ${rows.map(item => `
+                <article class="workflow-finding-card">
+                  <div>${severityTag(item.severity)} ${tag(item.source, item.source === '系统' ? 'blue' : 'purple')}</div>
+                  <strong>${esc(item.title)}</strong>
+                  <p>${esc(item.cause)}</p>
+                  <small>${esc(item.workpaper)} / ${esc(item.owner)} / ${esc(item.due)}</small>
+                  <div class="workflow-card-action">${esc(item.action)}</div>
+                </article>
+              `).join('') || '<div class="workflow-empty-small">暂无</div>'}
+            </section>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `);
+}
+
+function renderQualityDashboard() {
+  if (!demoMode && workflowDashboardApi && workflowQualityApi) {
+    const projectRows = realDashboardProjectRows();
+    const qualityByProject = new Map((workflowQualityApi.by_project || []).map(row => [Number(row.project_id), row]));
+    const typeRows = workflowQualityApi.by_rule || [];
+    const openTotal = workflowQualityApi.open || 0;
+    const highTotal = (workflowQualityApi.by_severity || [])
+      .filter(row => ['high', 'critical', '高', '重大'].includes(String(row.severity || '').toLowerCase()))
+      .reduce((sum, row) => sum + Number(row.count || 0), 0);
+    const avgWorkpaper = projectRows.length
+      ? Math.round(projectRows.reduce((sum, item) => sum + Number(item.workpaperRate || 0), 0) / projectRows.length)
+      : 0;
+    renderInto('qualityDashboardContent', `
+      <div class="workflow-shell">
+        ${pageHeader('项目质量看板', '真实跨项目统计展示资料缺口、底稿完成度、复核问题、逾期整改和质量风险。', actionButton('architecture', 'ti-route', '查看架构'))}
+        <div class="workflow-metric-grid">
+          ${metricCard('项目数', projectRows.length, '/api/workflow/dashboard')}
+          ${metricCard('未关闭问题', openTotal, '/api/review-dashboard', openTotal ? 'warn' : '')}
+          ${metricCard('高风险问题', highTotal, '按 ReviewFinding.severity 统计', highTotal ? 'risk' : '')}
+          ${metricCard('平均底稿完成度', `${avgWorkpaper}%`, 'Workpaper 完成率均值')}
+        </div>
+        <div class="workflow-grid">
+          <div class="panel">
+            <div class="panel-head"><h2>项目风险矩阵</h2><span class="muted">/api/workflow/dashboard + /api/review-dashboard</span></div>
+            <div class="table-wrap workflow-table">
+              <table>
+                <thead><tr><th>项目</th><th>阶段</th><th>资料缺口</th><th>底稿完成</th><th>未关闭问题</th><th>高风险</th><th>质量风险</th></tr></thead>
+                <tbody>
+                  ${projectRows.map(item => {
+                    const quality = qualityByProject.get(Number(item.id)) || {};
+                    return `
+                      <tr>
+                        <td><strong>${esc(item.shortName)}</strong><div class="muted">${esc(item.auditScope)}</div></td>
+                        <td>${statusTag(item.stage)}</td>
+                        <td>${esc(item.pbcGaps || 0)}</td>
+                        <td>${percent(item.workpaperRate, item.workpaperRate < 70 ? 'amber' : 'green')}<div class="muted">${esc(item.workpaperRate)}%</div></td>
+                        <td>${esc(quality.open ?? item.openFindings ?? 0)}</td>
+                        <td>${tag(quality.high || item.high_risk_count || 0, Number(quality.high || item.high_risk_count || 0) ? 'red' : 'green')}</td>
+                        <td>${severityTag(item.riskLevel)}</td>
+                      </tr>
+                    `;
+                  }).join('') || '<tr><td colspan="7" class="empty">暂无质量看板项目。</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>问题类型分布</h2><span class="muted">/api/review-dashboard</span></div>
+            <div class="workflow-risk-list">
+              ${typeRows.slice(0, 10).map(item => `
+                <div>
+                  <strong>${esc(item.rule_code || '未分类')}</strong>
+                  <span>${percent(Math.min(100, Number(item.count || 0) * 10), Number(item.count || 0) > 3 ? 'amber' : 'green')}</span>
+                  <small>出现 ${esc(item.count || 0)} 次</small>
+                </div>
+              `).join('') || '<div class="empty">暂无问题类型统计。</div>'}
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+  if (!demoMode) {
+    renderInto('qualityDashboardContent', `
+      <div class="workflow-shell">
+        ${pageHeader('项目质量看板', workflowDashboardApi ? '真实质量统计暂不可用。' : '正在加载真实质量统计。', actionButton('architecture', 'ti-route', '查看架构'))}
+        <div class="panel"><div class="panel-body">${workflowDashboardApi ? '未能读取 /api/review-dashboard，暂不显示演示质量数据。' : '正在读取真实项目质量统计。'}</div></div>
+      </div>
+    `);
+    return;
+  }
+  const rows = workflowProjects.map(projectRow => {
+    const summary = projectSummary(projectRow);
+    return {...projectRow, summary};
+  });
+  const typeRows = ['离职账号未及时禁用', '权限新增审批证据不完整', '变更缺少测试记录', '日志未定期审阅', '备份恢复测试缺失', '职责分离规则清单缺失']
+    .map(type => ({
+      type,
+      count: workflowFindings.filter(item => item.title === type).length,
+      high: workflowFindings.filter(item => item.title === type && item.severity === '高').length,
+      open: workflowFindings.filter(item => item.title === type && item.status !== '已关闭').length,
+    }))
+    .filter(item => item.count);
+  renderInto('qualityDashboardContent', `
+    <div class="workflow-shell">
+      ${pageHeader('项目质量看板', '跨项目汇总资料缺口、底稿完成度、自动检核失败、复核退回和问题整改压力。', actionButton('architecture', 'ti-route', '查看架构'))}
+      <div class="workflow-metric-grid">
+        ${metricCard('项目数', workflowProjects.length, '纳入质量看板')}
+        ${metricCard('未关闭问题', openItems(workflowFindings).length, '自动和人工问题', 'warn')}
+        ${metricCard('高风险问题', workflowFindings.filter(item => item.severity === '高' && item.status !== '已关闭').length, '需经理关注', 'risk')}
+        ${metricCard('平均底稿完成度', `${Math.round(workflowProjects.reduce((sum, item) => sum + item.workpaperRate, 0) / workflowProjects.length)}%`, '按项目Mock进度')}
+      </div>
+      <div class="workflow-grid">
+        <div class="panel">
+          <div class="panel-head"><h2>项目风险矩阵</h2></div>
+          <div class="table-wrap workflow-table">
+            <table>
+              <thead><tr><th>项目</th><th>阶段</th><th>资料缺口</th><th>检核异常</th><th>复核退回</th><th>未关闭问题</th><th>质量风险</th></tr></thead>
+              <tbody>
+                ${rows.map(item => `
+                  <tr>
+                    <td><strong>${esc(item.shortName)}</strong><div class="muted">${esc(item.auditScope)}</div></td>
+                    <td>${statusTag(item.stage)}</td>
+                    <td>${item.summary.pbcGaps}</td>
+                    <td>${item.summary.failedChecks}</td>
+                    <td>${item.summary.returned}</td>
+                    <td>${item.summary.openFindings}</td>
+                    <td>${severityTag(item.riskLevel)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>问题类型分布</h2></div>
+          <div class="workflow-risk-list">
+            ${typeRows.map(item => `
+              <div>
+                <strong>${esc(item.type)}</strong>
+                <span>${percent(Math.min(100, item.count * 25), item.high ? 'red' : 'amber')}</span>
+                <small>出现${item.count}次 / 未关闭${item.open} / 高风险${item.high}</small>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderArchitecture() {
+  renderInto('architectureContent', `
+    <div class="workflow-shell">
+      ${pageHeader('功能架构页', '以审计项目生命周期组织系统入口，明确资料、底稿、规则、复核、整改和质量风险的流转关系.', '')}
+      <div class="workflow-architecture">
+        ${[
+          ['首页驾驶舱', '项目总览、待办、质量风险'],
+          ['项目工作台', '项目上下文、成员、范围、进度'],
+          ['审计范围识别', '系统清单、范围理由、置信度'],
+          ['PBC资料管理', '资料清单、缺口、关联底稿'],
+          ['底稿详情', '文件树、表头规则、附件和问题'],
+          ['自动检核', '规则结果、缺口定位、处理建议'],
+          ['复核中心', '退回意见、轮次、责任人'],
+          ['问题整改看板', '保留、修订、待复核、关闭'],
+          ['项目质量看板', '跨项目质量风险和问题分布'],
+        ].map(([title, text], index, arr) => `
+          <div class="workflow-arch-node">
+            <span>${index + 1}</span>
+            <strong>${esc(title)}</strong>
+            <small>${esc(text)}</small>
+          </div>
+          ${index < arr.length - 1 ? '<i class="ti ti-arrow-right workflow-arch-arrow"></i>' : ''}
+        `).join('')}
+      </div>
+      <div class="workflow-grid">
+        <div class="panel">
+          <div class="panel-head"><h2>本阶段实现边界</h2></div>
+          <div class="workflow-list">
+            <div><i class="ti ti-circle-check"></i><span>核心路由、左侧导航、Mock数据、驾驶舱、范围、PBC、底稿、检核、复核、整改和质量看板已形成可点击闭环。</span></div>
+            <div><i class="ti ti-circle-check"></i><span>页面展示重点覆盖项目进度、资料缺口、系统范围、底稿执行、复核退回和质量风险。</span></div>
+            <div><i class="ti ti-circle-dashed"></i><span>真实文件解析、AI填报、数据库改造和报告导出保留为后续阶段。</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>数据对象</h2></div>
+          <div class="workflow-chip-list padded">
+            ${['Client', 'Project', 'SystemScopeItem', 'PBCRequest', 'EvidenceFile', 'Workpaper', 'Finding', 'ReviewComment', 'Task', 'Report', 'User'].map(item => tag(item, 'blue')).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+export function renderWorkflowPrototype() {
+  if (demoMode && !workflowProjects.some(projectRow => projectRow.id === selectedProjectId)) setProject(workflowProjects[0].id);
+  renderWorkflowDashboard();
+  renderProjectWorkspacePrototype();
+  renderScopeCenter();
+  renderPbcCenter();
+  renderWorkpaperExecution();
+  renderAutoCheck();
+  renderReviewCenter();
+  renderFindingKanban();
+  renderQualityDashboard();
+  renderArchitecture();
+}
+
+export async function loadWorkflowPrototypeData({silent = false} = {}) {
+  if (demoMode) {
+    workflowDashboardApi = null;
+    workflowQualityApi = null;
+    workflowApiError = '';
+    renderWorkflowPrototype();
+    return;
+  }
+  try {
+    const [dashboard, quality] = await Promise.all([
+      request('/api/workflow/dashboard'),
+      request('/api/review-dashboard').catch(() => null),
+    ]);
+    workflowDashboardApi = dashboard;
+    workflowQualityApi = quality;
+    mergeWorkflowDeliveryToProjects();
+    workflowApiError = '';
+    const projectId = currentWorkflowProjectKey();
+    if (projectId) void loadWorkflowProjectData(projectId).then(renderWorkflowPrototype);
+    renderWorkflowPrototype();
+  } catch (err) {
+    workflowDashboardApi = null;
+    workflowQualityApi = null;
+    workflowApiError = err.message || String(err);
+    if (!silent) renderWorkflowPrototype();
+  }
+}
+
+export function bindWorkflowPrototype() {
+  document.addEventListener('change', async event => {
+    const select = event.target.closest('[data-workflow-project-select]');
+    if (!select) return;
+    setProject(select.value);
+    if (isRealMode()) {
+      void window.refreshProjectScoped?.();
+      const projectId = currentWorkflowProjectKey();
+      if (projectId) void loadWorkflowProjectData(projectId).then(renderWorkflowPrototype);
+    }
+    renderWorkflowPrototype();
+  });
+  document.addEventListener('click', async event => {
+    const realProjectButton = event.target.closest('[data-workflow-open-real-project]');
+    if (realProjectButton) {
+      const id = realProjectButton.dataset.workflowOpenRealProject;
+      const activeProject = $('activeProject');
+      if (activeProject) activeProject.value = id;
+      void window.refreshProjectScoped?.();
+      if (id) void loadWorkflowProjectData(id).then(renderWorkflowPrototype);
+      renderWorkflowPrototype();
+      window.activateAppSection?.('projectWorkspace');
+      return;
+    }
+    const openProject = event.target.closest('[data-workflow-open-project]');
+    if (openProject) {
+      setProject(openProject.dataset.workflowOpenProject);
+      if (isRealMode()) {
+        void window.refreshProjectScoped?.();
+        const projectId = currentWorkflowProjectKey();
+        if (projectId) void loadWorkflowProjectData(projectId).then(renderWorkflowPrototype);
+      }
+      renderWorkflowPrototype();
+      window.activateAppSection?.(openProject.dataset.workflowRoute || 'projectWorkspace');
+      return;
+    }
+    const routeButton = event.target.closest('[data-workflow-route]');
+    if (routeButton) {
+      window.activateAppSection?.(routeButton.dataset.workflowRoute);
+      return;
+    }
+    const workpaperButton = event.target.closest('[data-workflow-workpaper]');
+    if (workpaperButton) {
+      selectedWorkpaperId = workpaperButton.dataset.workflowWorkpaper;
+      localStorage.setItem('itas_workflow_workpaper', selectedWorkpaperId);
+      renderWorkpaperExecution();
+    }
+  });
+}

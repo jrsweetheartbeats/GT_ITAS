@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+openpyxl
+python-docx
+PyMySQL
+python-multipart
+alembic

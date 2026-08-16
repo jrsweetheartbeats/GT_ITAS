@@ -1,0 +1,5 @@
+{
+  "version": "example",
+  "description": "Placeholder rule file. Configure AUDIT_FLOW_AUTOFILL_RULES_PATH for private production rules.",
+  "rules": []
+}
