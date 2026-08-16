@@ -11,7 +11,7 @@ import { bindRuleVisualization, loadRuleVisualization } from './modules/ruleVisu
 import { bindQualityModules, refreshQualityModules, renderQualityModules } from './modules/quality.js?v=20260701b';
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
 import { bindWorkflowPrototype, loadWorkflowPrototypeData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260816b';
-import { bindLearning, loadLearning } from './modules/learning.js?v=20260816e';
+import { bindLearning, loadLearning } from './modules/learning.js?v=20260816f';
 
 let projectScopedRefreshSeq = 0;
 
@@ -581,7 +581,7 @@ const sectionTitles = {
   projectOverview: '质量中心 / 项目状态',
   resourcePlan: '质量中心 / 人员计划',
   templates: '知识库 / 模板库',
-  learning: '学习刷题 / 六周课程与作业',
+  learning: '学习刷题 / 章节题库',
   architecture: '知识库 / 功能架构',
   config: '系统设置 / 配置管理',
   people: '系统设置 / 用户与角色',

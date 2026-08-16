@@ -6,7 +6,7 @@
   <title>ITAS</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-  <link rel="stylesheet" href="/static/css/app.css?v=20260816d">
+  <link rel="stylesheet" href="/static/css/app.css?v=20260816e">
 </head>
 <body>
   <div class="login-screen" id="loginScreen">
@@ -1053,15 +1053,23 @@
         <div class="panel">
           <div class="toolbar">
             <div class="toolbar-title">
-              <strong>SQL与数据库新手入门 · 6周学习刷题</strong>
-              <span>配套 IT 审计、财务知识与 AI 应用课件；在线校验、提交、订正和批阅。</span>
+              <strong>SQL与数据库新手入门 · 章节题库</strong>
+              <span>按题目难度与章节筛选；点击题目进入独立答题页面。</span>
             </div>
             <div class="actions"><button class="secondary" type="button" onclick="window.refreshLearning?.()"><i class="ti ti-refresh"></i> 刷新</button></div>
           </div>
           <div id="learningDashboard"><div class="empty">正在加载学习数据看板</div></div>
           <div class="learning-layout">
-            <aside class="learning-week-list" id="learningWeekList"><div class="empty">登录后加载课程</div></aside>
-            <div id="learningDetail"><div class="empty">请选择学习周</div></div>
+            <div id="learningCatalog" class="learning-catalog">
+              <div class="learning-catalog-toolbar">
+                <label class="learning-search"><i class="ti ti-search"></i><input id="learningQuestionSearch" type="search" placeholder="搜索题号或题目"></label>
+                <select id="learningChapterFilter" aria-label="按章节筛选"><option value="">全部章节</option></select>
+                <select id="learningDifficultyFilter" aria-label="按难度筛选"><option value="">全部难度</option><option value="easy">简单</option><option value="medium">中等</option><option value="hard">困难</option></select>
+                <span id="learningQuestionCount" class="muted"></span>
+              </div>
+              <div id="learningQuestionList"><div class="empty">登录后加载题库</div></div>
+            </div>
+            <div id="learningDetail" class="hidden"><div class="empty">请选择题目</div></div>
           </div>
         </div>
         <div class="panel hidden" id="learningReviewPanel">
@@ -1088,6 +1096,6 @@
     </div>
   </div>
 
-  <script type="module" src="/static/js/app.js?v=20260816g"></script>
+  <script type="module" src="/static/js/app.js?v=20260816h"></script>
 </body>
 </html>

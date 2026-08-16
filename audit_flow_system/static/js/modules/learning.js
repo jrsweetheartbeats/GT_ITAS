@@ -3,7 +3,6 @@ import { state } from '../state.js?v=20260816a';
 import { $, esc, setStatus, tag } from '../utils.js?v=20260816a';
 
 let learningLoadSequence = 0;
-let learningPrefetchStarted = false;
 
 
 function validationHtml(validation) {
@@ -122,17 +121,103 @@ function statusLabel(value) {
   return tag(labels[value] || value || '未开始', colors[value] || 'amber');
 }
 
-export function renderLearningWeeks() {
-  const list = $('learningWeekList');
-  if (!list) return;
-  list.innerHTML = (state.learningWeeks || []).map(week => {
-    const active = Number(state.selectedLearningWeekId) === Number(week.id);
-    const percent = week.questionCount ? Math.round(week.completedCount * 100 / week.questionCount) : 0;
-    return `<button type="button" class="learning-week-card ${active ? 'active' : ''}" data-learning-week="${week.id}" aria-pressed="${active}">
-      <span>第${week.weekNo}周</span><strong>${esc(week.title)}</strong>
-      <small>${week.completedCount}/${week.questionCount} 已提交 · ${percent}%</small>
-    </button>`;
-  }).join('') || '<div class="empty">暂无课程</div>';
+function allLearningQuestions() {
+  return (state.learningWeeks || []).flatMap(chapter => {
+    const detail = state.learningWeekCache[Number(chapter.id)];
+    return (detail?.questions || []).map(question => ({
+      ...question,
+      chapterId: Number(chapter.id),
+      chapterNo: Number(chapter.weekNo),
+      chapterTitle: chapter.title,
+    }));
+  });
+}
+
+function displayQuestionCode(code) {
+  return String(code || '').replace(/^W(\d+)-Q(\d+)$/i, 'C$1-Q$2');
+}
+
+function questionDifficulty(question) {
+  const configured = String(question.validationRules?.difficulty || '').toLowerCase();
+  if (['easy', 'medium', 'hard'].includes(configured)) return configured;
+  const keywords = (question.validationRules?.required_keywords || []).map(item => String(item).toLowerCase());
+  const databases = question.validationRules?.allowed_databases || [];
+  if (Number(question.points || 0) >= 100 || databases.length > 1 || question.chapterNo >= 6) return 'hard';
+  if (question.chapterNo >= 3 || keywords.some(item => ['group', 'explain'].includes(item))) return 'medium';
+  return 'easy';
+}
+
+function difficultyHtml(question) {
+  const difficulty = questionDifficulty(question);
+  const labels = {easy: '简单', medium: '中等', hard: '困难'};
+  return `<span class="learning-difficulty ${difficulty}">${labels[difficulty]}</span>`;
+}
+
+function questionStatus(question) {
+  const status = question.latestSubmission?.status;
+  if (status === 'reviewed') return {label: '已批阅', className: 'reviewed'};
+  if (status === 'submitted') return {label: '已提交', className: 'submitted'};
+  if (status === 'draft') return {label: '草稿', className: 'draft'};
+  return {label: '未开始', className: 'not-started'};
+}
+
+export function renderLearningCatalog() {
+  const list = $('learningQuestionList');
+  const chapterFilter = $('learningChapterFilter');
+  if (!list || !chapterFilter) return;
+  const previousChapter = String(state.learningChapterFilter || '');
+  chapterFilter.innerHTML = '<option value="">全部章节</option>' + (state.learningWeeks || []).map(chapter =>
+    `<option value="${chapter.id}">第${chapter.weekNo}章 · ${esc(chapter.title)}</option>`
+  ).join('');
+  chapterFilter.value = previousChapter;
+  const search = String(state.learningQuestionSearch || '').trim().toLowerCase();
+  const difficulty = String(state.learningDifficultyFilter || '');
+  const questions = allLearningQuestions().filter(question => {
+    const haystack = `${displayQuestionCode(question.code)} ${question.title} ${question.chapterTitle}`.toLowerCase();
+    return (!search || haystack.includes(search))
+      && (!difficulty || questionDifficulty(question) === difficulty)
+      && (!previousChapter || Number(question.chapterId) === Number(previousChapter));
+  });
+  const total = allLearningQuestions().length;
+  if ($('learningQuestionCount')) $('learningQuestionCount').textContent = `显示 ${questions.length} / ${total} 题`;
+  list.innerHTML = `<div class="learning-question-table-head"><span>状态</span><span>题目</span><span>章节</span><span>类型</span><span>难度</span><span></span></div>
+    <div class="learning-question-list">${questions.map(question => {
+      const status = questionStatus(question);
+      return `<button type="button" class="learning-question-row" data-learning-open-question="${question.id}">
+        <span class="learning-question-status ${status.className}"><i></i>${status.label}</span>
+        <span class="learning-question-title"><b>${esc(displayQuestionCode(question.code))}</b><strong>${esc(question.title)}</strong></span>
+        <span class="learning-question-chapter">第${question.chapterNo}章 · ${esc(question.chapterTitle)}</span>
+        <span class="learning-question-type">${question.questionType === 'sql' ? 'SQL' : '分析题'}</span>
+        ${difficultyHtml(question)}
+        <i class="ti ti-chevron-right learning-question-arrow"></i>
+      </button>`;
+    }).join('') || '<div class="empty">没有符合筛选条件的题目</div>'}</div>`;
+}
+
+function showLearningCatalog() {
+  state.learningQuestionOpen = false;
+  $('learningCatalog')?.classList.remove('hidden');
+  $('learningDashboard')?.classList.remove('hidden');
+  $('learningDetail')?.classList.add('hidden');
+  $('learningReviewPanel')?.classList.add('hidden');
+  if (/^#learning-question-\d+$/.test(location.hash)) history.replaceState(null, '', `${location.pathname}${location.search}`);
+  renderLearningCatalog();
+}
+
+async function openLearningQuestion(questionId, {updateHistory = true} = {}) {
+  const question = allLearningQuestions().find(item => Number(item.id) === Number(questionId));
+  if (!question) return;
+  state.learningQuestionOpen = true;
+  state.selectedLearningWeekId = question.chapterId;
+  state.selectedLearningQuestionId = Number(question.id);
+  state.learningWeek = state.learningWeekCache[question.chapterId];
+  $('learningCatalog')?.classList.add('hidden');
+  $('learningDashboard')?.classList.add('hidden');
+  $('learningDetail')?.classList.remove('hidden');
+  if (updateHistory) history.replaceState(null, '', `#learning-question-${question.id}`);
+  renderLearningDetail();
+  if (state.learningWeek?.canReview) await loadReviewSubmissions();
+  else $('learningReviewPanel')?.classList.add('hidden');
 }
 
 export function renderLearningDetail() {
@@ -149,7 +234,7 @@ export function renderLearningDetail() {
   const selectedIndex = Math.max(0, questions.findIndex(item => Number(item.id) === Number(state.selectedLearningQuestionId)));
   const question = questions[selectedIndex] || null;
   if (!question) {
-    detail.innerHTML = '<div class="empty">本周暂无题目</div>';
+    detail.innerHTML = '<div class="empty">本章暂无题目</div>';
     return;
   }
   const submission = question.latestSubmission || {};
@@ -157,23 +242,27 @@ export function renderLearningDetail() {
   const queryEnabled = isSql && question.validationRules?.query_enabled === true;
   const defaultLimit = Number(question.validationRules?.default_limit || 50);
   const tableHints = Array.isArray(question.validationRules?.table_hints) ? question.validationRules.table_hints : [];
-  const previous = questions[selectedIndex - 1];
-  const next = questions[selectedIndex + 1];
+  const catalogQuestions = allLearningQuestions();
+  const catalogIndex = catalogQuestions.findIndex(item => Number(item.id) === Number(question.id));
+  const previous = catalogQuestions[catalogIndex - 1];
+  const next = catalogQuestions[catalogIndex + 1];
+  const displayQuestion = {...question, chapterNo: Number(week.weekNo)};
   detail.innerHTML = `
     <div class="learning-problem-head">
-      <div><span>第${week.weekNo}周 · ${esc(week.title)}</span><strong>${esc(question.code)} ${esc(question.title)}</strong></div>
+      <div class="learning-problem-title">
+        <button type="button" class="secondary learning-back-button" data-learning-back><i class="ti ti-arrow-left"></i> 返回题库</button>
+        <span>第${week.weekNo}章 · ${esc(week.title)}</span><strong>${esc(displayQuestionCode(question.code))} ${esc(question.title)}</strong>
+        ${difficultyHtml(displayQuestion)}
+      </div>
       <div class="practice-actions">
-        ${previous ? `<button type="button" class="secondary" data-learning-question="${previous.id}"><i class="ti ti-chevron-left"></i> 上一题</button>` : ''}
-        ${next ? `<button type="button" class="secondary" data-learning-question="${next.id}">下一题 <i class="ti ti-chevron-right"></i></button>` : ''}
+        ${previous ? `<button type="button" class="secondary" data-learning-open-question="${previous.id}"><i class="ti ti-chevron-left"></i> 上一题</button>` : ''}
+        ${next ? `<button type="button" class="secondary" data-learning-open-question="${next.id}">下一题 <i class="ti ti-chevron-right"></i></button>` : ''}
         ${guideUrl.startsWith('/static/') ? `<a class="button-link" href="${esc(guideUrl)}" target="_blank" rel="noopener"><i class="ti ti-notes"></i> 学习指导</a>` : ''}
       </div>
     </div>
-    <div class="learning-question-tabs">
-      ${questions.map((item, index) => `<button type="button" class="${Number(item.id) === Number(question.id) ? 'active' : ''}" data-learning-question="${item.id}"><span>${index + 1}</span>${esc(item.code)}</button>`).join('')}
-    </div>
     <div class="leetcode-question-layout" data-question-card="${question.id}">
       <section class="leetcode-problem-panel">
-        <div class="practice-question-head"><div><span class="practice-code">${esc(question.code)}</span><strong>${esc(question.title)}</strong></div><div>${statusLabel(submission.status)} <span class="muted">${question.points}分</span></div></div>
+        <div class="practice-question-head"><div><span class="practice-code">${esc(displayQuestionCode(question.code))}</span><strong>${esc(question.title)}</strong></div><div>${statusLabel(submission.status)} <span class="muted">${question.points}分</span></div></div>
         <div class="leetcode-description"><h3>题目描述</h3><p>${esc(question.prompt)}</p></div>
         ${tableHints.length ? `<div class="practice-notice"><strong>查询表提示</strong>：${tableHints.map(esc).join('；')}</div>` : ''}
         <div class="practice-notice"><strong>${isSql ? '查询边界' : '作答要求'}</strong>：${isSql ? `只允许单条只读 SQL；${queryEnabled ? `未写 LIMIT 时默认添加 LIMIT ${defaultLimit}` : '按题目要求完成静态校验'}` : '填写完整分析、核对过程和结论边界'}。</div>
@@ -197,24 +286,6 @@ export function renderLearningDetail() {
     </div>`;
 }
 
-function prefetchLearningWeeks() {
-  if (learningPrefetchStarted || !state.learningWeeks?.length) return;
-  learningPrefetchStarted = true;
-  const prefetch = async () => {
-    for (const week of state.learningWeeks) {
-      const id = Number(week.id);
-      if (!id || state.learningWeekCache[id]) continue;
-      try {
-        state.learningWeekCache[id] = await request(`/api/learning/weeks/${id}`);
-      } catch (_err) {
-        // 预取失败不影响当前页面；用户点击时仍会正常重试。
-      }
-    }
-  };
-  if ('requestIdleCallback' in window) window.requestIdleCallback(() => void prefetch(), {timeout: 1500});
-  else window.setTimeout(() => void prefetch(), 100);
-}
-
 export async function loadLearning({weekId = null, silent = false, refresh = false} = {}) {
   const sequence = ++learningLoadSequence;
   try {
@@ -223,35 +294,23 @@ export async function loadLearning({weekId = null, silent = false, refresh = fal
       if (sequence !== learningLoadSequence) return;
       state.learningWeeks = weeks;
       state.learningDashboard = dashboard;
-      if (refresh) {
-        state.learningWeekCache = {};
-        learningPrefetchStarted = false;
-      }
+      if (refresh) state.learningWeekCache = {};
       renderLearningDashboard();
     }
-    const selected = Number(weekId || state.selectedLearningWeekId || state.learningWeeks[0]?.id || 0);
-    const weekChanged = Number(state.selectedLearningWeekId) !== selected;
-    state.selectedLearningWeekId = selected || null;
-    renderLearningWeeks();
-    if (weekChanged && !state.learningWeekCache[selected]) {
-      const detail = $('learningDetail');
-      if (detail) detail.innerHTML = '<div class="empty">正在加载本周题目</div>';
-    }
-    if (selected) {
-      state.learningWeek = state.learningWeekCache[selected] || await request(`/api/learning/weeks/${selected}`);
-      if (sequence !== learningLoadSequence) return;
-      state.learningWeekCache[selected] = state.learningWeek;
-    } else {
-      state.learningWeek = null;
-    }
-    const questionIds = (state.learningWeek?.questions || []).map(item => Number(item.id));
+    const missingChapters = (state.learningWeeks || []).filter(chapter => !state.learningWeekCache[Number(chapter.id)]);
+    const chapterDetails = await Promise.all(missingChapters.map(chapter => request(`/api/learning/weeks/${chapter.id}`)));
+    if (sequence !== learningLoadSequence) return;
+    chapterDetails.forEach(detail => { state.learningWeekCache[Number(detail.id)] = detail; });
+    const preferredChapter = Number(weekId || state.selectedLearningWeekId || state.learningWeeks[0]?.id || 0);
+    state.selectedLearningWeekId = preferredChapter || null;
+    state.learningWeek = state.learningWeekCache[preferredChapter] || null;
     const hashQuestion = Number(location.hash.match(/^#learning-question-(\d+)$/)?.[1] || 0);
-    const preferredQuestion = weekChanged ? hashQuestion : Number(state.selectedLearningQuestionId || hashQuestion || 0);
-    state.selectedLearningQuestionId = questionIds.includes(preferredQuestion) ? preferredQuestion : (questionIds[0] || null);
-    renderLearningDetail();
-    prefetchLearningWeeks();
-    if (state.learningWeek?.canReview) await loadReviewSubmissions();
-    else $('learningReviewPanel')?.classList.add('hidden');
+    const preferredQuestion = hashQuestion || (state.learningQuestionOpen ? Number(state.selectedLearningQuestionId || 0) : 0);
+    if (preferredQuestion && allLearningQuestions().some(item => Number(item.id) === preferredQuestion)) {
+      await openLearningQuestion(preferredQuestion, {updateHistory: false});
+    } else {
+      showLearningCatalog();
+    }
   } catch (err) {
     if (!silent) setStatus('学习刷题加载失败：' + err.message);
   }
@@ -264,7 +323,7 @@ async function loadReviewSubmissions() {
   const rows = await request(`/api/learning/submissions?weekId=${state.selectedLearningWeekId}`);
   panel.classList.remove('hidden');
   rowsBox.innerHTML = rows.filter(row => ['submitted', 'reviewed'].includes(row.status)).map(row => `<tr>
-    <td>${esc(row.displayName || row.username)}</td><td>${esc(row.questionCode)}</td><td>第${row.attemptNo}次</td>
+    <td>${esc(row.displayName || row.username)}</td><td>${esc(displayQuestionCode(row.questionCode))}</td><td>第${row.attemptNo}次</td>
     <td>${statusLabel(row.status)}</td><td>${row.score ?? '-'}</td>
     <td><button type="button" class="secondary" data-practice-review="${row.id}" data-practice-max="${esc(state.learningWeek.questions.find(item => item.id === row.questionId)?.points || 100)}">批阅</button></td>
   </tr>`).join('') || '<tr><td colspan="6" class="empty">暂无待批阅提交</td></tr>';
@@ -279,19 +338,26 @@ function payloadFor(questionId) {
 }
 
 export function bindLearning() {
-  $('learningWeekList')?.addEventListener('click', async event => {
-    const button = event.target.closest('[data-learning-week]');
-    if (!button) return;
-    await loadLearning({weekId: Number(button.dataset.learningWeek)});
+  $('learningQuestionList')?.addEventListener('click', async event => {
+    const button = event.target.closest('[data-learning-open-question]');
+    if (button) await openLearningQuestion(Number(button.dataset.learningOpenQuestion));
+  });
+  $('learningQuestionSearch')?.addEventListener('input', event => {
+    state.learningQuestionSearch = event.target.value;
+    renderLearningCatalog();
+  });
+  $('learningChapterFilter')?.addEventListener('change', event => {
+    state.learningChapterFilter = event.target.value;
+    renderLearningCatalog();
+  });
+  $('learningDifficultyFilter')?.addEventListener('change', event => {
+    state.learningDifficultyFilter = event.target.value;
+    renderLearningCatalog();
   });
   $('learningDetail')?.addEventListener('click', async event => {
-    const questionButton = event.target.closest('[data-learning-question]');
-    if (questionButton) {
-      state.selectedLearningQuestionId = Number(questionButton.dataset.learningQuestion);
-      history.replaceState(null, '', `#learning-question-${state.selectedLearningQuestionId}`);
-      renderLearningDetail();
-      return;
-    }
+    if (event.target.closest('[data-learning-back]')) return showLearningCatalog();
+    const questionButton = event.target.closest('[data-learning-open-question]');
+    if (questionButton) return void await openLearningQuestion(Number(questionButton.dataset.learningOpenQuestion));
     const validateButton = event.target.closest('[data-practice-validate]');
     const executeButton = event.target.closest('[data-practice-execute]');
     const saveButton = event.target.closest('[data-practice-save]');
