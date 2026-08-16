@@ -98,8 +98,9 @@ EXACT_SQL_ANSWERS = {
         "answer_sql": "SELECT `日期`, `会计年度`, `期间`, `凭证字`, `凭证号`, `摘要`, `科目编码`, `科目全名`, `借方金额`, `贷方金额`, `来源系统` FROM imc.imc_voucher WHERE `会计年度` = 2024 AND `期间` = 12 ORDER BY `日期`, `凭证字`, `凭证号`, `科目编码`, `摘要`, `借方金额`, `贷方金额`, `来源系统` LIMIT 200",
     },
     "W02-Q02": {
-        "prompt": "查询 yuhu.IDM_登录与接入日志 中操作时间在 2025-07-01 00:00:00（含）至 2025-07-02 00:00:00（不含）且日志标题不等于“登录成功”的记录。依次返回 id、日志标题、操作用户、操作时间、客户端IP、响应时间，按 id 升序并限制200行。",
-        "answer_sql": "SELECT id, `日志标题`, `操作用户`, `操作时间`, `客户端IP`, `响应时间` FROM yuhu.IDM_登录与接入日志 WHERE `操作时间` >= '2025-07-01 00:00:00' AND `操作时间` < '2025-07-02 00:00:00' AND `日志标题` <> '登录成功' ORDER BY id LIMIT 200",
+        "title": "YUHU登录失败记录",
+        "prompt": "`IDM_登录与接入日志` 表记录了用户的登录和退出情况。\n\n请编写 SQL 查询，找出 2025 年 7 月 1 日登录失败的记录。\n\n返回 `id`、`日志标题`、`操作用户`、`操作时间`、`客户端IP` 和 `响应时间`。\n结果按 `id` 升序排列，只保留前 200 条。",
+        "answer_sql": "SELECT id, `日志标题`, `操作用户`, `操作时间`, `客户端IP`, `响应时间` FROM yuhu.IDM_登录与接入日志 WHERE `操作时间` >= '2025-07-01 00:00:00' AND `操作时间` < '2025-07-02 00:00:00' AND `日志标题` = '登录失败' ORDER BY id LIMIT 200",
     },
     "W02-Q03": {
         "prompt": "查询 soho.soho_ub_order_agg 中 month_key='2025-06'、platform='天猫'、order_status='已确认'的订单。依次返回 order_key、order_id、order_time、platform、shop_name、order_amount、order_status，按 order_key 升序并限制200行。",
@@ -153,6 +154,7 @@ for question in QUESTIONS:
     exact = EXACT_SQL_ANSWERS.get(question["code"])
     if exact is None:
         continue
+    question["title"] = exact.get("title", question["title"])
     question["prompt"] = exact["prompt"]
     question["rules"].update({
         "answer_sql": exact["answer_sql"],

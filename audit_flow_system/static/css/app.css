@@ -2822,7 +2822,7 @@ button.ghost:hover:not(:disabled) {
 .leetcode-problem-panel { align-content: start; display: grid; gap: 12px; }
 .leetcode-description { padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .leetcode-description h3 { margin: 0 0 8px; }
-.leetcode-description p { margin: 0; line-height: 1.7; }
+.leetcode-description p { margin: 0; line-height: 1.7; white-space: pre-line; }
 .leetcode-editor-panel { display: grid; align-content: start; gap: 12px; background: #fbfbfc; }
 .leetcode-editor-head { display: flex; justify-content: space-between; align-items: center; }
 .leetcode-editor-head span { color: var(--muted); font-size: 12px; }
