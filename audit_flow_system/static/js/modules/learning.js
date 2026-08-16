@@ -16,6 +16,22 @@ function validationHtml(validation) {
     </div>`;
 }
 
+function queryResultHtml(result) {
+  if (!result) return '';
+  const columns = result.columns || [];
+  const rows = result.rows || [];
+  return `
+    <div class="practice-validation passed">
+      <strong>查询成功：${esc(result.rowCount || 0)} 行 · ${esc(result.durationMs || 0)} ms</strong>
+      <small>${result.limitApplied ? `系统已自动添加 LIMIT ${esc(result.rowLimit)}` : `结果上限 ${esc(result.rowLimit)} 行`}${result.truncated ? '；结果已截断' : ''}</small>
+      <details><summary>查看实际执行 SQL</summary><pre>${esc(result.executedSql || '')}</pre></details>
+    </div>
+    <div class="table-wrap"><table class="practice-result-table">
+      <thead><tr>${columns.map(item => `<th>${esc(item)}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map(row => `<tr>${row.map(value => `<td>${esc(value ?? 'NULL')}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${Math.max(columns.length, 1)}" class="empty">查询结果为空</td></tr>`}</tbody>
+    </table></div>`;
+}
+
 function statusLabel(value) {
   const labels = {draft: '草稿', submitted: '已提交', reviewed: '已批阅'};
   const colors = {draft: 'amber', submitted: 'blue', reviewed: 'green'};
@@ -48,20 +64,24 @@ export function renderLearningDetail() {
   const questions = (week.questions || []).map(question => {
     const submission = question.latestSubmission || {};
     const isSql = question.questionType === 'sql';
+    const queryEnabled = isSql && question.validationRules?.query_enabled === true;
+    const defaultLimit = Number(question.validationRules?.default_limit || 50);
     return `<article class="practice-question" data-question-card="${question.id}">
       <div class="practice-question-head">
         <div><span class="practice-code">${esc(question.code)}</span><strong>${esc(question.title)}</strong></div>
         <div>${statusLabel(submission.status)} <span class="muted">${question.points}分</span></div>
       </div>
       <p>${esc(question.prompt)}</p>
-      ${isSql ? `<label>SQL<textarea class="practice-sql" spellcheck="false" placeholder="输入一条只读SQL；系统不会执行">${esc(submission.sqlText || '')}</textarea></label>` : ''}
+      ${isSql ? `<label>SQL<textarea class="practice-sql" spellcheck="false" placeholder="输入一条只读SQL${queryEnabled ? `；未写LIMIT时默认限制${defaultLimit}行` : ''}">${esc(submission.sqlText || '')}</textarea></label>` : ''}
       <label>${isSql ? '口径、核对或补充说明' : '答案'}<textarea class="practice-answer" placeholder="填写口径、核对过程和结论边界">${esc(submission.answerText || '')}</textarea></label>
       <div class="practice-actions">
         ${isSql ? `<button type="button" class="secondary" data-practice-validate="${question.id}"><i class="ti ti-shield-check"></i> 校验SQL</button>` : ''}
+        ${queryEnabled ? `<button type="button" class="secondary" data-practice-execute="${question.id}"><i class="ti ti-player-play"></i> 运行查询</button>` : ''}
         <button type="button" class="secondary" data-practice-save="${question.id}"><i class="ti ti-device-floppy"></i> 保存草稿</button>
         <button type="button" data-practice-submit="${question.id}"><i class="ti ti-send"></i> 正式提交</button>
       </div>
       <div data-practice-result="${question.id}">${validationHtml(submission.validation)}</div>
+      <div data-practice-query-result="${question.id}"></div>
       ${submission.feedback ? `<div class="practice-feedback"><strong>复核意见</strong><p>${esc(submission.feedback)}</p><span>得分：${submission.score ?? '-'}/${question.points}</span></div>` : ''}
     </article>`;
   }).join('');
@@ -71,7 +91,7 @@ export function renderLearningDetail() {
       ${guideUrl.startsWith('/static/') ? `<a class="button-link" href="${esc(guideUrl)}" target="_blank" rel="noopener"><i class="ti ti-notes"></i> 打开本周学习指导</a>` : ''}
     </div>
     <div class="courseware-grid">${courseware}</div>
-    <div class="practice-notice"><strong>校验边界</strong>：仅检查只读、单语句、危险关键字、数据库范围及题目要求；不会连接 IMC、YUHU 或 SOHO 执行 SQL。</div>
+    <div class="practice-notice"><strong>查询边界</strong>：先执行只读、单语句、数据库范围和题目规则校验；开放查询的题目可读取 IMC、YUHU 或 SOHO，未写 LIMIT 时默认添加 LIMIT 50，具体以题目配置为准。</div>
     <div class="practice-list">${questions || '<div class="empty">本周暂无题目</div>'}</div>`;
 }
 
@@ -121,9 +141,10 @@ export function bindLearning() {
   });
   $('learningDetail')?.addEventListener('click', async event => {
     const validateButton = event.target.closest('[data-practice-validate]');
+    const executeButton = event.target.closest('[data-practice-execute]');
     const saveButton = event.target.closest('[data-practice-save]');
     const submitButton = event.target.closest('[data-practice-submit]');
-    const questionId = Number(validateButton?.dataset.practiceValidate || saveButton?.dataset.practiceSave || submitButton?.dataset.practiceSubmit || 0);
+    const questionId = Number(validateButton?.dataset.practiceValidate || executeButton?.dataset.practiceExecute || saveButton?.dataset.practiceSave || submitButton?.dataset.practiceSubmit || 0);
     if (!questionId) return;
     const payload = payloadFor(questionId);
     try {
@@ -131,6 +152,13 @@ export function bindLearning() {
         const validation = await request(`/api/learning/questions/${questionId}/validate`, {method: 'POST', body: JSON.stringify({sql_text: payload.sql_text})});
         document.querySelector(`[data-practice-result="${questionId}"]`).innerHTML = validationHtml(validation);
         setStatus(validation.passed ? 'SQL静态校验通过' : 'SQL静态校验未通过');
+        return;
+      }
+      if (executeButton) {
+        setStatus('正在运行只读查询');
+        const result = await request(`/api/learning/questions/${questionId}/execute`, {method: 'POST', body: JSON.stringify({sql_text: payload.sql_text})});
+        document.querySelector(`[data-practice-query-result="${questionId}"]`).innerHTML = queryResultHtml(result);
+        setStatus(`查询完成：${result.rowCount || 0} 行`);
         return;
       }
       if (saveButton) {

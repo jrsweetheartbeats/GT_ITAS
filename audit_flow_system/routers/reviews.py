@@ -10,7 +10,7 @@ import subprocess
 import sys
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, File, Header, HTTPException, Query, Response, UploadFile
+from fastapi import APIRouter, Depends, File, Header, HTTPException, Query, Request, Response, UploadFile
 from fastapi.responses import FileResponse
 from docx import Document
 from openpyxl import load_workbook
@@ -107,6 +107,7 @@ from ..services.projects import copy_workpaper_file, replace_audit_year, seed_pr
 from ..services.review import add_finding, run_external_rules, run_internal_review
 from ..services.timeliness import days_after, overdue_payload, waiting_days
 from ..services.privacy import project_redaction_terms, redact_text
+from ..services.audit_log import record_audit_log
 
 
 router = APIRouter()
@@ -507,6 +508,7 @@ def update_review_finding(
 def reply_review_finding(
     finding_id: int,
     body: ReviewFindingReplyIn,
+    request: Request,
     db: Session = Depends(get_db),
     user: User = Depends(current_user),
 ) -> dict[str, Any]:
@@ -531,6 +533,16 @@ def reply_review_finding(
             comment=reply,
             change_summary="项目成员提交整改回复，等待复核人员确认",
         )
+    )
+    record_audit_log(
+        db,
+        request,
+        "review_finding_reply",
+        user=user,
+        target_type="review_finding",
+        target_id=finding.id,
+        project_id=project.id,
+        details={"reply": reply, "old_status": old_status, "new_status": finding.status},
     )
     if run.mode == "manual":
         run.finished_at = datetime.utcnow()

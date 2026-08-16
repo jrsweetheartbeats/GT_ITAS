@@ -19,7 +19,8 @@ WEEKS = [
 
 
 def _sql(code: str, week: int, title: str, prompt: str, scope: str, rules: dict, points: int = 20) -> dict:
-    return {"code": code, "week_no": week, "title": title, "prompt": prompt, "question_type": "sql", "project_scope": scope, "rules": rules, "points": points}
+    query_rules = {"query_enabled": True, "default_limit": 50, **rules}
+    return {"code": code, "week_no": week, "title": title, "prompt": prompt, "question_type": "sql", "project_scope": scope, "rules": query_rules, "points": points}
 
 
 def _text(code: str, week: int, title: str, prompt: str, scope: str = "general", points: int = 20) -> dict:
@@ -47,7 +48,7 @@ QUESTIONS = [
     _sql("W04-Q03", 4, "SOHO执行计划", "使用EXPLAIN检查一条按月份或订单范围读取的SOHO查询。", "soho", {"allowed_databases": ["soho"], "required_keywords": ["explain", "where"], "require_where": True}),
     _text("W04-Q04", 4, "性能体检说明", "记录预期索引、估算扫描风险、优化前后差异，并说明为何业务口径没有变化。"),
 
-    _sql("W05-Q01", 5, "参数化查询SQL", "提交供PyMySQL执行的只读查询主体，包含范围条件和LIMIT；参数值不得直接拼接。", "general", {"allowed_databases": ["imc", "yuhu", "soho"], "require_where": True, "require_limit": True, "max_limit": 1000, "forbid_select_star": True}),
+    _sql("W05-Q01", 5, "参数化查询SQL", "提交供PyMySQL执行的只读查询主体，包含范围条件和LIMIT；参数值不得直接拼接。", "general", {"query_enabled": False, "allowed_databases": ["imc", "yuhu", "soho"], "require_where": True, "require_limit": True, "max_limit": 1000, "forbid_select_star": True}),
     _text("W05-Q02", 5, "Python核心实现", "提交连接、参数化execute、DictCursor、with关闭连接及UTF-8 BOM CSV导出的核心代码。"),
     _text("W05-Q03", 5, "错误与隐私处理", "说明空结果、连接超时、权限错误、密码保护和日志脱敏的处理方式。"),
     _text("W05-Q04", 5, "AI辅助复核记录", "记录使用AI完成的任务、输入边界、人工验证步骤、发现的问题和最终修改。"),

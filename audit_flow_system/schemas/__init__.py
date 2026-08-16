@@ -33,10 +33,17 @@ class LoginIn(BaseModel):
 
 
 class PasswordPolicyIn(BaseModel):
-    min_length: int = Field(default=6, ge=1, le=64)
+    min_length: int = Field(default=8, ge=8, le=64)
     require_digit: bool = True
-    require_upper: bool = False
-    require_special: bool = False
+    require_upper: bool = True
+    require_lower: bool = True
+    require_special: bool = True
+    expiry_days: int = Field(default=180, ge=1, le=3650)
+
+
+class PasswordChangeIn(BaseModel):
+    current_password: str = Field(min_length=1, max_length=256)
+    new_password: str = Field(min_length=1, max_length=256)
 
 
 class ClientIn(BaseModel):
@@ -244,6 +251,10 @@ class PracticeSubmissionIn(BaseModel):
 
 
 class PracticeValidateIn(BaseModel):
+    sql_text: str = Field(default="", max_length=50000)
+
+
+class PracticeExecuteIn(BaseModel):
     sql_text: str = Field(default="", max_length=50000)
 
 

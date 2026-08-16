@@ -4,14 +4,16 @@ from datetime import datetime
 import json
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ..core.db import get_db
 from ..core.security import current_user, ensure_feature_permission, has_feature_permission
 from ..models import PracticeQuestion, PracticeSubmission, TrainingWeek, User
-from ..schemas import PracticeReviewIn, PracticeSubmissionIn, PracticeValidateIn
+from ..schemas import PracticeExecuteIn, PracticeReviewIn, PracticeSubmissionIn, PracticeValidateIn
+from ..services.sql_practice_executor import execute_practice_sql
+from ..services.audit_log import record_audit_log
 from ..services.sql_practice_validator import validate_practice_sql
 
 
@@ -170,6 +172,45 @@ def validate_answer_sql(
     return validate_practice_sql(payload.sql_text, _json(question.validation_rules_json, {}))
 
 
+@router.post("/questions/{question_id}/execute")
+def execute_answer_sql(
+    question_id: int,
+    payload: PracticeExecuteIn,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    ensure_feature_permission(db, user, "learning", "view")
+    question = db.get(PracticeQuestion, question_id)
+    if question is None or not question.enabled:
+        raise HTTPException(status_code=404, detail="题目不存在")
+    if question.question_type != "sql":
+        raise HTTPException(status_code=400, detail="本题不是SQL查询题")
+    try:
+        result = execute_practice_sql(payload.sql_text, _json(question.validation_rules_json, {}))
+    except HTTPException as exc:
+        record_audit_log(
+            db, request, "practice_sql_execute", user=user, target_type="practice_question",
+            target_id=question.id, success=False,
+            details={"question_code": question.code, "submitted_sql": payload.sql_text, "error": exc.detail},
+        )
+        db.commit()
+        raise
+    record_audit_log(
+        db, request, "practice_sql_execute", user=user, target_type="practice_question",
+        target_id=question.id,
+        details={
+            "question_code": question.code,
+            "submitted_sql": payload.sql_text,
+            "row_count": result["rowCount"],
+            "duration_ms": result["durationMs"],
+            "limit_applied": result["limitApplied"],
+        },
+    )
+    db.commit()
+    return result
+
+
 @router.put("/questions/{question_id}/submission")
 def save_draft(
     question_id: int,
@@ -195,6 +236,7 @@ def save_draft(
 def submit_answer(
     question_id: int,
     payload: PracticeSubmissionIn,
+    request: Request,
     db: Session = Depends(get_db),
     user: User = Depends(current_user),
 ) -> dict[str, Any]:
@@ -219,6 +261,11 @@ def submit_answer(
     if validation["passed"]:
         row.status = "submitted"
         row.submitted_at = datetime.utcnow()
+    record_audit_log(
+        db, request, "practice_submission", user=user, target_type="practice_question",
+        target_id=question.id, success=bool(validation["passed"]),
+        details={"question_code": question.code, "submitted_sql": row.sql_text, "attempt_no": row.attempt_no},
+    )
     db.commit()
     db.refresh(row)
     result = _submission_payload(row)

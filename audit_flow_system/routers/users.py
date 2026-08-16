@@ -26,6 +26,7 @@ from ..core.security import (
     can_upload_documents,
     current_user,
     default_audit_scope,
+    default_password_for,
     ensure_document_uploader,
     ensure_project_editor,
     get_setting,
@@ -118,16 +119,20 @@ def list_users(db: Session = Depends(get_db), user: User = Depends(current_user)
 @router.post("/api/users", status_code=201)
 def create_user(body: UserIn, db: Session = Depends(get_db), user: User = Depends(require_admin)) -> dict[str, Any]:
     payload = body.model_dump()
+    payload["username"] = payload.get("username", "").strip().lower()
     password = payload.pop("password")
+    generated_password = not bool(password)
     if not password:
-        raise HTTPException(status_code=400, detail="创建用户时必须设置初始密码")
-    validate_password_policy(password, get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY))
-    item = User(**payload, password_hash=hash_password(password))
+        password = default_password_for(payload.get("username", ""))
+    if not generated_password:
+        validate_password_policy(password, get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY))
+    item = User(**payload, password_hash=hash_password(password), must_change_password=True)
     db.add(item)
     db.commit()
     db.refresh(item)
     data = obj_dict(item)
     data.pop("password_hash", None)
+    data["initial_password"] = password
     return data
 
 
@@ -135,11 +140,15 @@ def create_user(body: UserIn, db: Session = Depends(get_db), user: User = Depend
 def update_user(user_id: int, body: UserIn, db: Session = Depends(get_db), user: User = Depends(require_admin)) -> dict[str, Any]:
     item = get_or_404(db, User, user_id, "用户")
     payload = body.model_dump()
+    payload["username"] = payload.get("username", "").strip().lower()
     password = payload.pop("password", None)
     apply_patch_to_model(item, payload)
     if password:
         validate_password_policy(password, get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY))
         item.password_hash = hash_password(password)
+        item.must_change_password = True
+        item.password_changed_at = None
+        item.password_expires_at = None
     db.commit()
     db.refresh(item)
     data = obj_dict(item)

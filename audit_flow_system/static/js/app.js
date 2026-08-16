@@ -11,7 +11,7 @@ import { bindRuleVisualization, loadRuleVisualization } from './modules/ruleVisu
 import { bindQualityModules, refreshQualityModules, renderQualityModules } from './modules/quality.js?v=20260701b';
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
 import { bindWorkflowPrototype, loadWorkflowPrototypeData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260816a';
-import { bindLearning, loadLearning } from './modules/learning.js?v=20260816a';
+import { bindLearning, loadLearning } from './modules/learning.js?v=20260816b';
 
 let projectScopedRefreshSeq = 0;
 
@@ -173,10 +173,12 @@ async function loadPasswordPolicy() {
   try {
     const policy = await request('/api/config/password-policy');
     const form = $('passwordPolicyForm');
-    form.min_length.value = policy.min_length ?? 3;
+    form.min_length.value = policy.min_length ?? 8;
     form.require_digit.checked = Boolean(policy.require_digit);
     form.require_upper.checked = Boolean(policy.require_upper);
+    form.require_lower.checked = Boolean(policy.require_lower);
     form.require_special.checked = Boolean(policy.require_special);
+    form.expiry_days.value = policy.expiry_days ?? 180;
   } catch (err) {
     setStatus('错误：' + err.message);
   }
@@ -520,6 +522,10 @@ async function initializeSession() {
     state.me = await request('/api/me');
     showApp();
     applyAuthUi();
+    if (state.me.must_change_password) {
+      openModal('passwordChangeModal');
+      return;
+    }
     await refreshAll();
   } catch {
     showLogin();
@@ -704,6 +710,11 @@ function bindAuth() {
       state.me = data.user;
       showApp();
       applyAuthUi();
+      if (data.must_change_password || state.me.must_change_password) {
+        openModal('passwordChangeModal');
+        $('passwordChangeForm').current_password.focus();
+        return;
+      }
       await refreshAll();
     } catch (err) {
       $('loginStatus').textContent = '错误：' + err.message;
@@ -713,6 +724,28 @@ function bindAuth() {
     try { await request('/api/logout', {method: 'POST', body: '{}'}); } catch {}
     clearToken();
     showLogin();
+  });
+  $('passwordChangeForm')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const status = $('passwordChangeStatus');
+    if (form.new_password.value !== form.confirm_password.value) {
+      status.textContent = '两次输入的新密码不一致';
+      return;
+    }
+    try {
+      await request('/api/password/change', {
+        method: 'POST',
+        body: JSON.stringify({current_password: form.current_password.value, new_password: form.new_password.value}),
+      });
+      state.me = await request('/api/me');
+      form.reset();
+      closeModal('passwordChangeModal');
+      applyAuthUi();
+      await refreshAll();
+    } catch (err) {
+      status.textContent = '错误：' + err.message;
+    }
   });
 }
 
@@ -757,10 +790,12 @@ function bindPeopleAndConfig() {
     e.preventDefault();
     const form = e.target;
     const payload = {
-      min_length: Number(form.min_length.value || 6),
+      min_length: Number(form.min_length.value || 8),
       require_digit: form.require_digit.checked,
       require_upper: form.require_upper.checked,
-      require_special: form.require_special.checked
+      require_lower: form.require_lower.checked,
+      require_special: form.require_special.checked,
+      expiry_days: Number(form.expiry_days.value || 180)
     };
     try {
       await request('/api/config/password-policy', {method: 'PATCH', body: JSON.stringify(payload)});

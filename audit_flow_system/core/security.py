@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 import hashlib
 import json
 import re
@@ -20,6 +20,11 @@ def hash_password(password: str) -> str:
     return f"{salt}${digest}"
 
 
+def default_password_for(username: str, now: Optional[datetime] = None) -> str:
+    timestamp = (now or datetime.now()).strftime("%Y%m%d%H%M")
+    return f"{str(username or '').strip().lower()}@{timestamp}"
+
+
 def verify_password(password: str, stored: str) -> bool:
     if not stored:
         return False
@@ -32,10 +37,12 @@ def verify_password(password: str, stored: str) -> bool:
 
 
 DEFAULT_PASSWORD_POLICY = {
-    "min_length": 3,
+    "min_length": 8,
     "require_digit": True,
-    "require_upper": False,
-    "require_special": False,
+    "require_upper": True,
+    "require_lower": True,
+    "require_special": True,
+    "expiry_days": 180,
 }
 
 DEFAULT_MODULE_ORDER = [
@@ -92,6 +99,8 @@ def validate_password_policy(password: str, policy: dict[str, Any]) -> None:
         raise HTTPException(status_code=400, detail="密码必须包含数字")
     if policy.get("require_upper") and not re.search(r"[A-Z]", password):
         raise HTTPException(status_code=400, detail="密码必须包含大写字母")
+    if policy.get("require_lower") and not re.search(r"[a-z]", password):
+        raise HTTPException(status_code=400, detail="密码必须包含小写字母")
     if policy.get("require_special") and not re.search(r"[^0-9A-Za-z]", password):
         raise HTTPException(status_code=400, detail="密码必须包含特殊字符")
 
@@ -159,7 +168,7 @@ def ensure_feature_permission(db: Session, user: User, module_code: str, level: 
         raise HTTPException(status_code=403, detail=f"当前角色无权{label}该功能")
 
 
-def current_user(
+def authenticated_user(
     authorization: str = Header(default=""),
     db: Session = Depends(get_db),
 ) -> User:
@@ -172,6 +181,19 @@ def current_user(
     if session is None or session.user.status != "active":
         raise HTTPException(status_code=401, detail="登录已失效")
     return session.user
+
+
+def password_change_required(user: User) -> bool:
+    return bool(
+        user.must_change_password
+        or (user.password_expires_at is not None and user.password_expires_at <= datetime.utcnow())
+    )
+
+
+def current_user(user: User = Depends(authenticated_user)) -> User:
+    if password_change_required(user):
+        raise HTTPException(status_code=403, detail="PASSWORD_CHANGE_REQUIRED")
+    return user
 
 
 def require_admin(user: User = Depends(current_user)) -> User:

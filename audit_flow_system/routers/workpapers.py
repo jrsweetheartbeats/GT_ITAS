@@ -11,7 +11,7 @@ import subprocess
 import sys
 from typing import Any, Optional
 
-from fastapi import APIRouter, Body, Depends, File, Form, Header, HTTPException, Query, Response, UploadFile
+from fastapi import APIRouter, Body, Depends, File, Form, Header, HTTPException, Query, Request, Response, UploadFile
 from fastapi.responses import FileResponse
 from docx import Document
 from openpyxl import load_workbook
@@ -106,6 +106,7 @@ from ..services.review import add_finding, run_external_rules, run_internal_revi
 from ..services.workpaper_headers import apply_project_headers_to_real_files, apply_project_headers_to_test_copies, scan_project_headers
 from ..services.workpaper_metadata import merge_workpaper_metadata, parse_header_datetime, workpaper_header_fields
 from ..services.workpaper_reader import read_workpaper_preview
+from ..services.audit_log import record_audit_log
 
 
 router = APIRouter()
@@ -344,6 +345,7 @@ def create_workpaper(body: WorkpaperIn, db: Session = Depends(get_db), user: Use
 @router.post("/api/projects/{project_id}/workpapers/upload", status_code=201)
 async def upload_project_workpaper(
     project_id: int,
+    request: Request,
     file: UploadFile = File(...),
     code: str = Form(...),
     name: str = Form(...),
@@ -383,6 +385,17 @@ async def upload_project_workpaper(
         if not item.code or not item.name:
             raise HTTPException(status_code=400, detail="底稿编号和名称不能为空")
         db.add(item)
+        db.flush()
+        record_audit_log(
+            db,
+            request,
+            "workpaper_upload",
+            user=user,
+            target_type="workpaper",
+            target_id=item.id,
+            project_id=project_id,
+            details={"code": item.code, "name": item.name, "filename": original_name, "size": written},
+        )
         db.commit()
         db.refresh(item)
     except Exception:

@@ -462,7 +462,7 @@
                 <label>姓名<input name="display_name" required></label>
                 <label>邮箱<input name="email"></label>
                 <label>联系方式<input name="phone"></label>
-                <label>初始密码<input name="password" type="password" required autocomplete="new-password" placeholder="请设置初始密码"></label>
+                <label>初始密码<input name="password" type="password" autocomplete="new-password" placeholder="留空则自动生成：账号@当前时间"></label>
                 <label>角色<select name="role_id" id="userRoleSelect"></select></label>
                 <button type="submit">保存用户</button>
               </form>
@@ -1025,10 +1025,12 @@
           <div class="panel-head"><h2>密码策略</h2></div>
           <div class="panel-body">
             <form class="form-grid" id="passwordPolicyForm">
-              <label>最小长度<input name="min_length" type="number" min="1" max="64"></label>
+              <label>最小长度<input name="min_length" type="number" min="8" max="64"></label>
               <label><input name="require_digit" type="checkbox" style="width:auto;min-height:auto"> 必须包含数字</label>
               <label><input name="require_upper" type="checkbox" style="width:auto;min-height:auto"> 必须包含大写字母</label>
+              <label><input name="require_lower" type="checkbox" style="width:auto;min-height:auto"> 必须包含小写字母</label>
               <label><input name="require_special" type="checkbox" style="width:auto;min-height:auto"> 必须包含特殊字符</label>
+              <label>密码有效期（天）<input name="expiry_days" type="number" min="1" max="3650" value="180"></label>
               <button type="submit">保存策略</button>
             </form>
           </div>
@@ -1073,6 +1075,22 @@
     </main>
   </div>
 
-  <script type="module" src="/static/js/app.js?v=20260816a"></script>
+  <div class="modal" id="passwordChangeModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head"><h2>首次登录必须修改密码</h2></div>
+      <div class="modal-body">
+        <div class="subtle-note">新密码至少8位，并同时包含英文大写、英文小写、数字和特殊符号；修改后180天有效。</div>
+        <form class="form-grid" id="passwordChangeForm">
+          <label>当前密码<input name="current_password" type="password" autocomplete="current-password" required></label>
+          <label>新密码<input name="new_password" type="password" autocomplete="new-password" required></label>
+          <label>确认新密码<input name="confirm_password" type="password" autocomplete="new-password" required></label>
+          <button type="submit">修改密码并进入系统</button>
+          <div class="muted" id="passwordChangeStatus"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/static/js/app.js?v=20260816c"></script>
 </body>
 </html>

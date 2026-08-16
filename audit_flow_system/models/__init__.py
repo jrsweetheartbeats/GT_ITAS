@@ -5,6 +5,7 @@ import hashlib
 from typing import Optional
 
 from sqlalchemy import Date, DateTime, ForeignKey, Index, Integer, String, Text, UniqueConstraint, event
+from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..core.db import Base
@@ -52,8 +53,35 @@ class User(TimestampMixin, Base):
     password_hash: Mapped[str] = mapped_column(Text, default="", nullable=False)
     status: Mapped[str] = mapped_column(String(40), default="active", nullable=False)
     role_id: Mapped[Optional[int]] = mapped_column(ForeignKey("roles.id"), nullable=True)
+    must_change_password: Mapped[bool] = mapped_column(default=False, nullable=False)
+    password_changed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    password_expires_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
     role: Mapped[Optional[Role]] = relationship(back_populates="users")
+
+
+class AuditLog(Base):
+    __tablename__ = "audit_logs"
+    __table_args__ = (
+        Index("ix_audit_logs_user_time", "user_id", "occurred_at"),
+        Index("ix_audit_logs_action_time", "action", "occurred_at"),
+        Index("ix_audit_logs_project_time", "project_id", "occurred_at"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    username: Mapped[str] = mapped_column(String(120), default="", nullable=False)
+    action: Mapped[str] = mapped_column(String(80), nullable=False)
+    target_type: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    target_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    project_id: Mapped[Optional[int]] = mapped_column(ForeignKey("projects.id", ondelete="SET NULL"), nullable=True)
+    success: Mapped[bool] = mapped_column(default=True, nullable=False)
+    ip_address: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    user_agent: Mapped[str] = mapped_column(String(500), default="", nullable=False)
+    detail_json: Mapped[str] = mapped_column(LONGTEXT, default="{}", nullable=False)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+
+    user: Mapped[Optional[User]] = relationship(foreign_keys=[user_id])
 
 
 class Client(TimestampMixin, Base):
