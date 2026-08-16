@@ -66,12 +66,14 @@ export function renderLearningDetail() {
     const isSql = question.questionType === 'sql';
     const queryEnabled = isSql && question.validationRules?.query_enabled === true;
     const defaultLimit = Number(question.validationRules?.default_limit || 50);
+    const tableHints = Array.isArray(question.validationRules?.table_hints) ? question.validationRules.table_hints : [];
     return `<article class="practice-question" data-question-card="${question.id}">
       <div class="practice-question-head">
         <div><span class="practice-code">${esc(question.code)}</span><strong>${esc(question.title)}</strong></div>
         <div>${statusLabel(submission.status)} <span class="muted">${question.points}分</span></div>
       </div>
       <p>${esc(question.prompt)}</p>
+      ${tableHints.length ? `<div class="practice-notice"><strong>查询表提示</strong>：${tableHints.map(esc).join('；')}</div>` : ''}
       ${isSql ? `<label>SQL<textarea class="practice-sql" spellcheck="false" placeholder="输入一条只读SQL${queryEnabled ? `；未写LIMIT时默认限制${defaultLimit}行` : ''}">${esc(submission.sqlText || '')}</textarea></label>` : ''}
       <label>${isSql ? '口径、核对或补充说明' : '答案'}<textarea class="practice-answer" placeholder="填写口径、核对过程和结论边界">${esc(submission.answerText || '')}</textarea></label>
       <div class="practice-actions">

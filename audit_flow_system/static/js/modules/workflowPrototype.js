@@ -1,6 +1,7 @@
 import { request } from '../api.js?v=20260630a';
 import { state } from '../state.js?v=20260630a';
 import { $, activeProjectId, esc, statusClass, tag } from '../utils.js?v=20260816a';
+import { openWorkpaperUploadModal } from './workpapers.js?v=20260816b';
 import {
   getProjectChecks,
   getProjectFindings,
@@ -811,6 +812,7 @@ function renderWorkpaperExecution() {
           <div class="panel">
             <div class="toolbar">
               <div class="toolbar-title"><strong>${esc(selected?.code || '未选择')} ${esc(selected?.name || '')}</strong><span>${esc(selected?.stage || '未分阶段')}</span></div>
+              ${selected ? `<div class="actions"><button type="button" data-workflow-upload-workpaper="${esc(selected.id)}"><i class="ti ti-upload"></i> 上传对应底稿</button></div>` : ''}
             </div>
             <div class="panel-body">
               ${selected ? `
@@ -1483,6 +1485,11 @@ export function bindWorkflowPrototype() {
       selectedWorkpaperId = workpaperButton.dataset.workflowWorkpaper;
       localStorage.setItem('itas_workflow_workpaper', selectedWorkpaperId);
       renderWorkpaperExecution();
+      return;
+    }
+    const uploadWorkpaperButton = event.target.closest('[data-workflow-upload-workpaper]');
+    if (uploadWorkpaperButton) {
+      openWorkpaperUploadModal(Number(uploadWorkpaperButton.dataset.workflowUploadWorkpaper));
     }
   });
 }

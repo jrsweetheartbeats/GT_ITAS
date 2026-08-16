@@ -408,6 +408,66 @@ async def upload_project_workpaper(
     return data
 
 
+@router.post("/api/workpapers/{workpaper_id}/upload")
+async def upload_to_existing_workpaper(
+    workpaper_id: int,
+    request: Request,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    item = get_or_404(db, Workpaper, workpaper_id, "底稿")
+    project = get_or_404(db, Project, item.project_id, "项目")
+    ensure_feature_permission(db, user, "workpaperExecution", "edit")
+    ensure_document_uploader(db, project, user)
+    original_name = Path(file.filename or "").name
+    extension = Path(original_name).suffix.lower()
+    if not original_name or extension not in WORKPAPER_UPLOAD_EXTENSIONS:
+        raise HTTPException(status_code=400, detail="仅支持 Excel、Word、PDF、CSV 和 TXT 底稿文件")
+    safe_name = _safe_template_filename(original_name)
+    target_dir = BASE_DIR / "uploads" / "workpapers" / str(project.id)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    target_path = target_dir / f"{datetime.utcnow():%Y%m%d%H%M%S}_{secrets.token_hex(5)}_{safe_name}"
+    previous_path = item.file_path
+    written = 0
+    try:
+        with target_path.open("wb") as output:
+            while chunk := await file.read(1024 * 1024):
+                written += len(chunk)
+                if written > MAX_WORKPAPER_UPLOAD_BYTES:
+                    raise HTTPException(status_code=413, detail="底稿文件不能超过 50 MB")
+                output.write(chunk)
+        item.file_path = str(target_path)
+        item.preparer_user_id = user.id
+        item.status = "uploaded"
+        record_audit_log(
+            db,
+            request,
+            "workpaper_upload",
+            user=user,
+            target_type="workpaper",
+            target_id=item.id,
+            project_id=project.id,
+            details={
+                "code": item.code,
+                "name": item.name,
+                "filename": original_name,
+                "size": written,
+                "replaced_existing_file": bool(previous_path),
+            },
+        )
+        db.commit()
+        db.refresh(item)
+    except Exception:
+        db.rollback()
+        target_path.unlink(missing_ok=True)
+        raise
+    data = obj_dict(item)
+    data["uploaded_filename"] = original_name
+    data["uploaded_size"] = written
+    return data
+
+
 @router.patch("/api/workpapers/{workpaper_id}")
 def update_workpaper(
     workpaper_id: int,

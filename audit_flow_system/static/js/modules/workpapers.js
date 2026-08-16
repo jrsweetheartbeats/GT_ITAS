@@ -8,6 +8,18 @@ export const workpaperTreeExtension = {
   }
 };
 
+export function openWorkpaperUploadModal(workpaperId = null) {
+  const select = $('workpaperUploadTemplate');
+  if (!select) return;
+  const id = Number(workpaperId || state.selectedWorkpaperId || 0);
+  if (id && !state.workpapers.some(row => Number(row.id) === id)) {
+    setStatus('底稿列表正在加载，请稍后再试');
+    return;
+  }
+  if (id) select.value = String(id);
+  openModal('workpaperModal');
+}
+
 let refreshProjectScoped = async () => {};
 
 const stageLabels = {
@@ -203,6 +215,7 @@ export function renderWorkpaperTemplateTree() {
 
 export function renderWorkpapers() {
   fillSelect($('attachmentWorkpaper'), state.workpapers, w => `${w.code} ${w.name}`);
+  fillSelect($('workpaperUploadTemplate'), state.workpapers, w => `${w.code} ${w.name}`, false);
   renderWorkpaperTemplateTree();
   const selectedStage = stageFromTreeNode(state.selectedWorkpaperTreeNode);
   const selectedStageWorkpaperIds = workpaperIdsUnderStage(selectedStage);
@@ -216,7 +229,7 @@ export function renderWorkpapers() {
       <td>${esc(stageLabel(w.stage))}</td>
       <td>${tag(w.status, statusClass(w.status))}</td>
       <td>${w.year_updated ? tag('已更新', 'green') : tag('待确认', 'amber')}</td>
-      <td class="actions"><button class="secondary" data-workpaper-submit="${esc(w.id)}">标记完成</button></td>
+      <td class="actions"><button type="button" data-workpaper-upload="${esc(w.id)}"><i class="ti ti-upload"></i> 上传</button><button class="secondary" data-workpaper-submit="${esc(w.id)}">标记完成</button></td>
     </tr>
   `).join('') || '<tr><td colspan="6" class="empty">暂无底稿</td></tr>';
   renderWorkpaperHeaderBatch();
@@ -370,6 +383,7 @@ function renderWorkpaperDetail() {
           <div class="detail-card"><span>关联问题/附件</span><strong>${esc(relatedFindings.length)} / ${esc(relatedAttachments.length)}</strong></div>
         </div>
         <div class="subtle-note">文件：${esc(selected.file_path || '未维护文件路径')}</div>
+        <div class="actions"><button type="button" data-workpaper-upload="${esc(selected.id)}"><i class="ti ti-upload"></i> 上传对应底稿</button></div>
         <div class="subtle-note">自动填写建议：请在“自动填写配置”页签查看字段级 dry-run 和测试副本验证状态。表头维护可在本页扫描后备份并真实写入。</div>
         ${renderReviewStepStrip(selected.id)}
         ${relatedFindings.length ? `<div class="detail-list">${relatedFindings.slice(0, 5).map(item => `<div class="detail-list-item"><strong>${esc(item.rule_code || '')}</strong><span>${esc(item.issue || '')}</span>${tag(item.status || 'open', statusClass(item.status || 'open'))}</div>`).join('')}</div>` : ''}
@@ -550,7 +564,7 @@ async function applyHeadersToRealWorkpapers() {
 export function bindWorkpapers(options) {
   refreshProjectScoped = options.refreshProjectScoped;
 
-  $('openWorkpaperModalBtn').addEventListener('click', () => openModal('workpaperModal'));
+  $('openWorkpaperModalBtn').addEventListener('click', () => openWorkpaperUploadModal());
   $('initPriorBtn').addEventListener('click', initFromPrior);
   $('scanWorkpaperHeadersBtn')?.addEventListener('click', scanWorkpaperHeaders);
   $('testCopyHeadersBtn')?.addEventListener('click', writeHeaderTestCopies);
@@ -559,6 +573,11 @@ export function bindWorkpapers(options) {
     $(id)?.addEventListener('click', () => setStatus('该操作入口已预留；自动填写真实写回仍禁用，表头维护请使用本页扫描/测试副本/真实写入按钮。'));
   });
   $('workpaperRows').addEventListener('click', (event) => {
+    const uploadButton = event.target.closest('[data-workpaper-upload]');
+    if (uploadButton) {
+      openWorkpaperUploadModal(Number(uploadButton.dataset.workpaperUpload));
+      return;
+    }
     const button = event.target.closest('[data-workpaper-submit]');
     if (button) {
       submitWorkpaper(Number(button.dataset.workpaperSubmit));
@@ -571,18 +590,25 @@ export function bindWorkpapers(options) {
     const node = event.target.closest('[data-template-node]');
     if (node) workpaperTreeExtension.onTemplateNodeClick(node, event);
   });
+  $('workpaperDetail').addEventListener('click', event => {
+    const button = event.target.closest('[data-workpaper-upload]');
+    if (button) openWorkpaperUploadModal(Number(button.dataset.workpaperUpload));
+  });
   $('workpaperForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const pid = activeProjectId();
     if (!pid) return setStatus('请先选择项目');
-    const data = new FormData(e.target);
+    const workpaperId = Number(e.target.elements.workpaper_id.value || 0);
+    if (!workpaperId) return setStatus('请选择对应底稿模板');
+    const data = new FormData();
+    data.append('file', e.target.elements.file.files[0]);
     try {
-      await request(`/api/projects/${pid}/workpapers/upload`, {method: 'POST', body: data});
+      await request(`/api/workpapers/${workpaperId}/upload`, {method: 'POST', body: data});
       state.workpaperTreeByProject[pid] = null;
       e.target.reset();
       closeModal('workpaperModal');
       await refreshProjectScoped();
-      setStatus('底稿上传成功');
+      setStatus('底稿已直接上传并绑定模板');
     } catch (err) { setStatus('错误：' + err.message); }
   });
 

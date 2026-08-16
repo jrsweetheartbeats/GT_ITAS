@@ -514,7 +514,7 @@
                 <button class="danger" id="applyHeadersBtn" type="button" disabled><i class="ti ti-file-check"></i> 真实写入表头</button>
                 <button class="secondary" id="markWorkpaperStatusBtn" type="button" disabled>标记状态</button>
                 <button class="secondary" id="workpaperHistoryBtn" type="button" disabled>查看历史</button>
-                <button id="openWorkpaperModalBtn" type="button">新增底稿</button>
+                <button id="openWorkpaperModalBtn" type="button"><i class="ti ti-upload"></i> 上传对应底稿</button>
                 <button class="secondary" id="initPriorBtn">引用以前年度</button>
               </div>
             </div>
@@ -537,17 +537,13 @@
 
       <div class="modal" id="workpaperModal" aria-hidden="true">
         <div class="modal-card">
-          <div class="modal-head"><h2>底稿登记</h2><button type="button" class="modal-close" data-modal-close="workpaperModal">关闭</button></div>
+          <div class="modal-head"><h2>上传对应底稿</h2><button type="button" class="modal-close" data-modal-close="workpaperModal">关闭</button></div>
           <div class="modal-body">
             <form class="form-grid" id="workpaperForm">
-              <div class="two">
-                <label>底稿编号<input name="code" required placeholder="C22.SA-5"></label>
-                <label>阶段<select name="stage"><option value="planning">项目准备</option><option value="execution">项目实施</option><option value="delivery">项目交付</option><option value="reporting">项目报告</option></select></label>
-              </div>
-              <label>底稿名称<input name="name" required></label>
+              <label>对应底稿模板<select name="workpaper_id" id="workpaperUploadTemplate" required></select></label>
               <label>上传底稿文件<input name="file" type="file" required accept=".xlsx,.xlsm,.xls,.docx,.doc,.pdf,.csv,.txt"></label>
-              <div class="subtle-note">支持 Excel、Word、PDF、CSV、TXT，单个文件不超过 50 MB。上传人自动登记为编制人。</div>
-              <button type="submit">上传并登记</button>
+              <div class="subtle-note">直接上传到所选底稿模板，不需要扫描目录或另行登记。支持 Excel、Word、PDF、CSV、TXT，单个文件不超过 50 MB；上传人自动记为编制人。</div>
+              <button type="submit"><i class="ti ti-upload"></i> 上传到底稿</button>
             </form>
           </div>
         </div>
@@ -1091,6 +1087,6 @@
     </div>
   </div>
 
-  <script type="module" src="/static/js/app.js?v=20260816d"></script>
+  <script type="module" src="/static/js/app.js?v=20260816e"></script>
 </body>
 </html>

@@ -28,14 +28,14 @@ def _text(code: str, week: int, title: str, prompt: str, scope: str = "general",
 
 
 QUESTIONS = [
-    _sql("W01-Q01", 1, "IMC表清单", "列出imc库中的表，结果限制在100行以内。", "imc", {"allowed_databases": ["imc"], "required_keywords": ["show"]}),
-    _sql("W01-Q02", 1, "YUHU日志结构", "查看yuhu.idm_登录与接入日志的字段结构。", "yuhu", {"allowed_databases": ["yuhu"], "required_keywords": ["describe"]}),
-    _sql("W01-Q03", 1, "SOHO订单预览", "从soho.soho_ub_order_agg明确选择业务字段并预览不超过20行。", "soho", {"allowed_databases": ["soho"], "required_tables": ["soho.soho_ub_order_agg"], "require_limit": True, "max_limit": 20, "forbid_select_star": True}),
+    _sql("W01-Q01", 1, "IMC表清单", "列出imc库中的表，结果限制在100行以内。", "imc", {"allowed_databases": ["imc"], "required_keywords": ["show"], "table_hints": ["无需指定数据表，使用 SHOW TABLES FROM imc"]}),
+    _sql("W01-Q02", 1, "YUHU日志结构", "查看yuhu.IDM_登录与接入日志的字段结构。", "yuhu", {"allowed_databases": ["yuhu"], "required_keywords": ["describe"], "table_hints": ["yuhu.IDM_登录与接入日志"]}),
+    _sql("W01-Q03", 1, "SOHO订单预览", "从soho.soho_ub_order_agg明确选择业务字段并预览不超过20行。", "soho", {"allowed_databases": ["soho"], "required_tables": ["soho.soho_ub_order_agg"], "require_limit": True, "max_limit": 20, "forbid_select_star": True, "table_hints": ["soho.soho_ub_order_agg"]}),
     _text("W01-Q04", 1, "审计查询前检查", "说明查询前的数据源、数据范围、数据完整性三个问题，并解释主键与普通索引的区别。"),
 
-    _sql("W02-Q01", 2, "IMC期间筛选", "查询指定年度和月份的imc凭证明细，明确字段并限制200行。", "imc", {"allowed_databases": ["imc"], "required_tables": ["imc.imc_voucher"], "required_keywords": ["where"], "require_where": True, "require_limit": True, "max_limit": 200, "forbid_select_star": True}),
-    _sql("W02-Q02", 2, "YUHU异常筛选", "按左闭右开时间范围筛选YUHU登录或接入异常，限制200行。", "yuhu", {"allowed_databases": ["yuhu"], "required_keywords": ["where"], "require_where": True, "require_limit": True, "max_limit": 200, "forbid_select_star": True}),
-    _sql("W02-Q03", 2, "SOHO订单筛选", "按月份、平台或订单状态筛选SOHO订单，限制200行。", "soho", {"allowed_databases": ["soho"], "required_tables": ["soho.soho_ub_order_agg"], "require_where": True, "require_limit": True, "max_limit": 200, "forbid_select_star": True}),
+    _sql("W02-Q01", 2, "IMC期间筛选", "查询指定年度和月份的imc凭证明细，明确字段并限制200行。", "imc", {"allowed_databases": ["imc"], "required_tables": ["imc.imc_voucher"], "required_keywords": ["where"], "require_where": True, "require_limit": True, "max_limit": 200, "forbid_select_star": True, "table_hints": ["imc.imc_voucher"]}),
+    _sql("W02-Q02", 2, "YUHU异常筛选", "按左闭右开时间范围筛选YUHU登录或接入异常，限制200行。", "yuhu", {"allowed_databases": ["yuhu"], "required_tables": ["yuhu.IDM_登录与接入日志"], "required_keywords": ["where"], "require_where": True, "require_limit": True, "max_limit": 200, "forbid_select_star": True, "table_hints": ["yuhu.IDM_登录与接入日志"]}),
+    _sql("W02-Q03", 2, "SOHO订单筛选", "按月份、平台或订单状态筛选SOHO订单，限制200行。", "soho", {"allowed_databases": ["soho"], "required_tables": ["soho.soho_ub_order_agg"], "require_where": True, "require_limit": True, "max_limit": 200, "forbid_select_star": True, "table_hints": ["soho.soho_ub_order_agg"]}),
     _text("W02-Q04", 2, "业财影响说明", "选择一项业务或日志异常，说明可能影响的报表项目、认定、当前证据和待补证据。"),
 
     _sql("W03-Q01", 3, "IMC平台聚合", "按平台统计限定期间的订单数和订单金额。", "imc", {"allowed_databases": ["imc"], "required_keywords": ["group", "where"], "require_where": True}),
