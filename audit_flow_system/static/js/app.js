@@ -11,7 +11,7 @@ import { bindRuleVisualization, loadRuleVisualization } from './modules/ruleVisu
 import { bindQualityModules, refreshQualityModules, renderQualityModules } from './modules/quality.js?v=20260701b';
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
 import { bindWorkflowPrototype, loadWorkflowPrototypeData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260816b';
-import { bindLearning, loadLearning } from './modules/learning.js?v=20260816g';
+import { bindLearning, loadLearning } from './modules/learning.js?v=20260816h';
 
 let projectScopedRefreshSeq = 0;
 

@@ -16,12 +16,13 @@ from ..models import AuditLog, PracticeQuestion, PracticeSubmission, TrainingWee
 from ..schemas import PracticeExecuteIn, PracticeReviewIn, PracticeSubmissionIn, PracticeValidateIn
 from ..services.sql_practice_executor import execute_practice_sql
 from ..services.audit_log import record_audit_log
-from ..services.sql_practice_validator import validate_practice_result, validate_practice_sql
+from ..services.sql_practice_validator import validate_exact_result, validate_practice_result, validate_practice_sql
 
 
 router = APIRouter(prefix="/api/learning", tags=["learning"])
 LOCAL_TIMEZONE = ZoneInfo("Asia/Shanghai")
 ATTENDANCE_DAYS = 365
+ANSWER_RESULT_CACHE: dict[tuple[int, str], dict[str, Any]] = {}
 
 
 def _json(value: str, fallback: Any) -> Any:
@@ -33,6 +34,16 @@ def _json(value: str, fallback: Any) -> Any:
 
 def _can_review(user: User) -> bool:
     return bool(user.role and user.role.can_review)
+
+
+def _answer_result(question: PracticeQuestion, rules: dict[str, Any]) -> dict[str, Any]:
+    answer_sql = str(rules.get("answer_sql") or "").strip()
+    if not answer_sql:
+        raise HTTPException(status_code=500, detail="本题尚未配置后台标准答案")
+    cache_key = (question.id, answer_sql)
+    if cache_key not in ANSWER_RESULT_CACHE:
+        ANSWER_RESULT_CACHE[cache_key] = execute_practice_sql(answer_sql, rules)
+    return ANSWER_RESULT_CACHE[cache_key]
 
 
 def _submission_payload(row: PracticeSubmission) -> dict[str, Any]:
@@ -332,6 +343,8 @@ def week_detail(
     for question in questions:
         latest = _latest_submission(db, question.id, user.id)
         ranking, my_stats = _question_ranking(attempt_stats.get(question.id, {}), ranked_users, user.id)
+        public_rules = _json(question.validation_rules_json, {})
+        public_rules.pop("answer_sql", None)
         item = {
             "id": question.id,
             "code": question.code,
@@ -340,7 +353,7 @@ def week_detail(
             "questionType": question.question_type,
             "projectScope": question.project_scope,
             "points": question.points,
-            "validationRules": _json(question.validation_rules_json, {}),
+            "validationRules": public_rules,
             "latestSubmission": _submission_payload(latest) if latest else None,
             "ranking": ranking,
             "myStats": my_stats,
@@ -455,7 +468,24 @@ def submit_answer(
     if question.question_type == "sql":
         rules = _json(question.validation_rules_json, {})
         validation = validate_practice_sql(row.sql_text, rules)
-        if validation["passed"] and rules.get("verify_execution") is True:
+        if validation["passed"] and rules.get("exact_result") is True:
+            try:
+                submitted_result = execute_practice_sql(row.sql_text, rules)
+                expected_result = _answer_result(question, rules)
+                result_validation = validate_exact_result(submitted_result, expected_result)
+            except HTTPException as exc:
+                detail = exc.detail.get("message") if isinstance(exc.detail, dict) else str(exc.detail)
+                result_validation = {
+                    "passed": False,
+                    "errors": [f"结果判定未通过：{detail}"],
+                    "warnings": [],
+                    "checks": [{"name": "结果集判定", "passed": False, "detail": str(detail)}],
+                }
+            validation["errors"].extend(result_validation["errors"])
+            validation["warnings"].extend(result_validation["warnings"])
+            validation["checks"].extend(result_validation["checks"])
+            validation["passed"] = bool(validation["passed"] and result_validation["passed"])
+        elif validation["passed"] and rules.get("verify_execution") is True:
             try:
                 execution = execute_practice_sql(row.sql_text, rules)
                 result_validation = validate_practice_result(execution, rules)

@@ -191,3 +191,29 @@ def validate_practice_result(result: dict[str, Any], rules: Optional[dict[str, A
     if expected_values:
         checks.append({"name": "结果值核对", "passed": not mismatches and not missing_columns, "detail": "、".join(f"{key}={value}" for key, value in expected_values.items())})
     return {"passed": not errors, "errors": errors, "warnings": [], "checks": checks}
+
+
+def validate_exact_result(submitted: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
+    submitted_columns = [str(item) for item in submitted.get("columns", [])]
+    expected_columns = [str(item) for item in expected.get("columns", [])]
+    submitted_rows = submitted.get("rows", []) or []
+    expected_rows = expected.get("rows", []) or []
+    errors: list[str] = []
+    checks: list[dict[str, Any]] = []
+    columns_match = submitted_columns == expected_columns
+    checks.append({"name": "字段名与顺序", "passed": columns_match, "detail": "完全一致" if columns_match else "与标准答案不一致"})
+    if not columns_match:
+        errors.append("返回字段名或字段顺序与标准答案不一致")
+    row_count_match = len(submitted_rows) == len(expected_rows)
+    checks.append({"name": "结果行数", "passed": row_count_match, "detail": f"提交{len(submitted_rows)}行"})
+    if not row_count_match:
+        errors.append("结果行数与标准答案不一致")
+    rows_match = submitted_rows == expected_rows
+    checks.append({"name": "逐行结果", "passed": rows_match, "detail": "字段值和行顺序完全一致" if rows_match else "存在字段值或行顺序差异"})
+    if not rows_match:
+        first_difference = next(
+            (index + 1 for index, (actual, answer) in enumerate(zip(submitted_rows, expected_rows)) if actual != answer),
+            min(len(submitted_rows), len(expected_rows)) + 1,
+        )
+        errors.append(f"结果内容或排序与标准答案不一致，首个差异位于第{first_difference}行")
+    return {"passed": not errors, "errors": errors, "warnings": [], "checks": checks}
