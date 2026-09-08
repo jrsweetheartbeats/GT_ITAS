@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+openpyxl
+python-docx
+PyMySQL
+python-multipart
+alembic
+requests>=2.31,<3
+tzdata
+pyodbc

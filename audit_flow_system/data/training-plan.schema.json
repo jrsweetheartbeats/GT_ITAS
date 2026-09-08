@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itas.local/schemas/training-plan-1.0.json",
+  "title": "ITAS Training Plan Import",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "employee", "plan", "weeks", "assessment"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "employee": {"$ref": "#/$defs/employee"},
+    "plan": {"$ref": "#/$defs/plan"},
+    "weeks": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/week"}},
+    "assessment": {"$ref": "#/$defs/assessment"}
+  },
+  "$defs": {
+    "date": {"type": "string", "format": "date"},
+    "employee": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "name"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1, "maxLength": 80},
+        "name": {"type": "string", "minLength": 1, "maxLength": 120}
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "type", "period", "startDate", "endDate", "overallGoal", "mentorCode"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1, "maxLength": 240},
+        "type": {"type": "string", "minLength": 1, "maxLength": 80},
+        "period": {"type": "string", "minLength": 1, "maxLength": 80},
+        "startDate": {"$ref": "#/$defs/date"},
+        "endDate": {"$ref": "#/$defs/date"},
+        "overallGoal": {"type": "string"},
+        "mentorCode": {"type": "string"}
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "type", "url", "description"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1, "maxLength": 240},
+        "type": {"enum": ["itas_page", "external_link", "document", "video", "case", "reference"]},
+        "courseScope": {"enum": ["common", "personal"], "default": "personal"},
+        "url": {"type": "string"},
+        "description": {"type": "string"}
+      }
+    },
+    "submission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "submissionType", "title", "requirements"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "submissionType": {"type": "string"},
+        "title": {"type": "string"},
+        "requirements": {"type": "string"}
+      }
+    },
+    "quizQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "prompt", "answer"],
+      "properties": {
+        "type": {"enum": ["choice", "fill_blank"]},
+        "prompt": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "options": {"type": "array", "maxItems": 20, "items": {"type": "string"}},
+        "answer": {"oneOf": [{"type": "string"}, {"type": "array", "items": {"type": "string"}}]}
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "taskCode", "title", "taskType", "description", "startDate", "dueDate",
+        "estimatedHours", "prerequisiteTaskCodes", "learningMaterials", "instructions",
+        "submission", "completionCriteria", "mentorReviewRequired"
+      ],
+      "properties": {
+        "taskCode": {"type": "string", "minLength": 1, "maxLength": 100},
+        "title": {"type": "string", "minLength": 1, "maxLength": 240},
+        "taskType": {"enum": ["learning", "quiz", "practice", "project", "assignment", "self_check", "review"]},
+        "description": {"type": "string"},
+        "purpose": {"type": "string"},
+        "startDate": {"$ref": "#/$defs/date"},
+        "dueDate": {"$ref": "#/$defs/date"},
+        "estimatedHours": {"type": "number", "minimum": 0},
+        "prerequisiteTaskCodes": {"type": "array", "items": {"type": "string"}},
+        "learningMaterials": {"type": "array", "items": {"$ref": "#/$defs/material"}},
+        "instructions": {"type": "string"},
+        "submission": {"$ref": "#/$defs/submission"},
+        "completionCriteria": {"type": "string"},
+        "selfCheckQuestions": {"type": "array", "items": {"oneOf": [{"type": "string"}, {"$ref": "#/$defs/quizQuestion"}]}},
+        "mentorReviewRequired": {"type": "boolean"}
+      }
+    },
+    "week": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weekNo", "title", "objective", "startDate", "endDate", "expectedDeliverable", "tasks"],
+      "properties": {
+        "weekNo": {"type": "integer", "minimum": 1},
+        "title": {"type": "string", "minLength": 1, "maxLength": 240},
+        "objective": {"type": "string"},
+        "startDate": {"$ref": "#/$defs/date"},
+        "endDate": {"$ref": "#/$defs/date"},
+        "expectedDeliverable": {"type": "string"},
+        "tasks": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/task"}}
+      }
+    },
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "name", "weight", "description"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1, "maxLength": 80},
+        "name": {"type": "string", "minLength": 1, "maxLength": 160},
+        "weight": {"type": "number", "exclusiveMinimum": 0},
+        "description": {"type": "string"}
+      }
+    },
+    "threshold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max", "nextAction"],
+      "properties": {
+        "min": {"type": "number", "minimum": 0, "maximum": 100},
+        "max": {"type": "number", "minimum": 0, "maximum": 100},
+        "nextAction": {"type": "string", "minLength": 1, "maxLength": 120}
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimensions", "totalScore", "thresholds"],
+      "properties": {
+        "dimensions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/dimension"}},
+        "totalScore": {"const": 100},
+        "thresholds": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/threshold"}}
+      }
+    }
+  }
+}

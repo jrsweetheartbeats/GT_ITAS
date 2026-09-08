@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C22底稿附件校验工具</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'SimHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .file-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            flex: 1;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            cursor: pointer;
+        }
+
+        input[type="file"]:hover {
+            border-color: #667eea;
+            background: #f0f0ff;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .status.ready {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.running {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.success {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .progress {
+            width: 100%;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .log-container {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background: #f9f9f9;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            display: none;
+        }
+
+        .log-item {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-left: 3px solid #667eea;
+            padding-left: 10px;
+        }
+
+        .log-item.error {
+            border-left-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .log-item.success {
+            border-left-color: #28a745;
+            color: #28a745;
+        }
+
+        .summary {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .summary h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .summary-value {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .download-btn {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 C22底稿附件校验工具</h1>
+        
+        <div class="form-group">
+            <label>1. 选择C22底稿文件（.xlsx格式）</label>
+            <div class="file-input-wrapper">
+                <input type="file" id="c22File" accept=".xlsx,.xls" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>2. 选择附件文件夹（选择文件夹中的任意文件，程序会自动扫描整个文件夹）</label>
+            <div class="file-input-wrapper">
+                <input type="file" id="attachmentFolder" webkitdirectory directory multiple />
+            </div>
+            <small style="color: #666; margin-top: 5px; display: block;">
+                提示：点击"选择文件"后，在文件选择器中点击"选择文件夹"来选择整个文件夹
+            </small>
+        </div>
+
+        <button class="btn btn-primary" id="validateBtn" onclick="startValidation()">开始校验</button>
+
+        <div class="status ready" id="status">就绪 - 请选择文件后开始校验</div>
+
+        <div class="progress" id="progress">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+
+        <div class="log-container" id="logContainer"></div>
+
+        <div class="summary" id="summary">
+            <h3>📊 校验结果汇总</h3>
+            <div id="summaryContent"></div>
+            <button class="btn download-btn" id="downloadBtn" onclick="downloadResult()">下载校验报告</button>
+        </div>
+    </div>
+
+    <script>
+        let c22File = null;
+        let attachmentFiles = [];
+        let validationResult = null;
+
+        // 文件选择事件
+        document.getElementById('c22File').addEventListener('change', function(e) {
+            c22File = e.target.files[0];
+            updateStatus('ready', `已选择C22底稿: ${c22File.name}`);
+        });
+
+        document.getElementById('attachmentFolder').addEventListener('change', function(e) {
+            attachmentFiles = Array.from(e.target.files);
+            updateStatus('ready', `已选择附件文件夹，包含 ${attachmentFiles.length} 个文件`);
+        });
+
+        function updateStatus(type, message) {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.textContent = message;
+        }
+
+        function log(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            logContainer.style.display = 'block';
+            const logItem = document.createElement('div');
+            logItem.className = `log-item ${type}`;
+            const time = new Date().toLocaleTimeString();
+            logItem.textContent = `[${time}] ${message}`;
+            logContainer.appendChild(logItem);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function updateProgress(percent) {
+            const progress = document.getElementById('progress');
+            const progressBar = document.getElementById('progressBar');
+            progress.style.display = 'block';
+            progressBar.style.width = percent + '%';
+            progressBar.textContent = percent + '%';
+        }
+
+        // 索引号正则表达式
+        const INDEX_PATTERN = /(?:C22\.)?([A-Z]+(?:-\d+[a-z]?)+-\d+)/gi;
+
+        // 从C22底稿提取索引号
+        function extractAttachmentsFromC22(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, {type: 'array'});
+                        const attachments = new Set();
+
+                        log('正在读取C22底稿...');
+                        
+                        workbook.SheetNames.forEach(sheetName => {
+                            const worksheet = workbook.Sheets[sheetName];
+                            log(`  处理工作表: ${sheetName}`);
+                            
+                            // 遍历所有单元格
+                            const range = XLSX.utils.decode_range(worksheet['!ref'] || 'A1');
+                            for (let row = range.s.r; row <= range.e.r; row++) {
+                                for (let col = range.s.c; col <= range.e.c; col++) {
+                                    const cellAddress = XLSX.utils.encode_cell({r: row, c: col});
+                                    const cell = worksheet[cellAddress];
+                                    if (cell && cell.v) {
+                                        const cellValue = String(cell.v);
+                                        // 重置正则表达式
+                                        INDEX_PATTERN.lastIndex = 0;
+                                        let match;
+                                        while ((match = INDEX_PATTERN.exec(cellValue)) !== null) {
+                                            const indexBase = match[1].toUpperCase();
+                                            if (/-\d+$/i.test(indexBase)) {
+                                                const index = `C22.${indexBase}`;
+                                                attachments.add(index);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                        log(`从C22底稿中提取到 ${attachments.size} 个索引号附件`);
+                        resolve(attachments);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.onerror = reject;
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        // 扫描附件文件夹
+        function scanAttachmentFolder(files) {
+            log('正在扫描附件文件夹...');
+            const attachments = {};
+
+            files.forEach(file => {
+                const path = file.webkitRelativePath || file.name;
+                const pathParts = path.split('/');
+
+                // 从路径中提取索引号
+                for (let i = pathParts.length - 1; i >= 0; i--) {
+                    const part = pathParts[i].replace(/《.*?》/g, '').trim();
+                    const match = part.match(/^([A-Z]+(?:-\d+[a-z]?)+-\d+)/i);
+                    if (match && /-\d+$/i.test(match[1])) {
+                        const index = `C22.${match[1].toUpperCase()}`;
+                        if (!attachments[index]) {
+                            attachments[index] = [];
+                        }
+                        attachments[index].push(file.name);
+                        break;
+                    }
+                }
+
+                // 也检查文件名
+                INDEX_PATTERN.lastIndex = 0;
+                let fileNameMatch;
+                while ((fileNameMatch = INDEX_PATTERN.exec(file.name)) !== null) {
+                    const indexBase = fileNameMatch[1].toUpperCase();
+                    if (/-\d+$/i.test(indexBase)) {
+                        const index = `C22.${indexBase}`;
+                        if (!attachments[index]) {
+                            attachments[index] = [];
+                        }
+                        if (!attachments[index].includes(file.name)) {
+                            attachments[index].push(file.name);
+                        }
+                    }
+                }
+            });
+
+            log(`从附件文件夹中扫描到 ${Object.keys(attachments).length} 个索引号附件`);
+            Object.keys(attachments).sort().forEach(index => {
+                log(`  ${index}: ${attachments[index].length} 个文件`);
+            });
+
+            return attachments;
+        }
+
+        // 排序函数 - 确保数字按数值排序
+        function getSortKey(index) {
+            const categoryMatch = index.match(/C22\.([A-Z]+)/i);
+            if (categoryMatch) {
+                const category = categoryMatch[1].toUpperCase();
+                const categoryOrder = {SA: 0, PE: 1, PM: 2, NS: 3};
+                const categoryPriority = categoryOrder[category] !== undefined ? categoryOrder[category] : 99;
+                
+                const indexSuffix = index.replace('C22.', '').toUpperCase();
+                const parts = [];
+                indexSuffix.split('-').slice(1).forEach(part => {
+                    // 匹配数字+字母的组合（如3D, 4C）
+                    const match = part.match(/^(\d+)([a-z]*)$/i);
+                    if (match) {
+                        // 数字部分转换为整数，确保按数值排序
+                        parts.push(parseInt(match[1], 10));
+                        // 字母部分（如果有）
+                        if (match[2]) {
+                            parts.push(match[2].toLowerCase());
+                        }
+                    } else if (/^\d+$/.test(part)) {
+                        // 纯数字，转换为整数
+                        parts.push(parseInt(part, 10));
+                    } else {
+                        // 其他情况，保持字符串
+                        parts.push(part.toLowerCase());
+                    }
+                });
+                
+                return [categoryPriority, parts];
+            }
+            return [99, [index]];
+        }
+
+        // 生成校验报告
+        function generateValidationReport(attachmentsInC22, attachmentsInFolder) {
+            log('正在生成校验报告...');
+            
+            const validationData = [];
+            const missingInFolder = [];
+            const missingInC22 = [];
+
+            // 校验1：底稿中的附件是否在文件夹中
+            attachmentsInC22.forEach(index => {
+                if (!attachmentsInFolder[index]) {
+                    missingInFolder.push(index);
+                    validationData.push({
+                        校验类型: '底稿中的附件不在文件夹中',
+                        索引号: index,
+                        状态: '缺失',
+                        文件名: '',
+                        说明: `底稿中引用了 ${index}，但附件文件夹中不存在`
+                    });
+                } else {
+                    validationData.push({
+                        校验类型: '底稿中的附件不在文件夹中',
+                        索引号: index,
+                        状态: '存在',
+                        文件名: attachmentsInFolder[index].join('\n'),
+                        说明: `底稿中引用了 ${index}，附件文件夹中存在（${attachmentsInFolder[index].length} 个文件）`
+                    });
+                }
+            });
+
+            // 校验2：文件夹中的附件是否在底稿中
+            Object.keys(attachmentsInFolder).forEach(index => {
+                if (!attachmentsInC22.has(index)) {
+                    missingInC22.push(index);
+                    validationData.push({
+                        校验类型: '文件夹中的附件不在底稿中',
+                        索引号: index,
+                        状态: '缺失',
+                        文件名: attachmentsInFolder[index].join('\n'),
+                        说明: `附件文件夹中存在 ${index}，但底稿中未引用`
+                    });
+                } else {
+                    validationData.push({
+                        校验类型: '文件夹中的附件不在底稿中',
+                        索引号: index,
+                        状态: '存在',
+                        文件名: attachmentsInFolder[index].join('\n'),
+                        说明: `附件文件夹中存在 ${index}，底稿中已引用`
+                    });
+                }
+            });
+
+            // 排序 - 确保数字按数值排序（1,2,3,10,11而不是1,10,11,2,3）
+            validationData.sort((a, b) => {
+                if (a.校验类型 !== b.校验类型) {
+                    return a.校验类型.localeCompare(b.校验类型);
+                }
+                const keyA = getSortKey(a.索引号);
+                const keyB = getSortKey(b.索引号);
+                
+                // 比较类别优先级
+                if (keyA[0] !== keyB[0]) {
+                    return keyA[0] - keyB[0];
+                }
+                
+                // 比较索引号的各个部分
+                const partsA = keyA[1];
+                const partsB = keyB[1];
+                const maxLen = Math.max(partsA.length, partsB.length);
+                
+                for (let i = 0; i < maxLen; i++) {
+                    const valA = partsA[i] !== undefined ? partsA[i] : -1;
+                    const valB = partsB[i] !== undefined ? partsB[i] : -1;
+                    
+                    // 如果都是数字，直接数值比较（确保1,2,3,10,11的顺序）
+                    if (typeof valA === 'number' && typeof valB === 'number') {
+                        if (valA !== valB) return valA - valB;
+                    } else {
+                        // 字符串比较
+                        const strA = String(valA);
+                        const strB = String(valB);
+                        if (strA !== strB) return strA.localeCompare(strB);
+                    }
+                }
+                return 0;
+            });
+
+            // 生成汇总数据
+            const summaryData = [
+                ['校验项目', '数量', '说明'],
+                ['底稿中的索引号总数', attachmentsInC22.size, ''],
+                ['文件夹中的索引号总数', Object.keys(attachmentsInFolder).length, ''],
+                ['底稿中引用但文件夹中缺失', missingInFolder.length, missingInFolder.join(', ') || '无'],
+                ['文件夹中存在但底稿中未引用', missingInC22.length, missingInC22.join(', ') || '无']
+            ];
+
+            return {
+                summary: summaryData,
+                details: validationData,
+                stats: {
+                    inC22: attachmentsInC22.size,
+                    inFolder: Object.keys(attachmentsInFolder).length,
+                    missingInFolder: missingInFolder.length,
+                    missingInC22: missingInC22.length
+                }
+            };
+        }
+
+        // 主校验函数
+        async function startValidation() {
+            if (!c22File) {
+                alert('请先选择C22底稿文件！');
+                return;
+            }
+
+            if (attachmentFiles.length === 0) {
+                alert('请先选择附件文件夹！');
+                return;
+            }
+
+            const btn = document.getElementById('validateBtn');
+            btn.disabled = true;
+            updateStatus('running', '校验中...');
+            updateProgress(10);
+
+            try {
+                // 提取C22底稿中的索引号
+                updateProgress(30);
+                const attachmentsInC22 = await extractAttachmentsFromC22(c22File);
+
+                // 扫描附件文件夹
+                updateProgress(60);
+                const attachmentsInFolder = scanAttachmentFolder(attachmentFiles);
+
+                // 生成报告
+                updateProgress(80);
+                validationResult = generateValidationReport(attachmentsInC22, attachmentsInFolder);
+
+                // 显示结果
+                updateProgress(100);
+                displaySummary(validationResult.stats);
+                updateStatus('success', '校验完成！');
+                log('校验完成！', 'success');
+
+                // 显示下载按钮
+                document.getElementById('downloadBtn').style.display = 'block';
+
+            } catch (error) {
+                updateStatus('error', `校验失败: ${error.message}`);
+                log(`错误: ${error.message}`, 'error');
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                setTimeout(() => {
+                    document.getElementById('progress').style.display = 'none';
+                }, 1000);
+            }
+        }
+
+        // 显示汇总结果
+        function displaySummary(stats) {
+            const summary = document.getElementById('summary');
+            const content = document.getElementById('summaryContent');
+            
+            content.innerHTML = `
+                <div class="summary-item">
+                    <span class="summary-label">底稿中的索引号:</span>
+                    <span class="summary-value">${stats.inC22} 个</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">文件夹中的索引号:</span>
+                    <span class="summary-value">${stats.inFolder} 个</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">底稿中引用但文件夹中缺失:</span>
+                    <span class="summary-value">${stats.missingInFolder} 个</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">文件夹中存在但底稿中未引用:</span>
+                    <span class="summary-value">${stats.missingInC22} 个</span>
+                </div>
+            `;
+            
+            summary.style.display = 'block';
+        }
+
+        // 下载校验报告
+        function downloadResult() {
+            if (!validationResult) {
+                alert('请先完成校验！');
+                return;
+            }
+
+            log('正在生成Excel文件...');
+
+            // 创建工作簿
+            const wb = XLSX.utils.book_new();
+
+            // 汇总表
+            const summaryWS = XLSX.utils.aoa_to_sheet(validationResult.summary);
+            XLSX.utils.book_append_sheet(wb, summaryWS, '汇总');
+
+            // 详情表
+            const detailsWS = XLSX.utils.json_to_sheet(validationResult.details);
+            XLSX.utils.book_append_sheet(wb, detailsWS, '附件校验详情');
+
+            // 设置列宽
+            const colWidths = [
+                {wch: 30}, // 校验类型
+                {wch: 20}, // 索引号
+                {wch: 10}, // 状态
+                {wch: 60}, // 文件名
+                {wch: 50}  // 说明
+            ];
+            detailsWS['!cols'] = colWidths;
+
+            // 生成文件
+            const fileName = `C22附件校验结果_${new Date().toISOString().slice(0,10)}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+            
+            log(`Excel文件已生成: ${fileName}`, 'success');
+            updateStatus('success', `报告已下载: ${fileName}`);
+        }
+    </script>
+</body>
+</html>
