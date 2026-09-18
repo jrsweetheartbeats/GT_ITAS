@@ -228,6 +228,8 @@ def _learner_task_payload(task: DevelopmentTrainingTask, employee_id: int, today
         "isOverdue": is_overdue, "blockedByPrerequisite": blocked_by_prerequisite, "locked": blocked_by_prerequisite,
         "prerequisites": prerequisites, "scheduledDate": task.start_date or task.due_date,
         "completionCriteria": task.completion_criteria, "submissionTitle": task.submission_title,
+        "questionCount": len(_task_questions(task)),
+        "relatedSubmissionTask": _related_submission_task(task),
     }
 
 
@@ -256,6 +258,8 @@ def my_training(db: Session = Depends(get_db), user: User = Depends(current_user
     def priority(item: dict[str, Any]) -> tuple[int, str]:
         if item["isOverdue"]: return (0, str(item["dueDate"] or ""))
         if item["dueDate"] == today: return (1, str(item["dueDate"] or ""))
+        if item["submissionRequired"] and not item["hasSubmission"] and not item["blockedByPrerequisite"]:
+            return (2, str(item["dueDate"] or ""))
         if item["status"] == "in_progress": return (2, str(item["dueDate"] or ""))
         if not item["blockedByPrerequisite"] and item["status"] == "not_started": return (3, str(item["dueDate"] or ""))
         return (4, str(item["dueDate"] or ""))
@@ -612,6 +616,22 @@ def _task_questions(task: DevelopmentTrainingTask) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
+def _related_submission_task(task: DevelopmentTrainingTask) -> Optional[dict[str, Any]]:
+    """Point a reading-only task at the actionable assignment in its week."""
+    if task.submission_required or task.training_week is None:
+        return None
+    candidates = sorted(task.training_week.tasks, key=lambda item: (item.sort_order, item.id))
+    linked = next((item for item in candidates if item.id != task.id and item.submission_required), None)
+    if linked is None:
+        return None
+    return {
+        "id": linked.id,
+        "title": linked.submission_title or linked.title,
+        "questionCount": len(_task_questions(linked)),
+        "submissionRequired": True,
+    }
+
+
 def _public_task_questions(task: DevelopmentTrainingTask) -> list[Any]:
     questions = _task_questions(task)
     return [
@@ -670,6 +690,8 @@ def training_task_detail(task_id: int, db: Session = Depends(get_db), user: User
         "submissionType": task.submission_type, "submissionTitle": task.submission_title,
         "submissionRequirements": task.submission_requirements, "mentorReviewRequired": task.mentor_review_required,
         "status": task.status, "selfCheckQuestions": _public_task_questions(task),
+        "questionCount": len(_task_questions(task)),
+        "relatedSubmissionTask": _related_submission_task(task),
         "prerequisiteTaskIds": _prerequisite_ids(task), "prerequisites": prerequisites,
         "locked": bool(prerequisites), "lockedReason": "前置任务尚未完成" if prerequisites else None,
         "materials": [{"id": item.id, "title": item.title, "type": item.material_type, "courseScope": item.course_scope, "url": item.url, "description": item.description, "read": item.id in read_material_ids} for item in sorted(task.materials, key=lambda item: (item.sort_order, item.id))],

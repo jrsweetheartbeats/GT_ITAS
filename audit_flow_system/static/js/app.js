@@ -12,7 +12,7 @@ import { bindQualityModules, closeQualityFindingDrawer, openQualityFinding, refr
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
 import { bindWorkflowPrototype, loadWorkflowPrototypeData, refreshWorkflowReviewCenterData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260906-review-fix5';
 import { bindLearning, loadLearning } from './modules/learning.js?v=20260820a';
-import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260824-course-scope1';
+import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260918-training-submit1';
 import { bindMentorWorkbench } from './modules/mentorWorkbench.js?v=20260821-mentor1';
 
 let projectScopedRefreshSeq = 0;
