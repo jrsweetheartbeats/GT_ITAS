@@ -1,0 +1,366 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QMN 第1个月特别培养计划｜学员详细版</title><style>
+:root{--p:#4F2D7F;--p2:#6F4A96;--cyan:#35D0E6;--ink:#1e1725;--muted:#756c7e;--line:#e4ddec;--good:#176b63;--warn:#9a6515}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:#120a1d;color:#1e1725}
+#deck{width:100vw;height:100vh;overflow:hidden;background:#f5f2f8}.slide{display:none;width:100vw;height:100vh;padding:4.5vh 5.8vw 6.5vh;background:linear-gradient(135deg,#faf8fc,#f3eef7 55%,#ece5f3);position:relative;overflow:auto}.slide.active{display:block}
+.kicker{font-size:12.5px;letter-spacing:.15em;font-weight:800;color:var(--p2);margin-bottom:10px}h1{font-size:clamp(28px,3.7vw,52px);line-height:1.08;margin:0 0 19px;color:var(--ink)}h3{font-size:17px;margin:0 0 8px;color:var(--p)}.sub{margin-top:15px}
+p,li,td,th{font-size:13.8px;line-height:1.57}.lead{font-size:19px;line-height:1.5;max-width:1050px;color:#51475a}.note{font-size:12px;color:var(--muted);margin-top:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.lower{margin-top:13px}.cards{display:grid;gap:13px}.cols-5{grid-template-columns:repeat(5,1fr)}
+.card,.case{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 6px 20px rgba(54,29,72,.05)}.card.good{border-top:4px solid var(--good)}.card.warn{border-top:4px solid var(--warn)}.card.objective{border-left:4px solid var(--p);background:#fbf9fd}.card.evidence{background:#fbf9fd}.card.scenario{background:#f7fbfc;border-color:#cfe6e9}
+.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.metric b{display:block;font-size:30px;color:var(--p)}.metric span{font-size:12.5px;color:var(--muted)}
+.week{display:grid;grid-template-columns:.65fr 2.5fr .65fr;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:9px 0;font-size:13px}.week>div:first-child{color:var(--p);font-weight:800}
+.summary{margin-top:17px;padding:14px 17px;background:#eee7f5;border-left:4px solid var(--p);border-radius:8px;font-size:14px;line-height:1.6}.knowledge-id{display:inline-block;background:var(--p);color:#fff;border-radius:999px;padding:5px 10px;font-size:11.5px;letter-spacing:.04em;margin-bottom:11px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--p);color:#fff;font-size:12.5px}.biglist li{margin-bottom:7px}
+.footer{position:absolute;bottom:12px;left:5.8vw;right:5.8vw;display:flex;justify-content:space-between;color:#8a7f93;font-size:10.5px}.nav{position:fixed;right:15px;bottom:12px;z-index:30;display:flex;gap:7px;align-items:center;background:rgba(20,9,35,.91);padding:6px 9px;border-radius:999px;color:#fff}.nav button{border:0;background:#4f2d7f;color:#fff;width:31px;height:31px;border-radius:50%;font-size:17px;cursor:pointer}.nav span{font-size:11.5px;min-width:57px;text-align:center}
+@media(max-width:900px){.g2,.g3,.cols-5,.hero-grid{grid-template-columns:1fr}.week{grid-template-columns:1fr}.slide{padding:4vh 5vw 10vh}.footer{left:5vw;right:5vw}}
+@media print{.slide{display:block!important;page-break-after:always;width:100%;height:100vh}.nav{display:none}}
+</style></head><body><div id="deck"><section class="slide active"><div class="kicker">QMN · MONTH 01</div><h1>QMN｜第1个月特别培养计划</h1>
+<p class="lead">学习主线：IT审计整体框架 → 业务—系统—财务关系 → ITGC / ITAC / Interface / IPE → 第一次独立小任务。</p>
+<div class="hero-grid">
+<div class="metric"><b>4周</b><span>每周1次1对1训练</span></div>
+<div class="metric"><b>24项</b><span>详细学习知识点</span></div>
+<div class="metric"><b>8+</b><span>案例与底稿练习</span></div>
+<div class="metric"><b>5项</b><span>月末正式成果</span></div>
+</div>
+<p class="note">每个知识点在ITAS中独立记录学习状态、练习结果、Review意见和是否通过。</p>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>1 / 40</span></div></section><section class="slide"><div class="kicker">MONTH OBJECTIVES</div><h1>第1个月学习目标</h1>
+<div class="cards cols-5">
+<div class="card"><h3>审计全景</h3><p>知道业务、系统、财审、ITGC、ITAC、Interface、IPE、CAATs分别在项目里的位置。</p></div>
+<div class="card"><h3>业务财务</h3><p>能从一笔业务理解系统处理、会计科目和财务报表认定。</p></div>
+<div class="card"><h3>ITGC基础</h3><p>能根据给定控制目标和资料完成1个常规ITGC测试。</p></div>
+<div class="card"><h3>ITAC / IPE</h3><p>能识别简单自动控制和系统报表，并说明财审为什么会依赖。</p></div>
+<div class="card"><h3>独立小任务</h3><p>只给目标和资料清单，能自行完成程序、证据整理、异常和结论。</p></div>
+</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>2 / 40</span></div></section><section class="slide"><div class="kicker">MONTH MAP</div><h1>4周安排</h1>
+<div class="week"><div><b>第1周</b></div><div><b>IT审计全景</b><br>业务流程、系统、财务报表、财报认定、ITGC、ITAC、Interface、IPE、CAATs。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第2周</b></div><div><b>跟着做一个ITGC</b><br>风险、控制目标、设计执行、总体样本、证据、用户访问和程序变更。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第3周</b></div><div><b>跟着做一个ITAC / IPE</b><br>自动审批、系统限制、自动计算、主数据参数、IPE、Interface基础。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第4周</b></div><div><b>第一次独立小任务</b><br>任务理解、PBC、执行、证据、异常、底稿表达、沟通与复盘。</div><div>6个知识点</div></div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>3 / 40</span></div></section><section class="slide"><div class="kicker">W1 · OVERVIEW</div><h1>第1周｜IT审计全景</h1>
+<p class="lead">本周先建立完整地图。遇到任何新概念时，先判断它位于“业务—系统—数据—会计—财审”这条链的哪个位置，再理解具体方法。</p>
+<div class="summary"><b>本周成果：</b>完成1张IT审计全景图，并能用3分钟讲清楚。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>4 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 01</div><h1>一笔业务如何进入财务报表</h1>
+<div class="knowledge-id">QMN-M1-W1-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从业务事件开始，说明系统如何处理并最终形成会计记录和财务报表项目。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>业务从订单、发货、收货、付款等真实事件开始。</li><li>系统负责记录和处理业务数据。</li><li>部分系统会自动生成会计凭证，部分由财务手工记账。</li><li>会计科目把交易分类进入资产、负债、收入、成本费用等报表项目。</li><li>IT审计关注系统和数据是否可靠支持这些处理。</li><li>理解业务到财报的链路，是后续理解ITGC、ITAC和IPE的基础。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>选择一笔真实交易。</li><li>列出业务步骤。</li><li>标出系统。</li><li>找到会计处理触发点。</li><li>识别主要科目。</li><li>说明系统错误可能造成什么财务影响。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>业务流程图</li><li>订单/收货/付款等业务单据</li><li>系统截图</li><li>会计凭证</li><li>明细账/总账</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户订单在销售系统生成，发货后ERP自动生成收入凭证。需要知道订单、发货和凭证分别代表什么事实。</p><h3 class="sub">完成后应能回答</h3><ul><li>业务单据和会计凭证有什么区别？</li><li>为什么IT审计需要知道受影响科目？</li><li>系统错误怎样传导到财务报表？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>5 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 02</div><h1>财务报表认定</h1>
+<div class="knowledge-id">QMN-M1-W1-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解发生、完整性、准确性、截止等认定，并用于简单案例。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>发生/存在关注账面记录是否真实。</li><li>完整性关注应记录事项是否全部记录。</li><li>准确性关注金额、数量、价格等是否正确。</li><li>截止关注是否记录在正确期间。</li><li>权利义务关注资产负债是否真实归属企业。</li><li>分类列报关注是否进入正确科目和报表项目。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先描述异常。</li><li>判断多记/少记/金额错误/跨期。</li><li>识别科目。</li><li>对应认定。</li><li>判断需要什么证据。</li><li>连接到审计程序。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>总账</li><li>明细账</li><li>业务单据</li><li>系统/接口数据</li><li>财审风险清单</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>WMS已经发货，但5笔订单没有进入ERP收入。主要影响收入完整性；如果跨年还涉及截止。</p><h3 class="sub">完成后应能回答</h3><ul><li>发生和完整性怎么区分？</li><li>为什么一个异常可能影响多个认定？</li><li>认定如何帮助确定测试方向？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>6 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 03</div><h1>ITGC是什么</h1>
+<div class="knowledge-id">QMN-M1-W1-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解ITGC是支持系统持续可靠运行的基础控制，而不是一组孤立检查点。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>ITGC常见领域包括访问管理、程序变更、运维和备份。</li><li>访问控制关注谁可以进入系统、拥有何种权限。</li><li>变更控制关注谁可以修改程序和配置、是否经过测试和审批。</li><li>运维关注作业、日志、异常和事件处理。</li><li>备份恢复关注故障后数据和系统能否恢复。</li><li>ITGC通常为ITAC、Interface和IPE的可靠性提供基础。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认系统是否重要。</li><li>识别IT风险。</li><li>形成控制目标。</li><li>了解企业控制。</li><li>取得证据。</li><li>评价设计和执行。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>IT制度</li><li>账号/权限</li><li>变更工单</li><li>日志</li><li>备份记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>ERP自动控制看起来运行正常，但IT管理员可直接修改生产程序且没有日志。需要考虑基础ITGC是否影响控制可靠性。</p><h3 class="sub">完成后应能回答</h3><ul><li>ITGC主要解决什么问题？</li><li>为什么ITGC会影响ITAC？</li><li>ITGC问题是否等于财务报表一定错？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>7 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 04</div><h1>ITAC是什么</h1>
+<div class="knowledge-id">QMN-M1-W1-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够识别简单自动计算、自动限制、自动审批和自动匹配。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>ITAC是应用系统自动执行或高度依赖系统逻辑的业务控制。</li><li>自动审批可按金额或业务类型自动决定审批路径。</li><li>系统限制可阻止超信用额度、冻结供应商等交易。</li><li>自动计算可执行成本、折旧、税额等计算。</li><li>自动匹配可实现采购订单、入库和发票三单匹配。</li><li>ITAC测试需要理解风险、配置、输入、处理和输出。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先明确业务风险。</li><li>确认控制触发条件。</li><li>识别参数和输入。</li><li>理解系统处理。</li><li>确认输出/例外。</li><li>判断财审为何依赖。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统配置</li><li>主数据</li><li>业务样本</li><li>审批轨迹</li><li>异常清单</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>系统规定100万元以上付款自动进入CFO审批。该流程属于自动工作流ITAC。</p><h3 class="sub">完成后应能回答</h3><ul><li>系统有自动功能就一定是ITAC吗？</li><li>ITAC为什么要连接业务风险？</li><li>ITAC需要关注哪些输入和参数？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>8 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 05</div><h1>Interface与IPE是什么</h1>
+<div class="knowledge-id">QMN-M1-W1-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分系统间数据传输和系统生成信息，并理解二者的审计目的。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>Interface是系统之间的数据传输。</li><li>源系统、目标系统、关键字段、传输频率和失败处理是Interface核心。</li><li>IPE是审计或业务控制使用的系统生成信息。</li><li>销售明细、库存报表、应收账龄可能属于IPE。</li><li>Interface重点验证完整性和准确性。</li><li>IPE重点验证来源、参数、总体、字段和导出后处理。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先判断对象是“传输”还是“报表”。</li><li>确认业务用途。</li><li>确认系统来源。</li><li>确认关键数据。</li><li>设计完整性/准确性验证。</li><li>判断ITGC依赖。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>接口Mapping</li><li>接口日志</li><li>源/目标明细</li><li>系统报表</li><li>查询参数</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>WMS把发货传ERP属于Interface；财审使用ERP销售明细做选样，这份销售明细属于IPE。</p><h3 class="sub">完成后应能回答</h3><ul><li>Interface与IPE最核心的区别是什么？</li><li>为什么一份报表不能只看总额？</li><li>Interface失败会如何影响财务数据？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>9 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 06</div><h1>CAATs在IT审计中的位置</h1>
+<div class="knowledge-id">QMN-M1-W1-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解数据分析是审计程序的一种执行方式，需要先有明确审计问题。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>CAATs可用于总体核对、权限分析、日志分析、接口核对、交易异常识别。</li><li>工具可以是Excel、SQL、Python等，工具不是审计目标。</li><li>分析前需要明确业务口径、总体、字段和规则。</li><li>规则命中只是异常线索，不自动等于问题。</li><li>关键异常需要回到业务、系统或财务证据继续核验。</li><li>第一阶段优先学审计逻辑，不追求复杂算法。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>明确审计问题。</li><li>定义总体。</li><li>定义业务口径。</li><li>设计规则。</li><li>选择工具。</li><li>核验异常。</li><li>形成结论。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>审计程序</li><li>数据字典</li><li>业务数据</li><li>异常明细</li><li>核验证据</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>用SQL筛出离职后仍Active账号，只是找到了待核验记录；还需要结合登录和操作日志判断实际风险。</p><h3 class="sub">完成后应能回答</h3><ul><li>为什么不能拿到数据就直接分析？</li><li>规则命中和审计问题有什么区别？</li><li>什么时候数据分析结果可以进入底稿结论？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>10 / 40</span></div></section><section class="slide"><div class="kicker">W1 · PRACTICE</div><h1>第1周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>课堂练习 QMN-M1-W1-P01</h3><p>用“销售订单→发货→收入凭证”案例，把业务、系统、会计、ITGC、ITAC、Interface、IPE、CAATs全部标到一张图上。</p></div>
+<div class="card good"><h3>课后作业 QMN-M1-W1-A01</h3><p>独立绘制IT审计全景图，并准备3分钟讲解。要求别人只看图就能知道各模块的位置和关系。</p></div>
+</div>
+<div class="summary"><b>周验收：</b>随机指出一个概念，能说明它在项目链路中的位置和作用。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>11 / 40</span></div></section><section class="slide"><div class="kicker">W2 · OVERVIEW</div><h1>第2周｜跟着做一个ITGC</h1>
+<p class="lead">本周选择用户访问或程序变更作为主案例，学习如何从控制目标走到证据和结论。</p>
+<div class="summary"><b>本周成果：</b>依据给定控制目标和资料清单完成1个常规ITGC练习底稿。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>12 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 01</div><h1>风险、控制目标与测试程序</h1>
+<div class="knowledge-id">QMN-M1-W2-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分风险、控制目标、企业控制和审计程序。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>风险描述可能发生的错误或未经授权行为。</li><li>控制目标描述企业希望达到的状态。</li><li>控制活动是企业实际采取的措施。</li><li>审计程序用于验证控制设计和执行。</li><li>不能把“检查截图”写成控制目标。</li><li>每一步程序都要能解释为什么做。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>写风险。</li><li>写控制目标。</li><li>了解企业控制。</li><li>评价设计。</li><li>写测试步骤。</li><li>列预期证据。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>制度</li><li>流程图</li><li>系统配置</li><li>审批记录</li><li>日志</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>离职账号晚停用的风险是离职人员继续访问，而控制目标是及时取消访问权限。</p><h3 class="sub">完成后应能回答</h3><ul><li>风险和控制目标有什么区别？</li><li>测试程序为什么不能从截图开始？</li><li>怎样判断一条程序有没有明确目的？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>13 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 02</div><h1>控制设计与执行</h1>
+<div class="knowledge-id">QMN-M1-W2-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分“控制设计得好不好”和“期间有没有按设计执行”。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>设计有效性关注控制本身是否能应对风险。</li><li>执行有效性关注控制是否持续运行。</li><li>制度存在不等于实际执行。</li><li>当前配置截图不代表全年有效。</li><li>访谈可以帮助理解，但不能单独证明执行。</li><li>异常后要判断是设计问题还是执行问题。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>明确控制目标。</li><li>了解控制设计。</li><li>评价设计。</li><li>确定频率。</li><li>取得期间执行证据。</li><li>处理例外。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>制度</li><li>配置</li><li>全年记录</li><li>审批/日志</li><li>访谈纪要</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>制度要求离职1天内停用，但IT只每月清理一次。即使月底都关掉，设计也可能不足。</p><h3 class="sub">完成后应能回答</h3><ul><li>设计缺陷和执行偏差怎么区分？</li><li>一张截图能支持什么结论？</li><li>访谈为什么不能替代执行证据？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>14 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 03</div><h1>总体、期间与样本</h1>
+<div class="knowledge-id">QMN-M1-W2-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解测试为什么需要总体和样本。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>总体是审计期间所有相关控制对象。</li><li>用户访问测试可能需要全年新增、变更、离职总体。</li><li>变更测试需要全年程序变更总体。</li><li>客户挑选的样本不能代表总体。</li><li>总体完整性需要额外验证。</li><li>样本数量与控制频率和方法论有关。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确定期间。</li><li>定义总体。</li><li>确认总体来源。</li><li>验证完整性。</li><li>选择样本。</li><li>记录抽样依据。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>HR清单</li><li>账号总体</li><li>变更清单</li><li>系统日志</li><li>抽样记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户只提供10个变更样本，但没有全年变更清单。应先补总体。</p><h3 class="sub">完成后应能回答</h3><ul><li>总体为什么重要？</li><li>怎样验证总体完整？</li><li>什么时候客户提供的样本不能直接使用？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>15 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 04</div><h1>证据判断基础</h1>
+<div class="knowledge-id">QMN-M1-W2-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够判断截图、日志、制度、审批等证据各自能证明什么。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>截图通常证明某个时点的状态。</li><li>日志更适合证明历史事件。</li><li>制度证明控制要求，不证明实际执行。</li><li>审批记录证明授权。</li><li>客户解释帮助理解，但需其他证据支持关键结论。</li><li>证据不足时要明确缺口。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先写待证明事项。</li><li>列现有证据。</li><li>判断各自证明力。</li><li>检查期间。</li><li>识别缺口。</li><li>补取替代证据。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统截图</li><li>日志</li><li>制度</li><li>审批</li><li>业务资料</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>当前截图显示账号已停用，但无法看到停用时间，只能证明当前状态。</p><h3 class="sub">完成后应能回答</h3><ul><li>“有证据”和“证据够”有什么区别？</li><li>什么时候必须取得日志？</li><li>资料不足时怎么写结论？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>16 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 05</div><h1>用户访问管理</h1>
+<div class="knowledge-id">QMN-M1-W2-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够完成新增、离职和高权限的基础测试。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>新增账号需要适当授权。</li><li>权限应符合岗位职责。</li><li>离职账号应及时停用。</li><li>高权限需要限制和增强责任追踪。</li><li>共享账号需要理解实际使用和补偿控制。</li><li>异常后可继续检查登录和操作日志。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>获取HR和账号总体。</li><li>匹配人员与账号。</li><li>抽样新增/离职。</li><li>核对审批和实际权限。</li><li>检查高权限。</li><li>调查异常。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>HR</li><li>账号清单</li><li>角色权限</li><li>审批</li><li>登录/操作日志</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>员工3月1日离职，账号3月8日停用且期间无登录。存在执行偏差，但未发现实际使用。</p><h3 class="sub">完成后应能回答</h3><ul><li>控制执行偏差和实际风险如何分开写？</li><li>高权限为什么要检查操作？</li><li>共享账号主要影响什么？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>17 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 06</div><h1>程序变更管理</h1>
+<div class="knowledge-id">QMN-M1-W2-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够完成需求、测试、审批和上线的基础程序变更测试。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>未经授权或错误变更可能影响系统处理。</li><li>正常流程通常包括需求、开发、测试、审批和上线。</li><li>开发与生产职责分离降低自行上线风险。</li><li>紧急变更可有简化流程，但需事后控制。</li><li>缺标准UAT文件不一定说明完全未测试。</li><li>重要财务逻辑变更需要提高关注。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>取得全年变更总体。</li><li>验证总体。</li><li>选择样本。</li><li>检查需求/授权。</li><li>检查测试。</li><li>检查上线。</li><li>处理异常。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>变更工单</li><li>测试证据</li><li>发布记录</li><li>上线审批</li><li>紧急变更</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>一个收入报表逻辑变更没有标准UAT，但有业务负责人确认和上线前测试截图，需要综合判断。</p><h3 class="sub">完成后应能回答</h3><ul><li>PM最核心的控制目标是什么？</li><li>缺模板和缺控制有什么区别？</li><li>变更性质为什么影响风险？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>18 / 40</span></div></section><section class="slide"><div class="kicker">W2 · PRACTICE</div><h1>第2周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>课堂练习 QMN-M1-W2-P01</h3><p>离职账号案例：写风险、控制目标、总体、证据、异常和结论。</p></div>
+<div class="card good"><h3>课后作业 QMN-M1-W2-A01</h3><p>用户访问或程序变更任选1项，依据给定资料完成1份基础ITGC底稿。</p></div>
+</div>
+<div class="summary"><b>周验收：</b>Reviewer随机问底稿任意一步，能说明为什么做和证据支持什么。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>19 / 40</span></div></section><section class="slide"><div class="kicker">W3 · OVERVIEW</div><h1>第3周｜跟着做一个ITAC / IPE</h1>
+<p class="lead">本周先学习简单、容易理解的自动控制和系统报表，不追求复杂场景。重点是理解财审为什么会依赖它们。</p>
+<div class="summary"><b>本周成果：</b>完成1个ITAC或IPE练习底稿。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>20 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 01</div><h1>ITAC的基本结构</h1>
+<div class="knowledge-id">QMN-M1-W3-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够识别自动审批、系统限制、自动计算和自动匹配。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>ITAC由系统自动执行或高度依赖系统逻辑。</li><li>控制需要先对应明确业务风险。</li><li>控制触发条件、参数和主数据决定其运行。</li><li>输入错误会导致控制结果错误。</li><li>输出和例外处理也属于控制逻辑。</li><li>相关ITGC会影响ITAC持续可靠性。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>写风险。</li><li>确认触发条件。</li><li>确认参数/输入。</li><li>理解处理逻辑。</li><li>确认输出。</li><li>识别ITGC依赖。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统配置</li><li>业务样本</li><li>主数据</li><li>参数</li><li>相关权限/变更</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>付款100万元以上自动要求CFO审批，是自动工作流ITAC。</p><h3 class="sub">完成后应能回答</h3><ul><li>一个自动功能什么时候构成ITAC？</li><li>ITAC为什么要看输入？</li><li>ITGC怎样影响ITAC？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>21 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 02</div><h1>自动审批与系统限制</h1>
+<div class="knowledge-id">QMN-M1-W3-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解工作流和阻断式控制的测试方法。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>自动审批通常根据金额、类型、组织等条件选择审批路径。</li><li>系统限制可阻止冻结供应商、超信用交易、重复发票等。</li><li>需要确认阈值和例外。</li><li>正向测试验证正常交易。</li><li>反向测试验证不符合条件交易被阻止。</li><li>边界值和管理员绕过要特别关注。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>取得规则。</li><li>确认参数。</li><li>选正常样本。</li><li>设计反向样本。</li><li>测试边界。</li><li>检查例外/绕过。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>流程配置</li><li>阈值参数</li><li>历史审批</li><li>测试交易</li><li>异常清单</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>100万元以上需CFO审批，测试应关注99万、100万、101万。</p><h3 class="sub">完成后应能回答</h3><ul><li>为什么边界值要单独测试？</li><li>提示式控制和阻断式控制有什么区别？</li><li>管理员绕过如何影响结论？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>22 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 03</div><h1>自动计算</h1>
+<div class="knowledge-id">QMN-M1-W3-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解公式、输入、参数和重算。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>自动计算常见于成本、折旧、税额、汇率等。</li><li>首先确认计算规则与业务/会计政策一致。</li><li>关键输入必须可靠。</li><li>参数和公式可能被修改。</li><li>可选择样本独立重算。</li><li>结果应追到业务或会计输出。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认计算目的。</li><li>获取公式/参数。</li><li>确认输入。</li><li>选择样本。</li><li>独立重算。</li><li>核对系统结果。</li><li>处理差异。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统配置</li><li>输入数据</li><li>会计政策</li><li>系统结果</li><li>重算文件</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>ERP自动按月末汇率换算外币应收。需要确认汇率来源、日期和计算公式。</p><h3 class="sub">完成后应能回答</h3><ul><li>自动计算至少要看哪三类要素？</li><li>重算前为什么先验证输入？</li><li>计算结果如何连接财务报表？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>23 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 04</div><h1>主数据与参数</h1>
+<div class="knowledge-id">QMN-M1-W3-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够识别ITAC背后的客户、供应商、价格、信用额度等关键数据。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>系统逻辑正确不代表输入主数据正确。</li><li>供应商银行账号、客户信用额度、价格表等可能影响控制。</li><li>关键参数包括审批阈值、容差、税率等。</li><li>需要关注谁能维护和修改。</li><li>修改是否需要审批和日志。</li><li>上游系统主数据可能通过Interface传入。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>列关键主数据/参数。</li><li>确认来源。</li><li>确认维护人。</li><li>检查修改权限。</li><li>检查审批/日志。</li><li>判断对ITAC影响。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>主数据</li><li>参数配置</li><li>修改日志</li><li>审批</li><li>接口说明</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>冻结供应商限制有效，但采购经理能无审批解除冻结。需要评价主数据/状态维护。</p><h3 class="sub">完成后应能回答</h3><ul><li>为什么ITAC测试不能只看功能？</li><li>哪些主数据属于高风险？</li><li>参数维护为什么属于控制的一部分？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>24 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 05</div><h1>IPE是什么及如何验证</h1>
+<div class="knowledge-id">QMN-M1-W3-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够判断系统报表是否可以作为审计或控制证据。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>IPE是审计或控制活动依赖的系统生成信息。</li><li>要先明确报表用途。</li><li>确认系统、功能、期间和查询参数。</li><li>验证总体完整性。</li><li>验证关键字段准确性。</li><li>检查导出后人工修改。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>明确用途。</li><li>复现查询。</li><li>记录参数。</li><li>验证总体。</li><li>验证关键字段。</li><li>检查人工处理。</li><li>形成结论。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统报表</li><li>查询截图</li><li>总账</li><li>原始交易</li><li>导出Excel</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>财审使用ERP销售明细做收入选样。需要确认期间、组织范围、总额和关键字段。</p><h3 class="sub">完成后应能回答</h3><ul><li>为什么系统导出不代表自动可靠？</li><li>总额对总账能解决什么？</li><li>哪些字段还需抽样验证？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>25 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 06</div><h1>Interface基础</h1>
+<div class="knowledge-id">QMN-M1-W3-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解源系统、目标系统、关键字段和失败处理。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>Interface负责系统间传输数据。</li><li>需要确认源、目标和传输频率。</li><li>关键字段可能包括单号、数量、金额、日期、状态。</li><li>失败会造成漏传、重复或跨期。</li><li>重跑后还要验证最终落地。</li><li>接口重要性取决于传输数据的财务影响。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认源/目标系统。</li><li>确认业务用途。</li><li>确认关键字段。</li><li>取得源/目标数据。</li><li>查看失败日志。</li><li>核对最终差异。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>接口文档</li><li>Mapping</li><li>源/目标明细</li><li>接口日志</li><li>异常队列</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>WMS出库数据传ERP后自动结转成本。接口失败可能影响存货和成本。</p><h3 class="sub">完成后应能回答</h3><ul><li>为什么不能只核记录数？</li><li>失败后重跑要继续看什么？</li><li>Interface和IPE如何区分？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>26 / 40</span></div></section><section class="slide"><div class="kicker">W3 · PRACTICE</div><h1>第3周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>课堂练习 QMN-M1-W3-P01</h3><p>拆解一个“付款自动审批”或“冻结供应商限制”：风险、规则、输入、参数、输出、证据。</p></div>
+<div class="card good"><h3>课后作业 QMN-M1-W3-A01</h3><p>选择1个ITAC或IPE，完成基础练习底稿。重点不是程序复杂，而是逻辑和证据完整。</p></div>
+</div>
+<div class="summary"><b>周验收：</b>能用自己的话说明财审为什么会依赖这个控制或报表。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>27 / 40</span></div></section><section class="slide"><div class="kicker">W4 · OVERVIEW</div><h1>第4周｜第一次独立小任务</h1>
+<p class="lead">本周给一个范围清晰的小测试，只提供目标和基础资料清单。要求自己组织程序、证据、异常和底稿。</p>
+<div class="summary"><b>本周成果：</b>1份可以被其他项目成员复核的完整小底稿 + 3个最不清楚的问题。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>28 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 01</div><h1>收到任务后如何开始</h1>
+<div class="knowledge-id">QMN-M1-W4-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在没有逐步指令时先拆解目标、范围、资料和交付。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>先确认任务最终要回答什么问题。</li><li>确认系统、期间和测试对象。</li><li>区分已给资料和还需要的PBC。</li><li>先写简要程序再开始执行。</li><li>记录不确定点。</li><li>不要因为不知道某个细节就停止整个任务。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>复述任务目标。</li><li>确定范围。</li><li>列现有资料。</li><li>列缺口。</li><li>写程序草案。</li><li>安排执行顺序。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>任务说明</li><li>项目计划</li><li>资料清单</li><li>历史底稿仅作参考</li><li>负责人确认</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>要求“完成一个离职账号测试”，应先确认系统、期间、控制时限、HR总体和账号总体，而不是直接看几张截图。</p><h3 class="sub">完成后应能回答</h3><ul><li>只给目标时第一步是什么？</li><li>哪些信息必须先确认？</li><li>什么可以边做边补？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>29 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 02</div><h1>PBC资料需求</h1>
+<div class="knowledge-id">QMN-M1-W4-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从测试目标反推需要什么资料，并写清楚客户能理解的需求。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>PBC应说明系统、期间、范围和字段。</li><li>总体资料和样本资料要区分。</li><li>每份资料都应有明确用途。</li><li>不要只写“提供权限资料”“提供日志”。</li><li>缺理想证据时可以设计替代资料。</li><li>资料状态要持续跟踪。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>写测试目标。</li><li>列要证明的事项。</li><li>为每项对应资料。</li><li>写清系统/期间/字段。</li><li>区分总体/样本。</li><li>设置优先级。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>PBC清单</li><li>控制目标</li><li>系统资料</li><li>客户沟通记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>测试离职停用，需要HR离职总体、系统账号总体、停用时间和登录/操作日志。</p><h3 class="sub">完成后应能回答</h3><ul><li>一个好的PBC最少包含什么？</li><li>为什么资料要写用途？</li><li>总体和样本资料有什么不同？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>30 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 03</div><h1>执行过程与证据整理</h1>
+<div class="knowledge-id">QMN-M1-W4-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够让每一步程序都能追到对应证据。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>底稿程序应与证据编号交叉引用。</li><li>证据文件命名应清晰。</li><li>截图应保留必要上下文、系统和日期。</li><li>不要只堆截图不写判断。</li><li>发现异常时要单独记录。</li><li>执行过程中产生的新问题及时补资料。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>按程序执行。</li><li>保存原始证据。</li><li>编号/命名。</li><li>在底稿交叉引用。</li><li>记录结果。</li><li>单列异常。</li><li>补充必要证据。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>测试底稿</li><li>截图</li><li>日志</li><li>审批</li><li>证据索引</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>检查用户权限时，不只是保存角色截图，还应说明该截图对应哪个样本、验证什么控制要求。</p><h3 class="sub">完成后应能回答</h3><ul><li>证据为什么要和程序对应？</li><li>截图怎样才便于Reviewer复核？</li><li>为什么“有很多附件”不等于底稿好？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>31 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 04</div><h1>异常判断基础</h1>
+<div class="knowledge-id">QMN-M1-W4-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分资料不足、待核验记录和已确认控制偏差。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>资料没拿到不等于控制一定没执行。</li><li>规则命中或样本异常需要进一步核验。</li><li>应记录异常事实、控制要求、现有证据和缺口。</li><li>有客户解释时应寻找支持资料。</li><li>结论不能超过证据。</li><li>不确定时可以保留初步判断并提出下一步。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>写异常事实。</li><li>写控制目标。</li><li>列已有证据。</li><li>列缺口。</li><li>取得补充资料。</li><li>形成初步判断。</li><li>决定是否升级。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>异常样本</li><li>制度</li><li>日志</li><li>客户解释</li><li>补充资料</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>一个变更样本没有UAT文件。需要先确认是文档缺失、紧急变更还是确实未测试。</p><h3 class="sub">完成后应能回答</h3><ul><li>资料不足和控制偏差如何区分？</li><li>客户解释怎样验证？</li><li>什么情况下需要升级给负责人？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>32 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 05</div><h1>底稿结论与可复核表达</h1>
+<div class="knowledge-id">QMN-M1-W4-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够写出事实、程序、结果和结论一致的基础底稿。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>底稿应先明确控制目标和程序。</li><li>结果写客观事实。</li><li>结论应回答控制是否达到目标。</li><li>异常不能藏在附件里。</li><li>未完成事项和限制要明确。</li><li>Reviewer不应依赖作者口头解释才能理解。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>检查程序是否完整。</li><li>检查证据引用。</li><li>写测试结果。</li><li>写异常。</li><li>形成结论。</li><li>列未决事项。</li><li>自检后提交Review。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>工作底稿</li><li>证据索引</li><li>异常清单</li><li>Review checklist</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>不要只写“检查无异常”。应说明抽了什么、看了什么证据、是否发现例外以及结论依据。</p><h3 class="sub">完成后应能回答</h3><ul><li>一份基础底稿最少包括什么？</li><li>结果和结论有什么区别？</li><li>什么叫“可被其他成员复核”？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>33 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 06</div><h1>问题清单与学习复盘</h1>
+<div class="knowledge-id">QMN-M1-W4-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够把第一次独立任务中真正不理解的问题记录下来，并形成下一步学习输入。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>问题清单应写具体，不写“ITGC不熟”。</li><li>区分概念不懂、资料看不懂、判断不确定和流程不会四类问题。</li><li>记录自己已经尝试过什么。</li><li>Review后记录正确判断逻辑。</li><li>重复问题要标记。</li><li>月底问题清单用于决定第2个月训练内容。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>完成任务后列问题。</li><li>分类。</li><li>写已尝试方法。</li><li>记录Review结论。</li><li>写自己重新理解后的答案。</li><li>标记是否重复。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>个人问题清单</li><li>Review意见</li><li>学习记录</li><li>ITAS问题标签</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>与其写“Interface不懂”，应写“接口重跑成功后，为什么还需要核对目标系统最终落地和会计期间”。</p><h3 class="sub">完成后应能回答</h3><ul><li>什么才算高质量问题？</li><li>Review后为什么要自己重写答案？</li><li>哪些问题应该进入下个月计划？</li></ul></div>
+</div><div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>34 / 40</span></div></section><section class="slide"><div class="kicker">W4 · PRACTICE</div><h1>第4周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>独立小任务 QMN-M1-W4-A01</h3><p>从用户离职、程序变更、简单ITAC或IPE中选择一个范围清晰任务，仅根据目标和基础资料清单独立完成。</p></div>
+<div class="card good"><h3>必须提交</h3><ul><li>程序</li><li>PBC</li><li>证据</li><li>测试结果</li><li>异常/缺口</li><li>结论</li><li>3个最不清楚的问题</li></ul></div>
+</div>
+<div class="summary"><b>周验收：</b>另一名项目成员能够直接复核底稿，并知道哪些事项还未解决。</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>35 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · CHECK</div><h1>月末综合验收｜销售系统案例</h1>
+<div class="case"><p><b>场景：</b>销售订单在业务系统生成，发货后通过接口传ERP，ERP自动形成收入凭证。财务使用ERP销售明细做收入复核。</p></div>
+<ol class="biglist">
+<li>画出业务—系统—会计链路。</li>
+<li>说明主要科目和财务报表认定。</li>
+<li>指出可能的ITGC、ITAC、Interface和IPE。</li>
+<li>从用户访问或变更中任选1项设计基础ITGC测试。</li>
+<li>说明销售明细为什么可能是IPE，以及怎样验证。</li>
+<li>指出当前信息不足以判断的事项。</li>
+<li>形成一页基础底稿摘要。</li>
+</ol>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>36 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · DELIVERABLES</div><h1>第1个月正式成果</h1>
+<div class="cards cols-5">
+<div class="card good"><h3>01</h3><p>IT审计全景图</p></div>
+<div class="card good"><h3>02</h3><p>业务—系统—科目/认定映射</p></div>
+<div class="card good"><h3>03</h3><p>1个ITGC练习底稿</p></div>
+<div class="card good"><h3>04</h3><p>1个ITAC/IPE练习底稿</p></div>
+<div class="card good"><h3>05</h3><p>第一个独立小任务 + 问题清单</p></div>
+</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>37 / 40</span></div></section><section class="slide"><div class="kicker">ITAS · TRACKING</div><h1>ITAS学习进度记录</h1>
+<table>
+<tr><th>记录项</th><th>使用方式</th></tr>
+<tr><td>学习状态</td><td>未开始 / 学习中 / 已完成</td></tr>
+<tr><td>课堂练习</td><td>一次通过 / 修改后通过 / 未通过</td></tr>
+<tr><td>课后作业</td><td>未提交 / 待Review / 修改中 / 已通过</td></tr>
+<tr><td>Review问题</td><td>概念混淆、控制目标不清、证据不足、总体遗漏、异常未核验、底稿无法复核等标签</td></tr>
+<tr><td>问题清单</td><td>概念 / 资料识别 / 判断 / 项目执行四类问题</td></tr>
+<tr><td>下月强化</td><td>重复问题或周验收未通过时，自动进入第2个月待强化项</td></tr>
+</table>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>38 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · RUBRIC</div><h1>月末评分</h1>
+<table>
+<tr><th>维度</th><th>权重</th><th>通过表现</th></tr>
+<tr><td>IT审计整体框架</td><td>30%</td><td>知道各模块的位置、关系和基本用途。</td></tr>
+<tr><td>ITGC基础</td><td>20%</td><td>能依据控制目标和资料完成常规测试。</td></tr>
+<tr><td>ITAC / IPE基础</td><td>20%</td><td>能理解自动控制和系统报表为什么与财审相关。</td></tr>
+<tr><td>证据与底稿</td><td>20%</td><td>证据和程序对应，结论不超过证据。</td></tr>
+<tr><td>学习与提问质量</td><td>10%</td><td>能把不理解的问题拆具体，并在Review后完成复盘。</td></tr>
+</table>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>39 / 40</span></div></section><section class="slide"><div class="kicker">NEXT MONTH</div><h1>第2个月计划生成依据</h1>
+<p class="lead">第2个月根据本月实际掌握情况继续推进，不提前锁定专项方向。</p>
+<div class="grid g3">
+<div class="card"><h3>基础稳定</h3><p>如果全景、ITGC、ITAC/IPE理解稳定，第2个月增加真实项目承担。</p></div>
+<div class="card warn"><h3>基础仍不稳</h3><p>如果概念、证据和底稿仍容易混淆，继续用真实案例强化，不急着进入复杂专项。</p></div>
+<div class="card good"><h3>逐步探索</h3><p>基础达到要求后，再结合项目表现逐步尝试数据分析、合规、自动化或AI相关任务。</p></div>
+</div>
+<div class="footer"><span>QMN 第1个月特别培养计划 · 学员详细版</span><span>40 / 40</span></div></section></div><div class="nav"><button id="prev">‹</button><span id="count">1 / 40</span><button id="next">›</button></div>
+<script>
+const s=[...document.querySelectorAll('.slide')];let i=0;
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,j)=>x.classList.toggle('active',j===i));document.getElementById('count').textContent=(i+1)+' / '+s.length;}
+document.getElementById('prev').onclick=()=>show(i-1);document.getElementById('next').onclick=()=>show(i+1);
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+</script></body></html>

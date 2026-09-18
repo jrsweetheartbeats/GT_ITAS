@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “审计证据｜够不够、靠不靠谱”. Show this idea visually: 相关，但期间不够 离职清单 + 账号历史 用员工编号和停用时间核对，可评价离职账号是否及时关闭. Strategy: 在 0,520 起的 1536×260 安全区内放置轻量情境插图，其他区域保持干净。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=0, y=520, width=1536, height=260 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 12–25%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

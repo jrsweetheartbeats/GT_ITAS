@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>IT审计基础能力训练营</title><style>
+:root{--p:#4F2D7F;--p2:#6F4A96;--lp:#EEE7F5;--bg:#F7F7F9;--text:#25212A;--muted:#746D7C;--line:#DED9E4;--good:#E9F3ED;--warn:#FFF4D8;--bad:#FCEAEA;--accent:#176B63;--accent-soft:#E6F3F0;}
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;background:radial-gradient(circle at 15% 10%,#3a2a4a 0,transparent 32%),radial-gradient(circle at 88% 88%,#163f3c 0,transparent 28%),#17131b;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;overflow:hidden}
+#deck{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.slide{display:none;position:relative;width:min(96vw,1600px);aspect-ratio:16/9;background:linear-gradient(145deg,#fff 0%,#fbfafc 65%,#f4f0f8 100%);padding:72px 72px 46px;border:1px solid rgba(255,255,255,.45);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.38);overflow:hidden}
+.slide.active{display:block}.slide.cover{background:linear-gradient(135deg,#fff 0%,#f4eff8 50%,#e8def2 100%)}
+.slide.section{background:linear-gradient(135deg,var(--p) 0%,#2f1e4d 100%);color:white;display:none}.slide.section.active{display:flex;flex-direction:column;justify-content:center}.slide.section .kicker,.slide.section .slide-no{color:#d9cbea}.slide.section h1{color:#fff;font-size:54px}.slide.section .big-quote{color:#fff;border-color:rgba(255,255,255,.25)}
+.kicker{font-size:13px;letter-spacing:.18em;font-weight:800;color:var(--p);text-transform:uppercase;margin-bottom:10px}.slide h1{font-size:40px;line-height:1.15;margin:0 0 30px;color:#211b26;letter-spacing:-.02em}.slide h3{font-size:22px;margin:0 0 14px}.slide p{font-size:18px;line-height:1.55}.lead{font-size:24px!important;color:#554e5d;max-width:720px}.slide-no{position:absolute;right:34px;bottom:22px;color:#9b94a2;font-size:12px}.section-label{position:absolute;left:72px;bottom:24px;color:#8d8595;font-size:12px;font-weight:700}.section .section-label{color:#cdbcdc}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;align-items:center;height:620px;gap:40px}.hero-sub{font-size:42px;font-weight:850;line-height:1.2;color:var(--p);margin-bottom:18px}.tag-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.tag-row span{padding:9px 14px;border-radius:999px;background:white;border:1px solid #d8cce5;color:var(--p);font-weight:700}.footer-note{position:absolute;left:72px;bottom:36px;font-size:14px;color:#756d7d}
+.map-orbit{width:390px;height:390px;border:2px dashed #ad95c3;border-radius:50%;position:relative;margin:auto}.orbit-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:145px;height:145px;border-radius:50%;background:var(--p);color:white;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;box-shadow:0 10px 30px rgba(79,45,127,.25)}.orbit-node{position:absolute;width:82px;height:82px;border-radius:50%;background:white;border:1px solid #cbb9da;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--p)}.n1{left:18px;top:52px}.n2{right:8px;top:75px}.n3{right:20px;bottom:53px}.n4{left:34px;bottom:28px}.n5{left:151px;top:-38px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:start}.two-col.compact{gap:28px}.bullets{padding-left:24px;margin:8px 0}.bullets li{font-size:19px;line-height:1.5;margin:11px 0}.cards{display:grid;gap:20px}.cols-3{grid-template-columns:repeat(3,1fr)}.cols-4{grid-template-columns:repeat(4,1fr)}.card{background:white;border:1px solid var(--line);border-radius:18px;padding:24px;min-height:170px;box-shadow:0 7px 22px rgba(49,34,63,.06)}.card-title{font-size:21px;font-weight:800;color:var(--p);margin-bottom:14px}.card-body{font-size:17px;line-height:1.55;color:#504958}
+.comic{display:grid;grid-template-columns:70px 1fr;gap:12px 15px;align-items:center;background:var(--lp);padding:28px;border-radius:22px}.comic-person{font-size:44px}.bubble{background:white;padding:15px 18px;border-radius:18px;font-size:17px;box-shadow:0 5px 15px rgba(0,0,0,.06)}.bubble.purple{background:var(--p);color:white}.comic-arrow{grid-column:1/3;text-align:center;color:var(--p);font-size:28px;font-weight:900}
+.big-quote{font-size:38px;line-height:1.45;border-left:6px solid var(--p);padding:18px 0 18px 28px;max-width:1100px}.quote-foot{font-size:16px;color:var(--muted);margin-top:20px}.five-questions{display:grid;gap:13px}.five-questions div{display:grid;grid-template-columns:68px 1fr;align-items:center;background:white;border:1px solid var(--line);border-radius:15px;padding:14px 20px}.five-questions b{font-size:24px;color:var(--p)}.five-questions span{font-size:20px}.five-questions.compact div{padding:11px 18px}.five-questions.final div{background:#f7f3fa}.five-questions.final b{color:#3f7b55}
+.roadmap{display:flex;align-items:stretch;gap:14px}.road-stage{flex:1;background:white;border:1px solid var(--line);border-radius:18px;padding:24px}.road-stage h3{color:var(--p)}.road-stage p{font-size:17px}.road-stage span{display:inline-block;margin-top:12px;color:var(--muted);font-weight:700}.stage-no{font-size:12px;font-weight:900;color:var(--p);letter-spacing:.15em}.road-arrow{display:flex;align-items:center;color:var(--p);font-size:28px;font-weight:900}.callout{margin-top:22px;padding:16px 20px;background:var(--lp);border-left:5px solid var(--p);border-radius:10px;font-size:18px;line-height:1.5}.callout.subtle{background:#f7f5f8}.pipeline{display:flex;align-items:center;gap:10px;justify-content:center;margin:60px 0 45px}.pipe-node{background:white;border:2px solid #d8cbe4;padding:18px 21px;border-radius:14px;font-size:18px;font-weight:750}.pipe-node.strong{background:var(--p);color:white;border-color:var(--p)}.pipe-arrow{font-size:25px;color:var(--p)}.split-note{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.split-note div{padding:20px;background:#f5f1f8;border-radius:14px;text-align:center;font-size:17px;line-height:1.55}.split-note b{color:var(--p);font-size:19px}
+.flow-lanes{display:grid;gap:9px;max-width:1050px;margin:auto}.lane{display:grid;grid-template-columns:140px repeat(3,1fr);gap:12px;align-items:center}.lane-title{font-weight:900;color:var(--p);font-size:19px}.lane span{background:white;border:1px solid var(--line);border-radius:12px;padding:13px 16px;text-align:center}.lane-arrow{text-align:center;color:#a18bac;font-size:19px}.assertions{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.assertions div{background:white;border:1px solid var(--line);border-top:5px solid var(--p);border-radius:14px;padding:20px;min-height:170px}.assertions b{display:block;color:var(--p);font-size:18px;margin-bottom:12px}.assertions span{font-size:16px;line-height:1.5}.mini-case{margin-top:22px;padding:16px 20px;background:var(--warn);border-radius:12px;font-size:17px}.exercise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.exercise{background:white;border:1px solid var(--line);border-radius:18px;padding:25px}.exercise p{min-height:84px}.exercise button,.scenario button{border:none;background:var(--p);color:white;padding:10px 14px;border-radius:9px;font-weight:700;cursor:pointer}.answer{display:none;margin-top:14px;padding:14px;background:var(--good);border-radius:10px;line-height:1.45}.answer.show{display:block}
+.logic-chain{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:70px}.logic-chain span{padding:14px 16px;background:white;border:1px solid #d7c9e2;border-radius:12px;font-weight:800;color:var(--p)}.logic-chain i{font-style:normal;color:#a78fbb;font-size:22px}.logic-chain.data span{padding:12px 13px}.system-stack{display:grid;gap:12px}.system-stack div{padding:17px;background:white;border-left:5px solid var(--p);border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.04)}.control-map{text-align:center}.cm-base{display:inline-block;background:var(--p);color:white;border-radius:18px;padding:26px 70px;font-size:26px;font-weight:900}.cm-base small,.cm-top small{font-size:14px;font-weight:500}.cm-top{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:20px auto 0;max-width:950px}.cm-top div{background:white;border:2px solid #cdbbdd;border-radius:16px;padding:22px;font-size:22px;font-weight:850;color:var(--p)}.cm-arrow{margin-top:18px;color:#6e6576;font-weight:750}.decision-tree{max-width:1000px;margin:auto;text-align:center}.dt-node{background:white;border:2px solid #cbbadd;border-radius:14px;padding:17px;font-size:19px;font-weight:800;margin:12px auto;max-width:660px}.dt-node.root{background:var(--p);color:white}.dt-split{display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:820px;margin:auto}.dt-split div{background:#f7f3fa;border-radius:13px;padding:14px}.dt-split b{display:block;color:var(--p);font-size:20px}.dt-split span{font-size:15px}.four-box{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.four-box div{background:white;border:1px solid var(--line);border-radius:15px;padding:24px;min-height:170px}.four-box b{display:block;color:var(--p);font-size:20px;margin-bottom:13px}.four-box span{line-height:1.5}.four-box.numbered b{font-size:28px;color:#9c86b3}.matrix{display:grid;grid-template-columns:1fr 1.5fr 1.6fr;border:1px solid var(--line);border-radius:13px;overflow:hidden}.matrix>div{padding:14px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:16px;line-height:1.45;background:white}.matrix .m-head{background:var(--p);color:white;font-weight:800}.scenario{background:white;border:1px solid var(--line);border-radius:18px;padding:28px}.prompt{font-weight:800;color:var(--p);margin:18px 0 12px}.option-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}.option-row span{padding:13px;background:#f6f3f8;border-radius:10px}
+.arch{text-align:center}.arch-row{display:flex;justify-content:center;gap:25px}.arch-box{min-width:330px;background:white;border:2px solid #cbbadd;border-radius:15px;padding:17px;font-size:19px;font-weight:850;color:var(--p)}.arch-box.user{min-width:450px}.arch-box.infra{min-width:750px}.arch-box small{color:#655e6c;font-weight:500}.arch-arrow{font-size:22px;color:#a892ba;margin:5px}.term-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:12px 0 28px}.term-grid span{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center;font-weight:850;color:var(--p)}.code-card{background:#211c26;border-radius:16px;padding:20px 24px;margin:35px auto;max-width:980px}.code-card pre{margin:0;color:#f5eff8;font:18px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap}.three-points{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.three-points div{background:white;border:1px solid var(--line);border-radius:14px;padding:20px}.three-points b{display:block;color:var(--p);margin-bottom:8px}.privilege-stack{display:grid;gap:11px;max-width:900px;margin:auto}.privilege-stack div{padding:16px 22px;border-radius:12px;background:white;border:1px solid var(--line)}.privilege-stack .critical{background:var(--bad);border-color:#ebc8c8;font-weight:850}.log-chain{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.log-chain div{background:white;border-top:5px solid var(--p);border-radius:13px;padding:18px;min-height:150px}.log-chain b{display:block;color:var(--p);margin-bottom:10px}.log-chain span{font-size:15px;line-height:1.5}.interface-diagram{display:flex;align-items:center;justify-content:center;gap:30px;margin:45px 0}.sys{background:white;border:2px solid #cbbadd;border-radius:15px;padding:26px 55px;text-align:center;font-size:23px;font-weight:900;color:var(--p)}.sys small{font-size:15px;color:#655d6d}.api{position:relative;background:#f3eef7;border-radius:14px;padding:18px 50px;color:var(--p);font-weight:850}.loss{position:absolute;right:-18px;top:-24px;background:#f9dddd;color:#9b3333;border-radius:999px;padding:7px 10px;font-size:13px}.pipeline.change div{background:white;border:1px solid var(--line);padding:14px 18px;border-radius:11px;font-weight:750}.pipeline.change i{font-style:normal;color:var(--p)}.evidence-map{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.evidence-map div{padding:20px;background:white;border:1px solid var(--line);border-radius:14px;min-height:160px}.evidence-map b{display:block;color:var(--p);margin-bottom:10px;font-size:19px}.evidence-map span{line-height:1.5;font-size:15px}
+.lifecycle,.ipe-chain,.walkthrough{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:60px 0}.lifecycle span,.ipe-chain span,.walkthrough div{background:white;border:1px solid #d4c6df;border-radius:12px;padding:15px 17px;font-weight:800;color:var(--p)}.lifecycle i,.ipe-chain i,.walkthrough i{font-style:normal;color:#9f88b2}.sod{display:flex;align-items:center;justify-content:center;gap:14px;margin:70px 0}.sod div{padding:18px;background:white;border:1px solid var(--line);border-radius:13px;font-weight:800}.sod .plus,.sod .equals{background:none;border:none;font-size:24px;color:#9885aa}.sod .risk{background:var(--bad);color:#8b3030}.boundary-map{display:grid;grid-template-columns:1fr 1fr;gap:25px}.boundary-map>div{padding:25px;border-radius:17px;display:grid;gap:10px}.boundary-map .in{background:var(--good)}.boundary-map .out{background:#f3f1f4}.boundary-map b{font-size:21px}.boundary-map span{background:rgba(255,255,255,.7);padding:10px;border-radius:8px}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.steps div{background:white;border:1px solid var(--line);border-radius:15px;padding:23px}.steps b{display:block;font-size:30px;color:#a28ab5}.steps span{font-size:18px;font-weight:750}.itac-types{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.itac-types div{background:white;border:1px solid var(--line);border-radius:15px;padding:23px}.itac-types b{display:block;color:var(--p);font-size:20px;margin-bottom:10px}.case-board{display:grid;gap:14px}.case-board>div{padding:18px 22px;border-radius:13px;font-size:18px}.case-fact{background:#f3eef7}.case-question{background:#f7f6f8}.case-test{background:var(--good)}.case-risk{background:var(--warn)}
+.rule-quality{display:grid;grid-template-columns:1fr 80px 1fr;gap:18px;align-items:center;margin-top:50px}.rule-quality>div:not(.vs){padding:30px;background:white;border:1px solid var(--line);border-radius:18px;min-height:180px}.rule-quality b{display:block;color:var(--p);font-size:22px;margin-bottom:14px}.rule-quality span{font-size:18px;line-height:1.5}.vs{text-align:center;font-weight:900;color:#9c89ac}.je-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}.je-grid div{background:white;border:1px solid var(--line);border-radius:13px;padding:20px;min-height:145px}.je-grid b{display:block;color:var(--p);margin-bottom:11px}.je-grid span{font-size:15px;line-height:1.5}.ai-boundary{display:grid;grid-template-columns:1fr 1fr;gap:24px}.ai-boundary>div{padding:25px;border-radius:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.ai-boundary .good{background:var(--good)}.ai-boundary .bad{background:var(--bad)}.ai-boundary b{grid-column:1/3;font-size:22px}.ai-boundary span{background:rgba(255,255,255,.65);padding:11px;border-radius:9px}
+.case-company{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.case-company div{background:white;border:1px solid var(--line);border-radius:14px;padding:20px;min-height:130px}.case-company b{display:block;color:var(--p);font-size:20px;margin-bottom:10px}.case-company span{line-height:1.5}.case-company .project-core{border-color:#A9D2CB;background:linear-gradient(145deg,#fff 0%,var(--accent-soft) 100%)}.blank-canvas{display:grid;gap:12px}.blank-canvas div{display:grid;grid-template-columns:260px 1fr;background:white;border:1px solid var(--line);border-radius:12px;padding:15px 18px}.blank-canvas b{color:var(--p)}.blank-canvas em{color:#7c7482;font-style:normal}.finding-list{display:grid;gap:12px}.finding-list div{background:white;border-left:5px solid #b49bc8;border-radius:10px;padding:15px 18px;font-size:17px}.finding-list b{color:var(--p);font-size:20px}.before-after{display:grid;grid-template-columns:1fr 1fr;gap:24px}.before-after>div{padding:26px;border-radius:16px}.before-after>div:first-child{background:var(--bad)}.before-after>div:last-child{background:var(--good)}.before-after b{font-size:21px}.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.timeline div{background:white;border:1px solid var(--line);border-radius:15px;padding:22px}.timeline b{display:block;color:var(--p);font-size:20px;margin-bottom:11px}.timeline span{line-height:1.5}.role-box{padding:28px;background:white;border:1px solid var(--line);border-radius:17px}.closing{text-align:center;margin-top:30px;font-size:26px;color:var(--p)}
+.case-ribbon{position:absolute;right:30px;top:24px;z-index:2;padding:8px 13px;border:1px solid #9FCBC4;border-radius:999px;background:rgba(230,243,240,.94);color:var(--accent);font-size:12px;font-weight:850;letter-spacing:.06em}.case-ribbon::before{content:"";display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:var(--accent)}.case-callout{background:var(--accent-soft);border-left-color:var(--accent)}.case-interface{gap:14px;margin:38px 0 32px}.case-interface .sys{padding:20px 28px;font-size:20px}.case-interface .api{padding:14px 20px;font-size:15px}.case-interface .loss{right:-8px;top:-28px;white-space:nowrap}.cover .tag-row .project-tag{background:var(--accent-soft);border-color:#9FCBC4;color:var(--accent)}
+.brand-logo{position:absolute;left:28px;top:12px;z-index:4;width:126px;height:auto;padding:4px 7px;border-radius:9px;background:rgba(255,255,255,.94);box-shadow:0 4px 14px rgba(33,27,38,.08)}.chapter-chip{position:absolute;top:19px;left:50%;transform:translateX(-50%);z-index:3;padding:7px 14px;border-radius:999px;background:rgba(79,45,127,.08);border:1px solid rgba(79,45,127,.14);color:var(--p);font-size:12px;font-weight:850;letter-spacing:.06em;white-space:nowrap}.section .chapter-chip{color:white;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}.section-label{display:none}.slide>.notes{display:none!important}
+.dialogue{background:linear-gradient(135deg,#f1ebf6,#ebe5f1);border-radius:20px;padding:18px 22px;display:grid;gap:10px}.dialogue.compact{padding:12px 16px;gap:7px}.dialogue-row{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center}.dialogue.compact .dialogue-row{grid-template-columns:38px 1fr}.avatar{font-size:33px;text-align:center}.dialogue.compact .avatar{font-size:27px}.speech{background:white;border-radius:16px;padding:11px 16px;font-size:16px;line-height:1.4;box-shadow:0 3px 10px rgba(33,27,38,.05)}.speech.senior{background:var(--p);color:white}.dialogue.compact .speech{padding:9px 13px;font-size:14px}.dialogue-arrow{text-align:center;color:var(--p);font-weight:900;font-size:20px;line-height:.7}
+.glossary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.glossary-card{background:white;border:1px solid var(--line);border-top:5px solid var(--p);border-radius:15px;padding:18px;min-height:220px}.glossary-card b{display:block;color:var(--p);font-size:20px;margin-bottom:7px}.glossary-card .en{display:block;font-size:14px;font-weight:750;line-height:1.35}.glossary-card .ipa{display:block;color:var(--accent);font-size:13px;margin:5px 0 11px}.glossary-card p{font-size:15px;margin:0 0 8px}.glossary-card small{color:var(--muted);line-height:1.35}
+.journey{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}.journey-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.journey-line span{background:white;border:1px solid var(--line);border-radius:12px;padding:12px 15px;font-weight:800;color:var(--p)}.journey-line i{font-style:normal;color:#a78fbb}.assertion-board{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.assertion-board div{background:white;border:1px solid var(--line);border-top:4px solid var(--p);border-radius:12px;padding:13px;min-height:112px}.assertion-board b{display:block;color:var(--p);font-size:17px;margin-bottom:7px}.assertion-board span{font-size:14px;line-height:1.4}.exercise-grid.rich{gap:14px}.exercise-grid.rich .exercise{padding:18px;min-height:390px}.exercise-grid.rich .exercise>p{font-size:16px;min-height:54px;margin:8px 0 12px}.exercise-grid.rich .answer{font-size:14px;line-height:1.35}.exercise-grid.rich .answer b{color:var(--accent)}
+.visual-split{display:grid;grid-template-columns:.92fr 1.08fr;gap:28px;align-items:center}.visual-split.reverse{grid-template-columns:1.08fr .92fr}.visual-img{width:100%;max-height:520px;object-fit:cover;border-radius:20px;border:1px solid #ded5e7;box-shadow:0 10px 28px rgba(49,34,63,.1)}.compact-chain{display:grid;gap:8px}.compact-chain div{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;background:white;border:1px solid var(--line);border-radius:12px;padding:9px 12px}.compact-chain b{display:flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:var(--p);color:white;font-size:13px}.compact-chain span{font-size:15px;line-height:1.3}.matrix-analogy{display:grid;grid-template-columns:1fr 56px 1.15fr 56px 1fr;align-items:center;gap:12px;margin-top:16px}.math-box{background:white;border:2px solid #cdbbdd;border-radius:16px;padding:18px;min-height:220px}.math-box b{display:block;color:var(--p);font-size:19px;margin-bottom:12px}.math-box span{display:block;padding:8px 10px;margin:6px 0;background:#f6f2f8;border-radius:9px;font-size:14px}.math-op{text-align:center;color:var(--p);font-size:32px;font-weight:900}.evidence-examples{display:grid;grid-template-columns:repeat(5,1fr);gap:11px}.evidence-examples div{background:white;border:1px solid var(--line);border-radius:13px;padding:14px;min-height:180px}.evidence-examples b{display:block;color:var(--p);font-size:16px;margin-bottom:8px}.evidence-examples span{font-size:13px;line-height:1.42}.verdict{display:inline-block;margin-top:8px!important;padding:5px 8px!important;border-radius:999px!important;background:var(--good)!important;color:#315f40;font-weight:800}.verdict.weak{background:var(--warn)!important;color:#805d18}.branch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:12px}.branch{border-radius:13px;padding:14px;border:1px solid var(--line);background:#f8f6f9}.branch.bad{background:var(--bad)}.branch.partial{background:var(--warn)}.branch.good{background:var(--good)}.branch b{display:block;font-size:16px;margin-bottom:7px}.branch span{font-size:13px;line-height:1.38}.branch em{display:block;margin-top:7px;font-style:normal;font-weight:800;color:var(--p);font-size:13px}
+.layer-list{display:grid;gap:10px}.layer-list div{background:white;border:1px solid var(--line);border-left:5px solid var(--p);border-radius:11px;padding:11px 14px}.layer-list b{display:block;color:var(--p);font-size:16px}.layer-list span{font-size:14px;line-height:1.35}.identity-cards .card{min-height:230px;padding:20px}.identity-cards .card-title{font-size:18px}.identity-icon{display:block;font-size:38px;margin-bottom:8px}.identity-cards .ipa{display:block;color:var(--accent);font-size:13px;margin:4px 0 10px}.database-layout,.log-layout,.change-layout{display:grid;grid-template-columns:.88fr 1.12fr;gap:22px;align-items:center}.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.concept-grid div{background:white;border:1px solid var(--line);border-radius:10px;padding:9px 11px}.concept-grid b{display:block;color:var(--p);font-size:14px}.concept-grid span{font-size:12px;line-height:1.25}.log-steps{display:grid;gap:7px}.log-step{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start}.log-step b{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--p);color:white;font-size:12px}.log-step span{font-size:14px;line-height:1.35}.change-evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}.change-evidence div{background:white;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12px;line-height:1.3}.backup-timeline{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;gap:16px;margin-top:18px}.backup-point{background:white;border:1px solid var(--line);border-radius:13px;padding:16px}.backup-point b{display:block;color:var(--p);font-size:19px}.backup-point span{font-size:14px;line-height:1.4}.backup-arrow{text-align:center;color:var(--p);font-size:30px;font-weight:900}.c22-four .card{min-height:250px;padding:20px}.c22-four .card-title small{display:block;font-size:12px;color:var(--accent);margin-top:4px}.c22-four .card-body{font-size:15px}
+.why-fix{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}.why-fix div{padding:18px 20px;border-radius:14px;background:white;border:1px solid var(--line);min-height:132px}.why-fix b{display:block;color:var(--p);font-size:17px;margin-bottom:9px}.why-fix span{font-size:14px;line-height:1.45;color:#504958}
+.abbr-board{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.abbr-item{background:white;border:1px solid var(--line);border-left:4px solid var(--p);border-radius:10px;padding:8px 10px;min-height:73px}.abbr-item b{display:block;color:var(--p);font-size:15px;margin-bottom:2px}.abbr-item .ipa{display:block;color:var(--accent);font-size:11px;line-height:1.15}.abbr-item span:last-child{display:block;font-size:12px;line-height:1.25;color:#514a57;margin-top:3px}.module-index{position:absolute;left:34px;bottom:20px;color:#8d8595;font-size:12px;font-weight:750;letter-spacing:.03em}.section .module-index{color:#cdbcdc}.slide-no{right:34px;bottom:20px;font-weight:750}.footer-note{display:none!important}
+#topbar{display:none!important}.notes-panel,.overview{display:none!important}
+
+
+@media (max-width:900px){.slide{width:100vw;height:56.25vw;min-height:100vh;aspect-ratio:auto;border-radius:0;padding:44px 34px;overflow:auto}.slide h1{font-size:30px}.cards,.cols-3,.cols-4,.two-col,.assertions,.log-chain,.evidence-map,.case-company,.timeline{grid-template-columns:1fr 1fr}.hero-grid{grid-template-columns:1fr}.map-orbit{display:none}}
+@media print{html,body{overflow:visible;background:white}.slide{display:block!important;width:1600px;height:900px;page-break-after:always;box-shadow:none;border-radius:0}.slide.section{display:flex!important}#topbar,.notes-panel,.overview{display:none!important}}
+
+
+/* ===== Layout optimization v4 ===== */
+.slide{padding:66px 72px 50px;background:
+  radial-gradient(circle at 96% 94%,rgba(79,45,127,.055) 0,transparent 23%),
+  radial-gradient(circle at 4% 14%,rgba(23,107,99,.035) 0,transparent 20%),
+  linear-gradient(145deg,#fff 0%,#fbfafc 65%,#f4f0f8 100%)}
+.slide:not(.section):not(.cover)::before{content:"";position:absolute;right:-95px;bottom:-115px;width:360px;height:360px;border:1px solid rgba(79,45,127,.07);border-radius:50%;box-shadow:0 0 0 34px rgba(79,45,127,.025),0 0 0 70px rgba(79,45,127,.016);pointer-events:none}
+.slide:not(.section):not(.cover)::after{content:"";position:absolute;right:40px;bottom:56px;width:180px;height:90px;opacity:.10;background-image:linear-gradient(rgba(79,45,127,.38) 1px,transparent 1px),linear-gradient(90deg,rgba(79,45,127,.38) 1px,transparent 1px);background-size:18px 18px;mask-image:linear-gradient(135deg,transparent 0,#000 48%,#000 100%);pointer-events:none}
+.slide h1{margin-bottom:20px}.slide.active:not(.section):not(.cover){display:flex;flex-direction:column}.slide-content{position:relative;z-index:2;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:16px}.density-high .slide-content{justify-content:flex-start;gap:13px}.density-mid .slide-content{justify-content:center}.density-low .slide-content{justify-content:center;gap:22px}.slide-content>.callout,.slide-content>.mini-case{margin-top:0}.slide-content>.pipeline,.slide-content>.lifecycle,.slide-content>.sod,.slide-content>.ipe-chain,.slide-content>.walkthrough,.slide-content>.logic-chain{margin-top:0;margin-bottom:0}
+.module-hud{position:absolute;right:64px;bottom:60px;width:170px;height:72px;z-index:1;opacity:.20;pointer-events:none}.module-hud span{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--p);box-shadow:0 0 14px rgba(79,45,127,.55)}.module-hud span:nth-child(1){left:0;top:48px}.module-hud span:nth-child(2){left:76px;top:16px}.module-hud span:nth-child(3){right:0;top:40px;background:var(--accent)}.module-hud i{position:absolute;left:6px;top:24px;width:155px;height:1px;background:linear-gradient(90deg,var(--p),rgba(79,45,127,.12),var(--accent));transform:rotate(-10deg);transform-origin:left center}.density-high .module-hud{display:none}
+.summary-strip{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:18px;padding:15px 20px;border:1px solid rgba(79,45,127,.11);border-radius:14px;background:linear-gradient(90deg,rgba(79,45,127,.075),rgba(23,107,99,.035));box-shadow:0 7px 20px rgba(49,34,63,.035)}.summary-strip b{color:var(--p);font-size:16px}.summary-strip span{font-size:15px;line-height:1.4;color:#514a57}
+/* section pages: use the right half instead of leaving it empty */
+.slide.section{padding:72px 90px 54px;background:radial-gradient(circle at 82% 35%,rgba(124,85,165,.28),transparent 29%),linear-gradient(135deg,#4F2D7F 0%,#2f1e4d 66%,#22143d 100%)}.slide.section h1{max-width:1000px;margin-bottom:28px}.slide.section .big-quote{max-width:930px}.section-deco{position:absolute;right:64px;top:145px;width:390px;height:430px;opacity:.72;pointer-events:none}.deco-ring{position:absolute;border:1px solid rgba(255,255,255,.18);border-radius:50%}.deco-ring.r1{width:330px;height:330px;right:0;top:40px;box-shadow:0 0 42px rgba(170,112,238,.12) inset}.deco-ring.r2{width:210px;height:210px;right:60px;top:100px;border-color:rgba(81,203,211,.22)}.deco-node{position:absolute;width:9px;height:9px;border-radius:50%;background:#c29bf0;box-shadow:0 0 18px rgba(194,155,240,.8)}.deco-node.n1{right:52px;top:90px}.deco-node.n2{right:286px;top:270px;background:#58d0d1}.deco-node.n3{right:96px;top:350px}.deco-code{position:absolute;right:48px;top:122px;font-size:118px;line-height:1;font-weight:900;color:rgba(255,255,255,.08);letter-spacing:-.05em}.deco-words{position:absolute;right:0;bottom:24px;font-size:12px;font-weight:800;letter-spacing:.16em;color:rgba(255,255,255,.34)}
+/* cover */
+.cover .hero-grid{height:610px}.cover .map-orbit{transform:scale(1.07)}
+/* page-specific balance */
+.page-02 .why-fix div{min-height:150px;padding:22px}.page-02 .two-col{gap:52px}.page-03 .cards{gap:24px}.page-03 .card{min-height:252px;padding:32px 30px}.page-03 .card-title{font-size:23px}.page-03 .card-body{font-size:18px;line-height:1.62}.page-04 .five-questions{gap:16px;width:96%;margin:0 auto}.page-04 .five-questions div{padding:18px 24px;min-height:72px}.page-04 .five-questions span{font-size:21px}.page-05 .abbr-board{gap:11px}.page-05 .abbr-item{min-height:79px;padding:10px 12px}.page-06 .journey{grid-template-columns:1.2fr .8fr;gap:48px}.page-06 .journey-line{gap:12px}.page-06 .journey-line span{padding:18px 20px;font-size:18px}.page-06 .dialogue{padding:28px 26px;gap:14px}.page-06 .speech{padding:15px 18px;font-size:17px}.page-08 .pipeline{gap:13px}.page-08 .pipe-node{padding:21px 24px;font-size:19px}.page-08 .split-note{gap:22px}.page-08 .split-note div{min-height:126px;padding:28px 22px;font-size:18px}.page-09 .card{min-height:205px;padding:28px}.page-10 .flow-lanes{max-width:1180px}.page-10 .lane span{padding:16px;font-size:16px}.page-11 .two-col{gap:28px}.page-11 .two-col>div{background:#fff;border:1px solid var(--line);border-top:5px solid var(--p);border-radius:18px;padding:27px 30px;min-height:315px;box-shadow:0 8px 24px rgba(49,34,63,.05)}.page-11 .two-col>div:last-child{border-top-color:#b49bc8}.page-11 .bullets li{margin:14px 0}.page-12 .assertion-board div{min-height:128px;padding:17px}.page-13 .exercise-grid.rich .exercise{min-height:430px;padding:24px}.page-15 .compact-chain div{padding:12px 14px}.page-15 .dialogue{padding:25px}.page-16 .system-stack div{padding:20px 22px;font-size:17px}.page-16 .two-col>div:last-child{background:white;border:1px solid var(--line);border-radius:18px;padding:26px 30px;box-shadow:0 8px 24px rgba(49,34,63,.04)}.page-17 .control-map{transform:scale(1.045);transform-origin:center}.page-17 .cm-top div{padding:26px;min-height:140px}.page-18 .math-box{min-height:250px;padding:24px}.page-18 .matrix-analogy{gap:16px}.page-19 .evidence-examples div{min-height:218px;padding:20px}.page-19 .dialogue{margin-top:4px}.page-20 .four-box div{min-height:205px;padding:28px}.page-20 .mini-case{padding:22px}.page-21 .matrix>div{padding:22px 20px;font-size:17px}.transfer-chain{display:flex;align-items:center;justify-content:center;gap:15px;padding:18px;border-radius:14px;background:linear-gradient(90deg,rgba(79,45,127,.07),rgba(23,107,99,.07));border:1px solid rgba(79,45,127,.10)}.transfer-chain span{padding:10px 16px;background:white;border-radius:999px;border:1px solid var(--line);font-weight:800;color:var(--p)}.transfer-chain i{font-style:normal;color:var(--accent);font-size:22px}.page-22 .scenario{min-height:350px;display:flex;flex-direction:column;justify-content:center;padding:34px 40px}.page-22 .scenario>p{font-size:19px;line-height:1.6}.page-22 .scenario button{align-self:flex-start;padding:13px 20px}.page-24 .arch-box{padding:20px}.page-25 .identity-cards .card{min-height:275px;padding:28px}.page-26 .concept-grid div{min-height:72px;padding:13px 14px}.page-26 .two-col>div{background:white;border:1px solid var(--line);border-radius:14px;padding:18px 20px}.page-27 .code-card{margin:12px auto 20px;padding:24px 30px}.page-27 .three-points div{min-height:150px;padding:24px}.page-28 .privilege-stack div{padding:20px 24px}.page-29 .log-layout{gap:32px}.page-29 .log-step span{font-size:15px}.page-30 .interface-diagram{margin:26px 0 18px}.page-30 .case-interface .sys{padding:28px 34px;font-size:22px}.page-30 .case-interface .api{padding:18px 24px}.page-30 .three-points div{min-height:150px;padding:24px}.page-31 .pipeline.change{margin:15px 0 10px!important}.page-31 .pipeline.change div{padding:18px 20px}.page-31 .card{min-height:245px;padding:26px}.page-32 .backup-timeline{margin-top:8px}.page-32 .backup-point{padding:24px;min-height:150px}.page-33 .evidence-map{gap:18px}.page-33 .evidence-map div{min-height:235px;padding:28px 24px}.page-33 .evidence-map b{font-size:20px}.page-33 .evidence-map span{font-size:16px}.page-35 .c22-four .card{min-height:300px;padding:28px 24px}.page-36 .lifecycle{gap:13px}.page-36 .lifecycle span{padding:22px 20px;font-size:18px}.page-36 .mini-case{padding:24px 26px;font-size:18px}.contrast-tags{display:flex;justify-content:center;align-items:center;gap:18px}.contrast-tags span{padding:14px 20px;border-radius:12px;background:#fff;border:1px solid var(--line);font-weight:800;color:var(--p)}.contrast-tags b{font-size:28px;color:var(--accent)}.page-37 .sod{gap:18px}.page-37 .sod div{padding:26px 28px;font-size:18px}.page-37 .callout{padding:22px 25px}.page-38 .matrix>div{padding:21px 20px;font-size:17px}.page-39 .boundary-map>div{min-height:300px;padding:30px}.page-39 .boundary-map span{padding:14px}.page-40 .steps div{min-height:185px;padding:30px 24px;display:flex;flex-direction:column;justify-content:center}.page-40 .steps b{font-size:36px}.page-40 .mini-case{padding:24px 26px}.page-42 .itac-types div{min-height:230px;padding:32px 26px}.page-42 .itac-types b{font-size:22px}.page-43 .four-box div{min-height:245px;padding:34px 28px;display:flex;flex-direction:column;justify-content:center}.page-43 .four-box.numbered b{font-size:40px;margin-bottom:22px}.page-44 .case-board>div{padding:22px 26px;font-size:18px}.page-45 .matrix>div{padding:23px 21px;font-size:17px}.page-45 .callout{padding:21px 24px}.page-46 .ipe-chain{gap:14px}.page-46 .ipe-chain span{padding:20px;font-size:17px}.page-46 .three-points div{min-height:165px;padding:25px}.page-47 .walkthrough{gap:13px}.page-47 .walkthrough div{padding:21px 18px;min-height:82px;display:flex;align-items:center;text-align:center}.page-47 .callout{padding:23px 26px}.page-49 .logic-chain{gap:13px}.page-49 .logic-chain span{padding:19px 18px;font-size:16px}.page-49 .callout{padding:22px}.page-50 .card{min-height:250px;padding:30px 25px}.page-51 .rule-quality>div:not(.vs){min-height:240px;padding:34px}.page-51 .rule-quality span{font-size:19px}.page-52 .je-grid div{min-height:215px;padding:28px 22px}.page-52 .je-grid b{font-size:18px}.page-52 .je-grid span{font-size:16px}.page-53 .ai-boundary>div{min-height:310px;padding:32px}.page-53 .ai-boundary span{padding:14px}.page-55 .case-company div{min-height:185px;padding:28px}.page-56 .slide-content{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}.page-56 .scenario{min-height:330px;padding:34px}.scope-hints{display:grid;gap:14px;padding:28px;border-radius:18px;background:linear-gradient(145deg,#f2edf7,#eaf5f2);border:1px solid rgba(79,45,127,.12);box-shadow:0 10px 28px rgba(49,34,63,.05)}.scope-hints b{font-size:20px;color:var(--p);margin-bottom:4px}.scope-hints span{background:white;border:1px solid var(--line);border-radius:11px;padding:16px;font-size:16px;line-height:1.4}.page-57 .blank-canvas{gap:14px}.page-57 .blank-canvas div{padding:20px 22px;min-height:78px;align-items:center}.page-58 .finding-list div{padding:22px 24px;font-size:18px;min-height:75px;display:flex;align-items:center}.page-58 .callout{padding:22px 24px}.page-59 .before-after>div{min-height:330px;padding:34px}.page-59 .before-after p{font-size:19px;line-height:1.7}.page-60 .five-questions{gap:15px;width:96%;margin:0 auto}.page-60 .five-questions div{min-height:72px;padding:17px 22px}
+
+/* ===== Revision 2026-08: terminology, C22 order, CAATs and integrated case ===== */
+.abbr-item{min-height:78px!important;padding:9px 11px!important;display:flex;flex-direction:column;justify-content:center}
+.abbr-item b{font-size:15px!important;margin-bottom:3px!important}
+.abbr-cn{display:block;font-size:12.5px;font-weight:750;color:#514a57;line-height:1.22}
+.abbr-en{display:block;font-size:10.8px;color:var(--accent);line-height:1.18;margin-top:3px;word-break:normal}
+.summary-strip{grid-template-columns:minmax(170px,max-content) 1fr!important}
+.summary-strip b{white-space:nowrap;font-size:16px!important}
+.page-33 .evidence-map{grid-template-columns:repeat(5,minmax(0,1fr));gap:11px!important}
+.page-33 .evidence-map div{padding:18px 16px!important}
+.page-33 .evidence-map b{font-size:16px!important;line-height:1.25}
+.page-33 .evidence-map span{font-size:14px!important}
+.c22-ops .card,.c22-ns .card{min-height:230px}
+.c22-ops .card-title,.c22-ns .card-title{font-size:19px}
+.c22-ops .card-body,.c22-ns .card-body{font-size:15.5px;line-height:1.5}
+.slide[data-section="模块六"] .logic-chain.data{margin:22px 0 18px!important}
+.slide[data-section="模块六"] .logic-chain.data span{font-size:15px;padding:12px 11px}
+.slide[data-section="模块六"] .cards.cols-4 .card{min-height:210px}
+.slide[data-section="模块七"] .case-company div{min-height:145px}
+.slide[data-section="模块七"] .cards.cols-4 .card{min-height:220px}
+.slide[data-section="模块七"] .blank-canvas div{grid-template-columns:260px 1fr}
+.slide[data-section="模块七"] .matrix>div{padding:12px 14px;font-size:15px}
+.slide[data-section="模块七"] .ipe-chain{margin:28px 0!important}
+.slide[data-section="模块七"] .three-points div{min-height:170px}
+
+/* ===== Navigation drawer ===== */
+#nav-toggle{position:fixed;right:20px;top:18px;z-index:1200;border:1px solid rgba(255,255,255,.28);background:rgba(79,45,127,.92);color:#fff;border-radius:12px;padding:10px 14px;font-weight:800;letter-spacing:.04em;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,.22);backdrop-filter:blur(10px)}
+#nav-toggle:hover{background:#60398f}
+#nav-backdrop{position:fixed;inset:0;z-index:1090;background:rgba(10,6,16,.38);opacity:0;pointer-events:none;transition:.22s}
+#slide-nav{position:fixed;right:0;top:0;bottom:0;width:min(410px,88vw);z-index:1100;background:linear-gradient(180deg,#150d24,#211233);color:#fff;transform:translateX(104%);transition:transform .25s ease;box-shadow:-24px 0 70px rgba(0,0,0,.34);display:flex;flex-direction:column}
+body.nav-open #slide-nav{transform:translateX(0)} body.nav-open #nav-backdrop{opacity:1;pointer-events:auto}
+.nav-head{padding:20px 20px 12px;border-bottom:1px solid rgba(255,255,255,.10)}
+.nav-head-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.nav-head b{font-size:18px}.nav-close{border:0;background:rgba(255,255,255,.10);color:#fff;border-radius:9px;width:34px;height:34px;cursor:pointer;font-size:18px}.nav-help{margin-top:7px;color:#cdbfdd;font-size:12px}
+#nav-search{width:100%;margin-top:12px;border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px 12px;background:rgba(255,255,255,.08);color:#fff;outline:none}#nav-search::placeholder{color:#a99bb9}
+.nav-module-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.nav-module-chip{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#e7dff0;padding:6px 9px;border-radius:999px;font-size:11px;cursor:pointer}.nav-module-chip:hover{background:rgba(139,92,246,.28);border-color:#8b5cf6}
+#nav-pages{flex:1;overflow:auto;padding:10px 12px 22px}.nav-section-title{position:sticky;top:-1px;z-index:1;background:#211233;color:#bda6d5;font-size:11px;font-weight:900;letter-spacing:.08em;padding:11px 8px 6px;text-transform:uppercase}.nav-page{display:grid;grid-template-columns:36px 1fr;gap:9px;width:100%;border:0;background:transparent;color:#f4eff8;text-align:left;padding:8px;border-radius:9px;cursor:pointer;line-height:1.25}.nav-page:hover{background:rgba(255,255,255,.07)}.nav-page.active{background:rgba(139,92,246,.24);box-shadow:inset 3px 0 0 #9b72d7}.nav-page small{color:#9f90af;font-variant-numeric:tabular-nums}.nav-page span{font-size:13px}.nav-empty{padding:24px;color:#ad9eba;text-align:center;font-size:13px}
+/* ===== Additional comprehensive-content components ===== */
+.cols-5{grid-template-columns:repeat(5,1fr)}
+.course-map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.course-map-grid>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;min-height:130px}.course-map-grid>div.wide{grid-column:1/4;display:grid;grid-template-columns:60px 220px 1fr;align-items:center;min-height:84px}.course-map-grid b{display:block;color:#a18ab5;font-size:13px}.course-map-grid strong{display:block;color:var(--p);font-size:18px;margin:4px 0 8px}.course-map-grid span{font-size:14px;line-height:1.42;color:#504958}
+.five-layer-map{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.five-layer-map>div{background:#fff;border:1px solid var(--line);border-top:5px solid var(--p);border-radius:14px;padding:17px;min-height:220px}.five-layer-map b{display:block;color:#aa92bd;font-size:12px}.five-layer-map strong{display:block;color:var(--p);font-size:19px;margin:8px 0 12px}.five-layer-map span{font-size:14px;line-height:1.45}.journey-line.large span{padding:16px 18px;font-size:16px}
+.scope-grid,.infra-boundary-grid,.interface-type-grid,.incident-grid,.identity-stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.scope-grid>div,.infra-boundary-grid>div,.interface-type-grid>div,.incident-grid>div,.identity-stack-grid>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;min-height:150px}.scope-grid b,.infra-boundary-grid b,.interface-type-grid b,.incident-grid b,.identity-stack-grid b{display:block;color:var(--p);font-size:18px;margin-bottom:10px}.scope-grid span,.infra-boundary-grid span,.interface-type-grid span,.incident-grid span,.identity-stack-grid span{font-size:14px;line-height:1.45}.scope-grid .accent,.infra-boundary-grid .accent,.interface-type-grid .accent{background:var(--accent-soft);border-color:#a7d5ce}
+.control-spectrum{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.control-spectrum>div{padding:24px;border-radius:17px;background:#fff;border:1px solid var(--line);min-height:260px}.control-spectrum b{display:block;color:var(--p);font-size:21px;margin-bottom:13px}.control-spectrum span{display:block;font-size:16px;line-height:1.55}.control-spectrum em{display:block;margin-top:18px;padding:9px 11px;background:#f5f1f8;border-radius:9px;color:#655b6c;font-style:normal;font-size:14px}
+.three-stage-test{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.three-stage-test>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:23px;min-height:250px}.three-stage-test b{display:block;color:var(--p);font-size:20px;margin-bottom:15px}.three-stage-test span{font-size:16px;line-height:1.58}
+.trace-chain,.ops-flow,.project-go-live,.data-lineage{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}.trace-chain span,.ops-flow span,.project-go-live span,.data-lineage span{background:#fff;border:1px solid #d6c8e1;border-radius:11px;padding:12px 14px;color:var(--p);font-weight:800;font-size:14px}.trace-chain i,.ops-flow i,.project-go-live i,.data-lineage i{font-style:normal;color:#9b83ad}
+.backup-coverage{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.backup-coverage>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;min-height:220px}.backup-coverage b{display:block;color:var(--p);font-size:18px;margin-bottom:12px}.backup-coverage span{font-size:14px;line-height:1.5}
+.manual-control-map{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.manual-control-map>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:23px;min-height:190px}.manual-control-map b{display:block;color:var(--p);font-size:20px;margin-bottom:12px}.manual-control-map span{font-size:16px;line-height:1.55}
+.project-flow-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.project-flow-grid>div{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px;min-height:145px}.project-flow-grid>div:nth-child(5),.project-flow-grid>div:nth-child(6),.project-flow-grid>div:nth-child(7){min-height:135px}.project-flow-grid b{display:block;color:#a18ab5;font-size:12px}.project-flow-grid strong{display:block;color:var(--p);font-size:17px;margin:5px 0 8px}.project-flow-grid span{font-size:13px;line-height:1.4}
+.priority-matrix{display:grid;grid-template-columns:1.15fr 1.5fr .9fr;border:1px solid var(--line);border-radius:14px;overflow:hidden}.priority-matrix>div{padding:15px 16px;background:#fff;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14px;line-height:1.42}.priority-matrix>.head{background:var(--p);color:#fff;font-weight:800}.priority-matrix b{display:block;color:var(--p);margin-bottom:5px}.priority-matrix .critical{background:#fceaea;color:#8b3030;font-weight:800}
+.end-to-end-chain{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr;align-items:stretch;gap:7px}.end-to-end-chain>div{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px}.end-to-end-chain b{display:block;color:var(--p);font-size:16px;margin-bottom:8px}.end-to-end-chain span{font-size:12.5px;line-height:1.4}.end-to-end-chain i{font-style:normal;align-self:center;text-align:center;color:#a18ab5;font-size:22px}
+.section-objectives{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px;max-width:1050px}.section-objectives>div{padding:10px 14px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.09);border-radius:999px;font-size:14px;color:#f1eaf7}.section-objectives span{color:#79d4c7;font-weight:900;margin-right:7px}
+@media(max-width:1100px){#nav-toggle{right:10px;top:10px}.course-map-grid,.scope-grid,.infra-boundary-grid,.interface-type-grid,.incident-grid,.identity-stack-grid{grid-template-columns:1fr 1fr}.five-layer-map,.backup-coverage{grid-template-columns:repeat(3,1fr)}.end-to-end-chain{grid-template-columns:1fr}.end-to-end-chain i{transform:rotate(90deg)}}
+
+/* content revision: C22 PBC + ITGC deficiency examples */
+.c22-pbc-map{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px!important}
+.c22-pbc-map>div{min-height:225px!important;padding:20px 17px!important}
+.c22-pbc-map b{font-size:16px!important;line-height:1.3}
+.c22-pbc-map span{font-size:13.5px!important;line-height:1.48!important}
+.compact-assessment-steps{margin:0!important;gap:12px!important}
+.compact-assessment-steps>div{min-height:auto!important;padding:13px 16px!important}
+.compact-assessment-steps b{font-size:24px!important;margin-bottom:5px!important}
+.compact-assessment-steps span{font-size:15px!important}
+.deficiency-case-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:0}
+.def-case{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 17px;box-shadow:0 6px 18px rgba(49,34,63,.045)}
+.def-case-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
+.def-case-head>b{color:var(--p);font-size:16px}
+.risk-tag{flex:0 0 auto;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:850;white-space:nowrap}
+.risk-tag.low{background:var(--good);color:#315f40}.risk-tag.mid{background:var(--warn);color:#805d18}.risk-tag.high{background:var(--bad);color:#8b3030}
+.def-case p{font-size:12.5px!important;line-height:1.38!important;margin:5px 0!important;color:#4e4754}
+.def-case p strong{color:#2f2934}
+
+.database-nine .collate-card{background:linear-gradient(145deg,#fff 0%,#f1ebf7 100%);border-color:#bda7d2}.database-nine .collate-card b{color:#4F2D7F}.database-nine>div{min-height:76px}
+</style></head><body>
+<div id="topbar"><button onclick="prev()">←</button><button onclick="next()">→</button><div id="progress"><div id="progressBar"></div></div><span id="counter"></span><button onclick="toggleOverview()">总览 O</button><button onclick="toggleNotes()">讲师备注 N</button></div>
+<aside aria-label="课件导航" id="slide-nav">
+<div class="nav-head">
+<div class="nav-head-row"><b>课件导航</b><button aria-label="关闭导航" class="nav-close" type="button">×</button></div>
+<div class="nav-help">点击页名跳转 · 输入关键词筛选 · 快捷键 M 打开/关闭</div>
+<input id="nav-search" placeholder="搜索标题，例如：Interface / C22 / 备份" type="search"/>
+<div class="nav-module-chips" id="nav-module-chips"></div>
+</div>
+<div id="nav-pages"></div>
+</aside><div aria-hidden="true" id="nav-backdrop"></div><button aria-label="打开导航" id="nav-toggle" type="button">☰ 导航</button><div id="deck"><section class="slide cover cover-density" data-section="总览">
+<div class="kicker">TRAINING DECK</div><h1>IT审计基础能力训练营</h1>
+<div class="hero-grid">
+<div>
+<div class="hero-sub">业务、系统、财务与审计结论</div>
+<p class="lead">适用于应届生、新入职人员，以及工作 1—3 年的助理/高级助理。</p>
+<div class="tag-row"><span>业务流程</span><span>财务逻辑</span><span>IT技术</span><span>ITGC</span><span>ITAC</span><span>CAATs</span><span class="project-tag">A公司项目案例</span></div>
+</div>
+<div class="map-orbit">
+<div class="orbit-center">审计结论</div>
+<div class="orbit-node n1">业务</div><div class="orbit-node n2">财务</div><div class="orbit-node n3">系统</div><div class="orbit-node n4">控制</div><div class="orbit-node n5">证据</div>
+</div>
+</div>
+<div class="section-label">总览</div><div class="slide-no">01</div><aside class="notes">开场不要从定义讲起。先说明这套训练营要解决的不是“记更多审计程序”，而是把业务、财务、系统、风险、控制、证据和结论连成一条线。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="总览">
+<div class="kicker">WHY</div><h1>培训重做的原因</h1><div class="slide-content"><div class="two-col">
+<div>
+<h3>新人常见状态</h3>
+<ul class="bullets"><li>会照着去年底稿做，但不知道为什么做。</li><li>做过 ITGC / ITAC，却无法解释它与财务报表的关系。</li><li>会拿资料、抽样、截图，但遇到非标准场景就不知道如何判断。</li><li>有数据工具能力，却很难把分析结果转化为审计证据和结论。</li></ul>
+</div>
+<div class="comic">
+<div class="comic-person">👩🏻‍💻</div>
+<div class="bubble">“去年底稿这么写的，所以今年也这么做？”</div>
+<div class="comic-arrow">→</div>
+<div class="comic-person">🧑🏻‍💼</div>
+<div class="bubble purple">“先告诉我：这个程序要证明什么？”</div>
+</div>
+</div><div class="why-fix">
+<div><b>先写清目的</b><span>每项程序先对应风险、控制目标和预期证据，不再只写“参照去年”。</span></div>
+<div><b>沿交易链核查</b><span>用A公司订单案例，把平台、小A系统、金蝶和财务报表串起来。</span></div>
+<div><b>练习分支判断</b><span>资料齐全、只满足一部分、完全没有资料，分别决定下一步。</span></div>
+<div><b>结论表达清楚</b><span>写明发生了什么、影响哪里、还缺什么，以及财审需要怎样调整。</span></div>
+</div></div>
+<div class="section-label">总览</div><div class="slide-no">02</div><aside class="notes">可结合课前问卷引入：常见诉求集中在财务知识与 IT 技术，但本质不是补两门课，而是建立知识之间的连接。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="总览">
+<div class="kicker">OUTCOMES</div><h1>基础训练营的五项验收</h1><div class="slide-content"><div class="five-questions">
+<div><b>01</b><span>一家公司从发生业务到形成财务报表，中间经历了哪些流程和系统？</span></div>
+<div><b>02</b><span>IT审计为什么与财务报表审计有关？</span></div>
+<div><b>03</b><span>ITGC、ITAC、Interface、IPE之间是什么关系？</span></div>
+<div><b>04</b><span>一个控制异常出现后，如何判断证据、缺陷和审计影响？</span></div>
+<div><b>05</b><span>面对一个陌生系统，应该从哪里开始理解和测试？</span></div>
+</div><div class="summary-strip"><b>培训结束后重点看</b><span>能否把业务、系统、控制、证据和审计结论连成完整逻辑，比记住定义更重要。</span></div></div>
+<div class="section-label">总览</div><div class="slide-no">04</div><aside class="notes">这五个问题是整个训练营的“出口指标”，后续所有模块都应能回扣。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="总览">
+<div class="kicker">COURSE MAP</div><h1>课程结构：从基础认知到完整项目</h1>
+<div class="slide-content"><div class="course-map-grid">
+<div><b>M01</b><strong>业务、财务与系统</strong><span>先看懂交易怎么发生、系统怎么处理、最终落到哪些财务科目和认定。</span></div>
+<div><b>M02</b><strong>财审逻辑与IT审计</strong><span>明确Scope、控制依赖、证据和异常如何影响整体审计策略。</span></div>
+<div><b>M03</b><strong>IT技术基础</strong><span>能够看懂应用、数据库、操作系统、身份、日志、接口和基础设施。</span></div>
+<div><b>M04</b><strong>IT一般控制（C22）</strong><span>按SA、PE、PM、NS四个领域理解控制目标、证据和异常定性。</span></div>
+<div><b>M05</b><strong>ITAC / Interface / IPE</strong><span>进入具体业务控制和系统生成信息，判断哪些内容可以支持财审依赖。</span></div>
+<div><b>M06</b><strong>CAATs与数据分析</strong><span>从审计问题出发取得可靠数据、设计规则、核验异常并形成可复核证据。</span></div>
+<div class="wide"><b>M07</b><strong>A公司综合案例</strong><span>把Scope、ITGC、ITAC、Interface、IPE和CAATs放回同一个项目中完成端到端判断。</span></div>
+</div>
+<div class="summary-strip"><b>学习顺序</b><span>前3个模块建立知识地图；模块4—6进入实务；最后用综合案例把所有程序重新串回项目交付。</span></div></div>
+<div class="section-label">总览</div><div class="slide-no">00</div>
+<aside class="notes">用于课程开场说明整体结构，并作为导航页。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-high" data-section="总览">
+<div class="kicker">GLOSSARY</div><h1>IT审计英文缩写与常用术语</h1><div class="slide-content"><div class="abbr-board"><div class="abbr-item"><b>IT</b><span class="abbr-cn">信息技术</span><span class="abbr-en">Information Technology</span></div><div class="abbr-item"><b>ITGC</b><span class="abbr-cn">信息技术一般控制</span><span class="abbr-en">Information Technology General Controls</span></div><div class="abbr-item"><b>ITAC</b><span class="abbr-cn">信息技术应用控制</span><span class="abbr-en">Information Technology Application Controls</span></div><div class="abbr-item"><b>IPE</b><span class="abbr-cn">被审计单位生成的信息</span><span class="abbr-en">Information Produced by the Entity</span></div><div class="abbr-item"><b>PBC</b><span class="abbr-cn">客户提供资料</span><span class="abbr-en">Prepared by Client</span></div><div class="abbr-item"><b>CAATs</b><span class="abbr-cn">计算机辅助审计技术</span><span class="abbr-en">Computer-Assisted Audit Techniques</span></div><div class="abbr-item"><b>Interface</b><span class="abbr-cn">接口</span><span class="abbr-en">System Interface</span></div><div class="abbr-item"><b>Scope</b><span class="abbr-cn">审计范围</span><span class="abbr-en">Audit Scope</span></div><div class="abbr-item"><b>SoD</b><span class="abbr-cn">职责分离</span><span class="abbr-en">Segregation of Duties</span></div><div class="abbr-item"><b>ERP</b><span class="abbr-cn">企业资源计划系统</span><span class="abbr-en">Enterprise Resource Planning</span></div><div class="abbr-item"><b>SQL</b><span class="abbr-cn">结构化查询语言</span><span class="abbr-en">Structured Query Language</span></div><div class="abbr-item"><b>DBA</b><span class="abbr-cn">数据库管理员</span><span class="abbr-en">Database Administrator</span></div><div class="abbr-item"><b>MFA</b><span class="abbr-cn">多因素认证</span><span class="abbr-en">Multi-Factor Authentication</span></div><div class="abbr-item"><b>SSO</b><span class="abbr-cn">单点登录</span><span class="abbr-en">Single Sign-On</span></div><div class="abbr-item"><b>RPO</b><span class="abbr-cn">恢复点目标</span><span class="abbr-en">Recovery Point Objective</span></div><div class="abbr-item"><b>RTO</b><span class="abbr-cn">恢复时间目标</span><span class="abbr-en">Recovery Time Objective</span></div><div class="abbr-item"><b>UAT</b><span class="abbr-cn">用户验收测试</span><span class="abbr-en">User Acceptance Testing</span></div><div class="abbr-item"><b>SA</b><span class="abbr-cn">信息安全</span><span class="abbr-en">Security Administration</span></div><div class="abbr-item"><b>PE</b><span class="abbr-cn">运行维护</span><span class="abbr-en">Program Execution</span></div><div class="abbr-item"><b>PM</b><span class="abbr-cn">变更管理</span><span class="abbr-en">Program Maintenance</span></div><div class="abbr-item"><b>NS</b><span class="abbr-cn">系统开发</span><span class="abbr-en">New Systems</span></div><div class="abbr-item"><b>AI</b><span class="abbr-cn">人工智能</span><span class="abbr-en">Artificial Intelligence</span></div><div class="abbr-item"><b>OS</b><span class="abbr-cn">操作系统</span><span class="abbr-en">Operating System</span></div><div class="abbr-item"><b>HR</b><span class="abbr-cn">人力资源</span><span class="abbr-en">Human Resources</span></div><div class="abbr-item"><b>AD / IDM</b><span class="abbr-cn">活动目录 / 身份管理</span><span class="abbr-en">Active Directory / Identity Management</span></div></div></div>
+<div class="section-label">总览</div><div class="slide-no">05</div><aside class="notes">本页用于统一项目中常见缩写、中文名称和英文全称。后续页面直接使用缩写或术语，不再重复解释。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-low" data-section="总览">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">CASE ROUTE</div><h1>一笔订单的系统旅程</h1><div class="slide-content"><div class="journey">
+<div>
+<div class="journey-line"><span>电商平台下单</span><i>→</i><span>小A系统筛选与发货</span><i>→</i><span>金蝶出库与记账</span><i>→</i><span>财务报表</span></div>
+<div class="callout case-callout"><b>贯穿案例的检查重点：</b>订单有没有漏？字段有没有变？异常有没有处理？最终凭证能不能追溯回平台交易？</div>
+</div>
+<div class="dialogue">
+<div class="dialogue-row"><div class="avatar">👩🏻‍💻</div><div class="speech">“订单都进金蝶了，是不是就没问题？”</div></div>
+<div class="dialogue-arrow">↓</div>
+<div class="dialogue-row"><div class="avatar">🧑🏻‍💼</div><div class="speech senior">“先对数量、金额、状态和异常记录，再看有没有人工补录。”</div></div>
+</div>
+</div></div>
+<div class="section-label">总览</div><div class="slide-no">06</div><aside class="notes">用同一笔订单贯穿后续章节，减少概念之间的割裂感。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide section section-density" data-section="模块一">
+<div class="kicker">FOUNDATION 01</div><h1>模块一｜企业业务、财务与信息系统</h1><div class="big-quote">本模块从财务报表数字的形成过程入手：<br/><b>财务报表上的数字是如何形成的？</b></div><div class="section-objectives"><div><span>✓</span>看懂主要业务循环和关键单据</div><div><span>✓</span>把系统处理连接到科目与认定</div><div><span>✓</span>能沿一笔交易追到财务报表</div></div>
+<div class="section-label">模块一</div><div class="slide-no">07</div><aside class="notes">这是整个课程最重要的起点。不要先讲会计认定，先从真实企业业务活动出发。</aside>
+<div aria-hidden="true" class="section-deco"><div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-node n1"></div><div class="deco-node n2"></div><div class="deco-node n3"></div><div class="deco-code">01</div><div class="deco-words">BUSINESS · SYSTEM · FINANCE</div></div></section><section class="slide density-low" data-section="模块一">
+<div class="kicker">BUSINESS → FINANCE</div><h1>企业经营与财务记录</h1><div class="slide-content"><div class="pipeline">
+<div class="pipe-node">平台下单</div><div class="pipe-arrow">→</div><div class="pipe-node">仓储发货</div><div class="pipe-arrow">→</div><div class="pipe-node">平台结算/收款</div><div class="pipe-arrow">→</div><div class="pipe-node">会计凭证</div><div class="pipe-arrow">→</div><div class="pipe-node strong">财务报表</div>
+</div><div class="split-note">
+<div><b>业务世界</b><br/>订单、发货、结算、退款、收款</div>
+<div><b>系统世界</b><br/>电商平台、小A系统、金蝶云星空、资金系统</div>
+<div><b>会计世界</b><br/>销售出库、会计凭证、总账、报表</div>
+</div></div>
+<div class="section-label">模块一</div><div class="slide-no">08</div><aside class="notes">强调财务报表是业务活动经过系统和会计处理后的结果。IT审计处在中间桥梁位置。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块一">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">BUSINESS CYCLES</div><h1>电商业务六大循环</h1><div class="slide-content"><div class="cards cols-3"><div class="card"><div class="card-title">销售与收款</div><div class="card-body">平台订单 → 小A系统筛选 → 发货 → 平台结算 → 收款</div></div><div class="card"><div class="card-title">采购与付款</div><div class="card-body">备货/请购 → 采购 → 质检入库 → 请款 → 付款</div></div><div class="card"><div class="card-title">仓储与履约</div><div class="card-body">国内仓/平台仓 → 调拨 → 出库 → 物流同步 → 退货</div></div><div class="card"><div class="card-title">存货与成本</div><div class="card-body">库存变动 → 月末加权平均 → 发出成本 → 结转</div></div><div class="card"><div class="card-title">资金</div><div class="card-body">付款申请 → 资金系统 → 银行支付 → 对账 → 归集</div></div><div class="card"><div class="card-title">总账与报告</div><div class="card-body">业务单据 → 金蝶凭证 → 关账 → 合并 → 报表</div></div></div></div>
+<div class="section-label">模块一</div><div class="slide-no">09</div><aside class="notes">每个循环都要让学员说出：主要业务单据、主要系统、核心会计结果。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块一">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">CASE: SALES</div><h1>电商销售数据链</h1><div class="slide-content"><div class="flow-lanes">
+<div class="lane"><div class="lane-title">业务</div><span>平台下单</span><span>仓储发货</span><span>平台结算/收款</span></div>
+<div class="lane-arrow">↓</div>
+<div class="lane"><div class="lane-title">系统</div><span>平台 → 小A系统</span><span>小A系统 → 金蝶出库</span><span>结算回传 → 凭证</span></div>
+<div class="lane-arrow">↓</div>
+<div class="lane"><div class="lane-title">审计锚点</div><span>平台订单号</span><span>单据编号/物料编码</span><span>结算单号/金额</span></div>
+<div class="lane-arrow">↓</div>
+<div class="lane"><div class="lane-title">财务结果</div><span>营业收入</span><span>应收及结算差异</span><span>货币资金</span></div>
+</div><div class="callout case-callout">审计关注：<b>订单、发货、结算和凭证能否完整、准确地衔接，并可从财务结果追溯回原始交易。</b></div></div>
+<div class="section-label">模块一</div><div class="slide-no">10</div><aside class="notes">可以让学员自己补充“可能出错的节点”，例如价格、数量、期间、重复发货、Interface 丢失、手工修改。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块一">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">FIVE-LAYER MAP</div><h1>从业务事件到审计程序：五层映射法</h1>
+<div class="slide-content"><div class="five-layer-map">
+<div><b>01</b><strong>业务事件</strong><span>客户下单、发货、退款、采购、收货、付款、盘点、关账。</span></div>
+<div><b>02</b><strong>单据与关键字段</strong><span>订单号、物料、数量、价格、日期、状态、结算单号、付款单号。</span></div>
+<div><b>03</b><strong>系统处理</strong><span>校验、审批、接口传输、自动计算、自动过账、状态锁定。</span></div>
+<div><b>04</b><strong>会计结果</strong><span>收入、应收、存货、成本、应付、资金、总账和报表。</span></div>
+<div><b>05</b><strong>审计关注</strong><span>对应认定、重大错报风险、关键控制、IT依赖和需要取得的证据。</span></div>
+</div>
+<div class="callout case-callout"><b>A公司例子：</b>平台订单会进一步影响发货、库存、收入、成本和收款。因此，IT审计需要沿交易链确认数据经过哪些系统、在哪些节点被修改或自动处理。</div></div>
+<div class="section-label">模块一</div><div class="slide-no">00</div>
+<aside class="notes">训练学员形成固定的五层思考方式：业务—数据—系统—会计—审计。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块一">
+<div class="kicker">GL &amp; REPORTING</div><h1>总账与财务报告：业务数据进入报表前还有哪些环节</h1>
+<div class="slide-content"><div class="journey-line large"><span>业务子系统</span><i>→</i><span>业务单据 / 自动凭证</span><i>→</i><span>总账</span><i>→</i><span>期末关账</span><i>→</i><span>调整与重分类</span><i>→</i><span>合并 / 财务报表</span></div>
+<div class="cards cols-4">
+<div class="card"><div class="card-title">凭证来源</div><div class="card-body">区分业务系统自动生成、接口传入、批量导入和财务人员手工录入。不同来源对应不同风险和证据。</div></div>
+<div class="card"><div class="card-title">关账与期间</div><div class="card-body">关注期间开放、关账权限、反结账、跨期处理以及关账后是否仍可修改关键业务数据。</div></div>
+<div class="card"><div class="card-title">调整分录</div><div class="card-body">重大手工分录、冲销、重分类和期末调整通常需要结合财审程序及数据分析进一步关注。</div></div>
+<div class="card"><div class="card-title">报表输出</div><div class="card-body">总账、科目余额、明细账和财务报表之间要能够勾稽；审计使用的报表还要考虑IPE可靠性。</div></div>
+</div>
+<div class="summary-strip"><b>与IT审计的关系</b><span>很多IT审计程序只停在业务系统。实际项目还要知道数据如何进入总账、如何关账、哪些手工环节可能重新改变最终财务结果。</span></div></div>
+<div class="section-label">模块一</div><div class="slide-no">00</div>
+<aside class="notes">把业务流程与总账、关账、财务报告环节连接起来。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块一">
+<div class="kicker">BOUNDARY</div><h1>IT审计所需的会计基础</h1><div class="slide-content"><div class="two-col">
+<div>
+<h3>需要掌握</h3>
+<ul class="bullets"><li>常见科目的业务来源。</li><li>借贷方向的基本逻辑。</li><li>收入、成本、存货、应收、应付、资金之间的关系。</li><li>主要财务报表认定与业务风险。</li><li>自动过账、关账、调整分录对财报的影响。</li></ul></div>
+<div>
+<h3>暂时不需要</h3>
+<ul class="bullets"><li>复杂会计准则的全部细节。</li><li>大量手工计算题。</li><li>与IT审计无直接关系的专业会计处理。</li><li>为了考试而记忆定义。</li></ul></div>
+</div><div class="mini-case"><b>A公司例子：</b>只要能说明“平台订单和发货如何形成金蝶销售出库及收入凭证”，就已经具备本课程需要的会计连接；复杂收入准则判断仍由财务审计团队负责。</div></div>
+<div class="section-label">模块一</div><div class="slide-no">11</div><aside class="notes">目标是“够用”，不是把 IT 审计人员训练成财务审计经理。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块一">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">ASSERTIONS</div><h1>财务报表认定与常见错报</h1><div class="slide-content"><div class="assertion-board">
+<div><b>发生</b><span>账上有销售，但订单或发货并未真实发生。</span></div>
+<div><b>完整性</b><span>平台已有订单，小A系统或金蝶却漏了一部分。</span></div>
+<div><b>准确性</b><span>数量、单价、折扣、汇率或税额传错。</span></div>
+<div><b>截止</b><span>12月发货记到1月，收入落错期间。</span></div>
+<div><b>分类</b><span>退款、折扣或平台费用记入错误科目。</span></div>
+<div><b>存在</b><span>期末库存记录还在，仓库实物已经没有。</span></div>
+<div><b>权利和义务</b><span>平台仓存货是否确实归公司所有。</span></div>
+<div><b>计价和分摊</b><span>月末加权平均成本计算错误，存货和成本都受影响。</span></div>
+</div><div class="dialogue compact" style="margin-top:14px"><div class="dialogue-row"><div class="avatar">👩🏻‍💻</div><div class="speech">“发货日期能改，只影响截止吗？”</div></div><div class="dialogue-row"><div class="avatar">🧑🏻‍💼</div><div class="speech senior">“还要看谁能改、改了哪些字段；金额、发生和完整性也可能一起受影响。”</div></div></div></div>
+<div class="section-label">模块一</div><div class="slide-no">12</div><aside class="notes">按交易、余额和列报三个层面补充认定。答案不要只收一个关键词，应结合被修改字段和业务后果判断。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-high" data-section="模块一">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">EXERCISE</div><h1>三个问题，分别从哪里查起</h1><div class="slide-content"><div class="exercise-grid rich">
+<div class="exercise"><b>问题一｜产品单价被人改了</b><p>未经授权新增或修改产品单价。</p><button onclick="reveal(this)">展开分析</button><div class="answer"><b>直接影响：</b>订单金额、收入和应收可能错误。<br/><b>先查资料：</b>价格权限、审批、变更日志、订单取价规则和异常订单。<br/><b>整改办法：</b>限制维护权限，价格变更必须审批并保留前后值。<br/><b>补偿控制：</b>每日价格异常报表，由业务负责人复核并跟进。</div></div>
+<div class="exercise"><b>问题二｜平台订单少了</b><p>平台订单没有完整传入小A系统。</p><button onclick="reveal(this)">展开分析</button><div class="answer"><b>直接影响：</b>漏发货、漏记收入，或后续人工补单。<br/><b>先查资料：</b>按平台订单号核对数量和金额，查看失败日志、重传记录和时差。<br/><b>整改办法：</b>Interface 失败自动报警，并建立失败重试机制。<br/><b>补偿控制：</b>每日由运营核对平台订单与小A系统接收清单。</div></div>
+<div class="exercise"><b>问题三｜金蝶出库少了</b><p>小A系统销售出库没有完整进入金蝶。</p><button onclick="reveal(this)">展开分析</button><div class="answer"><b>直接影响：</b>收入、成本、库存或凭证记录不完整。<br/><b>先查资料：</b>按单据编号和物料编码核对数量、金额、状态与 Interface 批次。<br/><b>整改办法：</b>失败记录进入待处理队列，处理后重新对账。<br/><b>补偿控制：</b>月末核对小A系统出库汇总、金蝶出库及相关凭证。</div></div>
+</div></div>
+<div class="section-label">模块一</div><div class="slide-no">13</div><aside class="notes">练习答案按“直接问题、检查资料、整改办法、补偿控制”四个维度展开。让学员先独立判断，再逐项展示。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide section section-density" data-section="模块二">
+<div class="kicker">FOUNDATION 02</div><h1>模块二｜财务审计逻辑与IT审计的连接</h1><div class="big-quote">本模块不评价IT部门整体管理水平。<br/><b>重点判断与财务审计相关的系统、控制和系统生成信息，能否作为审计依赖基础。</b></div><div class="section-objectives"><div><span>✓</span>判断系统为什么进入Scope</div><div><span>✓</span>区分控制类型和测试层次</div><div><span>✓</span>把IT结论转换成财审影响</div></div>
+<div class="section-label">模块二</div><div class="slide-no">14</div><aside class="notes">这是很多助理最缺的一层：知道怎么测，但不知道测试结果如何进入整体审计。</aside>
+<div aria-hidden="true" class="section-deco"><div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-node n1"></div><div class="deco-node n2"></div><div class="deco-node n3"></div><div class="deco-code">02</div><div class="deco-words">RISK · CONTROL · EVIDENCE</div></div></section><section class="slide density-mid" data-section="模块二">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">AUDIT LOGIC</div><h1>审计判断链</h1><div class="slide-content"><div class="two-col compact">
+<div class="compact-chain">
+<div><b>1</b><span><strong>风险：</strong>平台订单可能没有完整进入小A系统。</span></div>
+<div><b>2</b><span><strong>控制目标：</strong>所有有效订单均被完整、准确地接收。</span></div>
+<div><b>3</b><span><strong>控制：</strong>Interface 失败报警、重传和每日对账。</span></div>
+<div><b>4</b><span><strong>测试：</strong>了解流程，核对总体，抽查报警及处理。</span></div>
+<div><b>5</b><span><strong>证据：</strong>Interface 日志、失败清单、重传记录、对账表。</span></div>
+<div><b>6</b><span><strong>异常：</strong>三笔失败记录次日才补传。</span></div>
+<div><b>7</b><span><strong>结论与应对：</strong>结合影响期间和补偿控制决定是否依赖、是否追加程序。</span></div>
+</div>
+<div>
+<div class="dialogue"><div class="dialogue-row"><div class="avatar">👩🏻‍💻</div><div class="speech">“我已经抽了25笔，底稿是不是做完了？”</div></div><div class="dialogue-arrow">↓</div><div class="dialogue-row"><div class="avatar">🧑🏻‍💼</div><div class="speech senior">“先说清楚：这25笔要证明哪个风险被控制住了？”</div></div></div>
+<div class="callout subtle">程序设计应从风险和控制目标出发，再确定测试程序和所需证据。抽样数量本身不能代替审计判断。</div>
+</div>
+</div></div>
+<div class="section-label">模块二</div><div class="slide-no">15</div><aside class="notes">后面每个实务模块都反复回到这条链。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-high" data-section="模块二">
+<div class="kicker">WHY IT AUDIT</div><h1>信息系统与财审依赖</h1><div class="slide-content"><div class="two-col">
+<div class="system-stack">
+<div>业务大量自动处理</div><div>关键计算由系统完成</div><div>审批在系统工作流中执行</div><div>报表由系统生成</div><div>Interface 自动传输数据</div>
+</div>
+<div>
+<h3>如果系统不可信，会发生什么？</h3>
+<ul class="bullets"><li>控制测试结论可能不可靠。</li><li>系统生成的报表可能不能直接作为审计证据。</li><li>自动控制不能直接依赖。</li><li>财审需要增加替代或实质性程序。</li></ul></div>
+</div><div class="mini-case"><b>A公司例子：</b>财审若用小A系统订单明细选取收入样本，就需要确认报表的来源和筛选条件，并了解小A系统相关权限、变更和运维控制是否支持这份明细的可靠性。</div></div>
+<div class="section-label">模块二</div><div class="slide-no">16</div><aside class="notes">说明 ITGC 的价值不是“IT合规”，而是支撑系统持续、受控、可追溯地运行。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块二">
+<div class="kicker">SCOPE LOGIC</div><h1>IT审计Scope的判断依据</h1>
+<div class="slide-content"><div class="scope-grid">
+<div><b>重大业务流程</b><span>系统是否直接处理收入、采购、存货、成本、资金、总账等重大流程？</span></div>
+<div><b>关键自动控制</b><span>财审是否准备依赖系统自动计算、校验、审批、状态控制等ITAC？</span></div>
+<div><b>关键系统信息</b><span>财审是否使用该系统生成的明细、报表、台账或筛选结果作为审计证据？</span></div>
+<div><b>关键数据传输</b><span>该系统是否承载重大数据的Interface，或是上下游系统之间不可绕开的节点？</span></div>
+<div><b>基础设施依赖</b><span>数据库、操作系统、身份平台等是否直接支撑上述关键系统和控制？</span></div>
+<div class="accent"><b>最终判断</b><span>Scope应与具体财审依赖路径对应，并明确每个纳入对象的审计理由。</span></div>
+</div>
+<div class="summary-strip"><b>项目输出</b><span>Scope结论至少应写明：纳入对象、纳入理由、对应业务流程/科目/控制，以及重要系统未纳入时的理由。</span></div></div>
+<div class="section-label">模块二</div><div class="slide-no">00</div>
+<aside class="notes">Scope判断应在项目早期完成，并随着财审策略、系统变化和发现事项及时更新。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块二">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">CONTROL TYPES</div><h1>控制类型：自动控制、IT依赖人工控制与手工控制</h1>
+<div class="slide-content"><div class="control-spectrum">
+<div><b>自动控制</b><span>系统按照既定逻辑自动执行，例如自动计价、系统校验、状态锁定、自动审批。</span><em>重点：程序逻辑、参数、变更与ITGC。</em></div>
+<div><b>IT依赖人工控制</b><span>人员进行判断或复核，但使用系统生成报表、异常清单或系统状态作为依据。</span><em>重点：人工复核 + IPE可靠性。</em></div>
+<div><b>手工控制</b><span>控制执行和证据主要不依赖系统自动处理，例如纸质盘点签字或人工合同复核。</span><em>重点：通常由财审直接评价执行。</em></div>
+</div>
+<div class="callout case-callout"><b>A公司例子：</b>系统自动锁定已发货订单属于自动控制；运营每天复核系统生成的订单差异报表属于IT依赖人工控制。两者测试思路不同，不能都按“截图看一下”处理。</div></div>
+<div class="section-label">模块二</div><div class="slide-no">00</div>
+<aside class="notes">帮助学员区分不同控制类型及IT审计与财审的责任边界。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块二">
+<div class="kicker">CONTROL TESTING</div><h1>控制测试的三个层次：设计、实施与运行有效性</h1>
+<div class="slide-content"><div class="three-stage-test">
+<div><b>01｜设计是否合理</b><span>这个控制如果按设计执行，是否能够预防或及时发现相关风险？控制频率、执行人、阈值和异常处理是否匹配风险？</span></div>
+<div><b>02｜是否已经实施</b><span>控制是否已经配置或实施？通过 walkthrough、配置截图、系统演示、制度和访谈确认控制已经落实到系统配置或实际流程。</span></div>
+<div><b>03｜期间内是否有效运行</b><span>抽取期间样本、日志、审批、异常处理或重新执行结果，评价控制是否持续按预期执行。</span></div>
+</div>
+<div class="two-col compact"><div class="callout" style="margin-top:0"><b>常见误区：</b>看到一张配置截图，只能支持部分设计/实施证据，通常不足以说明全年运行有效。</div><div class="callout subtle" style="margin-top:0"><b>异常之后：</b>还要判断发生频率、影响范围、补偿控制以及是否改变原计划的控制依赖。</div></div></div>
+<div class="section-label">模块二</div><div class="slide-no">00</div>
+<aside class="notes">将控制测试从“取样本”提升到设计—实施—运行的完整判断。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块二">
+<div class="kicker">CONTROL MAP</div><h1>ITGC、ITAC、Interface 与 IPE</h1><div class="slide-content"><div class="control-map">
+<div class="case-ribbon">A公司项目案例</div><div class="cm-base">ITGC<br/><small>小A系统 / 金蝶 / 资金系统的权限、变更与运维</small></div>
+<div class="cm-top"><div>ITAC<br/><small>订单号自动生成、已发货锁定、价格审批</small></div><div>Interface<br/><small>平台订单/结算、小A系统出库/付款传输</small></div><div>IPE<br/><small>订单、结算、出库、库存明细和异常报表</small></div></div>
+<div class="cm-arrow">共同依赖稳定、受控的信息系统环境</div>
+</div><div class="callout subtle"><b>四者关系：</b>ITGC 支撑系统环境；ITAC 在应用中执行具体控制；Interface 负责系统间传输；IPE 是审计拟使用的系统生成信息。用户清单、日志和工单等资料通常作为 PBC 提供。</div></div>
+<div class="section-label">模块二</div><div class="slide-no">17</div><aside class="notes">用A公司销售链路说明：小A系统与金蝶的权限/变更/运维是ITGC；订单号自动生成、已发货订单锁定、产品价格审批是ITAC；平台到小A系统、小A系统到金蝶/资金系统是 Interface；订单、结算和出库明细可构成IPE。<br/><br/>[Sources]<br/>B22A-4-1 IT概要；B22A-4-2 重大业务流程涉及的信息系统；B23-15 了解信息处理控制。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块二">
+<div class="kicker">RELIANCE</div><h1>控制依赖的传导关系</h1><div class="slide-content"><p style="margin:0;font-size:16px;color:var(--muted)">一项 ITGC 出现问题后，先找它支撑了哪些 ITAC、Interface 或 IPE，再确定财审程序是否需要调整。</p><div class="matrix-analogy">
+<div class="math-box"><b>先确认事实</b><span>哪项 ITGC 没有设计好或没有执行</span><span>问题发生在哪个系统和期间</span><span>是否存在补偿控制</span></div>
+<div class="math-op">→</div>
+<div class="math-box"><b>再找依赖路径</b><span>它支撑了哪项 ITAC</span><span>哪些 IPE 可能被高权限改动</span><span>哪些 Interface 影响收入或成本</span></div>
+<div class="math-op">→</div>
+<div class="math-box"><b>最后决定应对</b><span>可以继续依赖</span><span>补测相关控制</span><span>改做替代或实质性程序</span></div>
+</div><div class="callout case-callout"><b>A公司例子：</b>若小A系统数据库高权限缺少独立日志复核，先定位哪些订单、出库或报表可能被绕过；它会削弱相关依赖路径，但不能直接推出“财务报表已经错了”。</div></div>
+<div class="section-label">模块二</div><div class="slide-no">18</div><aside class="notes">强调缺陷和错报之间不是一一对应关系。ITGC缺陷首先影响“能否依赖”，再影响财审应对。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块二">
+<div class="kicker">EVIDENCE</div><h1>审计证据｜充分性与可靠性</h1><div class="slide-content"><div class="evidence-examples">
+<div><b>当前权限截图</b><span>能说明截图时点的状态，不能单独证明全年权限变更都合规。</span><span class="verdict weak">相关，但期间不够</span></div>
+<div><b>离职清单 + 账号历史</b><span>用员工编号和停用时间核对，可评价离职账号是否及时关闭。</span><span class="verdict">组合后较强</span></div>
+<div><b>“系统自动处理”</b><span>客户口头说明没有配置、日志或重新执行支持，可靠性较弱。</span><span class="verdict weak">不能单独依赖</span></div>
+<div><b>Interface 对账表</b><span>若已验证来源、查询条件、总体和复核记录，可支持 Interface 完整性。</span><span class="verdict">可形成证据链</span></div>
+<div><b>游戏外挂例子</b><span>某账号开外挂把攻击力调成无限大并击败 Boss /bɔːs/，随后恢复正常。结算后的属性截图不能证明战斗期间没有异常修改；同理，期末权限截图不能替代全年操作日志。</span><span class="verdict weak">当前正常 ≠ 期间正常</span></div>
+</div><div class="dialogue compact" style="margin-top:14px"><div class="dialogue-row"><div class="avatar">👩🏻‍💻</div><div class="speech">“客户给了截图，为什么还要日志？”</div></div><div class="dialogue-row"><div class="avatar">🧑🏻‍💼</div><div class="speech senior">“截图回答现在是什么样；日志才可能回答期间内发生过什么。”</div></div></div></div>
+<div class="section-label">模块二</div><div class="slide-no">19</div><aside class="notes">这是技术理解与审计判断的连接点。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块二">
+<div class="kicker">DEFICIENCY LOGIC</div><h1>异常、缺陷与证据边界</h1><div class="slide-content"><div class="four-box">
+<div><b>资料缺失</b><span>控制可能存在，但目前证据不足。</span></div>
+<div><b>个别例外</b><span>总体控制存在，少量样本未按要求执行。</span></div>
+<div><b>执行缺陷</b><span>控制设计合理，但未持续执行。</span></div>
+<div><b>设计缺陷</b><span>即使按现有流程执行，也无法充分降低风险。</span></div>
+</div><div class="callout">定性时建议依次确认：控制目标是什么？现有事实能支持到什么程度？是否存在替代证据或补偿控制？</div><div class="mini-case"><b>分支例子：</b>离职账号未及时停用，但期间无登录记录，只能说明风险未实际发生吗？还要确认日志是否完整、账号权限大小、延迟天数及是否有其他监控，再决定是资料不足、个别例外还是控制缺陷。</div></div>
+<div class="section-label">模块二</div><div class="slide-no">20</div><aside class="notes">用实际项目问题讲：如离职账户未及时停用、变更无审批、日志不足等。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-low" data-section="模块二">
+<div class="kicker">IT → FINANCIAL AUDIT</div><h1>IT结论的财审传递</h1><div class="slide-content"><div class="matrix">
+<div class="m-head">IT发现</div><div class="m-head">可能影响</div><div class="m-head">财审可能应对</div>
+<div>用户权限控制失效</div><div>未经授权交易/主数据修改风险</div><div>评估相关自动控制依赖；增加实质性程序</div>
+<div>变更管理失效</div><div>关键程序逻辑可能未经批准修改</div><div>评价具体变更、重新测试ITAC或转实质性</div>
+<div>IPE可靠性不足</div><div>审计样本总体或计算基础可能不可靠</div><div>重建报表、核对源数据、实施 IPE 测试</div>
+</div><div class="transfer-chain"><span>IT发现</span><i>→</i><span>识别受影响的控制 / IPE / Interface</span><i>→</i><span>确定财审应对</span></div></div>
+<div class="section-label">模块二</div><div class="slide-no">21</div><aside class="notes">不要把“财审应对”讲成固定答案，要让学员理解依赖路径。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-low" data-section="模块二">
+<div class="kicker">CASE</div><h1>超级管理员账号｜分支判断</h1><div class="slide-content"><div class="scenario">
+<p style="margin-top:0"><b>背景：</b>财务系统存在 3 个超级管理员账号，其中 1 个由 IT 部门负责人使用。先确认：业务必要性、实名归属、审批、职责分离、日志范围、独立复核和实际操作。</p>
+<button onclick="reveal(this)">展开三种判断</button>
+<div class="answer">
+<div class="branch-grid">
+<div class="branch bad"><b>什么都没有</b><span>没有授权、没有使用限制、没有日志，也没有独立监控。</span><em>判断：控制不能支持依赖。确定受影响系统和期间，检查高风险操作，并与财审讨论追加程序。</em></div>
+<div class="branch partial"><b>只满足一部分</b><span>例如账号经批准且实名，但日志不完整或由本人复核。</span><em>判断：证据仍不足。补查堡垒机/数据库/应用日志，扩大高风险操作检查，并评价其他补偿控制。</em></div>
+<div class="branch good"><b>关键条件均满足</b><span>确有必要、审批充分、个人账号、使用受限、日志完整并由独立人员及时复核，未见异常操作。</span><em>判断：仍记录为高风险权限，但相关控制可以测试；结合样本结果决定是否依赖。</em></div>
+</div>
+</div>
+<div class="callout subtle">若日志缺失，不能停在“资料未提供”。还要继续问：有没有堡垒机记录、工单、数据库审计日志、变更记录或业务复核可以交叉印证？</div>
+</div></div>
+<div class="section-label">模块二</div><div class="slide-no">22</div><aside class="notes">训练“风险≠结论”。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide section section-density" data-section="模块三">
+<div class="kicker">FOUNDATION 03</div><h1>模块三｜IT技术基础</h1><div class="big-quote">本模块完成后，应能看懂企业常见IT架构和工具链，区分应用、代码、CI/CD、数据库、操作系统、网络、接口与日志，并知道每一层与IT审计有什么关系。</div><div class="section-objectives"><div><span>✓</span>画出应用、数据与技术架构</div><div><span>✓</span>看懂Git、Jenkins、数据库、服务器与网络</div><div><span>✓</span>知道不同技术层需要什么证据</div></div>
+<div class="section-label">模块三</div><div class="slide-no">23</div><aside class="notes">建议这一模块尽量用架构图和真实系统截图，不要做成计算机原理课。</aside>
+<div aria-hidden="true" class="section-deco"><div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-node n1"></div><div class="deco-node n2"></div><div class="deco-node n3"></div><div class="deco-code">03</div><div class="deco-words">APP · DB · OS · LOG</div></div></section><section class="slide density-high" data-section="模块三">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">ARCHITECTURE</div><h1>A公司业务系统架构</h1><div class="slide-content"><div class="two-col compact">
+<div class="arch">
+<div class="arch-row"><div class="arch-box user">业务入口<br/><small>电商平台订单、仓储发货、平台结算</small></div></div><div class="arch-arrow">↓ 订单 / 结算 / 状态</div>
+<div class="arch-row"><div class="arch-box">应用处理<br/><small>小A系统：订单筛选、发货、回传<br/>金蝶：销售出库、凭证、总账<br/>资金系统：付款与支付</small></div></div><div class="arch-arrow">↓ 读写与存储</div>
+<div class="arch-row"><div class="arch-box">数据库与服务器<br/><small>Oracle /ˈɔːrəkəl/ · SQL Server · MySQL /ˌmaɪ es kjuː ˈel/<br/>Ubuntu /ʊˈbʊntuː/ · Windows Server /ˈwɪndoʊz ˈsɜːrvər/</small></div></div><div class="arch-arrow">↓ 支撑和留痕</div>
+<div class="arch-row"><div class="arch-box">基础控制<br/><small>身份认证、网络、日志、备份、监控</small></div></div>
+</div>
+<div class="layer-list">
+<div><b>业务层</b><span>人实际做了什么：下单、发货、退款、结算和付款。</span></div>
+<div><b>应用层</b><span>系统按规则处理业务，并形成单据、凭证和报表。</span></div>
+<div><b>数据层</b><span>数据库保存订单号、单据编号、物料编码、金额和状态。</span></div>
+<div><b>基础设施层</b><span>服务器、账号、日志和备份决定系统能否持续、可追溯地运行。</span></div>
+<div class="callout case-callout" style="margin-top:0"><b>架构图建议：</b>方框写系统或层级，箭头写传什么数据；每条关键数据都要能找到来源、去向、对账字段和留痕。</div>
+</div>
+</div></div>
+<div class="section-label">模块三</div><div class="slide-no">24</div><aside class="notes">让新人把系统名和技术层分开。SAP/金蝶是应用；Oracle是数据库；Linux/Windows是OS；AD/IDM是身份体系。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">IDENTITY</div><h1>身份认证、账号与授权</h1><div class="slide-content"><div class="cards cols-3 identity-cards">
+<div class="card"><span class="identity-icon">🪪</span><div class="card-title">Account｜账号</div><div class="card-body">像门禁卡上写着的名字，是人与系统身份的载体。<br/><br/><b>审计例：</b>共用管理员账号就像几个人共用一张无名门禁卡，事后很难追到具体人员。</div></div>
+<div class="card"><span class="identity-icon">🔐</span><div class="card-title">Authentication｜身份认证</div><div class="card-body">像刷卡后还要核对指纹，回答“你是不是卡上的那个人”。密码、多因素认证和单点登录都属于认证。</div></div>
+<div class="card"><span class="identity-icon">🚪</span><div class="card-title">Authorization｜授权</div><div class="card-body">像门禁系统决定这张卡能开哪几扇门，回答“你能看什么、做什么、改什么”。角色、菜单和数据范围都属于授权。</div></div>
+</div><div class="dialogue compact" style="margin-top:14px"><div class="dialogue-row"><div class="avatar">👩🏻‍💻</div><div class="speech">“密码够复杂，就代表权限没问题？”</div></div><div class="dialogue-row"><div class="avatar">🧑🏻‍💼</div><div class="speech senior">“密码只证明认证强度；卡能开哪些门，还得单独查授权。”</div></div></div></div>
+<div class="section-label">模块三</div><div class="slide-no">25</div><aside class="notes">这页之后进入用户权限ITGC时，学员会更容易理解为什么“账号”和“权限”是两回事。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">IDENTITY STACK</div><h1>身份基础设施：AD、IDM、SSO、MFA与服务账号</h1>
+<div class="slide-content"><div class="identity-stack-grid">
+<div><b>AD / Directory</b><span>集中维护域账号、组、设备和认证信息；很多应用账号与域账号存在关联。</span></div>
+<div><b>IDM / IAM</b><span>承接入转调离、权限申请、审批、角色分配和账号生命周期管理。</span></div>
+<div><b>SSO</b><span>用户一次认证后访问多个应用；需要理解身份源、信任关系和离职停用的传导。</span></div>
+<div><b>MFA</b><span>在密码之外增加第二认证因素；重点看覆盖对象、绕过方式和高权限账号是否强制使用。</span></div>
+<div><b>Service Account</b><span>应用、接口、作业使用的非个人账号；关注用途、密码管理、权限最小化和是否允许交互登录。</span></div>
+<div><b>Shared Account</b><span>多人共用账号会削弱操作归属和追踪能力，需结合必要性、审批、密码保管及独立日志判断。</span></div>
+</div>
+<div class="summary-strip"><b>审计思路</b><span>先画清身份从“人员—身份平台—应用—高权限”的传导路径，再判断新增、变更和离职停用在哪个环节生效。</span></div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">补齐企业身份体系，不把账号测试局限在应用系统用户清单。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块三">
+<div class="kicker">DATABASE</div><h1>数据库九个基本概念</h1><div class="slide-content"><div class="concept-grid database-nine" style="grid-template-columns:repeat(3,1fr);gap:10px">
+<div><b>🏛 Database /ˈdeɪtəbeɪs/</b><span>数据库｜整座档案馆</span></div>
+<div><b>🗂 Schema /ˈskiːmə/</b><span>模式｜档案馆里的分区</span></div>
+<div><b>🗄 Table /ˈteɪbəl/</b><span>表｜一排按列整理的档案柜</span></div>
+<div><b>🪟 View /vjuː/</b><span>视图｜只展示指定内容的窗口</span></div>
+<div><b>🔑 Primary Key /ˈpraɪmeri kiː/</b><span>主键｜每份档案唯一的编号</span></div>
+<div><b>🔎 SQL</b><span>查询语言｜向档案馆下检索指令</span></div>
+<div><b>🧑🏻‍💼 DBA</b><span>数据库管理员｜掌管档案馆的人</span></div>
+<div><b>📖 Audit Log /ˈɔːdɪt lɔːɡ/</b><span>审计日志｜谁动过哪份档案的记录本</span></div>
+<div class="collate-card"><b>🔤 Collation / COLLATE</b><span>排序与比较规则｜决定文本如何排序、匹配，以及是否区分大小写、重音等差异</span></div>
+</div><div class="two-col compact" style="margin-top:16px"><div class="callout" style="margin-top:0"><b>审计应用：</b>前台页面可能限制修改，但数据库高权限仍可能直接改表；审计需要知道数据从哪张表来、用什么主键关联、谁能写入。做对账、去重或关联时，还要留意不同系统的 Collation 是否一致。</div><div class="callout case-callout" style="margin-top:0"><b>Collation 为什么会影响分析：</b>例如 User01 与 user01 在某些规则下会被视为相同，在另一些规则下则不同。跨系统核对时，如果比较规则不一致，可能产生“假差异”或漏掉重复记录。</div></div><div class="summary-strip"><b>概念区分</b><span><b>Collation</b> 是文本排序和比较规则；<b>COLLATE</b> 是查询中显式指定比较规则的常见写法。IT审计不需要记数据库语法细节，但要知道它可能影响匹配、去重、JOIN 和 CAATs 结果。</span></div></div>
+<div class="section-label">模块三</div><div class="slide-no">26</div><aside class="notes">可以现场展示一个简单SELECT语句和表关联，但不需要讲复杂SQL。补充说明 Collation 是字符串比较和排序规则，COLLATE 是指定该规则的常见SQL写法；重点让学员理解它为什么会影响跨系统对账、去重和关联结果。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">SQL FOR AUDIT</div><h1>SQL｜查询前的三个问题</h1><div class="slide-content"><div class="case-ribbon">A公司项目案例</div><div class="code-card"><pre>-- 教学示意：先按业务主键聚合，再做系统间比对
+SELECT 平台订单号, COUNT(*) AS 明细行数, SUM(订单金额) AS 汇总金额
+FROM 平台订单数据
+WHERE 销售日期 BETWEEN '2025-01-01' AND '2025-12-31'
+GROUP BY 平台订单号;</pre></div><div class="three-points"><div><b>先问总体</b><span>这张表能覆盖全部变更吗？</span></div><div><b>再问字段</b><span>每个字段代表什么业务事件？</span></div><div><b>最后问证据</b><span>数据是否可被修改？如何验证完整性？</span></div></div></div>
+<div class="section-label">模块三</div><div class="slide-no">27</div><aside class="notes">把SQL放回审计证据语境，避免“会查询就等于会数据审计”。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">PRIVILEGED ACCESS</div><h1>操作系统与特权账号</h1><div class="slide-content"><div class="privilege-stack">
+<div>应用管理员：能配置应用、角色、参数</div>
+<div>数据库管理员：能直接操作数据库</div>
+<div>操作系统管理员：能访问服务器、文件、进程</div>
+<div class="critical">root / Administrator：通常拥有最高系统权限</div>
+</div><div class="callout subtle"><b>高权限账号的理解：</b>root 和 Administrator 像能打开整栋楼的总钥匙。可以存在，但要实名保管、经批准使用、记录开过哪些门，并由另一人检查。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">28</div><aside class="notes">可以解释为什么同一个人同时拥有应用、数据库和OS高权会放大绕过控制的能力。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">TRACEABILITY</div><h1>从前端操作追到数据库：一次高风险操作会留下哪些痕迹</h1>
+<div class="slide-content"><div class="trace-chain"><span>用户 / 终端</span><i>→</i><span>SSO / 应用登录</span><i>→</i><span>应用操作日志</span><i>→</i><span>API / 服务</span><i>→</i><span>数据库语句或审计日志</span><i>→</i><span>数据结果</span></div>
+<div class="cards cols-4">
+<div class="card"><div class="card-title">应用层</div><div class="card-body">最接近业务动作，可记录菜单、单据、字段、审批、导出等业务语义。</div></div>
+<div class="card"><div class="card-title">数据库层</div><div class="card-body">可支持谁直接查询或修改底层数据，但未必能完整说明对应业务场景。</div></div>
+<div class="card"><div class="card-title">操作系统 / 堡垒机</div><div class="card-body">可补充管理员登录、命令、会话录像和主机操作，用于交叉验证高权限活动。</div></div>
+<div class="card"><div class="card-title">证据拼接</div><div class="card-body">不同日志证明不同事实。需要用时间、账号、对象和业务主键把证据串起来。</div></div>
+</div>
+<div class="callout subtle">单一日志很少能回答所有问题。IT审计更常见的做法是用应用、数据库、堡垒机、工单和业务记录相互印证。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">用一个高风险操作说明不同技术层次的日志边界。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">INFRA BOUNDARY</div><h1>网络、云与环境隔离：IT审计需要理解到什么程度</h1>
+<div class="slide-content"><div class="infra-boundary-grid">
+<div><b>开发 / 测试 / 生产</b><span>环境是否隔离；开发人员是否可以直接进入生产；部署是否经过受控路径。</span></div>
+<div><b>网络边界</b><span>重点理解关键系统如何被访问、管理通道在哪里、远程访问和高权限入口是否受控。</span></div>
+<div><b>云平台</b><span>区分云厂商负责的基础设施与公司自己负责的账号、配置、数据和应用控制。</span></div>
+<div><b>数据库 / 主机托管</b><span>明确系统运行在哪些服务器、数据库或云服务上，哪些基础设施控制会影响应用可靠性。</span></div>
+<div><b>接口与中间件</b><span>识别ESB、消息队列、API网关、文件交换等关键中间层，避免只看到两个应用端点。</span></div>
+<div class="accent"><b>审计边界</b><span>目标不是完成一次网络安全评估，而是理解哪些技术组件会影响财务相关系统、控制和审计证据。</span></div>
+</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">说明IT审计所需基础设施知识的深度和边界。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">LOGGING</div><h1>日志基础与分析步骤</h1><div class="slide-content"><div class="two-col compact">
+<div>
+<div class="callout" style="margin-top:0"><b>Log｜日志：</b>系统按时间记录“谁在什么时候，对什么对象做了什么，结果如何”的事件轨迹。应用日志、数据库日志、操作系统日志、堡垒机日志证明的事实不同。</div>
+<div class="concept-grid" style="margin-top:12px"><div><b>人员</b><span>用户、管理员、服务账号</span></div><div><b>时间</b><span>时间戳、时区、先后顺序</span></div><div><b>动作</b><span>登录、查询、修改、删除、导出</span></div><div><b>对象与结果</b><span>表、单据、权限；成功/失败及前后值</span></div></div>
+<div class="dialogue compact" style="margin-top:12px"><div class="dialogue-row"><div class="avatar">👩🏻‍💻</div><div class="speech">“夜间导出很多数据，就是异常吗？”</div></div><div class="dialogue-row"><div class="avatar">🧑🏻‍💼</div><div class="speech senior">“先看角色、对象、时段、审批和历史基线，再判断。”</div></div></div>
+</div>
+<div class="log-steps">
+<div class="log-step"><b>1</b><span><strong>明确问题：</strong>要查未授权登录、直接改库，还是批量导出？</span></div>
+<div class="log-step"><b>2</b><span><strong>确认范围：</strong>日志来源、期间、时区、保留期限及是否可能被删除。</span></div>
+<div class="log-step"><b>3</b><span><strong>核对总体：</strong>确认导出方式和记录条数，避免拿到被筛选过的数据。</span></div>
+<div class="log-step"><b>4</b><span><strong>整理字段：</strong>统一账号、时间、动作、对象、来源地址和结果。</span></div>
+<div class="log-step"><b>5</b><span><strong>设置规则：</strong>夜间登录、高权限改数、批量导出、连续失败、本人复核本人等。</span></div>
+<div class="log-step"><b>6</b><span><strong>核实命中：</strong>回到工单、审批和业务影响；命中规则不等于审计结论。</span></div>
+<div class="log-step"><b>7</b><span><strong>记录结论：</strong>说明总体、规则、命中、解释、证据和后续程序。</span></div>
+</div>
+</div></div>
+<div class="section-label">模块三</div><div class="slide-no">29</div><aside class="notes">可结合GitLab、堡垒机、数据库日志、ERP日志的实际项目经验说明“不同日志能证明不同事实”。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-low" data-section="模块三">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">INTERFACE</div><h1>A公司关键 Interface</h1><div class="slide-content"><div class="interface-diagram case-interface"><div class="sys">电商平台<br/><small>订单 / 结算单</small></div><div class="api">订单/结算 Interface<div class="loss">漏传 · 重复 · 时差</div></div><div class="sys">小A系统<br/><small>筛选 / 发货 / 回传</small></div><div class="api">出库/凭证 Interface<div class="loss">映射 · 状态 · 金额</div></div><div class="sys">金蝶云星空<br/><small>销售出库 / 凭证</small></div></div><div class="three-points"><div><b>完整性</b><span>有没有漏传、重复传。</span></div><div><b>准确性</b><span>字段映射、金额、单位是否正确。</span></div><div><b>异常处理</b><span>失败是否重试、对账、报警。</span></div></div></div>
+<div class="section-label">模块三</div><div class="slide-no">30</div><aside class="notes">订单与结算 Interface 可按平台订单号、结算单号聚合；小A系统与金蝶的销售出库 Interface 可按单据编号、物料编码比对。自然过渡到模块五的 Interface 测试。<br/><br/>[Sources]<br/>B23-15 了解信息处理控制（B23-15-12至B23-15-15）；C26-4/C26-5/C26-6 Interface 测试工作底稿。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">CHANGE MANAGEMENT</div><h1>系统变更流程</h1><div class="slide-content"><div class="pipeline change" style="margin:24px 0 18px"><div>需求工单</div><i>→</i><div>开发修改</div><i>→</i><div>测试验证</div><i>→</i><div>业务批准</div><i>→</i><div>受控部署</div><i>→</i><div>上线复核</div></div><div class="cards cols-3">
+<div class="card" style="min-height:220px"><div class="card-title">像寄一个重要包裹</div><div class="card-body">需求工单写清寄什么、为什么寄；开发人员负责打包，不能自己签收批准。</div></div>
+<div class="card" style="min-height:220px"><div class="card-title">先试装，再放行</div><div class="card-body">测试环境先验证正常场景、异常场景和 Interface 影响；业务负责人确认结果后才能放行。</div></div>
+<div class="card" style="min-height:220px"><div class="card-title">上线后核对签收</div><div class="card-body">部署记录要能说明谁在何时上线了哪个版本；上线后核对版本、功能和监控结果。</div></div>
+</div><div class="callout case-callout"><b>审计证据：</b>需求/缺陷说明、代码或配置变更、测试记录、业务审批、部署日志、版本号和上线验证。紧急变更还要检查事后补批与原因。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">31</div><aside class="notes">强调变更控制不是IT流程洁癖，而是为了保证我们测试过的程序逻辑在期间内没有被不受控地改变。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">BACKUP &amp; RECOVERY</div><h1>备份与恢复｜四个基本名词</h1><div class="slide-content"><div class="cards cols-4">
+<div class="card"><div class="card-title">Backup /ˈbækʌp/</div><div class="card-body">备份：把数据库、配置、代码或文件保存到另一份可用副本。</div></div>
+<div class="card"><div class="card-title">RPO</div><div class="card-body">恢复点目标：最多能接受丢失多长时间的数据。例：RPO 4小时。</div></div>
+<div class="card"><div class="card-title">RTO</div><div class="card-body">恢复时间目标：中断后多长时间内要恢复服务。例：RTO 2小时。</div></div>
+<div class="card"><div class="card-title">Restore Test /rɪˈstɔːr test/</div><div class="card-body">恢复测试：实际把备份还原并核对数据和功能，而不是只看“任务成功”。</div></div>
+</div><div class="backup-timeline"><div class="backup-point"><b>游戏存档类比</b><span>备份文件像存档；RPO 是离最近一次存档有多远。</span></div><div class="backup-arrow">→</div><div class="backup-point"><b>真正读档</b><span>RTO 是多久能重新进入游戏；恢复测试确认存档不是损坏文件。</span></div></div><div class="callout subtle"><b>审计还要看：</b>备份范围、频率、失败处理、保留期限、异地或离线隔离，以及恢复测试的时间、环境和结果。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">32</div><aside class="notes">IT审计一般不需要做灾备工程设计，但要理解“备份”“高可用”“灾难恢复”不是同一件事。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">TOOL LANDSCAPE</div><h1>企业常见IT工具地图｜先知道“它是干什么的”</h1>
+<div class="slide-content"><div class="scope-grid">
+<div><b>代码管理</b><span><strong>GitLab / GitHub / Gitee / SVN</strong><br/>保存源代码、版本和提交历史。审计关注谁能提交、合并、删除代码以及管理员权限。</span></div>
+<div><b>CI/CD 与发布</b><span><strong>Jenkins / GitLab CI / GitHub Actions</strong><br/>自动构建、测试和部署程序。审计关注生产发布权限、审批、凭据和操作追溯。</span></div>
+<div><b>需求与变更</b><span><strong>Jira / 禅道 / TAPD / Azure DevOps</strong><br/>记录需求、缺陷、测试和上线流程。经常是变更管理抽样的核心证据来源。</span></div>
+<div><b>数据库与客户端</b><span><strong>Oracle / MySQL / SQL Server / PostgreSQL</strong><br/><strong>Navicat / DBeaver / DataGrip / SSMS</strong>用于连接数据库；重点关注谁能直连生产库、是否可改数。</span></div>
+<div><b>主机与远程访问</b><span><strong>Linux / Windows Server / SSH / RDP / 堡垒机</strong><br/>决定谁能进入生产服务器、执行命令、替换文件和重启服务。</span></div>
+<div><b>云、日志与监控</b><span><strong>AWS / Azure / 阿里云 / 腾讯云、ELK / Splunk、Zabbix / Prometheus</strong><br/>关注IAM、高权限、日志留存、报警和关键服务可用性。</span></div>
+</div>
+<div class="summary-strip"><b>新人记忆法</b><span>沿着“代码在哪里 → 谁批准 → 谁发布 → 发布到哪里 → 数据存哪里 → 谁能直接改 → 留什么日志”把工具串起来。</span></div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">这页建议作为IT工具总览。让学员先建立类别感，不要求记住所有品牌。后续碰到陌生工具时，先问它属于代码、发布、数据库、主机、身份、日志还是安全层。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-mid" data-section="模块三">
+<div class="kicker">SOURCE CODE</div><h1>Git 与代码仓库｜Repo、Branch、Commit、Merge Request 是什么</h1>
+<div class="slide-content"><div class="trace-chain"><span>Repository 仓库</span><i>→</i><span>Branch 分支</span><i>→</i><span>Commit 提交</span><i>→</i><span>Merge Request 合并申请</span><i>→</i><span>Tag / Release 版本</span></div>
+<div class="cards cols-4">
+<div class="card"><div class="card-title">Repository</div><div class="card-body">一个项目的代码仓库。审计先确认哪些仓库对应财务相关系统、接口或关键脚本。</div></div>
+<div class="card"><div class="card-title">Branch</div><div class="card-body">不同开发线。常见 main/master、develop、feature。重点看生产分支是否受保护。</div></div>
+<div class="card"><div class="card-title">Commit</div><div class="card-body">一次代码变更记录，通常包含作者、时间和说明。它证明“代码被改过”，不等于“已上线”。</div></div>
+<div class="card"><div class="card-title">Merge Request</div><div class="card-body">把代码合并到目标分支的申请。可以配置必须经他人复核后才能合并，是常见补偿性职责分离控制。</div></div>
+</div>
+<div class="callout subtle"><b>常见误区：</b>GitLab里看到某人提交代码，只能证明他改了代码；要证明代码进入生产，还要继续追 Jenkins / CI/CD 发布记录、版本号和上线审批。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">结合真实项目时，可以展示一个Merge Request和一条Commit记录，讲清楚“代码提交”和“生产发布”是两个不同事件。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">CI / CD</div><h1>Jenkins 与 CI/CD｜代码如何从仓库走到生产</h1>
+<div class="slide-content"><div class="project-go-live"><span>开发提交代码</span><i>→</i><span>触发 Pipeline</span><i>→</i><span>Build 构建</span><i>→</i><span>Test 测试</span><i>→</i><span>Approval 审批</span><i>→</i><span>Deploy 部署</span><i>→</i><span>验证</span></div>
+<div class="five-layer-map" style="margin-top:16px">
+<div><b>01</b><strong>Job / Pipeline</strong><span>定义“拉代码—编译—测试—发布”的自动化步骤。修改Pipeline本身也属于高风险变更。</span></div>
+<div><b>02</b><strong>Agent / Node</strong><span>真正执行构建或部署任务的机器。要知道它能访问哪些生产服务器和网络区域。</span></div>
+<div><b>03</b><strong>Credentials</strong><span>Jenkins保存的SSH Key、Token、数据库密码或云密钥。拥有凭据管理权限通常属于高权限。</span></div>
+<div><b>04</b><strong>Build / Deploy</strong><span>Build是把代码变成可运行包；Deploy是把版本发布到目标环境。两者不要混为一谈。</span></div>
+<div><b>05</b><strong>User / Permission</strong><span>谁能查看、构建、配置Job、修改Credentials、执行生产发布，应按职责分配且一人一号。</span></div>
+</div>
+<div class="callout case-callout"><b>共享账号为什么有问题：</b>如果同组多人共用一个Jenkins人工登录账号，系统只能记录“这个账号发布了版本”，无法追溯到具体执行人员。服务账号可以存在，但不应当作为多人日常登录账号。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">可结合本次项目说明：如果功能上线均需审批，说明变更审批已有基础；但Jenkins共享人工账号仍应整改，因为它影响发布操作的个人可追溯性。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">SERVER RUNTIME</div><h1>服务器运行基础｜Host、VM、Container、Process、Port</h1>
+<div class="slide-content"><div class="five-layer-map">
+<div><b>01</b><strong>Host / Server</strong><span>承载系统运行的主机，可以是物理服务器或云主机。Linux和Windows Server都是常见操作系统。</span></div>
+<div><b>02</b><strong>VM 虚拟机</strong><span>一台物理服务器上可以运行多台逻辑服务器。审计时要区分“物理设备”和“实际承载应用的虚机”。</span></div>
+<div><b>03</b><strong>Container</strong><span>Docker容器把应用和依赖打包运行；Kubernetes负责大规模编排、扩缩容和服务调度。</span></div>
+<div><b>04</b><strong>Process / Service</strong><span>程序运行后形成进程或系统服务。重启服务、停止服务、替换程序文件都可能影响生产运行。</span></div>
+<div><b>05</b><strong>Port 端口</strong><span>服务对外提供访问的“逻辑入口”。例如Web常见80/443，SSH常见22，数据库也有各自监听端口。</span></div>
+</div>
+<div class="summary-strip"><b>审计要问</b><span>应用到底跑在哪里？谁能SSH/RDP登录？谁有root/Administrator？开发、测试和生产是否隔离？是否经过堡垒机？</span></div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">目标是让新人能听懂“生产服务器、虚机、Docker、端口、服务”这些现场常见词，不需要深入系统运维命令。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">NETWORK BASICS</div><h1>网络六个高频概念｜IP、Domain、DNS、Port、Firewall、VPN</h1>
+<div class="slide-content"><div class="scope-grid">
+<div><b>IP Address</b><span>设备或服务在网络中的地址。日志中的源IP可以帮助判断操作从哪里发起，但IP不一定等于某个人。</span></div>
+<div><b>Domain / URL</b><span>用户看到的系统地址，例如erp.company.com。域名最终需要解析到服务器或负载均衡地址。</span></div>
+<div><b>DNS</b><span>把域名解析成IP地址。DNS异常可能导致系统“地址没变，但访问不了”。</span></div>
+<div><b>Port</b><span>同一台服务器上不同服务的逻辑入口。审计不需要背端口，但要理解开放端口意味着一种可访问路径。</span></div>
+<div><b>Firewall / Security Group</b><span>控制哪些来源可以访问哪些目标和端口。云平台中安全组承担类似网络访问控制作用。</span></div>
+<div><b>VPN / Remote Access</b><span>让外部人员进入内部网络。重点看谁能远程进入生产环境、是否MFA、是否记录登录日志。</span></div>
+</div>
+<div class="callout subtle"><b>不要把网络审计做成渗透测试：</b>IT审计主要确认关键系统的访问边界和管理通道是否合理、是否支持权限控制与操作追溯。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">现场经常听到“白名单、开放端口、安全组、VPN、内网IP”。新人至少要能理解这些词如何影响系统访问。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">MIDDLEWARE</div><h1>接口与中间件｜API、Gateway、MQ、Kafka、ESB、ETL</h1>
+<div class="slide-content"><div class="interface-type-grid">
+<div><b>API</b><span>系统按约定实时请求数据或功能。要关注认证、请求参数、返回结果、失败重试和日志。</span></div>
+<div><b>API Gateway</b><span>统一承接API入口、认证、限流和路由。它可能是重要的接口日志和访问控制证据来源。</span></div>
+<div><b>Message Queue</b><span>消息队列让系统“先把消息放进去，再由另一端处理”。RabbitMQ、Kafka常见于订单、库存和日志传输。</span></div>
+<div><b>ESB</b><span>企业服务总线，负责多个系统之间的集成、转换和路由。财务接口链路中可能是关键中间层。</span></div>
+<div><b>ETL / Batch</b><span>Extract-Transform-Load：批量抽取、转换、加载数据。常用于数据仓库、日报、财务数据集成。</span></div>
+<div class="accent"><b>审计关注点</b><span>完整性、准确性、及时性、重复处理、失败重试、异常队列、字段映射及接口对账。</span></div>
+</div>
+<div class="summary-strip"><b>判断方法</b><span>接口并不一定是一条“线”。中间可能经过网关、消息队列、ESB、临时表或批处理任务，审计要把真实链路画完整。</span></div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">Kafka/RabbitMQ不需要讲技术实现；重点让学员知道“发送成功”不一定等于“下游处理成功”，要继续看消费、重试和异常处理。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">DATA EXCHANGE</div><h1>数据文件与格式｜CSV、JSON、XML、SFTP、Encoding、Checksum</h1>
+<div class="slide-content"><div class="five-layer-map">
+<div><b>01</b><strong>CSV / Excel</strong><span>结构化表格文件。关注字段定义、分隔符、日期和数字格式，以及是否因Excel处理造成精度或前导零丢失。</span></div>
+<div><b>02</b><strong>JSON / XML</strong><span>常见接口数据格式。JSON常用于API；XML在传统系统集成和报文中也很常见。</span></div>
+<div><b>03</b><strong>SFTP / File Transfer</strong><span>系统通过文件交换数据，例如每日订单、库存或银行流水。重点看文件是否齐全、是否重复、失败如何处理。</span></div>
+<div><b>04</b><strong>Encoding</strong><span>UTF-8、GBK等字符编码决定文本如何解释。编码错误会出现乱码，也可能影响字段匹配。</span></div>
+<div><b>05</b><strong>Checksum / Hash</strong><span>用MD5/SHA等摘要值判断文件在传输或保存过程中是否发生变化，可辅助验证文件完整性。</span></div>
+</div>
+<div class="callout subtle"><b>CAATs常见坑：</b>订单号被Excel转成科学计数法、日期时区错位、UTF-8/GBK乱码、金额字段被当成文本、CSV分隔符导致列错位，都可能制造“假异常”。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">这页与后续CAATs衔接。强调数据质量问题可能来自导出和处理过程，不一定是业务系统异常。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">OBSERVABILITY</div><h1>监控、日志与告警｜Metrics、Logs、Traces 各回答什么</h1>
+<div class="slide-content"><div class="control-spectrum">
+<div><b>Metrics｜指标</b><span>CPU、内存、磁盘、响应时间、错误率、队列积压等连续指标。</span><em>常见：Zabbix、Prometheus、Grafana</em></div>
+<div><b>Logs｜日志</b><span>记录具体事件，例如登录、报错、接口失败、数据修改和管理员操作。</span><em>常见：ELK / Elastic、Splunk、Graylog</em></div>
+<div><b>Traces｜链路追踪</b><span>跟踪一次请求经过哪些服务、在哪一步变慢或失败，适合复杂微服务架构。</span><em>常见：APM、OpenTelemetry等</em></div>
+</div>
+<div class="ops-flow" style="margin-top:16px"><span>系统异常</span><i>→</i><span>监控发现</span><i>→</i><span>Alert 告警</span><i>→</i><span>工单 / 处理</span><i>→</i><span>恢复</span><i>→</i><span>复盘</span></div>
+<div class="summary-strip"><b>审计重点</b><span>不是问“有没有Grafana”，而是确认关键异常能否被及时发现、通知到责任人、形成处理记录并跟踪关闭。</span></div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">区分监控和日志：监控偏“系统现在健不健康”，日志偏“具体发生过什么”。两者可以结合，但不是同一件事。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">SECURITY TOOLKIT</div><h1>安全工具不等于IT审计范围，但这些名称经常会遇到</h1>
+<div class="slide-content"><div class="scope-grid">
+<div><b>EDR / Antivirus</b><span>终端检测与响应、杀毒软件。关注关键服务器/终端覆盖、策略状态和高风险告警处理。</span></div>
+<div><b>WAF</b><span>Web应用防火墙，保护互联网Web系统免受常见攻击。和传统网络防火墙不是同一层。</span></div>
+<div><b>SIEM</b><span>集中汇聚多类安全日志并做关联分析。常用于账号异常、攻击和高风险行为监控。</span></div>
+<div><b>DLP</b><span>数据防泄漏，识别敏感文件外发、复制、上传等行为。常见于终端、邮件和网络出口。</span></div>
+<div><b>Vulnerability Scanner</b><span>Nessus、Qualys等用于漏洞扫描。审计通常关注是否定期扫描、严重漏洞是否跟踪整改。</span></div>
+<div><b>PAM / Bastion</b><span>特权访问管理或堡垒机，用于集中管理高权账号、审批访问、记录命令和会话。</span></div>
+</div>
+<div class="callout subtle"><b>边界：</b>财务报表审计中的IT审计通常不会替代完整的信息安全评估；只有当安全事件、访问路径或工具控制可能影响财务相关系统和审计证据时，才进一步深入。</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">帮助新人听懂客户信息安全负责人说的常见工具名，同时明确IT审计与网络安全专项评估的边界。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">CLOUD BASICS</div><h1>云平台基础｜IaaS、PaaS、SaaS 与“谁负责什么”</h1>
+<div class="slide-content"><div class="control-spectrum">
+<div><b>IaaS</b><span>云厂商提供计算、存储、网络等基础资源，公司自己管理操作系统、数据库、应用、账号和数据。</span><em>例：云主机、云硬盘、VPC</em></div>
+<div><b>PaaS</b><span>云厂商进一步管理数据库、中间件或运行平台，公司主要负责应用配置、账号权限和数据。</span><em>例：云数据库、托管Kubernetes</em></div>
+<div><b>SaaS</b><span>供应商直接提供可使用的软件，公司更多负责用户、角色、配置、接口和业务数据。</span><em>例：部分HR、CRM、协同办公系统</em></div>
+</div>
+<div class="summary-strip"><b>Shared Responsibility</b><span>“上云”不等于控制责任转移。云厂商负责底层设施，不代表客户不需要管理管理员账号、MFA、配置、备份、日志和数据访问。</span></div>
+<div class="callout case-callout"><b>审计提问：</b>谁拥有云平台Owner/Administrator？是否强制MFA？Access Key如何保管？安全组谁能改？数据库备份由云平台自动完成后，公司是否做过恢复验证？</div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">云平台经常会出现“云厂商已经负责安全/备份”的回答，需要让新人理解共享责任模型。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+
+</section><section class="slide density-high" data-section="模块三">
+<div class="kicker">FIELD INTERVIEW</div><h1>第一次IT访谈，听到陌生工具时怎么问</h1>
+<div class="slide-content"><div class="five-questions">
+<div><b>01</b><span><strong>它是做什么的？</strong>代码、发布、数据库、身份、日志、监控还是安全工具？</span></div>
+<div><b>02</b><span><strong>它管哪些系统？</strong>是否支撑财务相关应用、关键接口或生产环境？</span></div>
+<div><b>03</b><span><strong>谁能登录、谁是管理员？</strong>是否实名账号、是否存在共享账号和服务账号？</span></div>
+<div><b>04</b><span><strong>能做什么高风险动作？</strong>改代码、发布生产、改数据库、改服务器、改权限还是管理密钥？</span></div>
+<div><b>05</b><span><strong>怎么留下证据？</strong>审批在哪里、日志在哪里、保存多久、发生异常谁复核？</span></div>
+</div>
+<div class="summary-strip"><b>核心能力</b><span>不要求新人认识所有软件品牌；真正需要的是看到一个工具后，能快速把它放回“权限—变更—运行—数据—证据”的审计框架。</span></div></div>
+<div class="section-label">模块三</div><div class="slide-no">00</div>
+<aside class="notes">可以现场随机说一个工具名，例如Jenkins、Navicat、JumpServer、Kafka，让学员按五问框架回答下一步要了解什么。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide section section-density" data-section="模块四">
+<div class="kicker">PRACTICE 01</div><h1>模块四｜IT一般控制（C22）</h1><div class="big-quote">本模块按 C22 四个领域学习：信息安全、运行维护、变更管理、系统开发。每个领域都从控制目标、执行证据和异常处理入手。</div><div class="section-objectives"><div><span>✓</span>按SA、PE、PM、NS完整理解C22</div><div><span>✓</span>从总体、样本和异常处理评价控制</div><div><span>✓</span>把ITGC缺陷映射到具体依赖</div></div>
+<div class="section-label">模块四</div><div class="slide-no">34</div><aside class="notes">开始进入实务训练营。</aside>
+<div aria-hidden="true" class="section-deco"><div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-node n1"></div><div class="deco-node n2"></div><div class="deco-node n3"></div><div class="deco-code">04</div><div class="deco-words">SA · PE · PM · NS</div></div></section><section class="slide density-mid" data-section="模块四">
+<div class="case-ribbon">C22工作底稿</div><div class="kicker">ITGC</div><h1>C22四个测试领域</h1><div class="slide-content"><div class="cards cols-4 c22-four">
+<div class="card"><div class="card-title">信息安全<small>SA｜Security Administration</small></div><div class="card-body">制度与职责、用户新增和变更、离职停用、定期权限复核、密码、高权限账号和管理员日志。</div></div>
+<div class="card"><div class="card-title">运行维护<small>PE｜Program Execution</small></div><div class="card-body">批处理与作业监控、失败处理、备份与恢复测试、事件管理，以及支持财务系统持续运行的机房环境。</div></div>
+<div class="card"><div class="card-title">变更管理<small>PM｜Program Maintenance</small></div><div class="card-body">变更记录、开发测试、业务审批、生产部署、职责分离、紧急变更和高权限操作日志。</div></div>
+<div class="card"><div class="card-title">系统开发<small>NS｜New Systems</small></div><div class="card-body">立项与项目组、开发测试环境隔离、单元/集成、UAT、压力测试、上线批准、回退方案和数据迁移。</div></div>
+</div><div class="callout case-callout">A公司项目的金蝶云星空、小A系统和资金系统，C22 均按以上四个领域判断是否适用并实施测试。</div></div>
+<div class="section-label">模块四</div><div class="slide-no">35</div><aside class="notes">本页依据正式 C22 工作底稿重排，后续页面术语与 SA、PE、PM、NS 保持一致。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块四">
+<div class="case-ribbon">C22资料准备</div><div class="kicker">C22 · PBC / EVIDENCE</div><h1>A公司IT审计资料清单</h1><div class="slide-content">
+<div class="evidence-map c22-pbc-map">
+<div><b>信息安全（SA）</b><span>用户与角色清单、账号新增/变更审批、离职停用记录、定期权限复核、密码/MFA配置、高权限账号及管理员操作日志</span></div>
+<div><b>运行维护（PE）</b><span>关键作业与接口任务清单、失败记录与处理、事件工单、监控告警、备份策略、备份执行记录及恢复测试</span></div>
+<div><b>变更管理（PM）</b><span>需求/工单、开发与测试记录、业务审批、生产部署日志、紧急变更、生产高权限操作及上线后验证</span></div>
+<div><b>系统开发（NS）</b><span>立项与项目治理、需求与设计、测试/UAT、数据迁移、上线批准、切换方案、回退方案及上线后检查</span></div>
+<div><b>接口 / IPE / 数据</b><span>字段映射、传输批次、失败与重传日志、对账记录；关键报表的来源、参数、逻辑；来源表、业务主键及抽取完整性</span></div>
+</div>
+<div class="summary-strip"><b>资料请求原则</b><span>先明确拟验证的控制目标和测试范围，再确定需要取得的系统、期间、字段和证据类型，避免沿用往年清单机械索取。</span></div>
+</div>
+<div class="section-label">模块四</div><div class="slide-no">33</div><aside class="notes">本页放在C22四个领域之后，用于说明进入具体测试前需要准备的核心资料。每项资料请求应对应明确的控制目标或测试目的。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-low" data-section="模块四">
+<div class="kicker">SECURITY ADMINISTRATION</div><h1>信息安全（SA）：访问权限看完整生命周期</h1><div class="slide-content"><div class="lifecycle"><span>入职</span><i>→</i><span>申请</span><i>→</i><span>审批</span><i>→</i><span>授权</span><i>→</i><span>变更</span><i>→</i><span>定期复核</span><i>→</i><span>离职停用</span></div><div class="mini-case"><b>仅检查当前用户清单并不足够：</b>如果期末权限都正常，但员工离职后 3 个月才停用，期间风险仍然存在。</div><div class="contrast-tags"><span>当前权限清单 = 时点状态</span><b>≠</b><span>全年权限控制 = 期间过程</span></div></div>
+<div class="section-label">模块四</div><div class="slide-no">36</div><aside class="notes">强调“时点清单”与“期间控制”的区别。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">SA · AUTHENTICATION</div><h1>信息安全（SA）：认证策略、共享账号与服务账号</h1>
+<div class="slide-content"><div class="matrix">
+<div class="m-head">对象</div><div class="m-head">常见控制</div><div class="m-head">测试时需要确认</div>
+<div>普通用户</div><div>密码长度/复杂度、失败锁定、MFA、SSO策略</div><div>配置是否覆盖关键系统；是否存在豁免、默认账号或长期不改密码的例外</div>
+<div>管理员</div><div>个人实名账号、MFA、堡垒机、独立日志监控</div><div>是否存在共享管理员；高权限认证是否能被绕过；紧急账号如何启用和复核</div>
+<div>服务账号</div><div>限定用途、最小权限、密码托管、禁止交互登录</div><div>账号归属和用途是否明确；密码是否长期固定；是否被人员直接使用</div>
+<div>共享账号</div><div>原则上限制；必要时补充审批、密码保管和独立日志</div><div>能否将关键操作追溯到个人；是否存在业务必要性和补偿控制</div>
+</div>
+<div class="callout subtle">密码策略只是认证控制的一部分。对关键系统而言，账号归属、MFA、高权限登录路径和共享/服务账号往往更影响审计追踪能力。</div></div>
+<div class="section-label">模块四</div><div class="slide-no">00</div>
+<aside class="notes">补充SA中认证类控制，避免访问管理只覆盖新增、变更和离职。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块四">
+<div class="kicker">SA · SoD &amp; PRIVILEGED ACCESS</div><h1>信息安全（SA）：职责分离与高权限风险</h1><div class="slide-content"><div class="sod"><div>创建供应商</div><div class="plus">+</div><div>录入付款</div><div class="plus">+</div><div>审批付款</div><div class="equals">=</div><div class="risk">舞弊风险放大</div></div><div class="callout"><b>判断时关注：</b>实际权限组合、岗位职责、审批层级、补偿控制和真实使用情况。权限冲突本身是风险信号，是否形成缺陷还要结合事实判断。</div></div>
+<div class="section-label">模块四</div><div class="slide-no">37</div><aside class="notes">可让学员区分“理论冲突”和“实际可实施冲突”。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">PROGRAM EXECUTION</div><h1>运行维护（PE）：持续运行与数据处理控制</h1><div class="slide-content"><div class="cards cols-4 c22-four">
+<div class="card"><div class="card-title">批处理与作业</div><div class="card-body">定时任务、月结作业、批量计算是否按计划运行；失败是否能够被及时识别并处理。</div></div>
+<div class="card"><div class="card-title">Interface任务</div><div class="card-body">系统间传输任务是否有监控、重试、失败队列和对账机制，避免数据长期停留在异常状态。</div></div>
+<div class="card"><div class="card-title">事件与问题</div><div class="card-body">重大故障如何发现、升级、解决、关闭；是否分析根因并避免同类问题反复发生。</div></div>
+<div class="card"><div class="card-title">备份与恢复</div><div class="card-body">备份范围、频率、保留、隔离及恢复测试是否支持关键数据和系统在需要时恢复。</div></div>
+</div><div class="summary-strip"><b>PE关注重点</b><span>运行维护关注的是“系统在期间内能否持续、完整、可追溯地处理数据”，下面分别拆开测试。</span></div></div>
+<div class="section-label">模块四</div><div class="slide-no">39</div><aside class="notes">对应C22运行维护（PE）。重点讲关键作业、接口任务、事件以及备份恢复与财务数据可靠性的关系。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块四">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">PE · JOB MONITORING</div><h1>运行维护（PE）：批处理、作业与Interface任务测试要点</h1>
+<div class="slide-content"><div class="ops-flow"><span>任务计划</span><i>→</i><span>自动执行</span><i>→</i><span>运行状态</span><i>→</i><span>失败报警</span><i>→</i><span>处理 / 重跑</span><i>→</i><span>结果核验</span></div>
+<div class="four-box">
+<div><b>总体</b><span>先确认有哪些财务相关关键任务，而不是只抽客户随手给的几条日志。</span></div>
+<div><b>监控</b><span>谁每天查看失败任务？报警是否自动触发？未处理任务是否会升级？</span></div>
+<div><b>异常处理</b><span>重跑、补传、人工补录如何审批并留下记录，是否会造成重复或遗漏。</span></div>
+<div><b>期间证据</b><span>抽查全年关键期间和异常样本，确认运行记录、处理记录和最终结果能够闭环。</span></div>
+</div>
+<div class="mini-case"><b>A公司例子：</b>平台订单接口每天运行数百批次。测试时应先确定失败任务总体，再核对报警、重传和对账是否覆盖所有失败批次，不能仅依据任务状态页面判断。</div></div>
+<div class="section-label">模块四</div><div class="slide-no">00</div>
+<aside class="notes">PE作业控制应从任务总体和异常处理链出发。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">PE · INCIDENT</div><h1>运行维护（PE）：事件与问题管理如何影响财务系统</h1>
+<div class="slide-content"><div class="incident-grid">
+<div><b>发现</b><span>监控告警、用户报障、接口失败、性能异常或批处理失败如何被记录。</span></div>
+<div><b>分级</b><span>是否区分一般事件与重大事件；重大故障是否及时升级给业务、财务和管理层。</span></div>
+<div><b>处理</b><span>临时恢复、数据修复、补单、重跑或回退是否受控，并保留操作和审批记录。</span></div>
+<div><b>业务影响</b><span>故障期间哪些交易没有处理、延迟处理或被手工替代；是否影响财务截止和完整性。</span></div>
+<div><b>根因与问题管理</b><span>重复事件是否分析根因、形成长期整改，并跟踪到关闭。</span></div>
+<div><b>审计证据</b><span>事件单、监控日志、恢复记录、数据核对、业务确认及重大事项沟通记录。</span></div>
+</div>
+<div class="summary-strip"><b>财报关联</b><span>系统故障发生后，应进一步判断受影响的交易、期间和数据完整性，并评价人工补偿流程是否可靠。</span></div></div>
+<div class="section-label">模块四</div><div class="slide-no">00</div>
+<aside class="notes">把事件管理与财报风险连接起来。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">PE · BACKUP</div><h1>运行维护（PE）：备份执行与恢复验证</h1>
+<div class="slide-content"><div class="backup-coverage">
+<div><b>备什么</b><span>数据库、应用配置、附件/文件、接口文件和关键系统参数是否都在备份范围。</span></div>
+<div><b>多久备</b><span>频率能否满足业务可接受的数据丢失范围；RPO与实际备份频率是否一致。</span></div>
+<div><b>放哪里</b><span>备份是否与生产环境隔离；权限、加密、异地/云端副本和保留周期是否合理。</span></div>
+<div><b>能否恢复</b><span>恢复测试是否真的还原数据和应用，而不是只看备份软件显示Success。</span></div>
+<div><b>恢复多久</b><span>恢复演练用时是否满足RTO；关键依赖、启动顺序和责任人是否明确。</span></div>
+</div>
+<div class="callout subtle">在财报IT审计中，备份控制的重点通常是关键财务数据能否在合理范围内恢复，以及恢复失败是否会影响完整性、可用性和审计证据。</div></div>
+<div class="section-label">模块四</div><div class="slide-no">00</div>
+<aside class="notes">进一步展开PE中备份恢复测试。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">PROGRAM MAINTENANCE</div><h1>变更管理（PM）：需要形成完整的变更证据链</h1><div class="slide-content"><div class="matrix">
+<div class="m-head">证据</div><div class="m-head">要证明什么</div><div class="m-head">常见陷阱</div>
+<div>需求/工单</div><div>变更有明确业务原因</div><div>事后补单</div>
+<div>测试记录</div><div>上线前验证功能</div><div>测试记录过于简单，无法说明测试内容和结果</div>
+<div>审批</div><div>授权上线</div><div>审批人与开发职责不合理</div>
+<div>部署日志</div><div>实际上线内容与批准一致</div><div>无法证明谁、何时部署</div>
+</div></div>
+<div class="section-label">模块四</div><div class="slide-no">38</div><aside class="notes">对应C22变更管理（PM）。从需求、测试、审批和部署四类证据说明变更为何可以被认定为受控。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">PM · EMERGENCY CHANGE</div><h1>变更管理（PM）：紧急变更与生产高权限的证据要求</h1>
+<div class="slide-content"><div class="two-col">
+<div><h3>紧急变更仍应保留必要的授权与复核</h3><ul class="bullets"><li>需要明确什么场景可以走紧急流程。</li><li>实施前至少保留必要的授权或责任人确认。</li><li>上线后及时补充测试、审批和复核。</li><li>对紧急变更建立定期回顾，识别是否被滥用。</li></ul></div>
+<div><h3>生产高权限需要单独考虑</h3><ul class="bullets"><li>谁可以直接部署或修改生产环境。</li><li>开发人员临时进入生产时如何申请和回收。</li><li>操作日志是否完整并由独立人员复核。</li><li>数据库直接修改是否通过工单、脚本留痕和结果验证。</li></ul></div>
+</div>
+<div class="mini-case"><b>判断重点：</b>流程例外不必然等于控制失败。需要看紧急性是否合理、关键证据是否保留、事后复核是否及时，以及生产操作是否可追溯。</div></div>
+<div class="section-label">模块四</div><div class="slide-no">00</div>
+<aside class="notes">强调紧急变更和生产访问的例外控制。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">NEW SYSTEMS</div><h1>系统开发（NS）：从立项、测试到正式投产</h1>
+<div class="slide-content"><div class="cards cols-4 c22-ns">
+<div class="card"><div class="card-title">立项与范围</div><div class="card-body">明确业务目标、项目范围、关键系统和责任人；重大变化应纳入项目治理和风险评估。</div></div>
+<div class="card"><div class="card-title">开发与环境隔离</div><div class="card-body">开发、测试和生产环境应合理隔离；开发人员不应未经授权直接在生产环境完成上线操作。</div></div>
+<div class="card"><div class="card-title">测试、UAT与迁移</div><div class="card-body">检查单元/集成测试、用户验收测试，以及主数据和交易数据迁移的完整性与准确性。</div></div>
+<div class="card"><div class="card-title">上线、回退与验证</div><div class="card-body">上线前取得批准并准备回退方案；上线后核对关键功能、接口和数据，确认系统按预期运行。</div></div>
+</div>
+<div class="callout subtle"><b>与日常变更的区别：</b>系统开发通常涉及新系统或重大实施项目，除了程序本身，还要关注项目治理、测试覆盖、数据迁移和正式投产。</div></div>
+<div class="section-label">模块四</div><div class="slide-no">00</div><aside class="notes">对应C22系统开发（NS）。重点帮助学员区分重大系统实施与日常程序变更。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块四">
+<div class="kicker">NS · MIGRATION &amp; GO-LIVE</div><h1>系统开发（NS）：数据迁移、上线切换与回退</h1>
+<div class="slide-content"><div class="project-go-live"><span>迁移范围确认</span><i>→</i><span>映射与清洗</span><i>→</i><span>迁移脚本 / 工具</span><i>→</i><span>迁移验证</span><i>→</i><span>上线批准</span><i>→</i><span>回退准备</span><i>→</i><span>上线后核对</span></div>
+<div class="cards cols-4">
+<div class="card"><div class="card-title">数据完整性</div><div class="card-body">记录数、金额、关键主键和状态在迁移前后是否一致，是否存在遗漏、重复或截断。</div></div>
+<div class="card"><div class="card-title">历史数据</div><div class="card-body">历史交易、期初余额、主数据和未结事项是否按既定范围迁移，哪些数据保留在旧系统。</div></div>
+<div class="card"><div class="card-title">上线切换</div><div class="card-body">旧系统何时停用、新系统何时开始记账，切换期间的交易如何避免重复或遗漏。</div></div>
+<div class="card"><div class="card-title">回退与验证</div><div class="card-body">失败时是否有可执行的回退方案；上线后是否进行关键余额、接口、凭证和报表核对。</div></div>
+</div></div>
+<div class="section-label">模块四</div><div class="slide-no">00</div>
+<aside class="notes">补齐NS中最容易影响财务数据的数据迁移和上线切换。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-high" data-section="模块四">
+<div class="kicker">DEFICIENCY ASSESSMENT</div><h1>ITGC异常如何定性：按事实、范围和影响逐步判断</h1><div class="slide-content">
+<div class="steps compact-assessment-steps">
+<div><b>1</b><span>明确控制目标</span></div>
+<div><b>2</b><span>确认事实与证据边界</span></div>
+<div><b>3</b><span>评价频率、范围及补偿控制</span></div>
+<div><b>4</b><span>评估对ITAC、IPE及财审依赖的影响</span></div>
+</div>
+<div class="deficiency-case-grid">
+<div class="def-case">
+<div class="def-case-head"><b>例1｜离职账号延迟停用</b><span class="risk-tag low">需结合总体判断</span></div>
+<p><strong>事实：</strong>1名员工离职后3天才停用账号，现有登录日志未见其离职后登录。</p>
+<p><strong>继续确认：</strong>日志是否覆盖完整期间、账号权限大小、延迟是否为孤例、是否有HR/IDM自动停用或每日复核等补偿控制。</p>
+<p><strong>判断思路：</strong>“未登录”只能说明暂未发现实际使用，不能消除停用不及时这一控制例外。若为孤例、低权限且日志完整，可结合总体样本评价是否影响控制依赖；若同类情况反复出现，则更可能反映运行有效性问题。</p>
+</div>
+<div class="def-case">
+<div class="def-case-head"><b>例2｜紧急变更缺少事前审批</b><span class="risk-tag mid">看紧急流程是否受控</span></div>
+<p><strong>事实：</strong>订单接口出现生产故障，开发人员当晚修复并上线；无常规事前审批，但有故障工单、测试记录、部署日志和次日业务复核。</p>
+<p><strong>继续确认：</strong>制度是否允许紧急变更、谁批准进入紧急流程、生产权限是否临时授予、事后审批和独立复核是否及时。</p>
+<p><strong>判断思路：</strong>不能仅因缺少常规审批即认定整个变更管理失效。应按紧急变更控制要求评价证据是否完整；若紧急流程本身无授权、无复核且经常被使用，则风险明显上升。</p>
+</div>
+<div class="def-case">
+<div class="def-case-head"><b>例3｜共享超级管理员且缺少独立日志</b><span class="risk-tag high">高风险</span></div>
+<p><strong>事实：</strong>多人共用同一超级管理员账号，可修改关键参数和业务数据；无法区分实际操作人，应用层管理员日志也可被该账号删除。</p>
+<p><strong>继续确认：</strong>是否存在堡垒机、数据库审计日志、工单或其他独立证据；期间是否发生关键参数修改、数据直接更新或权限调整。</p>
+<p><strong>判断思路：</strong>实名追踪和独立监控均不足时，通常难以支持对相关高权限控制的依赖，还需识别受影响的ITAC、IPE及财审程序，并考虑扩大高风险操作检查。</p>
+</div>
+<div class="def-case">
+<div class="def-case-head"><b>例4｜备份每天成功，但全年未做恢复测试</b><span class="risk-tag mid">备份成功≠可恢复</span></div>
+<p><strong>事实：</strong>系统每天有备份成功记录，但本年度没有实际恢复测试，也没有证据验证备份文件可用。</p>
+<p><strong>继续确认：</strong>备份范围是否覆盖数据库、附件和配置；历史是否做过恢复；是否发生过数据丢失或灾难恢复事件；RPO/RTO要求是什么。</p>
+<p><strong>判断思路：</strong>现有证据可以支持“备份任务执行”，但不足以支持“能够按要求恢复”。应单独评价恢复控制缺口，并结合系统关键性、历史事件和其他容灾措施判断对财务审计依赖的影响。</p>
+</div>
+</div>
+</div>
+<div class="section-label">模块四</div><div class="slide-no">40</div><aside class="notes">用四个不同类型的例子训练定性：账号停用、紧急变更、高权限和备份恢复。要求学员先说事实和待补证据，再讨论缺陷性质和财审影响。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide section section-density" data-section="模块五">
+<div class="kicker">PRACTICE 02</div><h1>模块五｜ITAC、Interface 与 IPE</h1><div class="big-quote">前一模块确认了系统环境的基础控制。<br/><b>本模块继续看自动控制、系统间数据传输和系统生成信息，能否支持具体业务与财务审计程序。</b></div><div class="section-objectives"><div><span>✓</span>识别关键自动控制与IT依赖人工控制</div><div><span>✓</span>分别测试Interface完整性和准确性</div><div><span>✓</span>评价IPE及Excel等信息是否可靠</div></div>
+<div class="section-label">模块五</div><div class="slide-no">41</div><aside class="notes"></aside>
+<div aria-hidden="true" class="section-deco"><div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-node n1"></div><div class="deco-node n2"></div><div class="deco-node n3"></div><div class="deco-code">05</div><div class="deco-words">ITAC · INTERFACE · IPE</div></div></section><section class="slide density-low" data-section="模块五">
+<div class="kicker">ITAC</div><h1>ITAC：识别财审拟依赖的自动控制</h1><div class="slide-content"><div class="case-ribbon">A公司项目案例</div><div class="itac-types">
+<div><b>自动计算</b><span>金蝶月末加权平均成本、系统生成凭证</span></div>
+<div><b>自动校验</b><span>订单数量、付款金额、退货数量边界</span></div>
+<div><b>系统强制</b><span>订单号唯一、已发货订单不可修改删除</span></div>
+<div><b>自动审批/工作流</b><span>产品价格、采购与付款按条件触发审批</span></div>
+</div><div class="callout subtle">是否纳入关键ITAC测试，应结合其对应的重大错报风险及财审计划的依赖程度判断。</div></div>
+<div class="section-label">模块五</div><div class="slide-no">42</div><aside class="notes">不要把所有系统功能都叫ITAC。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块五">
+<div class="kicker">IT-DEPENDENT MANUAL</div><h1>IT依赖人工控制：人工在复核，但仍然依赖系统</h1>
+<div class="slide-content"><div class="manual-control-map">
+<div><b>系统生成信息</b><span>系统先生成异常报表、账龄、价格差异、未匹配订单或审批清单。</span></div>
+<div><b>人工执行判断</b><span>业务或财务人员查看清单、调查原因、签字/确认并跟进异常。</span></div>
+<div><b>控制结论</b><span>控制是否有效，既取决于人员是否认真复核，也取决于系统信息是否完整、准确。</span></div>
+</div>
+<div class="matrix" style="margin-top:18px">
+<div class="m-head">测试对象</div><div class="m-head">财审 / 业务控制关注</div><div class="m-head">IT审计关注</div>
+<div>人工复核</div><div>执行人、频率、判断标准、异常跟进是否有效</div><div>通常由财审主导评价</div>
+<div>系统报表 / 清单</div><div>是否为控制执行所需的完整总体</div><div>来源、逻辑、参数、权限及IPE可靠性</div>
+<div>底层系统环境</div><div>控制依赖是否持续可靠</div><div>相关ITGC、变更和访问控制</div>
+</div></div>
+<div class="section-label">模块五</div><div class="slide-no">00</div>
+<aside class="notes">帮助学员识别财审与IT审计共同参与的控制。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块五">
+<div class="kicker">ITAC TESTING</div><h1>ITAC测试：需要确认的四个方面</h1><div class="slide-content"><div class="four-box numbered"><div><b>01</b><span>控制逻辑是什么？</span></div><div><b>02</b><span>关键参数和配置由谁维护？</span></div><div><b>03</b><span>程序逻辑在期间内是否保持受控？</span></div><div><b>04</b><span>实际输入→处理→输出是否符合预期？</span></div></div><div class="summary-strip"><b>测试提醒</b><span>只演示一次功能，并不能证明自动控制在整个期间持续、受控地运行。</span></div></div>
+<div class="section-label">模块五</div><div class="slide-no">43</div><aside class="notes">很多ITAC测试失败，是因为只做了一次演示，却没有评价参数、变更、底层逻辑和总体依赖。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块五">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">CASE: COSTING</div><h1>案例：金蝶月末加权平均成本</h1><div class="slide-content"><div class="case-board">
+<div class="case-fact"><b>业务：</b>公司月末按加权平均方式计算本期发出存货的单价和成本。</div>
+<div class="case-question"><b>需要理解：</b>期初结存、本期入库与金额、库存变动、月结期间、计价参数及异常处理。</div>
+<div class="case-test"><b>测试：</b>覆盖多主体与仓库样本，重算加权平均单价并与进销存、发出成本及系统结果比对。</div>
+<div class="case-risk"><b>可能影响：</b>存货计价、营业成本的完整性与准确性，以及相关财务审计依赖。</div>
+</div></div>
+<div class="section-label">模块五</div><div class="slide-no">44</div><aside class="notes">先确认财审准备如何依赖该自动计价逻辑，再决定样本、重算口径、ITGC依赖和替代程序。<br/><br/>[Sources]<br/>B23-15 了解信息处理控制（B23-15-11）。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-low" data-section="模块五">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">INTERFACE TEST</div><h1>Interface（接口）测试：完整性与准确性分别验证</h1><div class="slide-content"><div class="matrix">
+<div class="m-head">维度</div><div class="m-head">问题</div><div class="m-head">常见程序</div>
+<div>完整性</div><div>是否所有应该传输的数据都传了？</div><div>批次/数量/金额对账、失败记录、重传机制</div>
+<div>准确性</div><div>传过去的数据是否被正确映射和转换？</div><div>字段映射、抽样穿透、转换规则、关键参数</div>
+</div><div class="callout case-callout"><b>项目应用：</b>平台订单/结算 ↔ 小A系统可按平台订单号、结算单号比对；小A系统 ↔ 金蝶可按单据编号、物料编码比对；小A系统 ↔ 资金系统可按付款单号比对。</div></div>
+<div class="section-label">模块五</div><div class="slide-no">45</div><aside class="notes">让学员不要只做总额对账，还要考虑字段转换。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块五">
+<div class="kicker">INTERFACE TYPES</div><h1>Interface常见实现方式及测试关注点</h1>
+<div class="slide-content"><div class="interface-type-grid">
+<div><b>API / 实时接口</b><span>逐笔或实时调用。关注认证、字段映射、返回码、超时、重试和幂等控制。</span></div>
+<div><b>批量文件</b><span>CSV、TXT、Excel等定时交换。关注文件完整性、命名、加密、批次、重复导入和失败处理。</span></div>
+<div><b>ETL / 数据同步</b><span>按规则抽取、转换、加载。关注转换逻辑、调度、增量条件、异常记录和重跑。</span></div>
+<div><b>消息队列</b><span>异步消息传输。关注消息堆积、重复消费、失败队列、重试和监控。</span></div>
+<div><b>中间件 / ESB</b><span>多个系统通过统一平台连接。除端点外，还要关注中间层路由、映射和运维日志。</span></div>
+<div class="accent"><b>测试共同点</b><span>无论技术方式如何变化，完整性、准确性、异常处理和期间内变更仍是核心审计问题。</span></div>
+</div></div>
+<div class="section-label">模块五</div><div class="slide-no">00</div>
+<aside class="notes">避免学员只会背接口对账，先理解不同传输方式。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块五">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">IPE</div><h1>IPE：系统生成信息如何满足审计使用要求</h1><div class="slide-content"><div class="ipe-chain"><span>平台订单/账单</span><i>→</i><span>小A系统/金蝶数据表</span><i>→</i><span>按期间与业务主键聚合</span><i>→</i><span>差异清单</span><i>→</i><span>抽样核验与结论</span></div><div class="three-points"><div><b>完整</b><span>来源总体、期间、店铺与状态是否覆盖。</span></div><div><b>准确</b><span>订单号、结算单号、单据编号、数量金额是否正确。</span></div><div><b>适用</b><span>聚合口径、币种、退款、时间差是否符合审计目的。</span></div></div></div>
+<div class="section-label">模块五</div><div class="slide-no">46</div><aside class="notes">关键是审计人员如何依赖这份信息，而不是报表“看起来对”。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide density-mid" data-section="模块五">
+<div class="kicker">EUC / SPREADSHEET</div><h1>Excel及用户自制表格的可靠性考虑</h1>
+<div class="slide-content"><div class="two-col">
+<div><h3>常见使用场景</h3><ul class="bullets"><li>从系统导出数据后在Excel二次筛选、汇总或计算。</li><li>使用公式、宏、Power Query或手工复制形成财审使用的最终报表。</li><li>关键控制依赖个人维护的映射表、参数表或台账。</li></ul></div>
+<div><h3>需要考虑的风险</h3><ul class="bullets"><li>数据导出总体是否完整，筛选条件是否正确。</li><li>公式、宏和链接是否被错误修改。</li><li>版本、权限和变更是否可追溯。</li><li>人工复制、粘贴和覆盖是否产生遗漏或错误。</li></ul></div>
+</div>
+<div class="callout subtle"><b>责任边界：</b>不是所有Excel都要做“ITGC”。但当财审依赖它计算重大金额、执行关键控制或形成审计总体时，需要根据使用方式评价其可靠性。</div></div>
+<div class="section-label">模块五</div><div class="slide-no">00</div>
+<aside class="notes">补充系统之外常见的EUC/Excel依赖。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块五">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">WALKTHROUGH</div><h1>销售穿行：从原始订单追到财务结果</h1><div class="slide-content"><div class="walkthrough"><div>平台原始订单</div><i>→</i><div>小A系统订单与筛选</div><i>→</i><div>发货/物流与销售出库</div><i>→</i><div>平台结算与收款</div><i>→</i><div>金蝶凭证与财务结果</div></div><div class="callout case-callout">穿行时需要确认：<b>业务主键是什么？控制在哪里发生？Interface 如何衔接？证据能否正反向追溯？</b></div></div>
+<div class="section-label">模块五</div><div class="slide-no">47</div><aside class="notes">可让学员分别选择正常销售、退货退款或仅退款场景，比较业务状态、结算与凭证链路的不同。<br/><br/>[Sources]<br/>B23-15 了解信息处理控制（B23-15-8至B23-15-10）。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section><section class="slide section section-density" data-section="模块六">
+<div class="kicker">PRACTICE 03</div><h1>模块六｜CAATs与数据分析</h1><div class="big-quote">本模块说明数据分析如何嵌入审计程序。<br/><b>从审计问题出发，明确数据来源和口径，设计分析规则，核验异常，并形成能够复核的审计证据和结论。</b></div><div class="section-objectives"><div><span>✓</span>建立可追溯的数据抽取链</div><div><span>✓</span>把风险转换成可复核分析规则</div><div><span>✓</span>从命中事项形成可复现底稿结论</div></div>
+<div class="section-label">模块六</div><div class="slide-no">48</div><aside class="notes"></aside>
+<div aria-hidden="true" class="section-deco"><div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-node n1"></div><div class="deco-node n2"></div><div class="deco-node n3"></div><div class="deco-code">06</div><div class="deco-words">DATA · RULE · EVIDENCE</div></div></section><section class="slide density-low" data-section="模块六">
+<div class="kicker">DATA AUDIT CHAIN</div><h1>CAATs完整链路：从审计问题到审计结论</h1>
+<div class="slide-content">
+<div class="logic-chain data"><span>审计问题</span><i>→</i><span>数据需求</span><i>→</i><span>数据取得与完整性</span><i>→</i><span>分析规则</span><i>→</i><span>异常命中</span><i>→</i><span>业务核验</span><i>→</i><span>审计结论</span></div>
+<div class="summary-strip"><b>完整链路</b><span>数据分析应围绕既定审计风险展开，并在数据取得、规则执行、异常核验和结论形成等环节保留可复核依据。</span></div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">先用这页建立模块地图。后续逐页拆解链路中的每个节点。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块六">
+<div class="kicker">STEP 1 · QUESTION</div><h1>步骤1｜先定义审计问题和数据需求</h1>
+<div class="slide-content">
+<div class="matrix">
+<div class="m-head">审计问题</div><div class="m-head">需要的数据</div><div class="m-head">预期分析结果</div>
+<div>订单是否漏传或重复</div><div>平台订单号、状态、金额、时间；下游订单号、接口批次</div><div>形成完整的差异总体，并能区分漏传、重复、时间差等类型</div>
+<div>离职账号是否仍在使用</div><div>人员离职日期、账号状态、登录日志、关键操作日志</div><div>识别离职后登录或操作，并评价账号权限和影响范围</div>
+<div>是否存在异常逆向操作</div><div>单据主键、操作类型、状态前后值、操作时间、人员、审批信息</div><div>识别删除、反审核、冲销等事件，并与业务规则和审批要求核对</div>
+</div>
+<div class="callout subtle"><b>数据需求应由审计问题驱动：</b>没有明确风险假设时，字段越多不代表分析越有效，反而容易把项目做成无目的的数据盘点。</div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">训练学员把审计问题翻译成字段、总体和预期输出。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块六">
+<div class="kicker">STEP 2 · DATA RELIABILITY</div><h1>步骤2｜确认数据来源、范围与完整性</h1>
+<div class="slide-content">
+<div class="cards cols-4">
+<div class="card"><div class="card-title">来源</div><div class="card-body">明确数据来自业务系统、数据库、日志平台还是二次报表，并记录抽取路径和负责人。</div></div>
+<div class="card"><div class="card-title">范围</div><div class="card-body">确认期间、主体、平台、店铺、账号、业务状态和数据层级，避免分析总体天然不完整。</div></div>
+<div class="card"><div class="card-title">主键与字段</div><div class="card-body">确认业务主键是否稳定，关键字段含义、单位、时区、币种和状态码是否已解释。</div></div>
+<div class="card"><div class="card-title">完整性核对</div><div class="card-body">用记录数、数量、金额、控制总数或系统报表，与原始总体交叉核对并解释差异。</div></div>
+</div>
+<div class="summary-strip"><b>输出要求</b><span>在开始跑规则前，应能够说明“数据从哪里来、覆盖什么范围、为什么认为总体完整”。</span></div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">这一页把数据可靠性拆开讲，不局限于电商或Interface。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块六">
+<div class="kicker">DATA LINEAGE</div><h1>数据抽取的证据链：从源表、SQL到最终分析文件</h1>
+<div class="slide-content"><div class="data-lineage"><span>业务系统 / 数据库</span><i>→</i><span>来源表与字段</span><i>→</i><span>SQL / ETL</span><i>→</i><span>过滤参数</span><i>→</i><span>原始导出</span><i>→</i><span>分析文件</span><i>→</i><span>底稿结果</span></div>
+<div class="four-box">
+<div><b>来源</b><span>记录数据从哪个系统、库、表、视图取得，业务主键和字段含义是什么。</span></div>
+<div><b>查询</b><span>保留SQL、脚本、期间、组织范围和过滤条件，避免“客户直接给了一个Excel”。</span></div>
+<div><b>完整性</b><span>用记录数、金额、控制总额、系统报表或独立查询验证抽取总体。</span></div>
+<div><b>版本</b><span>原始文件只读保留；清洗、转换和分析脚本能够追溯到具体版本。</span></div>
+</div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div>
+<aside class="notes">CAATs最容易被忽略的是数据来源和抽取过程本身。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块六">
+<div class="kicker">STEP 3 · RULE DESIGN</div><h1>步骤3｜把风险假设转成可复核的分析规则</h1>
+<div class="slide-content">
+<div class="cards cols-4">
+<div class="card"><div class="card-title">风险假设</div><div class="card-body">先说清楚想识别什么风险，例如漏传、越权、异常导出、逆向操作或重复交易。</div></div>
+<div class="card"><div class="card-title">字段与条件</div><div class="card-body">明确使用哪些字段、时间窗口、阈值、关联键和逻辑条件，不使用“感觉异常”作为规则。</div></div>
+<div class="card"><div class="card-title">排除口径</div><div class="card-body">提前考虑退款、取消、跨期、批量作业、测试账号、授权例外等合理业务场景。</div></div>
+<div class="card"><div class="card-title">可复核输出</div><div class="card-body">保留原始主键、命中原因、关键字段和规则版本，使他人能够复现分析结果。</div></div>
+</div>
+<div class="callout subtle"><b>示例：</b>“平台与下游金额不同”只是初步条件；正式规则还需要统一币种、状态、期间和退款口径，并保留能够穿透到原始订单的业务主键。</div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">强调分析规则是审计逻辑的实现，而不是单纯技术筛选。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块六">
+<div class="kicker">FULL POPULATION VS SAMPLE</div><h1>全量分析、抽样和阈值：根据风险选择方法</h1>
+<div class="slide-content"><div class="rule-quality">
+<div><b>适合全量分析</b><span>规则清晰、字段结构化、总体可取得，例如重复订单、离职后登录、接口差异、异常分录特征。</span></div>
+<div class="vs">VS</div>
+<div><b>仍需抽样或人工判断</b><span>业务背景复杂、证据依赖非结构化材料、控制执行需要判断，例如变更测试、审批质量、异常业务原因。</span></div>
+</div>
+<div class="cards cols-3" style="margin-top:18px">
+<div class="card"><div class="card-title">阈值怎么定</div><div class="card-body">基于风险、总体分布、业务频率和可接受误报率；不能只因为“看起来异常”随意定一个数字。</div></div>
+<div class="card"><div class="card-title">规则怎么复核</div><div class="card-body">先用已知正常/异常样本验证规则，再观察命中总体，必要时调整逻辑并保留版本变化。</div></div>
+<div class="card"><div class="card-title">全量分析后的判断</div><div class="card-body">全量筛查可以提高覆盖，但命中事项仍要结合业务证据核验，不能把程序输出直接当缺陷。</div></div>
+</div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div>
+<aside class="notes">帮助学员选择全量分析、抽样和阈值，而不是把CAATs理解为“越全量越好”。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块六">
+<div class="kicker">STEP 4 · VALIDATION</div><h1>步骤4｜异常命中后的业务核验</h1>
+<div class="slide-content">
+<div class="four-box">
+<div><b>业务时间差</b><span>跨日同步、月末在途、平台结算周期等是否可以解释差异。</span></div>
+<div><b>授权例外</b><span>是否存在经批准的特殊处理、紧急变更或特定岗位业务需要。</span></div>
+<div><b>系统原因</b><span>接口失败、重传、状态映射、批处理延迟或参数配置是否造成命中。</span></div>
+<div><b>控制失效</b><span>在排除合理解释后，是否仍存在未被预防或及时发现的异常。</span></div>
+</div>
+<div class="summary-strip"><b>核验依据</b><span>优先使用交易明细、日志、审批、工单、对账记录等证据；客户解释用于提供线索，但不能单独替代审计证据。</span></div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">区分命中、业务解释和真正异常。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块六">
+<div class="kicker">STEP 5 · EVIDENCE</div><h1>步骤5｜从异常清单形成审计证据和结论</h1>
+<div class="slide-content">
+<div class="logic-chain data"><span>原始总体</span><i>→</i><span>抽取与核对</span><i>→</i><span>规则版本</span><i>→</i><span>命中总体</span><i>→</i><span>核验结果</span><i>→</i><span>剩余异常</span><i>→</i><span>审计结论</span></div>
+<div class="cards cols-3">
+<div class="card"><div class="card-title">底稿记录</div><div class="card-body">数据来源、抽取范围、字段说明、完整性核对、规则逻辑、脚本版本和执行结果。</div></div>
+<div class="card"><div class="card-title">异常核验记录</div><div class="card-body">保留业务主键、命中原因、核验资料、客户说明、审计判断以及未解决事项。</div></div>
+<div class="card"><div class="card-title">结论内容</div><div class="card-body">异常是否指向控制问题、影响什么期间和总体、是否需要扩大测试或调整财审应对。</div></div>
+</div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">CAATs程序的终点是审计结论，而不是Excel命中清单。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块六">
+<div class="kicker">REPRODUCIBILITY</div><h1>CAATs底稿留痕：保证分析过程可复现</h1>
+<div class="slide-content"><div class="evidence-map">
+<div><b>审计目的</b><span>规则对应什么风险、科目、认定或控制目标。</span></div>
+<div><b>数据说明</b><span>来源系统、表、字段、期间、组织范围和完整性核对。</span></div>
+<div><b>规则 / 脚本</b><span>SQL或脚本版本、关键阈值、排除逻辑和修改记录。</span></div>
+<div><b>异常核验</b><span>主键、命中原因、客户解释、支持资料和审计判断。</span></div>
+<div><b>最终结论</b><span>剩余异常、影响总体、是否构成问题及对其他审计程序的影响。</span></div>
+</div>
+<div class="summary-strip"><b>复核标准</b><span>项目组另一名成员拿到相同源数据和规则后，应能够重现主要结果，并理解每一步为什么这样处理。</span></div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div>
+<aside class="notes">把CAATs结果沉淀为可复核审计底稿。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块六">
+<div class="kicker">CAATs SCENARIOS</div><h1>常见CAATs场景：不同风险采用不同分析方法</h1>
+<div class="slide-content">
+<div class="evidence-map">
+<div><b>收入与接口</b><span>订单、发货、结算、凭证跨系统核对；识别漏传、重复、错期和字段转换异常。</span></div>
+<div><b>会计分录</b><span>异常时间、异常用户、敏感科目、手工分录、冲销及反向处理分析。</span></div>
+<div><b>权限与登录</b><span>离职后登录、高权限使用、长期未使用账号、共用账号及异常时段操作。</span></div>
+<div><b>日志与数据导出</b><span>批量导出、敏感对象访问、删除/逆向操作、代码仓库下载等行为筛查。</span></div>
+<div><b>主数据与配置</b><span>价格、供应商、银行账户、角色权限、关键参数的新增和变更分析。</span></div>
+</div>
+<div class="summary-strip"><b>方法选择</b><span>先看风险和可取得的数据，再决定使用SQL、脚本、Excel或其他工具；工具本身不是目标。</span></div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">用实际项目场景帮助学员把CAATs与ITGC、ITAC、Interface和财务审计连接起来。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块六">
+<div class="kicker">AI IN AUDIT</div><h1>AI在审计中的应用边界</h1>
+<div class="slide-content">
+<div class="ai-boundary">
+<div class="good"><b>适合辅助</b><span>资料摘要</span><span>SQL/脚本辅助</span><span>规则草拟</span><span>底稿格式化</span><span>异常归类</span><span>访谈问题整理</span></div>
+<div class="bad"><b>仍需人工判断</b><span>控制是否有效</span><span>缺陷严重程度</span><span>未经验证的数据结论</span><span>财审依赖与应对</span><span>敏感数据使用边界</span><span>最终审计结论</span></div>
+</div>
+<div class="callout subtle">AI可以提高资料整理和分析效率，但审计判断仍要建立在可验证的事实、证据和项目责任体系上。</div></div>
+<div class="section-label">模块六</div><div class="slide-no">00</div><aside class="notes">作为模块收尾，强调AI工具的使用边界。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide section section-density" data-section="模块七">
+<div class="kicker">INTEGRATED CASE</div><h1>模块七｜A公司综合案例</h1><div class="big-quote">把前面的内容放回同一个项目里，完整走一遍。<br/><b>从Scope、ITGC、ITAC / Interface / IPE、CAATs，到异常判断、财审沟通和最终结论。</b></div><div class="section-objectives"><div><span>✓</span>按真实项目节奏推进工作</div><div><span>✓</span>覆盖收入、存货、采购付款与资金</div><div><span>✓</span>完成Scope、测试、问题和财审沟通闭环</div></div>
+<div class="section-label">模块七</div><div class="slide-no">54</div><aside class="notes"></aside>
+<div aria-hidden="true" class="section-deco"><div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-node n1"></div><div class="deco-node n2"></div><div class="deco-node n3"></div><div class="deco-code">07</div><div class="deco-words">SCOPE · CONTROL · DATA · CONCLUSION</div></div></section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">CASE BACKGROUND</div><h1>案例背景：A公司的业务、系统与财审关注</h1>
+<div class="slide-content">
+<div class="case-company">
+<div class="project-core"><b>小A系统</b><span>订单、销售、仓储、物流、采购、产品、客服等核心业务处理。</span></div>
+<div class="project-core"><b>金蝶云星空</b><span>财务核算、供应链、销售出库、存货成本及会计凭证。</span></div>
+<div class="project-core"><b>资金系统</b><span>采购付款、资金审批、银行支付及资金流动性管理。</span></div>
+<div><b>外部平台</b><span>多个电商平台形成订单、退款、结算和平台账单。</span></div>
+<div><b>关键接口</b><span>平台 → 小A系统；小A系统 → 金蝶 / 资金系统；结算数据回传。</span></div>
+<div><b>财审关注</b><span>收入应收、存货成本、采购应付、货币资金及相关财务报表认定。</span></div>
+</div>
+<div class="summary-strip"><b>案例目标</b><span>案例从重大业务流程和财审依赖出发，再确定系统范围和相应IT审计程序。</span></div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">综合案例的基础信息。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">PROJECT FLOW</div><h1>综合案例项目推进：从Kickoff到最终报告</h1>
+<div class="slide-content"><div class="project-flow-grid">
+<div><b>01</b><strong>Kickoff</strong><span>确认财审重点、系统范围、时间表、关键联系人和交付节奏。</span></div>
+<div><b>02</b><strong>PBC &amp; 访谈</strong><span>取得系统清单、架构、权限、变更、运维、流程资料，并与IT/业务/财务确认口径。</span></div>
+<div><b>03</b><strong>Walkthrough</strong><span>沿真实交易追踪业务、系统、接口和财务记录，识别关键控制和审计依赖。</span></div>
+<div><b>04</b><strong>Scope &amp; 程序设计</strong><span>明确纳入系统、ITGC、ITAC、Interface、IPE及CAATs程序。</span></div>
+<div><b>05</b><strong>测试与异常跟进</strong><span>同步推进证据获取、样本测试、数据分析和例外核验，避免问题集中到项目末期。</span></div>
+<div><b>06</b><strong>财审沟通</strong><span>重大异常及时说明事实、证据边界和可能影响，确认是否需要调整财审程序。</span></div>
+<div><b>07</b><strong>结论与报告</strong><span>完成底稿、问题汇总、缺陷定性、管理建议和最终项目交付。</span></div>
+</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div>
+<aside class="notes">综合案例不仅练单个程序，也要让学员看到一个IT审计项目如何推进。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">CASE ROADMAP</div><h1>综合案例任务地图：本次需要完成哪些判断</h1>
+<div class="slide-content">
+<div class="cards cols-3">
+<div class="card"><div class="card-title">1｜确定Scope</div><div class="card-body">哪些系统、接口、自动控制和系统生成信息会影响财审依赖。</div></div>
+<div class="card"><div class="card-title">2｜梳理业务与系统</div><div class="card-body">把销售、采购、存货和资金流程与系统处理、财务结果对应起来。</div></div>
+<div class="card"><div class="card-title">3｜评价ITGC</div><div class="card-body">按SA、PE、PM、NS判断关键系统环境是否受控。</div></div>
+<div class="card"><div class="card-title">4｜测试ITAC / Interface / IPE</div><div class="card-body">选择财审拟依赖的自动控制、数据传输和系统生成信息。</div></div>
+<div class="card"><div class="card-title">5｜设计CAATs</div><div class="card-body">明确审计问题、数据总体、规则、核验方法和证据留痕。</div></div>
+<div class="card"><div class="card-title">6｜形成结论</div><div class="card-body">判断异常性质、影响范围、补偿控制以及需要与财审沟通的应对。</div></div>
+</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">先给学员完整任务地图，再进入分任务练习。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 1 · SCOPE</div><h1>任务1｜确定本项目的IT审计Scope</h1>
+<div class="slide-content">
+<div class="scenario"><p>请判断以下对象是否应纳入本次IT审计，并说明理由：小A系统、金蝶云星空、资金系统、电商平台相关接口、办公邮箱、HR系统、代码仓库、门禁系统。</p><button onclick="reveal(this)">显示参考答案</button><div class="answer">优先纳入直接处理重大业务流程、承载关键自动控制、传输财务相关数据或生成财审拟依赖信息的系统和接口。办公邮箱、HR、代码仓库等是否纳入，应根据实际依赖路径判断，而不是因为“属于IT”就全部纳入。</div></div>
+<div class="cards cols-3"><div class="card"><div class="card-title">重大业务 / 财务数据</div><div class="card-body">系统是否直接处理收入、存货、采购付款或资金等重大流程。</div></div><div class="card"><div class="card-title">关键控制与接口</div><div class="card-body">系统是否承载ITAC、关键接口或对财务数据完整性产生直接影响。</div></div><div class="card"><div class="card-title">财审依赖</div><div class="card-body">财审是否计划使用该系统生成的报表、明细或自动处理结果。</div></div></div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">让学员同时说明“为什么纳入”和“为什么不纳入”。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 2 · REVENUE</div><h1>任务2｜销售与收入流程：从订单追到财务结果</h1>
+<div class="slide-content">
+<div class="blank-canvas">
+<div><b>业务与财务风险</b><em>订单、发货、退款、结算、凭证可能发生遗漏、重复、错期或错误转换。</em></div>
+<div><b>关键系统与接口</b><em>平台 → 小A系统 → 仓储/物流 → 金蝶 → 结算与收款。</em></div>
+<div><b>ITGC依赖</b><em>小A系统和金蝶的权限、变更、运行维护；接口任务的监控与失败处理。</em></div>
+<div><b>ITAC / Interface / IPE</b><em>订单锁定、价格审批、订单/结算接口、销售出库、结算和收入明细。</em></div>
+<div><b>CAATs</b><em>按订单号、结算单号、单据编号核对数量、金额、状态、期间和异常处理。</em></div>
+</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">让学员把模块一、二、五、六的内容合并到一个收入流程。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 3 · INVENTORY</div><h1>任务3｜存货与成本：自动计价、库存数据与财审依赖</h1>
+<div class="slide-content">
+<div class="cards cols-4">
+<div class="card"><div class="card-title">业务链路</div><div class="card-body">采购入库、调拨、销售出库、退货和期末库存如何进入金蝶库存与成本核算。</div></div>
+<div class="card"><div class="card-title">关键ITAC</div><div class="card-body">月末加权平均成本、期间控制、库存状态和自动结转逻辑是否按预期运行。</div></div>
+<div class="card"><div class="card-title">关键IPE</div><div class="card-body">库存明细、收发存、成本计算表的来源、参数、期间和完整性如何验证。</div></div>
+<div class="card"><div class="card-title">CAATs / 重算</div><div class="card-body">覆盖主要主体和仓库，重算关键物料成本，并核对异常库存、负库存和跨期变动。</div></div>
+</div>
+<div class="callout subtle"><b>需要与财审对齐：</b>财审准备如何依赖系统计价和库存明细，决定ITAC、IPE以及重算程序的范围和深度。</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">补充原综合案例缺失的存货与成本流程。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 4 · P2P &amp; CASH</div><h1>任务4｜采购、付款与资金：审批、主数据和支付链路</h1>
+<div class="slide-content">
+<div class="cards cols-4">
+<div class="card"><div class="card-title">供应商与银行账户</div><div class="card-body">关注新增和变更权限、审批、前后值以及敏感主数据的独立复核。</div></div>
+<div class="card"><div class="card-title">采购与请款</div><div class="card-body">采购、验收入库、请款和付款申请是否按流程衔接，关键金额和对象是否被系统校验。</div></div>
+<div class="card"><div class="card-title">资金审批与支付</div><div class="card-body">资金系统审批、银行支付和支付结果回传如何控制，是否存在单人完成关键步骤的风险。</div></div>
+<div class="card"><div class="card-title">对账与数据分析</div><div class="card-body">付款单号、供应商、银行账号、金额和状态是否可以在小A、资金系统、银行及金蝶间追溯。</div></div>
+</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">补充采购付款和资金流程，使综合案例覆盖主要财务循环。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 5 · ITGC</div><h1>任务5｜关键系统的ITGC如何组合测试</h1>
+<div class="slide-content">
+<div class="matrix">
+<div class="m-head">领域</div><div class="m-head">小A系统 / 金蝶</div><div class="m-head">资金系统及相关基础设施</div>
+<div>SA｜信息安全</div><div>新增变更、离职停用、定期复核、高权限及管理员日志</div><div>资金高权限、审批角色、支付相关职责分离、认证控制</div>
+<div>PE｜运行维护</div><div>关键作业、接口任务、失败处理、备份恢复和事件管理</div><div>支付任务、银行连接、失败重试、监控和恢复</div>
+<div>PM｜变更管理</div><div>定制功能、接口映射、参数修改的需求、测试、审批和部署</div><div>支付规则、银行接口或关键配置变更</div>
+<div>NS｜系统开发</div><div>如存在重大实施或升级，评价项目治理、UAT、迁移、上线批准</div><div>重大新系统或重大升级按实际适用性测试</div>
+</div>
+<div class="callout subtle">ITGC测试结果会直接影响后续对ITAC、Interface和IPE的依赖程度，因此综合案例中需要把这些结果放在一起判断。</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">把C22四个领域带回综合案例。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 6 · DATA &amp; CONTROLS</div><h1>任务6｜把Interface、IPE与CAATs放在同一条证据链上</h1>
+<div class="slide-content">
+<div class="ipe-chain"><span>平台原始数据</span><i>→</i><span>接口传输</span><i>→</i><span>小A系统 / 金蝶</span><i>→</i><span>系统生成明细</span><i>→</i><span>CAATs分析</span><i>→</i><span>异常核验</span><i>→</i><span>审计结论</span></div>
+<div class="three-points"><div><b>Interface</b><span>证明数据传输的完整性与准确性，并关注失败、重传和字段映射。</span></div><div><b>IPE</b><span>证明财审或IT审计拟使用的明细、报表具有完整、准确且适用的来源和参数。</span></div><div><b>CAATs</b><span>在可靠总体上设计分析规则，并把剩余异常核验到可支持结论的程度。</span></div></div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">综合前面模块，避免把Interface、IPE和CAATs割裂成三个独立概念。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 7 · JUDGEMENT</div><h1>任务7｜面对异常事实，先界定证据再判断性质</h1>
+<div class="slide-content">
+<div class="finding-list">
+<div><b>①</b> 小A系统有离职账号延迟停用，期间未见登录记录。</div>
+<div><b>②</b> 平台订单与小A系统订单出现差异，客户解释为退款、取消及跨日同步。</div>
+<div><b>③</b> 订单接口映射发生紧急变更，缺少正式审批，但保留测试与上线后复核。</div>
+<div><b>④</b> 财审拟使用的库存明细由业务人员自行选择期间、仓库和状态后导出。</div>
+</div>
+<div class="callout case-callout"><b>判断顺序：</b>先确认事实和证据边界，再评价风险、频率和影响范围，最后结合补偿控制和财审依赖决定定性及后续程序。</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">课堂假设用于训练判断方法，不直接代表项目实际结论。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">TASK 8 · CONCLUSION</div><h1>任务8｜从发现事实写到审计结论和财审应对</h1>
+<div class="slide-content">
+<div class="before-after"><div><b>信息不足的写法</b><p>平台与小A系统存在数据差异，接口存在风险，建议加强管理。</p></div><div><b>项目汇报需要讲清楚</b><p><b>事实：</b>涉及什么总体、期间、字段和差异类型。<br/><b>口径：</b>已排除哪些退款、取消、跨期、币种或业务状态影响。<br/><b>控制：</b>预期对账、失败处理和追踪机制实际如何运行。<br/><b>影响：</b>剩余异常涉及什么财务科目、认定和依赖路径。<br/><b>应对：</b>需要补充什么核验、扩大哪些样本或调整哪些财审程序。</p></div></div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">管理意见书和审计底稿措辞可以不同，但事实—风险—影响—应对的逻辑应一致。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">ISSUE PRIORITY</div><h1>项目中哪些问题需要及时升级和沟通</h1>
+<div class="slide-content"><div class="priority-matrix">
+<div class="head">情况</div><div class="head">项目处理</div><div class="head">沟通节奏</div>
+<div><b>可能影响重大财审依赖</b><span>关键系统不可依赖、关键ITAC失效、IPE总体可靠性存在重大疑问</span></div><div>立即界定受影响范围，和财审讨论替代/实质性程序</div><div class="critical">尽快升级，不等项目结束</div>
+<div><b>高权限 / 数据异常需进一步核验</b><span>事实尚未完整，但潜在影响较大</span></div><div>锁定证据、扩大核验、保留未决事项并同步当前判断</div><div>阶段性沟通，明确“已知 / 未知”</div>
+<div><b>一般控制例外</b><span>影响有限，补偿控制充分或未影响关键依赖</span></div><div>完成定性和底稿记录，纳入问题汇总</div><div>按常规问题清单沟通</div>
+</div>
+<div class="summary-strip"><b>沟通原则</b><span>沟通时除说明发现事项外，还应同步当前证据边界、待补资料、潜在影响以及下一步核验安排。</span></div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div>
+<aside class="notes">训练项目推进和向财审/客户沟通未决事项的能力。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-mid" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">END-TO-END EXAMPLE</div><h1>系统异常至审计应对：完整判断示例</h1>
+<div class="slide-content"><div class="end-to-end-chain">
+<div><b>事实</b><span>平台→小A订单接口出现差异，部分订单跨日补传。</span></div>
+<i>→</i><div><b>风险</b><span>订单可能漏入下游系统，影响发货和收入完整性。</span></div>
+<i>→</i><div><b>控制</b><span>失败报警、自动重试、每日订单对账及人工跟进。</span></div>
+<i>→</i><div><b>证据</b><span>接口日志、失败清单、重传记录、对账表及差异业务原因。</span></div>
+<i>→</i><div><b>判断</b><span>区分正常时差、退款取消和未解决异常，评价控制是否及时有效。</span></div>
+<i>→</i><div><b>财审应对</b><span>决定是否维持系统依赖、追加截止/完整性程序或扩大收入核验。</span></div>
+</div>
+<div class="callout case-callout"><b>综合训练重点：</b>每一项IT发现最终都要能够回到业务风险和财审依赖。技术事实需要进一步连接到业务风险、控制依赖和财务审计应对。</div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div>
+<aside class="notes">用一条接口异常示范业务—系统—控制—证据—财审的完整闭环。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-low" data-section="模块七">
+<div class="case-ribbon">A公司项目案例</div><div class="kicker">CASE OUTPUTS</div><h1>综合案例交付物：项目结束前至少形成这些成果</h1>
+<div class="slide-content">
+<div class="evidence-map">
+<div><b>Scope与系统图</b><span>纳入范围、系统架构、业务与财务依赖路径，以及不纳入系统的理由。</span></div>
+<div><b>PBC与访谈记录</b><span>资料清单、关键口径、系统负责人访谈及未决事项跟进。</span></div>
+<div><b>测试底稿</b><span>SA、PE、PM、NS及关键ITAC、Interface、IPE的测试过程和结论。</span></div>
+<div><b>CAATs证据</b><span>数据来源、完整性核对、规则脚本、异常总体、核验记录和最终分析结论。</span></div>
+<div><b>问题与财审沟通</b><span>事实、风险、影响范围、补偿控制、缺陷定性以及对财审程序的影响。</span></div>
+</div>
+<div class="summary-strip"><b>项目完成标准</b><span>不仅是“程序做完了”，而是每项工作都能说明目的、证据、判断和对整体审计的影响。</span></div></div>
+<div class="section-label">模块七</div><div class="slide-no">00</div><aside class="notes">综合案例最后用交付物把整套课程收口。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div>
+</section><section class="slide density-high" data-section="结语">
+<div class="kicker">CLOSE</div><h1>课程回顾：五个核心问题</h1><div class="slide-content"><div class="five-questions final">
+<div><b>✓</b><span>业务如何进入财务报表？</span></div>
+<div><b>✓</b><span>IT审计为什么影响财审？</span></div>
+<div><b>✓</b><span>ITGC / ITAC / Interface / IPE是什么关系？</span></div>
+<div><b>✓</b><span>异常如何从事实走到结论？</span></div>
+<div><b>✓</b><span>陌生系统该从哪里开始？</span></div>
+</div><div class="closing">回到项目现场，能够说明每项程序为什么做、证据证明了什么，以及结论如何影响整体审计。</div></div>
+<div class="section-label">结语</div><div class="slide-no">60</div><aside class="notes">结束时可随机点学员回答其中一个问题，作为口头验收。</aside>
+<div aria-hidden="true" class="module-hud"><span></span><span></span><span></span><i></i></div></section></div><div class="notes-panel" id="notesPanel"></div><div class="overview" id="overview"></div><script>
+let idx=0; const slides=[...document.querySelectorAll('.slide')];
+const counter=document.getElementById('counter'), bar=document.getElementById('progressBar'), notes=document.getElementById('notesPanel'), overview=document.getElementById('overview');
+const sectionMeta={
+  '总览':{index:'M00',name:'课程总览'},'模块一':{index:'M01',name:'业务、财务与系统'},
+  '模块二':{index:'M02',name:'财审逻辑与IT审计'},'模块三':{index:'M03',name:'IT技术基础'},
+  '模块四':{index:'M04',name:'IT一般控制（C22）'},'模块五':{index:'M05',name:'ITAC、Interface 与 IPE'},
+  '模块六':{index:'M06',name:'CAATs与数据分析'},'模块七':{index:'M07',name:'A公司综合案例'},
+  '结语':{index:'M99',name:'课程总结'}
+};
+slides.forEach((s,i)=>{
+  const meta=sectionMeta[s.dataset.section]||{index:'--',name:s.dataset.section};
+  const peers=slides.filter(x=>x.dataset.section===s.dataset.section);
+  const within=peers.indexOf(s)+1;
+  if(!s.querySelector(':scope > .brand-logo')){const logo=document.createElement('img');logo.className='brand-logo';logo.src='assets/grant-thornton-logo.png';logo.alt='致同 Grant Thornton';logo.onerror=()=>logo.remove();s.prepend(logo)}
+  if(!s.querySelector(':scope > .chapter-chip')){const chapter=document.createElement('div');chapter.className='chapter-chip';chapter.textContent=`${meta.index}｜${meta.name}`;s.prepend(chapter)}
+  const moduleIndex=s.querySelector(':scope > .module-index')||document.createElement('div');moduleIndex.className='module-index';moduleIndex.textContent=`${meta.index} · ${meta.name} · ${String(within).padStart(2,'0')}/${String(peers.length).padStart(2,'0')}`;if(!moduleIndex.parentNode)s.append(moduleIndex);
+  const pageNo=s.querySelector('.slide-no');if(pageNo)pageNo.textContent=`第 ${String(i+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')} 页`;
+});
+
+const navToggle=document.getElementById('nav-toggle'), navBackdrop=document.getElementById('nav-backdrop'), nav=document.getElementById('slide-nav'), navPages=document.getElementById('nav-pages'), navSearch=document.getElementById('nav-search'), navChips=document.getElementById('nav-module-chips');
+function openNav(){document.body.classList.add('nav-open');setTimeout(()=>navSearch.focus(),80)}
+function closeNav(){document.body.classList.remove('nav-open');navSearch.blur()}
+function toggleNav(){document.body.classList.contains('nav-open')?closeNav():openNav()}
+navToggle.onclick=toggleNav; navBackdrop.onclick=closeNav; document.querySelector('.nav-close').onclick=closeNav;
+
+const orderedSections=[...new Set(slides.map(s=>s.dataset.section))];
+orderedSections.forEach(sec=>{const btn=document.createElement('button');btn.className='nav-module-chip';const meta=sectionMeta[sec]||{index:'',name:sec};btn.textContent=`${meta.index} ${meta.name}`;btn.onclick=()=>{const p=slides.findIndex(s=>s.dataset.section===sec);show(p);closeNav()};navChips.append(btn)});
+
+function buildNav(filter=''){
+  navPages.innerHTML=''; const q=filter.trim().toLowerCase(); let visible=0;
+  orderedSections.forEach(sec=>{
+    const items=slides.map((s,i)=>({s,i,title:s.querySelector('h1')?.textContent.trim()||''})).filter(x=>x.s.dataset.section===sec && (!q || x.title.toLowerCase().includes(q) || sec.toLowerCase().includes(q) || String(x.i+1).includes(q)));
+    if(!items.length)return; visible+=items.length;
+    const st=document.createElement('div');st.className='nav-section-title';const meta=sectionMeta[sec]||{index:'',name:sec};st.textContent=`${meta.index} · ${meta.name}`;navPages.append(st);
+    items.forEach(({i,title})=>{const b=document.createElement('button');b.className='nav-page'+(i===idx?' active':'');b.dataset.page=i;b.innerHTML=`<small>${String(i+1).padStart(2,'0')}</small><span>${title}</span>`;b.onclick=()=>{show(i);closeNav()};navPages.append(b)});
+  });
+  if(!visible){const e=document.createElement('div');e.className='nav-empty';e.textContent='没有匹配页面';navPages.append(e)}
+}
+navSearch.addEventListener('input',()=>buildNav(navSearch.value));
+
+function updateNavActive(){navPages.querySelectorAll('.nav-page').forEach(b=>b.classList.toggle('active',Number(b.dataset.page)===idx));const active=navPages.querySelector('.nav-page.active');if(active&&document.body.classList.contains('nav-open'))active.scrollIntoView({block:'nearest'})}
+function show(i){idx=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>s.classList.toggle('active',j===idx));if(counter)counter.textContent=`${idx+1} / ${slides.length}`;if(bar)bar.style.width=((idx+1)/slides.length*100)+'%';if(notes)notes.innerHTML=slides[idx].querySelector('.notes')?.innerHTML||'本页无讲师备注。';location.hash='s'+(idx+1);updateNavActive()}
+function next(){show(idx+1)} function prev(){show(idx-1)}
+function reveal(btn){const a=btn.nextElementSibling;a.classList.toggle('show');btn.textContent=a.classList.contains('show')?'隐藏参考答案':'显示参考答案'}
+function toggleNotes(){notes?.classList.toggle('show')}
+function toggleOverview(){overview?.classList.toggle('show')}
+document.addEventListener('keydown',e=>{
+  const typing=['INPUT','TEXTAREA'].includes(document.activeElement?.tagName);
+  if(!typing && ['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next()}
+  if(!typing && ['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev()}
+  if(!typing && e.key==='Home')show(0); if(!typing && e.key==='End')show(slides.length-1);
+  if(!typing && e.key.toLowerCase()==='n')toggleNotes(); if(!typing && e.key.toLowerCase()==='o')toggleOverview();
+  if(!typing && e.key.toLowerCase()==='m')toggleNav();
+  if(e.key==='Escape'){overview?.classList.remove('show');closeNav()}
+});
+if(overview){overview.innerHTML='';slides.forEach((s,i)=>{const c=document.createElement('div');c.className='overview-card';c.innerHTML=`<small>${String(i+1).padStart(2,'0')} · ${s.dataset.section}</small><b>${s.querySelector('h1').textContent}</b>`;c.onclick=()=>{overview.classList.remove('show');show(i)};overview.appendChild(c)})}
+buildNav();
+const h=location.hash.match(/s(\d+)/);show(h?parseInt(h[1])-1:0);
+</script></body></html>

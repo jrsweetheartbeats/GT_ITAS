@@ -1,0 +1,184 @@
+{
+  "version": "1.0",
+  "description": "通用 Excel 敏感字段识别规则。可复制后按组织制度修改，无需调整 Python 程序。",
+  "max_content_length": 100,
+  "header_exclusions": [
+    "科目(编码|代码|名称|文本)",
+    "总账科目",
+    "会计科目",
+    "币种",
+    "借方",
+    "贷方",
+    "期初",
+    "期末",
+    "发生额",
+    "余额"
+  ],
+  "rules": [
+    {
+      "id": "identity_document",
+      "label": "身份证件",
+      "risk_level": "高",
+      "header_patterns": ["身份证", "证件号", "id\\s*card", "passport", "护照"],
+      "content_patterns": ["(?<!\\d)\\d{17}[\\dXx](?!\\w)"],
+      "method": "保留末四位",
+      "template": "***{末4位}",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "bank_account",
+      "label": "银行账号",
+      "risk_level": "高",
+      "header_patterns": ["银行账号", "银行卡", "收款账号", "付款账号", "开户账号", "bank\\s*account"],
+      "content_patterns": [],
+      "method": "保留末四位",
+      "template": "***{末4位}",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "phone",
+      "label": "手机号码",
+      "risk_level": "高",
+      "header_patterns": ["手机号", "手机号码", "联系电话", "电话号码", "电话", "phone", "mobile"],
+      "content_patterns": ["(?<!\\d)1[3-9]\\d{9}(?!\\d)"],
+      "method": "保留末四位",
+      "template": "***{末4位}",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "email",
+      "label": "电子邮箱",
+      "risk_level": "高",
+      "header_patterns": ["邮箱", "电子邮件", "e-?mail"],
+      "content_patterns": ["^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"],
+      "method": "稳定替换",
+      "template": "邮箱{序号:03d}@example.invalid",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "credit_code",
+      "label": "统一社会信用代码",
+      "risk_level": "高",
+      "header_patterns": ["统一社会信用代码", "社会信用代码", "税号", "纳税人识别号"],
+      "content_patterns": ["^[0-9A-HJ-NPQRTUWXY]{18}$"],
+      "method": "稳定替换",
+      "template": "信用代码{序号:03d}",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "person_name",
+      "label": "姓名",
+      "risk_level": "高",
+      "header_patterns": ["姓名", "员工名称", "人员名称", "经办人", "制单人", "录入人", "复核人", "审批人", "操作人", "联系人", "user\\s*name"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "人员{序号:03d}",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "address",
+      "label": "地址",
+      "risk_level": "高",
+      "header_patterns": ["地址", "住址", "注册地址", "通讯地址", "address"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "地址{序号:03d}",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "customer",
+      "label": "客户",
+      "risk_level": "中",
+      "header_patterns": ["客户(编码|代码|编号|名称|全称)?", "customer"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "客户{序号:03d}",
+      "template_variants": [
+        {"header_patterns": ["编码", "代码", "编号", "^客户$"], "template": "客户代码{序号:03d}"}
+      ],
+      "default_enabled": "Y"
+    },
+    {
+      "id": "supplier",
+      "label": "供应商",
+      "risk_level": "中",
+      "header_patterns": ["供应商(编码|代码|编号|名称|全称)?", "vendor", "supplier"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "供应商{序号:03d}",
+      "template_variants": [
+        {"header_patterns": ["编码", "代码", "编号", "^供应商$"], "template": "供应商代码{序号:03d}"}
+      ],
+      "default_enabled": "Y"
+    },
+    {
+      "id": "company",
+      "label": "公司主体",
+      "risk_level": "中",
+      "header_patterns": ["公司(代码|编码|编号|名称|全称)", "主体(代码|编码|编号|名称)", "法人名称", "company"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "公司{序号:03d}",
+      "template_variants": [
+        {"header_patterns": ["编码", "代码", "编号"], "template": "公司代码{序号:03d}"}
+      ],
+      "default_enabled": "Y"
+    },
+    {
+      "id": "project",
+      "label": "项目",
+      "risk_level": "中",
+      "header_patterns": ["项目(代码|编码|编号|名称)", "利润中心", "成本中心", "wbs", "project"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "项目{序号:03d}",
+      "template_variants": [
+        {"header_patterns": ["编码", "代码", "编号", "元素$", "中心$"], "template": "项目代码{序号:03d}"}
+      ],
+      "default_enabled": "Y"
+    },
+    {
+      "id": "contract",
+      "label": "合同",
+      "risk_level": "中",
+      "header_patterns": ["合同(?:号|编号|编码|名称|全称|文本描述)?", "contract"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "合同{序号:03d}",
+      "template_variants": [
+        {"header_patterns": ["编码", "代码", "编号", "合同号", "^合同$"], "template": "合同代码{序号:03d}"}
+      ],
+      "default_enabled": "Y"
+    },
+    {
+      "id": "internal_identifier",
+      "label": "内部编号",
+      "risk_level": "中",
+      "header_patterns": ["员工(号|编号|编码)", "用户(id|编号|编码)", "账号", "工号", "employee\\s*id", "user\\s*id"],
+      "content_patterns": [],
+      "method": "稳定替换",
+      "template": "编号{序号:03d}",
+      "default_enabled": "Y"
+    },
+    {
+      "id": "free_text",
+      "label": "自由文本",
+      "risk_level": "中",
+      "header_patterns": ["摘要", "备注", "说明", "用途", "事由", "描述", "自由文本", "remark", "description", "comment"],
+      "content_patterns": [],
+      "method": "人工确认",
+      "template": "{原值}",
+      "default_enabled": "N"
+    },
+    {
+      "id": "ip_address",
+      "label": "IP地址",
+      "risk_level": "中",
+      "header_patterns": ["IP地址", "ip\\s*address"],
+      "content_patterns": ["^(?:\\d{1,3}\\.){3}\\d{1,3}$"],
+      "method": "保留末四位",
+      "template": "***{末4位}",
+      "default_enabled": "Y"
+    }
+  ]
+}

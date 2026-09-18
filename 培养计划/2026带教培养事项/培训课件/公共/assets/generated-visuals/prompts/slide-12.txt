@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “财务报表认定与常见错报”. Show this idea visually: 完整性 平台已有订单，小A系统或金蝶却漏了一部分. Strategy: 以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=280, y=580, width=1100, height=284 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 12–25%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

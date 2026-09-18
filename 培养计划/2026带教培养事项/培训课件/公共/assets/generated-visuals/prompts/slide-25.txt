@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “身份认证、账号与授权”. Show this idea visually: 🪪Account｜账号/əˈkaʊnt/像门禁卡上写着的名字，是人与系统身份的载体。审计例：共用管理员账号就像几个人共用一张无名门禁卡，事后很难追到具体人员。 🔐Authentication｜身份认证/ɔːˌθent. Strategy: 在 240,620 起的 1140×244 安全区内放置轻量情境插图，其他区域保持干净。
+
+Use the consistent cast: a 22–26 year old Asian female IT auditor with high ponytail dark-purple hair, violet eyes, white shirt, dark vest and purple lanyard; optionally a 25–30 year old Asian male audit senior with neat dark short hair, thin glasses, white shirt, dark vest or suit and purple lanyard. Keep characters small and subordinate to the teaching content. Do not include robots.
+
+Composition must reserve the measured safe region x=240, y=620, width=1140, height=244 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 8–12%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

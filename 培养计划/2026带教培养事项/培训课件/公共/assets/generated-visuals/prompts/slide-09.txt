@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “电商业务六大循环”. Show this idea visually: 销售与收款平台订单 → 小A系统筛选 → 发货 → 平台结算 → 收款采购与付款备货/请购 → 采购 → 质检入库 → 请款 → 付款仓储与履约国内仓/平台仓 → 调拨 → 出库 → 物流同步 → 退货存货与成本库存变动. Strategy: 以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=280, y=580, width=1100, height=284 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 8–12%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

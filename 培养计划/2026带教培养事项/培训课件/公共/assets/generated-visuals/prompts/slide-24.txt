@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “A公司业务系统架构”. Show this idea visually: 新人画图规则：方框写系统或层级，箭头写传什么数据；每条关键数据都要能找到来源、去向、对账字段和留痕。. Strategy: 内容密度高，仅使用边缘微光、角落HUD纹理与低对比粒子，不放人物。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=240, y=760, width=1140, height=104 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 5–8%. Background mode: 浅色边缘氛围/装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

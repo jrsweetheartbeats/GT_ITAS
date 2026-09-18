@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>财务审计中的AI应用实战培训｜文案优化版</title>
+<style>
+:root{
+ --purple:#4f1c72; --purple2:#6b2e8d; --orange:#ef9f24; --ink:#26192d; --muted:#6f6674;
+ --paper:#fff; --soft:#f4eef7; --line:#dfd4e5; --green:#287553; --yellow:#b87510; --red:#a63b37;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#121018;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif}
+.slide{display:none;position:absolute;inset:0;width:100vw;height:100vh;padding:5.8vh 6.2vw 5.8vh;background:linear-gradient(145deg,#fff 0%,#fbf9fd 70%,#f1ebf5 100%);overflow:hidden}
+.slide.active{display:flex;flex-direction:column}
+.slide:after{content:"";position:absolute;right:-2vw;bottom:-4vh;width:26vw;height:26vw;border:.75vw solid rgba(79,28,114,.045);border-radius:50%;pointer-events:none}
+.brand-text{position:absolute;right:4.5vw;top:3.2vh;font-weight:800;letter-spacing:.04em;color:var(--purple);font-size:1vw;z-index:3}
+.brand-text img{display:block;width:8.4vw;height:3.1vh;object-fit:contain;object-position:right center}
+.eyebrow{font-weight:800;letter-spacing:.14em;color:#7a4a92;font-size:.9vw}
+h1{font-size:2.75vw;line-height:1.12;margin:.8vh 0 2.6vh;max-width:91vw;color:#351342}
+h2{font-size:1.65vw;line-height:1.3;margin:.3em 0 .6em}
+h3{font-size:1.22vw;color:var(--purple);margin:.25em 0 .65em}
+p,li,td,th,blockquote{font-size:1.06vw;line-height:1.5}
+ul,ol{margin:.4em 0;padding-left:1.45em}
+li{margin:.33em 0}
+.slide > *:not(.brand-text):not(.module):not(.slide-no){position:relative;z-index:2}
+.module,.slide-no{position:absolute;bottom:2.25vh;font-size:.82vw;color:#786c7e;z-index:3}
+.module{left:4.5vw}.slide-no{right:4.5vw}
+.takeaway{margin-top:auto;margin-bottom:4.3vh;padding:1.55vh 1.7vw;border-left:.5vw solid var(--orange);background:linear-gradient(90deg,#f3edf7,#faf7fc);font-size:1.16vw;font-weight:700;line-height:1.45;min-height:6.2vh;display:flex;align-items:center}
+table{width:100%;border-collapse:collapse;background:white;box-shadow:0 1vh 2.4vh rgba(44,26,52,.06);margin-bottom:1.5vh}
+th{background:var(--purple);color:white;text-align:left}
+th,td{padding:1.18vh 1vw;border-bottom:1px solid #e3dbe7;vertical-align:middle}
+tr:nth-child(even) td{background:#fbf8fc}
+.tall-table th,.tall-table td{padding:1.32vh 1.05vw}
+.feature-table th,.feature-table td{padding:1.55vh 1.05vw}
+.cards{display:grid;gap:1.6vh 1.3vw;align-content:stretch}
+.cards-3{grid-template-columns:repeat(3,1fr)}
+.cards-4{grid-template-columns:repeat(4,1fr)}
+.card{background:white;border-top:.48vh solid var(--purple);padding:1.7vh 1.35vw;box-shadow:0 .8vh 2.2vh rgba(44,26,52,.07);min-height:13.8vh}
+.card b{font-size:1.55vw;color:var(--orange)}.card h3{margin:.25vh 0 .55vh}.card p{margin:0}
+.cards.compact .card{min-height:11.2vh;padding:1.4vh 1.05vw}.cards.compact .card p{font-weight:650}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.2vw}
+.two-col.stretch{align-items:stretch;min-height:40vh}
+.two-col.mini{gap:1.5vw;min-height:0}
+.panel{background:rgba(255,255,255,.92);border-top:.55vh solid var(--purple);padding:2.1vh 1.6vw;box-shadow:0 1vh 2.5vh rgba(44,26,52,.08);height:100%}
+.panel.accent{border-color:var(--orange)}
+.step-grid{display:grid;gap:1.5vh 1.3vw;align-content:stretch}
+.step-grid-4{grid-template-columns:repeat(2,1fr)}
+.step-grid-5{grid-template-columns:repeat(5,1fr)}
+.step-grid-7{grid-template-columns:repeat(7,1fr)}
+.step-card{background:white;border-top:.5vh solid var(--purple);padding:1.7vh 1.25vw;min-height:15vh;box-shadow:0 .8vh 2vh rgba(44,26,52,.07)}
+.step-card b{display:block;color:var(--orange);font-size:1.55vw;margin-bottom:1vh}
+.step-card span{font-size:1.07vw;line-height:1.45}
+.step-grid-5 .step-card,.step-grid-7 .step-card{padding:1.6vh .9vw}.step-grid-7 .step-card span{font-size:.98vw}
+.flow{display:flex;align-items:stretch;gap:.65vw;margin-top:3vh}
+.flow>div{flex:1;background:white;border-top:.5vh solid var(--purple);padding:2.1vh .9vw;text-align:center;box-shadow:0 .9vh 2.2vh rgba(44,26,52,.07)}
+.flow>i{align-self:center;font-style:normal;color:var(--orange);font-size:1.8vw}
+.flow b{color:var(--orange);font-size:1.3vw}.flow p{margin:.4em 0}
+.mini-band{display:flex;justify-content:center;gap:1.1vw;flex-wrap:wrap;margin-top:3vh}
+.mini-band span{background:#eee5f3;color:var(--purple);font-weight:700;padding:1.1vh 1.2vw;border-radius:999px;font-size:1vw}
+.mini-band.dark span{background:rgba(255,255,255,.13);color:white}
+.evidence-chain{display:flex;align-items:center;justify-content:center;gap:1vw;margin:3.4vh 0 1vh}
+.evidence-chain span{background:#f0e8f4;padding:1.3vh 1.25vw;font-size:1.08vw;font-weight:750;color:var(--purple)}
+.evidence-chain i{font-style:normal;color:var(--orange);font-size:1.7vw}
+.evidence-chain.large{margin:3vh 0 4vh}.evidence-chain.large span{font-size:1.22vw;padding:1.6vh 1.5vw}
+.pill-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1vh 1vw;margin-top:1.5vh}
+.pill-grid span{background:#f2ebf6;padding:1.05vh 1vw;font-weight:700;color:var(--purple);font-size:1vw}
+.big-text{font-size:1.55vw;font-weight:800;color:var(--purple)}
+.decision{margin-top:2vh;background:#fff2df;border-left:.4vw solid var(--orange);padding:1.3vh 1.2vw;font-size:1.05vw;font-weight:750}
+.split-stage{min-height:43vh}
+.split-card{background:white;border-left:.55vw solid var(--purple);padding:2.6vh 2vw;box-shadow:0 1vh 2.6vh rgba(44,26,52,.08)}
+.split-card.accent{border-color:var(--orange)}
+.tag{display:inline-block;font-size:.9vw;font-weight:800;color:#6d5f74;background:#f2edf5;padding:.65vh .8vw;margin-bottom:1.5vh}
+.traffic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;min-height:42vh}
+.traffic{background:white;padding:2.2vh 1.5vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08);border-top:.7vh solid}
+.traffic>b{font-size:2.1vw}.traffic strong{display:block;margin-top:2vh;font-size:1vw;line-height:1.45}
+.traffic.green{border-color:var(--green)}.traffic.green>b{color:var(--green)}
+.traffic.yellow{border-color:var(--yellow)}.traffic.yellow>b{color:var(--yellow)}
+.traffic.red{border-color:var(--red)}.traffic.red>b{color:var(--red)}
+.before-after{display:grid;grid-template-columns:.85fr 1.15fr;gap:2.5vw;min-height:41vh}
+.before,.after{padding:2.4vh 2vw;background:white;box-shadow:0 1vh 2.5vh rgba(44,26,52,.08)}
+.before{border-left:.55vw solid #b9aabc}.after{border-left:.55vw solid var(--orange)}
+.before blockquote{font-size:1.8vw;font-weight:800;margin:5vh 0 2vh;color:#58465f}
+.after ul{margin-top:2vh}
+.before-after.process h2{font-size:2vw;margin-top:3vh}
+.prompt-layout{display:grid;grid-template-columns:1.55fr .75fr;gap:2vw;align-items:stretch;min-height:44vh}
+pre{margin:0;background:#1d1722;color:#f7f1fa;padding:2.1vh 1.7vw;border-radius:.45vw;box-shadow:0 1.2vh 2.8vh rgba(25,10,30,.17);overflow:auto;height:100%}
+code{font-family:"SFMono-Regular",Consolas,monospace;font-size:1vw;line-height:1.5;white-space:pre-wrap}
+.prompt-notes{background:white;border-top:.55vh solid var(--orange);padding:2vh 1.5vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}
+.metric-list{display:grid;gap:1.1vh}.metric-list span{padding:1.05vh 1vw;background:#f3edf7;font-size:1vw}.metric-list b{font-size:1.35vw;color:var(--purple)}
+.exercise{padding:2.2vh 2vw;background:white;border-left:.65vw solid var(--orange);box-shadow:0 1.3vh 3vh rgba(44,26,52,.1)}
+.big-exercise{min-height:42vh}.big-exercise h2{font-size:1.9vw;margin-top:2vh}
+.exercise-grid,.discussion-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vh 1vw;margin:3vh 0}
+.exercise-grid span,.discussion-grid span{background:#f2ebf6;padding:1.2vh 1vw;text-align:center;font-weight:750;color:var(--purple)}
+button{border:0;background:var(--purple);color:white;padding:1vh 1.35vw;font-size:.95vw;border-radius:2vw;cursor:pointer}
+.answer{display:none;margin-top:1.7vh;padding:1.4vh 1.2vw;background:#f1eaf6;font-size:1vw;line-height:1.45}.answer.show{display:block}
+.kpi-stage{display:grid;grid-template-columns:repeat(3,1fr);gap:1.7vw;margin-top:3vh}.kpi-stage.four{grid-template-columns:repeat(4,1fr)}
+.kpi{background:white;text-align:center;padding:3.2vh 1vw;border-bottom:.6vh solid var(--purple);box-shadow:0 1.2vh 2.8vh rgba(44,26,52,.08);min-height:18vh}
+.kpi b{display:block;font-size:2.7vw;color:var(--purple);line-height:1.15}.kpi span{display:block;font-size:1.1vw;font-weight:800;margin-top:1vh}.kpi small{display:block;font-size:.88vw;color:var(--muted);margin-top:.7vh}
+.kpi-stage.four .kpi b{font-size:2.2vw}
+.check-band,.quality-flow{display:flex;justify-content:center;gap:1vw;margin-top:3vh}
+.check-band span,.quality-flow span{padding:1.05vh 1vw;background:#f1eaf6;color:var(--purple);font-size:.94vw;font-weight:700}.quality-flow i{align-self:center;color:var(--orange);font-style:normal}
+.replay-standard{margin-top:2.5vh;background:#f3edf7;padding:1.4vh 1.3vw;display:flex;gap:1vw;align-items:center}.replay-standard b{color:var(--orange);font-size:1.1vw}.replay-standard span{font-size:1vw}
+.code-panel{display:flex;flex-direction:column}.code-panel pre{height:auto;min-height:22vh}
+.inline-result{display:flex;align-items:baseline;justify-content:center;gap:.65vw;margin-top:2.3vh}.inline-result b{font-size:2.1vw;color:var(--purple)}.inline-result span{font-size:1vw}.inline-result i{font-style:normal;color:var(--orange)}
+.formula{display:flex;align-items:center;gap:.6vw;flex-wrap:wrap;margin:3vh 0}.formula span{background:#f2ebf6;color:var(--purple);padding:1.05vh .9vw;font-weight:750}.formula i{font-style:normal;color:var(--orange)}
+.grain-stage{display:flex;align-items:stretch;gap:.8vw;margin-top:3vh}
+.grain-stage>div{flex:1;text-align:center;background:white;border-top:.5vh solid var(--purple);padding:2.5vh 1vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.07)}
+.grain-stage>div>b{font-size:2vw;color:var(--orange)}.grain-stage>i{align-self:center;color:var(--orange);font-size:1.7vw;font-style:normal}
+.bars-stage{display:grid;gap:1.4vh;margin-top:2vh}.bar{width:var(--w);min-width:36%;background:linear-gradient(90deg,var(--purple),#7c4896);color:white;padding:1.4vh 1.3vw;display:flex;justify-content:space-between;font-size:1.05vw}.bar b{font-size:1.2vw}
+.result-card{margin:3vh auto 0;background:white;border-bottom:.6vh solid var(--orange);padding:2vh 2vw;display:flex;align-items:center;gap:1.2vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08);width:max-content}.result-card b{font-size:2.8vw;color:var(--purple)}.result-card span{font-size:1.15vw;font-weight:750}
+.focus-card{background:white;border-top:.6vh solid var(--orange);padding:2.6vh 2vw;box-shadow:0 1.3vh 3vh rgba(44,26,52,.1);min-height:43vh}
+.focus-id{text-align:center;font-size:2.3vw;font-weight:850;color:var(--purple)}
+.tag-row{display:flex;justify-content:center;gap:1vw;flex-wrap:wrap;margin:2.3vh 0}.tag-row span{background:#f1eaf6;color:var(--purple);padding:1.05vh 1vw;font-weight:750}
+.priority{text-align:center;font-size:1.25vw;font-weight:800;color:var(--orange);margin:2vh 0}
+.discussion{min-height:42vh}.discussion h2{font-size:1.7vw}
+.sample-stage{display:grid;grid-template-columns:repeat(3,1fr);gap:1.7vw;min-height:39vh}.sample-stage>div{background:white;border-top:.55vh solid var(--purple);padding:2.5vh 1.5vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.sample-stage b{font-size:2vw;color:var(--orange)}
+.skill-flow{display:flex;justify-content:center;align-items:center;gap:.65vw;margin:2.8vh 0 3.3vh}.skill-flow span{background:var(--purple);color:white;padding:1.4vh 1vw;font-size:1vw;font-weight:750}.skill-flow i{font-style:normal;color:var(--orange);font-size:1.5vw}
+.three-role{display:grid;grid-template-columns:repeat(3,1fr);gap:1.7vw;min-height:37vh}.three-role>div{background:white;border-top:.6vh solid var(--purple);padding:2.8vh 1.6vw;text-align:center;box-shadow:0 1vh 2.5vh rgba(44,26,52,.08)}.three-role b{font-size:2vw;color:var(--orange)}.three-role h3{font-size:1.3vw;margin-top:1vh}
+.final-rules{display:flex;justify-content:center;gap:1vw;margin-top:2.5vh}.final-rules span{background:#f1eaf6;color:var(--purple);padding:1.05vh 1vw;font-weight:750;font-size:.98vw}
+.cover,.section,.break{color:white;background:radial-gradient(circle at 82% 18%,rgba(244,160,36,.22),transparent 22%),linear-gradient(135deg,#24102e,#4f1c72 66%,#6b2e8d)}
+.cover .brand-text,.section .brand-text,.break .brand-text{color:white}
+.cover .module,.cover .slide-no,.section .module,.section .slide-no,.break .module,.break .slide-no{color:#d8c9df}
+.cover h1,.section h1,.break h1{color:white}
+.cover-main{margin-top:11vh}.cover-main h1{font-size:4.8vw;max-width:80vw;margin:1.3vh 0 2vh}.cover-line{font-size:2vw;color:#f2c979}.cover-route{display:flex;align-items:center;gap:.75vw;margin-top:5vh}.cover-route span{background:rgba(255,255,255,.12);padding:1.2vh 1.1vw;font-size:1vw;font-weight:750}.cover-route i{font-style:normal;color:#f2c979}
+.cover-meta{position:absolute;bottom:9vh;font-size:1.25vw;color:#e7ddea}
+.case-cover,.break-stage{margin-top:10vh}.case-cover h1,.break-stage h1{font-size:3.6vw;max-width:86vw}
+.case-route{display:flex;align-items:center;gap:.8vw;margin-top:5vh}.case-route span{background:rgba(255,255,255,.12);padding:1.35vh 1.2vw;font-size:1.1vw;font-weight:750}.case-route i{font-style:normal;color:#f3c778;font-size:1.5vw}
+.case-note,.break-next{margin-top:3vh;font-size:1.35vw;color:#eadfea}
+.break-next{color:#f2c979;font-weight:800}
+#progress{position:fixed;z-index:20;top:0;left:0;height:.5vh;background:var(--orange);width:0;transition:.25s}
+#navToggle{position:fixed;z-index:30;top:1.3vh;left:.9vw;border-radius:.35vw;padding:.65vh .75vw;font-size:.76vw;background:rgba(37,18,45,.88)}
+#nav{position:fixed;z-index:25;left:-29vw;top:0;width:28vw;height:100vh;background:#1f1327;color:white;padding:7vh 1.35vw 2vh;overflow:auto;transition:.25s}
+#nav.open{left:0}.nav-sec{margin:1.8vh 0 .7vh;color:#efc977;font-weight:800}.nav-item{display:flex;gap:.75vw;padding:.72vh .5vw;cursor:pointer;font-size:.82vw}.nav-item.current{background:#63307f}.nav-item b{color:#efc977}
+.presenter-hint{position:fixed;left:50%;bottom:1.15vh;transform:translateX(-50%);z-index:18;color:#8a7e8f;font-size:.68vw}
+@media(max-aspect-ratio:4/3){h1{font-size:2.5vw}p,li,td,th{font-size:.98vw}}
+@media print{body{overflow:visible}.slide{display:flex!important;position:relative;width:13.333in;height:7.5in;page-break-after:always}#progress,#nav,#navToggle,.presenter-hint{display:none}}
+
+/* ===== 内容与布局深化版：新增页面结构 ===== */
+.why-grid{display:grid;grid-template-columns:1.35fr .75fr;gap:2.2vw;min-height:44vh}
+.why-main,.why-side{background:white;box-shadow:0 1vh 2.5vh rgba(44,26,52,.08);padding:2.1vh 1.5vw}
+.why-main{border-top:.55vh solid var(--purple)}.why-side{border-top:.55vh solid var(--orange)}
+.why-title{font-size:1.28vw;font-weight:800;color:var(--purple);margin-bottom:1.6vh}
+.pain-row{display:grid;grid-template-columns:.12fr .35fr 1fr;gap:.8vw;align-items:center;padding:1.15vh .7vw;border-bottom:1px solid #e8e0eb}
+.pain-row b{color:var(--orange);font-size:1.25vw}.pain-row span{font-weight:750;font-size:1.05vw}.pain-row small{font-size:.92vw;color:var(--muted)}
+.gain-card{background:#f4eef7;padding:1.1vh 1vw;margin:1.1vh 0}.gain-card b,.gain-card span{display:block}.gain-card b{color:var(--purple);font-size:1.02vw}.gain-card span{font-size:.9vw;margin-top:.45vh}
+.audit-life{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vh 1.25vw}
+.life-stage{background:white;border-left:.38vw solid var(--purple);padding:1.45vh 1.1vw;min-height:13vh;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.06)}
+.life-stage b{color:var(--orange);font-size:1.25vw}.life-stage h3{display:inline;margin-left:.5vw}.life-stage p{margin:.55vh 0}.life-stage small{font-size:.86vw;color:var(--muted)}
+.audit-life-footer{display:grid;grid-template-columns:1fr 1fr;gap:1.2vw;margin-top:2vh}.audit-life-footer span{padding:1.2vh 1.1vw;font-size:1vw;font-weight:750;text-align:center}.ai-zone{background:#eee6f2;color:var(--purple)}.human-zone{background:#fff0db;color:#9b6511}
+.mainline-stage{display:flex;align-items:stretch;gap:.45vw;margin-top:1.6vh}
+.mainline-node{flex:1;background:white;border-top:.5vh solid var(--purple);padding:1.55vh .8vw;text-align:center;box-shadow:0 .7vh 2vh rgba(44,26,52,.07);min-height:20vh}
+.mainline-node b{font-size:1.45vw;color:var(--orange)}.mainline-node h3{margin:.5vh 0}.mainline-node p{font-weight:700;margin:.4vh 0}.mainline-node small{font-size:.85vw;color:var(--muted)}
+.mainline-arrow{align-self:center;color:var(--orange);font-size:1.5vw}
+.mainline-bottom{display:grid;grid-template-columns:1fr 1fr;gap:1.3vw;margin-top:2.4vh}.mainline-bottom div{padding:1.2vh 1vw;background:#f2ebf6;font-size:.96vw}.mainline-bottom b{color:var(--purple);margin-right:.4vw}
+.tool-compare{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5vw;min-height:43vh}.tool-card{background:white;border-top:.55vh solid var(--purple);padding:2vh 1.35vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.tool-card.featured{border-color:var(--orange);transform:translateY(-.7vh)}
+.tool-type{font-size:.86vw;color:var(--muted);font-weight:800;letter-spacing:.05em}.tool-card h2{font-size:1.55vw;color:var(--purple)}.tool-flow{background:#f2ebf6;color:var(--purple);font-weight:750;padding:1.15vh .8vw;margin:1.5vh 0;font-size:.95vw}
+.boundary-layout{display:grid;grid-template-columns:1fr .42fr 1fr;gap:1.4vw;min-height:43vh}.boundary-col{background:white;padding:2.2vh 1.5vw;box-shadow:0 1vh 2.5vh rgba(44,26,52,.08)}.boundary-col.ai{border-top:.55vh solid var(--purple)}.boundary-col.human{border-top:.55vh solid var(--orange)}
+.boundary-label{font-size:.86vw;font-weight:800;color:var(--muted);letter-spacing:.05em}.boundary-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.55vh}.boundary-center span{background:#f2ebf6;color:var(--purple);font-weight:750;padding:.9vh .55vw;text-align:center;width:100%;font-size:.88vw}.boundary-center i{font-style:normal;color:var(--orange)}
+.four-checks{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3vw;min-height:39vh}.four-checks>div{background:white;border-top:.55vh solid var(--purple);padding:2.1vh 1.2vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.four-checks b{color:var(--orange);font-size:1.5vw}.four-checks p{margin:.8vh 0}.four-checks small{font-size:.85vw;color:var(--muted)}
+.stop-rule{margin-top:2.2vh;padding:1.35vh 1.2vw;background:#fff1de;border-left:.45vw solid var(--orange);font-weight:800;text-align:center;font-size:1.05vw}
+.reidentify-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:2vw;min-height:43vh}.reidentify-map{position:relative;background:white;border-top:.55vh solid var(--purple);padding:2vh 1.5vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.reidentify-side{background:white;border-top:.55vh solid var(--orange);padding:2vh 1.5vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}
+.id-center{position:absolute;left:43%;top:43%;width:13%;padding:1.3vh .7vw;text-align:center;background:var(--purple);color:white;font-weight:800;border-radius:50%}
+.reidentify-map>span{position:absolute;background:#f2ebf6;color:var(--purple);font-weight:700;padding:.85vh .7vw;font-size:.88vw}.id1{left:10%;top:32%}.id2{left:10%;top:58%}.id3{left:34%;top:73%}.id4{right:10%;top:31%}.id5{right:10%;top:57%}.id6{left:34%;top:18%}
+.judge-step{display:flex;gap:.8vw;align-items:center;padding:1.1vh .5vw;border-bottom:1px solid #e5dce8}.judge-step b{color:var(--orange);font-size:1.2vw}.judge-step span{font-size:.95vw}
+.separation-layout{display:grid;grid-template-columns:1fr .1fr 1fr;gap:1.2vw;align-items:stretch;min-height:43vh}.separation-side{background:white;padding:1.8vh 1.4vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.separation-side.logic{border-top:.55vh solid var(--purple)}.separation-side.data{border-top:.55vh solid var(--orange)}.sep-arrow{align-self:center;text-align:center;color:var(--orange);font-size:2vw}
+.sep-title{font-size:1.25vw;font-weight:800;color:var(--purple);margin-bottom:1vh}.sep-box{display:grid;grid-template-columns:.25fr 1fr;gap:.7vw;background:#f6f1f8;padding:1vh .9vw;margin:.75vh 0}.sep-box b{color:var(--purple)}.sep-box span{font-size:.9vw}.sep-result{margin-top:1vh;background:#eee4f3;padding:1vh .9vw;font-weight:750;font-size:.92vw}
+.traffic-matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:.8vh 1vw}.traffic-head{padding:1.2vh 1vw;color:white;font-size:1.1vw;font-weight:800;text-align:center}.traffic-head.green{background:var(--green)}.traffic-head.yellow{background:var(--yellow)}.traffic-head.red{background:var(--red)}
+.traffic-body{background:white;padding:1.25vh 1vw;min-height:9.3vh;box-shadow:0 .6vh 1.5vh rgba(44,26,52,.05)}.traffic-body b{display:block;color:var(--purple);font-size:.88vw}.traffic-body p{font-size:.9vw;margin:.35vh 0}
+.scenario-strip{display:flex;gap:.6vw;align-items:center;flex-wrap:wrap;margin-top:1.8vh;background:#f3edf7;padding:1vh .9vw}.scenario-strip b{color:var(--orange)}.scenario-strip span{font-size:.86vw;background:white;padding:.65vh .65vw}
+.task-six{display:grid;grid-template-columns:repeat(3,1fr);gap:1.35vh 1.2vw}.task-six>div{background:white;border-left:.38vw solid var(--purple);padding:1.45vh 1.1vw;min-height:13.2vh;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.06)}.task-six b{color:var(--orange);font-size:1.4vw}.task-six h3{display:inline;margin-left:.45vw}.task-six p{margin:.55vh 0}.task-six small{font-size:.84vw;color:var(--muted)}
+.prompt-evolution{display:grid;grid-template-columns:1fr .08fr 1fr .08fr 1.2fr;gap:.8vw;align-items:stretch;min-height:42vh}.prompt-level{background:white;padding:2vh 1.4vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.prompt-level span{font-size:.82vw;font-weight:800;color:var(--muted)}.prompt-level.bad{border-top:.55vh solid #aaa}.prompt-level.mid{border-top:.55vh solid var(--yellow)}.prompt-level.good{border-top:.55vh solid var(--green)}.prompt-level blockquote{font-size:1.35vw;margin:3vh 0}.prompt-arrow{align-self:center;text-align:center;color:var(--orange);font-size:1.8vw}
+.prompt-two-pass{display:grid;grid-template-columns:1fr .1fr 1fr;gap:1.3vw;align-items:stretch;min-height:43vh}.pass-card{background:white;border-top:.55vh solid var(--purple);padding:1.8vh 1.4vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.pass-card+*+.pass-card{border-color:var(--orange)}.pass-no{font-size:.86vw;font-weight:800;color:var(--muted)}.pass-card pre{height:auto;min-height:27vh}.pass-arrow{align-self:center;text-align:center;color:var(--orange);font-size:2vw}.pass-result{margin-top:2vh;background:#f2ebf6;padding:1.15vh .9vw;font-weight:750}
+.auth-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:2vw;min-height:43vh}.auth-diagram{background:white;border-top:.55vh solid var(--purple);padding:2vh 1.5vw;display:grid;grid-template-columns:1fr .12fr 1fr;gap:.8vw;align-items:center;position:relative;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.auth-safe,.auth-tool{text-align:center;padding:2.5vh 1vw;background:#f2ebf6;color:var(--purple);font-size:1.2vw;font-weight:800}.auth-safe div,.auth-tool div{font-size:.9vw;margin-top:.8vh}.auth-arrow{text-align:center;color:var(--orange);font-size:2vw}.auth-block{position:absolute;bottom:2vh;left:25%;right:25%;text-align:center;background:#fff0e9;color:var(--red);padding:1vh;font-weight:750;font-size:.9vw}.auth-checks{background:white;border-top:.55vh solid var(--orange);padding:2vh 1.5vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}
+.demo-run{display:grid;grid-template-columns:1fr 1fr;gap:2vw;min-height:43vh}.demo-left,.demo-right{background:white;padding:2vh 1.4vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.demo-left{border-top:.55vh solid var(--purple)}.demo-right{border-top:.55vh solid var(--orange)}.demo-step{display:grid;grid-template-columns:.1fr 1fr;gap:.6vw;padding:.8vh .3vw;border-bottom:1px solid #e6dce9}.demo-step b{color:var(--orange)}.demo-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.6vw}.demo-kpis span{background:#f2ebf6;padding:1.1vh .5vw;text-align:center;font-size:.85vw}.demo-kpis b{display:block;font-size:1.35vw;color:var(--purple)}.demo-accept{margin-top:1.5vh}.demo-stop{margin-top:1.4vh;background:#fff1de;border-left:.4vw solid var(--orange);padding:1vh;font-weight:800;text-align:center}
+.exercise-workshop{background:white;border-left:.6vw solid var(--orange);padding:2vh 1.8vw;min-height:43vh;box-shadow:0 1vh 2.5vh rgba(44,26,52,.08)}.exercise-question span{font-size:.85vw;color:var(--muted);font-weight:800}.exercise-question h2{font-size:1.6vw}.exercise-board{display:grid;grid-template-columns:repeat(3,1fr);gap:1vh 1vw;margin:1.5vh 0 2vh}.exercise-board div{background:#f3edf7;padding:1vh .8vw}.exercise-board b,.exercise-board small{display:block}.exercise-board b{color:var(--purple);font-size:.95vw}.exercise-board small{font-size:.82vw;margin-top:.4vh}
+.process-lane{display:grid;grid-template-columns:repeat(7,1fr);gap:.7vw;min-height:37vh}.process-lane>div{background:white;border-top:.5vh solid var(--purple);padding:1.5vh .75vw;text-align:center;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.06)}.process-lane b{font-size:1.35vw;color:var(--orange)}.process-lane h3{font-size:1vw}.process-lane p{font-size:.84vw}.process-lane .gate{border-color:var(--orange);background:#fff8ed}.process-lane .gate strong{display:inline-block;background:var(--orange);color:white;padding:.35vh .45vw;font-size:.75vw}.process-note{margin-top:2vh;padding:1.1vh 1vw;background:#f3edf7;font-weight:750;text-align:center;font-size:.95vw}
+.code-review-map{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw;min-height:41vh}.code-review-item{background:white;border-top:.5vh solid var(--purple);padding:1.8vh 1vw;box-shadow:0 .8vh 2vh rgba(44,26,52,.07)}.code-review-item b{font-size:1.5vw;color:var(--orange)}.code-review-item h3{font-size:1.12vw}.code-review-item p{font-size:.9vw}.code-review-item small{font-size:.8vw;color:var(--red)}
+.overall-stage{display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:1.4vw}.overall-kpi{background:white;text-align:center;padding:3vh 1vw;border-bottom:.6vh solid var(--purple);box-shadow:0 1vh 2.3vh rgba(44,26,52,.08);min-height:19vh}.overall-kpi b{display:block;font-size:2.5vw;color:var(--purple)}.overall-kpi span{display:block;font-size:1.05vw;font-weight:800;margin:.8vh 0}.overall-kpi small{font-size:.83vw;color:var(--muted)}.overall-troubleshoot{display:grid;grid-template-columns:repeat(3,1fr);gap:1vw;margin-top:2vh}.overall-troubleshoot div{background:#f3edf7;padding:1.1vh .9vw}.overall-troubleshoot b{color:var(--orange);display:block}.overall-troubleshoot span{font-size:.84vw}
+.quality-cases{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2vh 1.3vw}.quality-case{background:white;border-left:.4vw solid var(--purple);padding:1.3vh 1vw;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.06)}.quality-case b{color:var(--purple);font-size:1.05vw}.quality-case span{float:right;color:var(--orange);font-size:.82vw;font-weight:800}.quality-case p{margin:.55vh 0;font-size:.9vw}.quality-principle{display:flex;justify-content:center;align-items:center;gap:.8vw;margin-top:2vh}.quality-principle span{background:#f2ebf6;color:var(--purple);padding:1vh .8vw;font-weight:750}.quality-principle i{font-style:normal;color:var(--orange)}
+.evidence-funnel{min-height:42vh}.funnel-top,.funnel-bottom{margin:0 auto;width:70%;text-align:center;padding:1.4vh 1vw;background:var(--purple);color:white}.funnel-top b,.funnel-top span,.funnel-bottom b,.funnel-bottom span{display:block}.funnel-top span,.funnel-bottom span{font-size:.9vw;margin-top:.4vh}.funnel-mid{display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;width:84%;margin:2vh auto}.funnel-mid>div{background:white;border-top:.5vh solid var(--orange);padding:1.6vh 1.2vw;box-shadow:0 .8vh 2vh rgba(44,26,52,.07)}.funnel-bottom{width:55%;background:var(--orange)}
+.repro-layout{display:grid;grid-template-columns:1fr .8fr 1fr;gap:1.3vw;min-height:42vh}.repro-left,.repro-right{background:white;border-top:.5vh solid var(--purple);padding:1.6vh 1.2vw}.repro-right{border-color:var(--orange)}.repro-center{display:flex;align-items:center}.repro-item{display:grid;grid-template-columns:.28fr 1fr;gap:.6vw;padding:.7vh 0;border-bottom:1px solid #e5dce8}.repro-item b{color:var(--purple)}.repro-item span{font-size:.87vw}.repro-standard{background:#f3edf7;padding:1.5vh 1vw;text-align:center}.repro-standard b{color:var(--orange);font-size:1.1vw}
+.sql-intro{display:grid;grid-template-columns:1fr .25fr 1fr;gap:1.4vw;align-items:stretch;min-height:37vh}.sql-natural,.sql-code{background:white;border-top:.55vh solid var(--purple);padding:2vh 1.4vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.sql-code{border-color:var(--orange)}.sql-label{font-size:.88vw;color:var(--muted);font-weight:800}.sql-natural blockquote{font-size:1.5vw;font-weight:800;color:var(--purple);margin:4vh 0}.sql-meaning{background:#f2ebf6;padding:1.1vh .9vw;font-size:.9vw}.sql-arrow{align-self:center;text-align:center;color:var(--orange);font-weight:800;font-size:1.05vw}.sql-code pre{height:auto;min-height:24vh}.sql-key{display:grid;grid-template-columns:1fr 1fr;gap:1vw;margin-top:2vh}.sql-key span{background:#f3edf7;padding:1.1vh 1vw;text-align:center;font-weight:750;color:var(--purple)}
+.db-relationship{display:grid;grid-template-columns:.35fr 1fr;gap:2vw;min-height:31vh}.db-center{background:var(--purple);color:white;text-align:center;display:flex;flex-direction:column;justify-content:center}.db-center b{font-size:2.5vw}.db-center span{font-size:.9vw}.db-products{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw}.db-products>div{background:white;border-top:.5vh solid var(--purple);padding:1.4vh .9vw;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.06)}.db-products>div.highlight{border-color:var(--orange);background:#fff9ef}.db-products b{color:var(--purple);font-size:1.1vw}.db-products p{font-size:.87vw}.db-products small{font-size:.78vw;color:var(--muted)}
+.db-classroom{margin-top:1.7vh;background:#f3edf7;padding:1.2vh 1vw}.db-classroom b,.db-classroom span,.db-classroom strong{display:block}.db-classroom b{color:var(--purple)}.db-classroom span{font-size:.88vw;margin:.4vh 0}.db-classroom strong{font-size:.9vw;color:#925d10}
+.sqlite-practice{display:grid;grid-template-columns:.8fr 1.2fr;gap:2vw;min-height:40vh}.sqlite-steps,.sqlite-query{background:white;padding:1.8vh 1.4vw;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.sqlite-steps{border-top:.55vh solid var(--purple)}.sqlite-query{border-top:.55vh solid var(--orange)}.sqlite-steps>div{display:grid;grid-template-columns:.12fr 1fr;gap:.6vw;padding:.75vh 0;border-bottom:1px solid #e6dce9}.sqlite-steps b{color:var(--orange)}.sqlite-steps small{display:block;font-size:.8vw;color:var(--muted);margin-top:1.3vh}.sqlite-query pre{height:auto;min-height:24vh}.sqlite-result{display:flex;justify-content:center;align-items:baseline;gap:.55vw;margin-top:1.7vh}.sqlite-result b{font-size:1.9vw;color:var(--purple)}.sqlite-result span{font-size:.9vw}.sqlite-result i{font-style:normal;color:var(--orange)}
+.old-new{display:grid;grid-template-columns:1fr 1fr;gap:2vw}.old-path,.new-path{background:white;padding:1.5vh 1.2vw;box-shadow:0 .8vh 2vh rgba(44,26,52,.07)}.old-path{border-top:.5vh solid #aaa}.new-path{border-top:.5vh solid var(--orange)}.old-path>span,.new-path>span{font-size:.8vw;font-weight:800;color:var(--muted)}.old-path>div,.new-path>div{display:inline-block;background:#f3edf7;padding:.75vh .6vw;font-size:.83vw;margin:.8vh .2vw}.old-path i,.new-path i{font-style:normal;color:var(--orange)}
+.minimum-skill{margin-top:2vh;background:white;border-left:.5vw solid var(--purple);padding:1.3vh 1.1vw}.minimum-skill>div{display:inline-grid;grid-template-columns:auto auto;gap:.5vw;background:#f3edf7;padding:.8vh .7vw;margin:.4vh .3vw}.minimum-skill b{color:var(--purple);font-size:.88vw}.minimum-skill span{font-size:.8vw}
+.code-anatomy{display:grid;grid-template-columns:1.1fr .9fr;gap:1.8vw;min-height:36vh}.code-block pre{height:100%}.code-questions{display:grid;grid-template-columns:1fr 1fr;gap:1vh 1vw}.code-questions>div{background:white;border-top:.45vh solid var(--purple);padding:1.2vh .9vw}.code-questions b{color:var(--orange);font-size:1.2vw}.code-questions span,.code-questions small{display:block}.code-questions span{font-weight:750}.code-questions small{font-size:.8vw;color:var(--muted);margin-top:.4vh}.code-challenge{margin-top:1.7vh;background:#fff1de;padding:1.1vh 1vw;font-size:.9vw}.code-challenge b{color:#965d0d;margin-right:.5vw}
+.eight-checks{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vh 1vw}.eight-checks>div{background:white;border-top:.45vh solid var(--purple);padding:1.2vh .85vw;min-height:12vh;box-shadow:0 .6vh 1.5vh rgba(44,26,52,.05)}.eight-checks b{color:var(--orange);font-size:1.2vw}.eight-checks h3{display:inline;margin-left:.4vw;font-size:1vw}.eight-checks p{font-size:.84vw}
+.je-risk-map{display:grid;grid-template-columns:.6fr 1.4fr;gap:1.5vw}.risk-question{background:var(--purple);color:white;padding:2.2vh 1.5vw}.risk-question b{font-size:.85vw;color:#efc977}.risk-question p{font-size:1.35vw;font-weight:800}.risk-options{display:grid;grid-template-columns:repeat(3,1fr);gap:1vh 1vw}.risk-options div{background:white;border-top:.45vh solid var(--purple);padding:1.25vh .85vw}.risk-options b,.risk-options span{display:block}.risk-options b{color:var(--orange);font-size:1vw}.risk-options span{font-size:.85vw;margin-top:.35vh}.risk-ai{grid-column:1/3;background:#f3edf7;padding:1.1vh 1vw;text-align:center;font-weight:750;font-size:.93vw;margin-top:.5vh}
+.je-completeness{display:grid;grid-template-columns:1.2fr .8fr;gap:1.6vw}.je-kpis{display:grid;grid-template-columns:1fr 1fr;gap:1vh 1vw}.je-kpis>div{background:white;text-align:center;border-bottom:.5vh solid var(--purple);padding:1.8vh .8vw}.je-kpis b,.je-kpis span{display:block}.je-kpis b{font-size:1.9vw;color:var(--purple)}.je-kpis span{font-size:.87vw;font-weight:750}.je-warning{background:#fff8ed;border-top:.55vh solid var(--orange);padding:1.7vh 1.2vw}.je-reconcile{display:flex;align-items:center;justify-content:center;gap:.5vw;flex-wrap:wrap;margin-top:1.5vh}.je-reconcile span{background:white;padding:.75vh .6vw;font-size:.82vw;font-weight:750}.je-reconcile i{font-style:normal;color:var(--orange)}
+.grain-explain{display:grid;grid-template-columns:1fr .18fr 1fr .18fr 1fr;gap:.8vw;align-items:stretch}.grain-source,.grain-target,.grain-review{background:white;border-top:.5vh solid var(--purple);padding:1.8vh 1.1vw;text-align:center;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.06)}.grain-target{border-color:var(--orange)}.grain-source b,.grain-target b,.grain-review b{font-size:1.6vw;color:var(--orange)}.grain-arrow{align-self:center;text-align:center;color:var(--orange);font-weight:800}.grain-example{margin-top:1.2vh;background:#f3edf7;padding:.8vh;font-size:.78vw}.grain-risk{margin-top:1.5vh;background:#fff1de;padding:1vh;text-align:center;font-weight:750;font-size:.9vw}
+.rule-result-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:2vw}.rule-bars{display:grid;gap:1.1vh}.rule-bar{width:55%;background:linear-gradient(90deg,var(--purple),#7e4a99);color:white;padding:1.2vh 1vw;display:flex;justify-content:space-between}.rule-bar.wide{width:92%}.rule-bar.small{width:42%}.rule-math{background:white;border-top:.55vh solid var(--orange);padding:1.8vh 1.3vw}.rule-total{display:flex;align-items:baseline;gap:.7vw;margin:2vh 0}.rule-total b{font-size:2.5vw;color:var(--purple)}.rule-total span{font-size:.95vw;font-weight:750}.rule-math small{font-size:.82vw;color:var(--red)}
+.overlap-case{background:white;border-top:.6vh solid var(--orange);padding:1.8vh 1.4vw;min-height:41vh;box-shadow:0 1vh 2.4vh rgba(44,26,52,.08)}.overlap-head{text-align:center}.overlap-head b{display:block;font-size:1.9vw;color:var(--purple)}.overlap-head span{font-size:.85vw;color:var(--muted)}.overlap-tags{display:flex;justify-content:center;gap:.7vw;margin:1.7vh 0}.overlap-tags span{background:#f3edf7;color:var(--purple);padding:.85vh .7vw;font-weight:750;font-size:.86vw}.overlap-body{display:grid;grid-template-columns:1fr 1fr;gap:1vw}.overlap-body>div{padding:1.1vh .9vw}.overlap-good{background:#edf7f1}.overlap-no{background:#fff1ee}.overlap-next{margin-top:1.3vh;background:#f3edf7;padding:.9vh .8vw;font-size:.86vw}
+.validation-triangle{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5vw}.val-card{background:white;border-top:.55vh solid var(--purple);padding:1.8vh 1.2vw;min-height:28vh}.val-card b{font-size:1.7vw;color:var(--orange)}.val-card h3{font-size:1.1vw}.val-card small{font-size:.8vw;color:var(--muted)}.val-card.edge{border-color:var(--orange)}.validation-bottom{display:grid;grid-template-columns:1fr 1fr;gap:1vw;margin-top:1.6vh}.validation-bottom span{background:#f3edf7;padding:1vh;text-align:center;font-size:.86vw;font-weight:750}
+.skill-blueprint{display:grid;grid-template-columns:.45fr 1fr;gap:1.5vw;align-items:center}.skill-core{background:var(--purple);color:white;padding:3.3vh 1vw;text-align:center}.skill-core b{font-size:1.7vw}.skill-core p{font-size:.86vw}.skill-ring{display:grid;grid-template-columns:repeat(5,1fr);gap:1vh .8vw}.skill-ring span{background:white;border-top:.4vh solid var(--orange);padding:1.1vh .6vw;text-align:center;font-size:.82vw;font-weight:750;box-shadow:0 .5vh 1.4vh rgba(44,26,52,.05)}.skill-test{margin-top:1.8vh;background:#f3edf7;padding:1.1vh 1vw}.skill-test b{color:var(--orange);margin-right:.4vw}.skill-test span{font-size:.87vw}
+.closing-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5vw}.role{background:white;border-top:.55vh solid var(--purple);padding:1.8vh 1.2vw;box-shadow:0 .8vh 2vh rgba(44,26,52,.07)}.role.code-role{border-color:#7f5691}.role.human-role{border-color:var(--orange)}.role>b{font-size:1.6vw;color:var(--orange)}.role ul{margin-top:.8vh}.closing-rules{display:flex;justify-content:center;gap:.8vw;margin-top:1.8vh}.closing-rules span{background:#f3edf7;color:var(--purple);padding:.85vh .75vw;font-weight:750;font-size:.84vw}.closing-line{margin-top:1.5vh;text-align:center;font-size:1.02vw;font-weight:800;color:var(--purple)}
+
+.process-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw;margin:1.2vh 0 2vh}.process-card{background:white;border-top:.45vh solid var(--purple);padding:1.2vh .85vw;text-align:center;box-shadow:0 .6vh 1.5vh rgba(44,26,52,.05)}.process-card b{display:block;color:var(--orange);font-size:1.25vw;margin-bottom:.6vh}.process-card span{font-size:.86vw;line-height:1.4}
+.excel-window{margin-top:1.2vh;background:#fff;border:1px solid #ddd3e3;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.07);overflow:hidden}.excel-window .excel-bar{display:flex;align-items:center;justify-content:space-between;background:#f1ebf4;padding:.55vh .8vw;color:var(--purple);font-size:.78vw;font-weight:750}.excel-window .excel-bar span:last-child{color:var(--muted);font-weight:600}.excel-window img{display:block;width:100%;height:17vh;object-fit:contain;object-position:left top;background:white}.excel-pair{display:grid;grid-template-columns:1fr 1fr;gap:1vw;margin-top:1.1vh}.excel-pair .excel-window{margin-top:0}.excel-pair .excel-window img{height:16vh}.mapping-flow{display:grid;grid-template-columns:1.05fr .12fr 1fr .12fr 1.15fr;gap:.65vw;align-items:stretch;margin-top:1.2vh}.mapping-box{background:white;border-top:.45vh solid var(--purple);padding:1.1vh .85vw;box-shadow:0 .5vh 1.4vh rgba(44,26,52,.06)}.mapping-box:last-child{border-color:var(--orange)}.mapping-box b{display:block;color:var(--purple);font-size:.95vw}.mapping-box span{display:block;margin-top:.45vh;font-size:.8vw;line-height:1.35}.mapping-arrow{align-self:center;text-align:center;color:var(--orange);font-size:1.45vw;font-weight:800}
+.file-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.15vh 1vw}.file-card{display:block;background:white;border-left:.45vw solid var(--purple);padding:1.35vh 1.1vw;color:var(--ink);text-decoration:none;box-shadow:0 .6vh 1.6vh rgba(44,26,52,.06)}.file-card:hover{background:#f5eef8}.file-card.source{border-color:var(--orange)}.file-card b,.file-card span,.file-card small{display:block}.file-card b{font-size:1.05vw;color:var(--purple)}.file-card span{font-size:.9vw;font-weight:700;margin-top:.35vh}.file-card small{font-size:.76vw;color:var(--muted);margin-top:.25vh}.case-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;margin:1.4vh 0}.case-facts div{background:white;border-bottom:.45vh solid var(--purple);padding:1.4vh .8vw;text-align:center;box-shadow:0 .6vh 1.6vh rgba(44,26,52,.06)}.case-facts b,.case-facts span{display:block}.case-facts b{color:var(--purple);font-size:1.65vw}.case-facts span{font-size:.82vw;font-weight:750;margin-top:.35vh}.prompt-tight code{font-size:.79vw;line-height:1.38}.prompt-tight .prompt-notes li{font-size:.88vw;line-height:1.38}.prompt-tight .prompt-notes p{font-size:.86vw}.path-tree{background:white;border-top:.5vh solid var(--purple);padding:1.5vh 1.3vw;box-shadow:0 .7vh 1.8vh rgba(44,26,52,.06)}.path-tree code{font-size:.88vw;color:var(--purple)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<button id="navToggle" onclick="toggleNav()">☰ 导航</button>
+<aside id="nav"></aside>
+<main>
+<section class="slide cover" data-min="1" data-section="总览" data-title="财务审计中的 AI 应用实战培训">
+<div class="brand-text">Grant Thornton</div>
+<div class="cover-main">
+<div class="eyebrow">FINANCIAL AUDIT · AI PRACTICAL TRAINING</div>
+<h1>财务审计中的 AI 应用实战培训</h1>
+<div class="cover-line">从审计问题到可复核的数据分析</div>
+<div class="cover-route">
+<span>审计问题</span><i>→</i><span>大模型辅助</span><i>→</i><span>本地执行</span><i>→</i><span>人工验证</span>
+</div>
+</div>
+<div class="cover-meta">3 小时 · 讲解 / 现场演示 / 跟随练习 / 案例讨论</div>
+<div class="module">总览</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="3" data-section="总览" data-title="为什么财务审计值得学习这套方法"><div class="brand-text">Grant Thornton</div><h1>为什么财务审计值得学习这套方法</h1>
+<div class="why-grid">
+<div class="why-main">
+<div class="why-title">财审工作中，耗时通常集中在重复处理、规则落地和复核留痕</div>
+<div class="pain-row"><b>01</b><span>12个月Excel反复合并</span><small>人工处理容易遗漏月份、误改源文件、字段格式不一致。</small></div>
+<div class="pain-row"><b>02</b><span>总体数据量越来越大</span><small>总账、付款、应收、存货等数据很难靠逐行查看覆盖总体。</small></div>
+<div class="pain-row"><b>03</b><span>规则依赖个人经验</span><small>“什么叫异常”常存在个人口径，难以被复核和复制。</small></div>
+</div>
+<div class="why-side">
+<h3>可以改善的环节</h3>
+<div class="gain-card"><b>把问题说清楚</b><span>帮助补充字段、边界和验证步骤。</span></div>
+<div class="gain-card"><b>把规则变成执行步骤</b><span>生成Excel处理逻辑、SQL或Python初稿。</span></div>
+<div class="gain-card"><b>把一次性尝试变成模板</b><span>保留Prompt、规则、参数和验证记录。</span></div>
+</div>
+</div>
+<div class="takeaway">这类工具可以降低审计思路转化为可执行、可验证方法的成本。</div><div class="module">总览</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="总览" data-title="财务审计中较适合使用大模型的六类工作"><div class="brand-text">Grant Thornton</div><h1>财务审计中较适合使用大模型的六类工作</h1>
+<div class="audit-life">
+<div class="life-stage"><b>01</b><h3>计划与风险识别</h3><p>梳理流程、风险假设和访谈问题。</p><small>例：根据销售流程生成访谈追问点。</small></div>
+<div class="life-stage"><b>02</b><h3>资料阅读</h3><p>整理制度、公开资料和历史底稿。</p><small>例：比较两版制度条款变化。</small></div>
+<div class="life-stage"><b>03</b><h3>数据准备</h3><p>解释字段、设计合并与质量检查。</p><small>例：12个月付款明细批量合并。</small></div>
+<div class="life-stage"><b>04</b><h3>测试设计</h3><p>把审计目标拆成规则、阈值和例外。</p><small>例：重复付款、截止性、JE规则。</small></div>
+<div class="life-stage"><b>05</b><h3>执行与整理</h3><p>生成处理逻辑、汇总规则命中。</p><small>例：输出带触发原因的待核查清单。</small></div>
+<div class="life-stage"><b>06</b><h3>底稿与复用</h3><p>沉淀过程记录和已验证方法。</p><small>例：形成可由同事复跑的Skill。</small></div>
+</div>
+<div class="audit-life-footer">
+<span class="ai-zone">工具可协助：理解、拆解、生成、整理</span>
+<span class="human-zone">人员负责：口径、证据、判断、结论</span>
+</div>
+<div class="takeaway">工具可以覆盖多个工作环节；涉及审计判断和结论时，仍由项目人员承担责任。</div><div class="module">总览</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="总览" data-title="整场培训只讲一条主线"><div class="brand-text">Grant Thornton</div><h1>整场培训只讲一条主线</h1>
+<div class="mainline-stage">
+<div class="mainline-node">
+<b>1</b><h3>审计问题</h3><p>“我到底想查什么？”</p>
+<small>例如：是否存在重复付款特征。</small>
+</div>
+<div class="mainline-arrow">→</div>
+<div class="mainline-node">
+<b>2</b><h3>字段与规则</h3><p>“用什么数据、什么条件判断？”</p>
+<small>供应商、发票号、金额、日期。</small>
+</div>
+<div class="mainline-arrow">→</div>
+<div class="mainline-node">
+<b>3</b><h3>大模型辅助</h3><p>“怎么把规则变成执行方法？”</p>
+<small>形成步骤、SQL / Python 初稿。</small>
+</div>
+<div class="mainline-arrow">→</div>
+<div class="mainline-node">
+<b>4</b><h3>本地执行</h3><p>“真实数据在哪里跑？”</p>
+<small>受控环境，真实数据不外发。</small>
+</div>
+<div class="mainline-arrow">→</div>
+<div class="mainline-node">
+<b>5</b><h3>人工验证</h3><p>“结果真的可靠吗？”</p>
+<small>总体、边界、支持文件、结论。</small>
+</div>
+</div>
+<div class="mainline-bottom">
+<div><b>本次不展开：</b><span>数据库运维、复杂语法、从零开发程序</span></div>
+<div><b>本次重点：</b><span>任务描述、规则确认、代码检查、结果验证</span></div>
+</div>
+<div class="takeaway">培训重点是把审计需求转成可执行、可复核的数据分析。</div><div class="module">总览</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="总览" data-title="豆包、DeepSeek 和 WorkBuddy，适合的工作方式不同"><div class="brand-text">Grant Thornton</div><h1>豆包、DeepSeek 和 WorkBuddy，适合的工作方式不同</h1>
+<div class="tool-compare">
+<div class="tool-card">
+<div class="tool-type">对话型大模型</div>
+<h2>豆包 / DeepSeek 等</h2>
+<p>更适合讨论思路、补充字段、解释代码、生成可复制的脚本初稿。</p>
+<div class="tool-flow">提出问题 → 复制结果 → 本地执行</div>
+<ul><li>优点：上手快、适合讨论</li><li>关注：数据能否提供、结果需人工转移</li></ul>
+</div>
+<div class="tool-card featured">
+<div class="tool-type">任务型工作台</div>
+<h2>WorkBuddy 等</h2>
+<p>可以在授权目录中读取文件、生成脚本、执行任务并交付结果。</p>
+<div class="tool-flow">限定目录 → 读取 → 计划 → 执行 → 输出</div>
+<ul><li>优点：更接近完整工作流</li><li>关注：文件权限、修改范围、输出位置</li></ul>
+</div>
+<div class="tool-card">
+<div class="tool-type">本地执行工具</div>
+<h2>SQL / Python / Excel</h2>
+<p>负责按已经确认的规则稳定处理真实数据。</p>
+<div class="tool-flow">输入 → 执行 → 日志 → 输出</div>
+<ul><li>优点：稳定、可重复</li><li>关注：环境、参数、版本、总体核对</li></ul>
+</div>
+</div>
+<div class="takeaway">工具不同，但共同原则不变：真实数据受控、规则由人确认、结果必须验证。</div><div class="module">总览</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="边界与安全" data-title="工具协助处理，审计人员负责判断"><div class="brand-text">Grant Thornton</div><h1>工具协助处理，审计人员负责判断</h1>
+<div class="boundary-layout">
+<div class="boundary-col ai">
+<div class="boundary-label">工具可协助的工作</div>
+<h3>更适合做“辅助处理”</h3>
+<ul><li>拆解问题、补充字段清单</li><li>提出候选分析规则</li><li>生成和解释SQL / Python 初稿</li><li>整理规则命中和已知限制</li></ul>
+</div>
+<div class="boundary-center">
+<span>异常记录</span><i>↓</i><span>进一步程序</span><i>↓</i><span>审计证据</span><i>↓</i><span>审计结论</span>
+</div>
+<div class="boundary-col human">
+<div class="boundary-label">审计人员的责任</div>
+<h3>必须负责“判断与结论”</h3>
+<ul><li>确认项目口径和数据可靠性</li><li>决定规则是否适用于本项目</li><li>取得并评价支持性证据</li><li>判断错报、舞弊或控制缺陷</li></ul>
+</div>
+</div>
+<div class="takeaway">规则命中形成待核查事项；异常、错报、舞弊和控制缺陷需要按不同层级继续判断。</div><div class="module">边界与安全</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="边界与安全" data-title="使用大模型工具前先回答四个问题"><div class="brand-text">Grant Thornton</div><h1>使用大模型工具前先回答四个问题</h1>
+<div class="four-checks">
+<div><b>01</b><h3>数据检查</h3><p>是否包含真实客户数据、个人信息、未公开财务数据或审计发现？</p><small>例：总账、银行账号、合同、供应商明细。</small></div>
+<div><b>02</b><h3>工具检查</h3><p>当前工具是否经过批准，允许处理这一数据等级？</p><small>“可以上传文件”只代表功能可用；客户资料能否上传仍需按权限和数据等级判断。</small></div>
+<div><b>03</b><h3>必要性检查</h3><p>当前任务是否需要向工具提供真实内容？能否只提供字段、规则和模拟数据？</p><small>很多代码生成任务不需要真实明细。</small></div>
+<div><b>04</b><h3>输出检查</h3><p>输出是否可能重新暴露敏感信息？如何保存、分享和清理？</p><small>日志、临时文件、汇总结果也要管理。</small></div>
+</div>
+<div class="stop-rule">任一项无法确认 → 停止向公网发送 → 改用本地受控处理或先完成审批</div>
+<div class="module">边界与安全</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="边界与安全" data-title="只删除客户名称，数据仍可能被重新识别"><div class="brand-text">Grant Thornton</div><h1>只删除客户名称，数据仍可能被重新识别</h1>
+<div class="reidentify-layout">
+<div class="reidentify-map">
+<h3>即使没有客户名称，仍可能留下识别线索</h3>
+<div class="id-center">客户甲？</div>
+<span class="id1">银行账号</span><span class="id2">交易对手</span><span class="id3">地址/联系人</span>
+<span class="id4">罕见金额</span><span class="id5">项目编号</span><span class="id6">摘要/备注</span>
+</div>
+<div class="reidentify-side">
+<h3>判断方式</h3>
+<div class="judge-step"><b>1</b><span>单个字段能否识别？</span></div>
+<div class="judge-step"><b>2</b><span>多个字段组合后能否识别？</span></div>
+<div class="judge-step"><b>3</b><span>是否保留了不必要的自由文本？</span></div>
+<div class="judge-step"><b>4</b><span>无法确认时按敏感数据处理。</span></div>
+</div>
+</div>
+<div class="takeaway">脱敏需要降低重新识别风险；无法确认是否充分脱敏时，不应把数据交给公网工具。</div><div class="module">边界与安全</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="边界与安全" data-title="常见脱敏方法，要根据使用目的组合选择">
+<div class="brand-text">Grant Thornton</div>
+<h1>常见脱敏方法，要根据使用目的组合选择</h1><table class="tall-table"><thead><tr><th>方法</th><th>示例</th><th>适用提醒</th></tr></thead><tbody><tr><td>删除</td><td>删除姓名、账号、地址、附件和无关自由文本</td><td>确认删除后仍能完成任务</td></tr><tr><td>替换</td><td>客户 A、供应商 V001、人员 U001</td><td>替换表需要单独受控，不随数据发送</td></tr><tr><td>掩码</td><td>银行卡号仅保留末四位</td><td>末四位与其他字段组合后仍可能识别</td></tr><tr><td>泛化</td><td>精确日期改为月份，精确年龄改为区间</td><td>确认粒度降低后不影响分析目的</td></tr><tr><td>扰动或模拟</td><td>金额按比例变化，或重新生成结构相同的样本</td><td>代码设计优先使用模拟数据；测试规则需保留边界特征</td></tr></tbody></table><div class="takeaway">内部编号、少量特殊交易和自由文本也可能让人重新识别主体；脱敏后仍要再检查一次。</div>
+<div class="module">边界与安全</div>
+<div class="slide-no"></div>
+</section><section class="slide" data-min="3" data-section="边界与安全" data-title="脱敏前后样例：保留分析关系，替换识别信息">
+<div class="brand-text">Grant Thornton</div><h1>脱敏前后样例：保留分析关系，替换识别信息</h1>
+<table class="tall-table"><thead><tr><th>字段</th><th>脱敏前字段样式</th><th>处理</th><th>脱敏后样例</th><th>保留的关系</th></tr></thead><tbody>
+<tr><td>公司</td><td>F978 / 深圳市中海商业服务有限公司-本部</td><td>统一替换</td><td>F000 / 测试物业公司A</td><td>主体内一致</td></tr>
+<tr><td>项目</td><td>LF97800012 / 深圳市中海商业服务有限公司海文花园地下停车场</td><td>统一替换</td><td>PC0001 / 项目A管理处</td><td>公司与项目关系</td></tr>
+<tr><td>客户 / 供应商 / 合同</td><td>1011628 深圳市中海商业服务有限公司 / 100243374 深圳市小猫信息技术有限公司 / 中海集团03052018119299001 小猫系统维护合同</td><td>稳定编号</td><td>客户003 / 供应商008 / 合同004</td><td>重复出现和相互关系</td></tr>
+<tr><td>姓名</td><td>本次科目余额表无姓名字段</td><td>如其他源表存在，删除或改为人员编号</td><td>本表不适用</td><td>不额外引入个人信息</td></tr>
+<tr><td>科目 / 金额</td><td>1002000000 银行存款\银行存款 / 202,582.88</td><td>保持不变</td><td>1002000000 银行存款\银行存款 / 202,582.88</td><td>科目对应、借贷平衡和总体</td></tr>
+</tbody></table>
+<div class="takeaway">“脱敏前”一列只展示字段样式；脱敏后一列使用本次训练数据中的具体样例。</div>
+<div class="module">边界与安全</div><div class="slide-no"></div></section><section class="slide" data-min="4" data-section="边界与安全" data-title="本案例保留脱敏规则和脱敏前后核对结果">
+<div class="brand-text">Grant Thornton</div><h1>本案例保留脱敏规则和脱敏前后核对结果</h1>
+<table class="feature-table"><thead><tr><th>字段范围</th><th>脱敏前样式</th><th>本次处理规则</th><th>脱敏后样例</th><th>保留的关系</th></tr></thead><tbody>
+<tr><td>公司代码、公司名称</td><td>F978、深圳市中海商业服务有限公司-本部</td><td>整列统一替换</td><td>F000、测试物业公司A</td><td>同一主体保持一致</td></tr>
+<tr><td>利润中心、WBS及名称</td><td>LF97800012、1410071526、深圳市中海商业服务有限公司海文花园地下停车场</td><td>统一替换为训练项目</td><td>PC0001、WBS0001、项目A管理处</td><td>公司与项目关系保留</td></tr>
+<tr><td>客户、供应商、合同</td><td>1011628 深圳市中海商业服务有限公司；100243374 深圳市小猫信息技术有限公司；中海集团03052018119299001 小猫系统维护合同</td><td>按首次出现顺序稳定编号</td><td>客户003、供应商008、合同004</td><td>重复出现仍用同一编号</td></tr>
+<tr><td>姓名及个人标识</td><td>本次科目余额表无姓名字段</td><td>其他源表存在时删除或改为人员编号</td><td>本表不适用</td><td>不额外引入个人信息</td></tr>
+<tr><td>科目、币种、金额、方向</td><td>1002000000 银行存款\银行存款、CNY、期末借方 202,582.88</td><td>保持不变，用于填数和核对</td><td>与脱敏前相同</td><td>完整保留分析关系</td></tr>
+</tbody></table>
+<div class="overall-troubleshoot" style="grid-template-columns:1fr 1fr"><div><b>2024 脱敏前后核对一致</b><span>165 行｜借方 7,756,644.76｜贷方 7,756,644.76</span></div><div><b>2025 脱敏前后核对一致</b><span>172 行｜借方 3,529,436.66｜贷方 3,529,436.66</span></div></div>
+<div class="takeaway">本页包含少量真实脱敏前样例，仅限内部受控讲解；完整源文件和完整编号对应关系仍单独保管，对外分发前应删除本页真实值。</div>
+<div class="module">边界与安全</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="边界与安全" data-title="收到数据后，先把原始文件和处理范围登记清楚"><div class="brand-text">Grant Thornton</div><h1>收到数据后，先把原始文件和处理范围登记清楚</h1>
+<div class="prompt-layout"><pre><code>收到客户数据后：
+1. 原始文件只读留存，不直接覆盖；
+2. 在工作副本上进行整理和分析；
+3. 登记文件名、来源、收到时间和期间；
+4. 记录文件数、记录数和金额等总体；
+5. 输出另存到新的结果目录。</code></pre>
+<div class="prompt-notes"><h3>处理记录至少包括</h3><ul><li>本次使用了哪些文件</li><li>数据覆盖什么期间</li><li>谁在什么时间进行了处理</li><li>采用了哪些整理和脱敏规则</li><li>处理前后总体是否一致</li></ul><div class="pass-result">原始文件保留不动，处理结果能够回到来源</div></div></div>
+<div class="takeaway">财审人员需要做到的是来源清楚、范围清楚、处理过程能复核，不要求掌握额外的技术术语。</div><div class="module">边界与安全</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="边界与安全" data-title="推荐做法：数据和逻辑分离"><div class="brand-text">Grant Thornton</div><h1>推荐做法：数据和逻辑分离</h1>
+<div class="separation-layout">
+<div class="separation-side logic">
+<div class="sep-title">第一阶段：向工具提供“逻辑”</div>
+<div class="sep-box"><b>字段</b><span>付款编号、供应商、发票号、日期、金额</span></div>
+<div class="sep-box"><b>规则</b><span>完全重复、标准化重复、短期相同金额</span></div>
+<div class="sep-box"><b>模拟数据</b><span>几条不对应真实客户的边界样本</span></div>
+<div class="sep-result">输出：处理方案 / SQL / Python 初稿</div>
+</div>
+<div class="sep-arrow">→</div>
+<div class="separation-side data">
+<div class="sep-title">第二阶段：真实数据留在本地</div>
+<div class="sep-box"><b>真实明细</b><span>在批准的本地目录或数据库中执行</span></div>
+<div class="sep-box"><b>总体核对</b><span>文件数、记录数、金额、借贷等</span></div>
+<div class="sep-box"><b>结果核查</b><span>异常、临界和未命中样本</span></div>
+<div class="sep-result">输出：待核查清单 / 验证记录 / 审计证据</div>
+</div>
+</div>
+<div class="takeaway">在当前财审场景下，“数据和逻辑分离”是一条较稳妥的公网工具使用路径。</div><div class="module">边界与安全</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="边界与安全" data-title="用绿、黄、红三档判断资料能否交给当前工具"><div class="brand-text">Grant Thornton</div><h1>用绿、黄、红三档判断资料能否交给当前工具</h1>
+<div class="traffic-matrix">
+<div class="traffic-head green">绿：可开始</div>
+<div class="traffic-head yellow">黄：先确认</div>
+<div class="traffic-head red">红：暂不提交</div>
+<div class="traffic-body"><b>典型情况</b><p>公开资料、培训模拟数据、无敏感内容的字段说明。</p></div>
+<div class="traffic-body"><b>典型情况</b><p>脱敏明细、内部汇总、自由文本、可能重新识别的数据。</p></div>
+<div class="traffic-body"><b>典型情况</b><p>真实客户原始明细、个人信息、账号口令、未公开审计发现。</p></div>
+<div class="traffic-body"><b>动作</b><p>限定目录和输出，保留任务与验证记录。</p></div>
+<div class="traffic-body"><b>动作</b><p>做重识别检查，确认审批、最小必要和保存期限。</p></div>
+<div class="traffic-body"><b>动作</b><p>改用模拟结构、本地处理或机构批准的受控方案。</p></div>
+</div>
+<div class="scenario-strip"><b>课堂快速判断：</b><span>公开年报 → 绿</span><span>真实付款字段清单 → 视内容而定</span><span>去客户名但留银行账号 → 红/黄</span><span>真实合同扫描件 → 红</span></div>
+<div class="module">边界与安全</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="任务设计" data-title="向大模型描述审计任务，需要写清六件事"><div class="brand-text">Grant Thornton</div><h1>向大模型描述审计任务，需要写清六件事</h1>
+<div class="task-six">
+<div><b>1</b><h3>审计目标</h3><p>希望识别或核对什么问题？</p><small>例：识别具有重复付款特征的记录。</small></div>
+<div><b>2</b><h3>数据范围</h3><p>哪些文件、哪些表、什么期间？</p><small>例：2025年12个月付款明细。</small></div>
+<div><b>3</b><h3>字段含义</h3><p>关键字段代表什么？一行是什么粒度？</p><small>例：一行一笔付款。</small></div>
+<div><b>4</b><h3>规则与边界</h3><p>条件、阈值、空值和例外如何处理？</p><small>例：3天内相同金额是否算候选。</small></div>
+<div><b>5</b><h3>输出格式</h3><p>要保留哪些追溯字段和标签？</p><small>例：付款编号、来源文件、触发规则。</small></div>
+<div><b>6</b><h3>验证方法</h3><p>怎么证明输入完整、规则正确？</p><small>例：总体 + 临界 + 未命中样本。</small></div>
+</div>
+<div class="takeaway">对财审人员来说，任务描述的重点是把项目口径写清楚，包括数据、规则、输出和验证要求。</div><div class="module">任务设计</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="任务设计" data-title="从一句“帮我查重复付款”变成可执行任务"><div class="brand-text">Grant Thornton</div><h1>从一句“帮我查重复付款”变成可执行任务</h1>
+<div class="prompt-evolution">
+<div class="prompt-level bad">
+<span>Level 1</span><h3>一句话</h3><blockquote>帮我查一下重复付款。</blockquote>
+<p>问题：期间、字段和重复口径都没有说明，模型会自行假设未说明的条件。</p>
+</div>
+<div class="prompt-arrow">→</div>
+<div class="prompt-level mid">
+<span>Level 2</span><h3>补充数据和规则</h3>
+<p>2025年12个付款文件；供应商、发票号、日期、金额；三类重复规则。</p>
+<p>仍缺：输出追溯和验证要求。</p>
+</div>
+<div class="prompt-arrow">→</div>
+<div class="prompt-level good">
+<span>Level 3</span><h3>可执行任务</h3>
+<p>说清读取范围、字段、三类重复规则、空值负数、输出路径、追溯字段、总体验收值和停止条件。</p><p>下一页给出可直接复制的完整实例。</p>
+</div>
+</div>
+<div class="takeaway">好的任务描述需要同时满足两个要求：模型能够执行，复核人能够看懂规则和验证口径。</div><div class="module">任务设计</div><div class="slide-no"></div></section>
+<section class="slide" data-min="4" data-section="任务设计" data-title="完整实例：这段任务可以直接交给 WorkBuddy"><div class="brand-text">Grant Thornton</div><h1>完整实例：这段任务可以直接交给 WorkBuddy</h1>
+<div class="prompt-layout"><pre><code>只读取“数据/付款明细”，不修改原文件。
+范围：2025年12个月度Excel；一行一笔付款。
+字段：付款编号、供应商编号、发票号、
+发票日期、付款日期、付款金额。
+
+先检查：文件是否正好12个、字段是否一致；
+不符合就停止，列出差异。
+合并时增加“来源文件”，保留付款编号。
+质量检查：空发票号、空供应商、负数、日期倒置。
+重复规则：原发票号完全重复；发票号去空格/横线/前导0后重复；
+同供应商相同金额3天内再次付款。
+输出到新建“练习输出”目录，每条保留全部触发原因。</code></pre>
+<div class="prompt-notes"><h3>运行前再确认</h3><ul><li>先展示处理步骤和将创建的文件</li><li>未经确认不安装软件、不执行</li><li>验收：12 文件、288 行</li><li>金额：26,374,350.00</li><li>总体不一致时停止异常解释</li><li>输出仅标记“待核查”</li></ul></div></div>
+<div class="takeaway">关键是让工具知道“读什么、怎么处理、输出什么、如何验收、何时停止”。</div><div class="module">任务设计</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="任务设计" data-title="先确认大模型对任务的理解，再生成代码"><div class="brand-text">Grant Thornton</div><h1>先确认大模型对任务的理解，再生成代码</h1>
+<div class="prompt-two-pass">
+<div class="pass-card">
+<div class="pass-no">第一轮</div>
+<h3>先确认理解</h3>
+<pre><code>第一轮只确认任务理解、所需数据、规则和验证方案。
+先回答：
+1. 你如何理解审计目标？
+2. 数据是否足够？
+3. 可设计哪些规则？
+4. 哪些参数需要我确认？
+5. 应如何验证？</code></pre>
+</div>
+<div class="pass-arrow">→</div>
+<div class="pass-card">
+<div class="pass-no">第二轮</div>
+<h3>再生成执行方案</h3>
+<ul><li>确认字段和粒度</li><li>确认阈值和边界</li><li>确认总体核对</li><li>确认输出和追溯</li></ul>
+<div class="pass-result">确认无误后 → 生成 SQL / Python / Excel 处理方法</div>
+</div>
+</div>
+<div class="takeaway">先确认模型对任务的理解，再检查生成内容；这种两步方式更便于控制口径。</div><div class="module">任务设计</div><div class="slide-no"></div></section>
+<section class="slide" data-min="4" data-section="脚本实操" data-title="WorkBuddy 演示前，先把授权范围缩到培训目录"><div class="brand-text">Grant Thornton</div><h1>WorkBuddy 演示前，先把授权范围缩到培训目录</h1>
+<div class="auth-layout">
+<div class="auth-diagram">
+<div class="auth-safe">培训目录<div>脱敏训练数据</div></div>
+<div class="auth-arrow">→</div>
+<div class="auth-tool">WorkBuddy<div>仅授权此目录</div></div>
+<div class="auth-block">× 项目盘<br/>× 其他客户目录<br/>× 个人桌面全盘</div>
+</div>
+<div class="auth-checks">
+<h3>演示前必须完成</h3>
+<ol><li>复制案例数据到独立培训目录</li><li>确认目录只有脱敏训练数据</li><li>只授权读取这一目录</li><li>要求先汇报、未经确认不修改</li><li>输出写入新目录，不覆盖原始文件</li></ol>
+</div>
+</div>
+<div class="takeaway">任务型工具还需要关注文件读取、修改和创建权限；演示前应先明确授权目录和操作范围。</div><div class="module">脚本实操</div><div class="slide-no"></div></section>
+<section class="slide" data-min="5" data-section="脚本实操" data-title="现场演示一：先让 WorkBuddy 盘点文件和复述方案">
+<div class="brand-text">Grant Thornton</div>
+<h1>现场演示一：先让 WorkBuddy 盘点文件和复述方案</h1>
+<div class="prompt-layout">
+<pre><code>请只读取我授权的“付款明细”文件夹，不修改任何文件。
+
+先完成以下工作，不要生成或运行代码：
+1. 列出 Excel 文件数量、文件名规律和字段；
+2. 说明一行代表什么，建议用哪个字段追溯；
+3. 复述合并、质量检查和重复付款规则；
+4. 列出仍需我确认的参数和风险；
+5. 给出总体核对和边界样本验证方案。
+
+等待我确认后再继续。</code></pre>
+<div class="prompt-notes">
+<h3>演示时观察</h3>
+<ul><li>文件范围是否读对</li><li>字段是否准确识别</li><li>规则是否擅自补充</li><li>是否主动识别风险</li><li>验证是否在运行前提出</li></ul>
+</div>
+</div>
+<div class="takeaway">这一轮先确认工具读取范围、字段理解、规则和验证方案是否符合预期。</div>
+<div class="module">脚本实操</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="6" data-section="脚本实操" data-title="现场演示二：生成脚本、运行并用预期总体验收"><div class="brand-text">Grant Thornton</div><h1>现场演示二：生成脚本、运行并用预期总体验收</h1>
+<div class="demo-run">
+<div class="demo-left">
+<h3>第二轮指令：允许生成和执行脚本</h3>
+<div class="demo-step"><b>1</b><span>输入目录写成可修改参数</span></div>
+<div class="demo-step"><b>2</b><span>字段不一致时停止并提示</span></div>
+<div class="demo-step"><b>3</b><span>新增“来源文件”，输出到练习目录</span></div>
+<div class="demo-step"><b>4</b><span>运行前说明将创建哪些文件</span></div>
+<div class="demo-step"><b>5</b><span>得到确认后执行并汇报日志</span></div>
+</div>
+<div class="demo-right">
+<h3>现场验收：先看“总体验收值”</h3>
+<div class="demo-kpis"><span><b>12</b>个文件</span><span><b>288</b>条记录</span><span><b>26,374,350.00</b>金额</span></div>
+<div class="demo-accept"><b>还要确认</b><p>原始文件未改变；结果可追溯到付款编号和来源文件；日志能说明运行了什么。</p></div>
+<div class="demo-stop">任何总体不一致 → 不进入异常分析</div>
+</div>
+</div>
+<div class="module">脚本实操</div><div class="slide-no"></div></section>
+<section class="slide" data-min="4" data-section="脚本实操" data-title="跟随练习：把经理的一句话写成可执行任务"><div class="brand-text">Grant Thornton</div><h1>跟随练习：把经理的一句话写成可执行任务</h1>
+<div class="exercise-workshop">
+<div class="exercise-question">
+<span>经理原话</span>
+<h2>“把 12 个月付款明细合并一下，看看有没有重复。”</h2>
+</div>
+<div class="exercise-board">
+<div><b>数据范围</b><small>哪些文件？哪个期间？</small></div>
+<div><b>关键字段</b><small>哪些字段用于追溯和判断？</small></div>
+<div><b>重复规则</b><small>完全重复、发票号标准化、短期相同金额？</small></div>
+<div><b>输出内容</b><small>保留哪些源记录和标签？</small></div>
+<div><b>总体核对</b><small>文件数、行数、金额如何验证？</small></div>
+<div><b>异常边界</b><small>命中后能否直接认定错报？</small></div>
+</div>
+<button onclick="reveal(this)">显示参考结构</button>
+<div class="answer">先检查 12 个文件字段是否一致；合并并增加来源文件；核对文件数、行数和金额；定义完全重复、标准化发票号重复、3 天内相同金额；输出付款编号和全部触发规则；结果只作为待核查清单。</div>
+</div>
+<div class="module">脚本实操</div><div class="slide-no"></div></section>
+<section class="slide section" data-min="2" data-section="付款案例" data-title="案例一｜12 个月付款明细">
+<div class="brand-text">Grant Thornton</div>
+<div class="case-cover">
+<div class="eyebrow">CASE 1 · PAYMENT DATA</div>
+<h1>案例一｜12 个月付款明细</h1>
+<div class="case-route"><span>合并</span><i>→</i><span>数据质量</span><i>→</i><span>重复特征</span><i>→</i><span>验证</span><i>→</i><span>支持文件</span></div>
+<div class="case-note">使用脱敏训练数据 · 重点关注处理逻辑、总体核对和结果验证</div>
+</div>
+<div class="module">付款案例</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="3" data-section="付款案例" data-title="先明确字段口径，再开始数据处理">
+<div class="brand-text">Grant Thornton</div>
+<h1>先明确字段口径，再开始数据处理</h1><table class="tall-table"><thead><tr><th>字段</th><th>需要确认</th><th>为什么重要</th></tr></thead><tbody><tr><td>付款编号</td><td>是否唯一，能否追溯源记录</td><td>异常清单需要回到原始记录</td></tr><tr><td>供应商编号</td><td>空值、前导零、主数据一致性</td><td>影响重复规则和关联准确性</td></tr><tr><td>发票号码</td><td>空格、横线、前导零、大小写</td><td>格式差异可能影响匹配</td></tr><tr><td>发票 / 付款日期</td><td>日期类型、空值、先后关系</td><td>影响期间与时间窗口判断</td></tr><tr><td>付款金额</td><td>数值类型、负数、币种、单位</td><td>影响总体和阈值判断</td></tr><tr><td>来源文件</td><td>合并时新增</td><td>证明记录来自哪个月度文件</td></tr></tbody></table><div class="takeaway">开始处理前，先明确一行代表什么、各字段代表什么，以及结果如何追溯到源记录。</div>
+<div class="module">付款案例</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="3" data-section="付款案例" data-title="付款数据处理按七步走"><div class="brand-text">Grant Thornton</div><h1>付款数据处理按七步走</h1>
+<div class="process-lane">
+<div><b>01</b><h3>确认输入</h3><p>先锁定12个文件和期间。</p></div>
+<div><b>02</b><h3>字段一致</h3><p>少列、多列、顺序和类型先检查。</p></div>
+<div><b>03</b><h3>合并追溯</h3><p>增加来源文件，不覆盖原文件。</p></div>
+<div><b>04</b><h3>类型检查</h3><p>日期、金额、空值、负数。</p></div>
+<div class="gate"><b>05</b><h3>总体核对</h3><p>文件数、行数、金额。</p><strong>门槛</strong></div>
+<div><b>06</b><h3>执行规则</h3><p>质量问题 + 重复规则。</p></div>
+<div><b>07</b><h3>输出留痕</h3><p>结果、代码、参数、日志。</p></div>
+</div>
+<div class="process-note">如果第05步总体不一致，应回到输入、字段和类型处理环节排查，确认无误后再执行异常规则。</div>
+<div class="module">付款案例</div><div class="slide-no"></div></section>
+<section class="slide" data-min="4" data-section="付款案例" data-title="先确认处理方案，再生成本地处理代码">
+<div class="brand-text">Grant Thornton</div>
+<h1>先确认处理方案，再生成本地处理代码</h1>
+<div class="prompt-layout">
+<pre><code>我有 2025 年 12 个付款 Excel 文件。
+请先复述处理方案和需要确认的参数。
+
+确认后生成 Python，要求：
+- 字段不一致时停止并提示；
+- 合并后增加“来源文件”；
+- 保留空值、负数和无法转换的记录；
+- 输出文件数、记录数、金额合计；
+- 不覆盖任何原始文件；
+- 异常规则和输出字段单独列明。</code></pre>
+<div class="prompt-notes">
+<h3>代码前先确认</h3>
+<ul><li>输入目录范围</li><li>文件匹配规则</li><li>日期 / 金额处理</li><li>重复规则口径</li><li>输出目录和文件名</li></ul>
+</div>
+</div>
+<div class="takeaway">生成结果作为初稿使用；项目人员确认规则和控制点后，再进入本地执行。</div>
+<div class="module">付款案例</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="3" data-section="付款案例" data-title="生成代码的检查重点：输入、字段、类型、规则、输出"><div class="brand-text">Grant Thornton</div><h1>生成代码的检查重点：输入、字段、类型、规则、输出</h1>
+<div class="code-review-map">
+<div class="code-review-item"><b>1</b><h3>输入</h3><p>文件读全了吗？有没有把输出文件再次读进去？</p><small>风险：漏读 / 重复读取</small></div>
+<div class="code-review-item"><b>2</b><h3>字段</h3><p>缺列、多列、字段重命名时会不会继续跑？</p><small>风险：映射错误</small></div>
+<div class="code-review-item"><b>3</b><h3>类型</h3><p>日期、金额转换失败的数据去哪了？</p><small>风险：静默变空 / 被删除</small></div>
+<div class="code-review-item"><b>4</b><h3>规则</h3><p>日期、金额、发票标准化是否符合项目口径？</p><small>风险：语法对、逻辑错</small></div>
+<div class="code-review-item"><b>5</b><h3>输出</h3><p>能否追溯到源记录？是否覆盖输入文件？</p><small>风险：无法复核 / 破坏源数据</small></div>
+</div>
+<div class="takeaway">财审人员可以从“输入—字段—类型—规则—输出”五个位置检查生成代码。</div><div class="module">付款案例</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="付款案例" data-title="运行后先核对总体完整性"><div class="brand-text">Grant Thornton</div><h1>运行后先核对总体完整性</h1>
+<div class="overall-stage">
+<div class="overall-kpi"><b>12</b><span>输入文件</span><small>证明月份范围完整</small></div>
+<div class="overall-kpi"><b>288</b><span>付款记录</span><small>证明合并行数一致</small></div>
+<div class="overall-kpi"><b>26,374,350.00</b><span>金额合计</span><small>证明金额没有因格式处理发生变化</small></div>
+</div>
+<div class="overall-troubleshoot">
+<div><b>少了</b><span>检查文件匹配、读取失败、字段不一致中止。</span></div>
+<div><b>多了</b><span>检查是否重复读取、输出文件被再次纳入输入。</span></div>
+<div><b>金额不一致</b><span>检查文本金额、负数、币种、单位和转换失败。</span></div>
+</div>
+<div class="takeaway">总体核对是进入异常分析前的必要步骤；总体完整性未确认时，不应依赖后续异常清单。</div><div class="module">付款案例</div><div class="slide-no"></div></section>
+<section class="slide" data-min="2" data-section="付款案例" data-title="数据质量问题应先保留并解释"><div class="brand-text">Grant Thornton</div><h1>数据质量问题应先保留并解释</h1>
+<div class="quality-cases">
+<div class="quality-case"><b>发票号为空</b><span>为什么重要？</span><p>重复规则依赖发票号；空值应单独列示，避免与其他空值直接分组。</p></div>
+<div class="quality-case"><b>供应商号为空</b><span>为什么重要？</span><p>影响供应商维度分组和主数据关联，需要判断是否能用其他字段补充。</p></div>
+<div class="quality-case"><b>负数金额</b><span>为什么重要？</span><p>可能是退款或冲回，应先保留并判断业务含义，同时评估对重复付款规则的影响。</p></div>
+<div class="quality-case"><b>发票日在付款日后</b><span>为什么重要？</span><p>可能是数据录入、业务流程或字段含义问题，需要先理解再处理。</p></div>
+</div>
+<div class="quality-principle"><span>保留源记录</span><i>→</i><span>单独标识</span><i>→</i><span>理解原因</span><i>→</i><span>决定处理方式</span></div>
+<div class="module">付款案例</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="付款案例" data-title="“重复付款”至少有三种不同规则">
+<div class="brand-text">Grant Thornton</div>
+<h1>“重复付款”至少有三种不同规则</h1><table class="feature-table"><thead><tr><th>候选规则</th><th>识别能力</th><th>主要限制</th><th>后续关注</th></tr></thead><tbody><tr><td>同供应商 + 原发票号 + 金额完全相同</td><td>最严格</td><td>可能是合理分期或补付</td><td>查看发票、付款依据和冲销</td></tr><tr><td>发票号标准化后相同 + 金额相同</td><td>可发现格式差异</td><td>标准化口径需业务确认</td><td>确认前导零、横线是否有业务含义</td></tr><tr><td>同供应商 + 相同金额 + 3 天内再次付款</td><td>覆盖更宽</td><td>误报明显增加</td><td>结合日期、订单和付款原因分层</td></tr></tbody></table><div class="takeaway">规则越宽，通常命中越多、误报越高、后续核查成本也越高。</div>
+<div class="module">付款案例</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="2" data-section="付款案例" data-title="命中规则后，要回到支持文件"><div class="brand-text">Grant Thornton</div><h1>命中规则后，要回到支持文件</h1>
+<div class="evidence-funnel">
+<div class="funnel-top"><b>数据规则命中</b><span>例：同供应商 + 同发票号 + 同金额</span></div>
+<div class="funnel-mid">
+<div><h3>看支持文件</h3><p>合同、订单、发票、付款审批、银行回单、冲销记录。</p></div>
+<div><h3>问业务原因</h3><p>是否分期、预付、补付、退款、重复编号或系统拆单。</p></div>
+</div>
+<div class="funnel-bottom"><b>审计判断</b><span>合理业务 / 数据问题 / 重复付款 / 其他异常</span></div>
+</div>
+<div class="takeaway">数据分析用于缩小核查范围；审计结论仍需由支持文件、询问和其他审计程序支撑。</div><div class="module">付款案例</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="付款案例" data-title="一个可复核的数据分析，应保留这些过程资料"><div class="brand-text">Grant Thornton</div><h1>一个可复核的数据分析，应保留这些过程资料</h1>
+<div class="repro-layout">
+<div class="repro-left">
+<h3>输入与方法</h3>
+<div class="repro-item"><b>输入</b><span>文件清单、版本、数据期间</span></div>
+<div class="repro-item"><b>规则</b><span>字段定义、业务口径、参数</span></div>
+<div class="repro-item"><b>执行</b><span>Prompt、代码、环境、日志</span></div>
+<div class="repro-item"><b>总体</b><span>文件数、记录数、金额</span></div>
+</div>
+<div class="repro-center">
+<div class="repro-standard"><b>复核要求</b><p>复核人员应能找到同一版输入、核对相同总体、复现关键规则，并理解人工排除理由。</p></div>
+</div>
+<div class="repro-right">
+<h3>输出与验证</h3>
+<div class="repro-item"><b>异常</b><span>源记录编号、全部触发标签</span></div>
+<div class="repro-item"><b>抽查</b><span>命中、临界、未命中样本</span></div>
+<div class="repro-item"><b>解释</b><span>支持文件、客户说明、排除理由</span></div>
+<div class="repro-item"><b>限制</b><span>已知缺陷、复核记录、版本</span></div>
+</div>
+</div>
+<div class="module">付款案例</div><div class="slide-no"></div></section>
+<section class="slide break" data-min="10" data-section="休息" data-title="休息 10 分钟">
+<div class="brand-text">Grant Thornton</div>
+<div class="break-stage">
+<div class="eyebrow">BREAK · 10 MINUTES</div>
+<h1>休息 10 分钟</h1>
+<div class="break-next">回来后：代码检查方法 + 中海物业账表自动化案例</div>
+<div class="mini-band dark"><span>先核对总体</span><span>再看代码逻辑</span><span>最后进入底稿与报告案例</span></div>
+</div>
+<div class="module">休息</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="3" data-section="数据库入门" data-title="先理解 SQL：用结构化方式查询数据"><div class="brand-text">Grant Thornton</div><h1>先理解 SQL：用结构化方式查询数据</h1>
+<div class="sql-intro">
+<div class="sql-natural">
+<div class="sql-label">财审人员的自然语言</div>
+<blockquote>“帮我找出所有人民币、金额大于等于 50 万元的付款。”</blockquote>
+<div class="sql-meaning"><b>查询含义：</b>从付款数据里，按金额和币种两个条件筛选。</div>
+</div>
+<div class="sql-arrow">→ 大模型辅助转换 →</div>
+<div class="sql-code">
+<div class="sql-label">SQL 表达</div>
+<pre><code>SELECT payment_id, amount
+FROM payments
+WHERE amount &gt;= 500000
+  AND currency = 'CNY';</code></pre>
+</div>
+</div>
+<div class="sql-key"><span>SQL = 查询数据使用的语言</span><span>数据库 = 存放和管理数据的产品/系统</span></div>
+<div class="takeaway">今天学习 SQL，重点是看懂大模型如何把审计要求转换为查询条件；数据库开发不在本次培训范围内。</div><div class="module">数据库入门</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="数据库入门" data-title="SQL 与 MySQL、SQL Server、Oracle、SQLite 的关系"><div class="brand-text">Grant Thornton</div><h1>SQL 与 MySQL、SQL Server、Oracle、SQLite 的关系</h1>
+<div class="db-relationship">
+<div class="db-center"><b>SQL</b><span>一种查询数据的语言</span></div>
+<div class="db-products">
+<div><b>MySQL</b><p>企业常见关系型数据库</p><small>互联网、业务系统中较常见</small></div>
+<div><b>SQL Server</b><p>企业常见关系型数据库</p><small>微软技术体系中较常见</small></div>
+<div><b>Oracle</b><p>大型企业常见数据库</p><small>大型ERP、核心系统中常见</small></div>
+<div class="highlight"><b>SQLite</b><p>轻量、本地文件型数据库</p><small>今天只用于课堂零配置练习</small></div>
+</div>
+</div>
+<div class="db-classroom">
+<b>课堂为什么选择 SQLite？</b>
+<span>MySQL 通常涉及服务、账号、端口、连接和数据导入等配置，课堂若展开这些内容会占用较多环境准备时间。</span>
+<strong>本次培训概念上介绍 MySQL、SQL Server、Oracle 等常见数据库，实操使用 SQLite 直接打开 .db 文件运行 SQL。</strong>
+</div>
+<div class="module">数据库入门</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="数据库入门" data-title="安装 Navicat 后，先连接训练数据库"><div class="brand-text">Grant Thornton</div><h1>安装 Navicat 后，先连接训练数据库</h1>
+<div class="sqlite-practice">
+<div class="sqlite-steps">
+<h3>下载和连接</h3>
+<div><b>1</b><span>官方下载：<a href="https://www.navicat.com/en/download/navicat-premium" target="_blank" rel="noopener">https://www.navicat.com/en/download/navicat-premium</a></span></div>
+<div><b>2</b><span>受管电脑通过机构软件中心或联系 IT 安装</span></div>
+<div><b>3</b><span>打开 Navicat：连接 → SQLite</span></div>
+<div><b>4</b><span>选择训练包中的 `财务审计AI培训模拟数据.db`</span></div>
+<div><b>5</b><span>测试连接并保存，双击连接查看数据表</span></div>
+<small>Navicat 只是连接和查询数据的工具；课堂不讲服务器配置。</small>
+</div>
+<div class="sqlite-query">
+<h3>拿到 Excel 后，导入前先整理</h3>
+<ul><li>第一行只放唯一字段名</li><li>删除合并单元格、空标题行和小计行</li><li>日期统一为 YYYY-MM-DD</li><li>金额保留为数值，编号保留为文本</li><li>每张表单独另存为 CSV UTF-8</li><li>记录导入前行数和金额合计</li></ul>
+</div>
+</div>
+<div class="takeaway">连接成功以后先打开现成数据练习；再用导入向导走一遍项目上拿到 CSV 后的完整流程。</div><div class="module">数据库入门</div><div class="slide-no"></div></section>
+<section class="slide" data-min="5" data-section="数据库入门" data-title="完整演示：用 Navicat 导入 CSV，先核对总体再查询"><div class="brand-text">Grant Thornton</div><h1>完整演示：用 Navicat 导入 CSV，先核对总体再查询</h1>
+<div class="sqlite-practice"><div class="sqlite-steps"><h3>Navicat 导入步骤</h3><div><b>1</b><span>复制训练数据库并重命名为 `training_import.db`</span></div><div><b>2</b><span>在 Navicat 中连接这个副本，右键“表”→“导入向导”</span></div><div><b>3</b><span>选择 CSV，先导入 `payments.csv`</span></div><div><b>4</b><span>确认首行为字段名、UTF-8、逗号分隔和字段对应关系</span></div><div><b>5</b><span>目标表命名为 payments_import；同样导入 journal_entries.csv</span></div></div>
+<div class="sqlite-query"><pre><code>SELECT COUNT(*) AS 记录数,
+       ROUND(SUM(amount), 2) AS 金额合计
+FROM payments_import;
+
+SELECT COUNT(DISTINCT entry_no) AS 凭证数,
+       COUNT(*) AS 分录行数
+FROM journal_entries_import;</code></pre><div class="sqlite-result"><b>288</b><span>付款行</span><i>·</i><b>116 / 232</b><span>凭证 / 分录行</span></div><div class="demo-stop">导入总体不一致 → 先检查串列、类型、空行和重复导入</div></div></div>
+<div class="takeaway">导入只是把数据放进表里；行数、金额和借贷总体对上以后，后续 SQL 分析才有可信的起点。</div><div class="module">数据库入门</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="代码阅读" data-title="财审人员需要掌握的四项能力"><div class="brand-text">Grant Thornton</div><h1>财审人员需要掌握的四项能力</h1>
+<div class="old-new">
+<div class="old-path">
+<span>以前</span>
+<div>审计人员描述需求</div><i>→</i><div>找懂SQL/代码的人</div><i>→</i><div>解释口径</div><i>→</i><div>反复修改</div>
+</div>
+<div class="new-path">
+<span>现在</span>
+<div>审计人员写清任务</div><i>→</i><div>大模型形成代码初稿</div><i>→</i><div>本地执行</div><i>→</i><div>人工验证</div>
+</div>
+</div>
+<div class="minimum-skill">
+<h3>财审人员重点掌握四项能力</h3>
+<div><b>描述需求</b><span>知道自己要查什么</span></div>
+<div><b>看懂逻辑</b><span>代码大致从哪取、按什么条件</span></div>
+<div><b>改参数</b><span>阈值、日期、文件路径等</span></div>
+<div><b>验证结果</b><span>总体、边界、追溯和证据</span></div>
+</div>
+<div class="module">代码阅读</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="代码阅读" data-title="读一段生成的代码，先回答四个问题"><div class="brand-text">Grant Thornton</div><h1>读一段生成的代码，先回答四个问题</h1>
+<div class="code-anatomy">
+<div class="code-block">
+<pre><code>SELECT payment_id, vendor_id, amount
+FROM payments
+WHERE amount &gt;= 500000
+  AND currency = 'CNY';</code></pre>
+</div>
+<div class="code-questions">
+<div><b>1</b><span>从哪里取？</span><small>payments 付款表</small></div>
+<div><b>2</b><span>取什么？</span><small>付款编号、供应商、金额</small></div>
+<div><b>3</b><span>按什么条件？</span><small>≥50万 且 CNY</small></div>
+<div><b>4</b><span>结果是什么？</span><small>符合条件的付款记录；是否异常仍需进一步判断</small></div>
+</div>
+</div>
+<div class="code-challenge"><b>项目人员还要继续追问：</b><span>50万阈值依据是什么？大于还是大于等于？美元付款如何处理？</span></div>
+<div class="takeaway">先用中文复述代码的含义，再判断它是否真的支持审计目标。</div><div class="module">代码阅读</div><div class="slide-no"></div></section>
+<section class="slide" data-min="3" data-section="代码阅读" data-title="生成代码后统一检查这八项内容"><div class="brand-text">Grant Thornton</div><h1>生成代码后统一检查这八项内容</h1>
+<div class="eight-checks">
+<div><b>01</b><h3>范围</h3><p>表、文件、期间正确吗？</p></div>
+<div><b>02</b><h3>粒度</h3><p>一行代表付款、分录行还是凭证？</p></div>
+<div><b>03</b><h3>字段</h3><p>中文字段与本地结构对应吗？</p></div>
+<div><b>04</b><h3>口径</h3><p>阈值、日期、币种有依据吗？</p></div>
+<div><b>05</b><h3>异常值</h3><p>空值、负数、错误格式怎么处理？</p></div>
+<div><b>06</b><h3>关联</h3><p>多表关联或匹配会不会放大或漏掉记录？</p></div>
+<div><b>07</b><h3>追溯</h3><p>输出还能回到源记录吗？</p></div>
+<div><b>08</b><h3>验证</h3><p>总体能否独立核对？</p></div>
+</div>
+<div class="takeaway">数据库函数写法可以请技术同事复核；项目人员重点检查数据范围、分析粒度、业务规则和验证结果。</div><div class="module">代码阅读</div><div class="slide-no"></div></section>
+<section class="slide section" data-min="2" data-section="现场补充案例" data-title="今日实演｜一份费用数据生成 14 组审计底稿">
+<div class="brand-text">Grant Thornton</div><div class="case-cover">
+<div class="eyebrow">LIVE DEMO · EXPENSE WORKPAPERS</div>
+<h1>今日实演｜一份费用数据生成 14 组审计底稿</h1>
+<div class="case-route"><span>读取费用凭证</span><i>→</i><span>按 Y 列分类</span><i>→</i><span>按公司与月份汇总</span><i>→</i><span>生成三类底稿</span></div>
+<div class="case-note">现场目录：中海物业 / 测试用。两段 Python 分工：第一段填明细表，第二段填“底稿目录”首页信息。</div>
+</div><div class="module">现场补充案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="4" data-section="现场补充案例" data-title="演示文件可以从课件中直接下载"><div class="brand-text">Grant Thornton</div><h1>演示文件可以从课件中直接下载</h1>
+<div class="file-grid">
+<a class="file-card source" href="财务审计AI培训_案例数据/数据/费用分类底稿填数案例/数据源/折旧费.xlsx" download><b>数据源｜折旧费.xlsx</b><span>Sheet2 · 15,964 条明细 · 50 个字段</span><small>关键字段：A 公司代码、K 月份、N 金额、Y 功能范围</small></a>
+<a class="file-card" href="财务审计AI培训_案例数据/数据/费用分类底稿填数案例/底稿/K8 销售费用.xlsx" download><b>底稿｜K8 销售费用.xlsx</b><span>目标页：明细表K8-2</span><small>按月填写 1—12 月；“折旧费”明细行</small></a>
+<a class="file-card" href="财务审计AI培训_案例数据/数据/费用分类底稿填数案例/底稿/K9 管理费用.xlsx" download><b>底稿｜K9 管理费用.xlsx</b><span>目标页：明细表K9-2</span><small>按月填写 1—12 月；无对应行时使用空白明细行并标注“折旧费”</small></a>
+<a class="file-card" href="财务审计AI培训_案例数据/数据/费用分类底稿填数案例/底稿/I6 研发费用.xlsx" download><b>底稿｜I6 研发费用.xlsx</b><span>目标页：明细表I6-2</span><small>按月填写 1—12 月；无对应行时使用空白明细行并标注“折旧费”</small></a>
+</div>
+<div class="takeaway">底稿模板只作为输入；程序应复制后再填写，不能直接覆盖这四个演示文件。</div><div class="module">现场补充案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="4" data-section="现场补充案例" data-title="第一段工具：分类、汇总并生成公司底稿"><div class="brand-text">Grant Thornton</div><h1>第一段工具：分类、汇总并生成公司底稿</h1>
+<div class="process-row"><div class="process-card"><b>01</b><span>读取数据源并检查字段</span></div><div class="process-card"><b>02</b><span>按 A 列公司代码拆分</span></div><div class="process-card"><b>03</b><span>按 Y 列功能范围分类</span></div><div class="process-card"><b>04</b><span>按 K 列月份汇总 N 列金额</span></div><div class="process-card"><b>05</b><span>复制并填写三份底稿</span></div></div>
+<table class="feature-table"><thead><tr><th>Y 列“功能范围”</th><th>分类结果</th><th>目标底稿</th><th>本次数据行数</th></tr></thead><tbody>
+<tr><td>YB30（销售和分销）</td><td>销售费用</td><td>K8 销售费用.xlsx</td><td>1,634</td></tr>
+<tr><td>YB40（管理）</td><td>管理费用</td><td>K9 管理费用.xlsx</td><td>3,646</td></tr>
+<tr><td>YB50（研究&amp;开发）</td><td>研发费用</td><td>I6 研发费用.xlsx</td><td>9,416</td></tr>
+<tr><td>YB20（制造）</td><td>不属于本次三类</td><td>不写入；单独列入未处理清单</td><td>1,268</td></tr>
+</tbody></table><div class="takeaway">分类规则来自 Y 列；A 列决定输出文件夹，K 列决定月份，N 列提供公司代码货币金额。</div><div class="module">现场补充案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="5" data-section="现场补充案例" data-title="提示词一：生成费用明细表填数工具"><div class="brand-text">Grant Thornton</div><h1>提示词一：生成费用明细表填数工具</h1>
+<div class="prompt-layout prompt-tight"><pre><code>请先只读盘点当前目录，不修改“数据源”和“底稿”原件。
+
+读取“数据源/折旧费.xlsx”的 Sheet2，检查 A列公司代码、K列月份、
+N列金额（公司代码货币）、Y列功能范围。按以下规则生成 Python：
+1. 按公司代码分别处理，每个公司代码建立一个输出文件夹；
+2. YB30（销售和分销）→ K8销售费用，YB40（管理）→ K9管理费用，
+   YB50（研究&amp;开发）→ I6研发费用；其他值不写入并输出未处理清单；
+3. 每个公司文件夹复制三份底稿模板，不覆盖原件；
+4. 按公司代码 + 费用类别 + 月份汇总 N列金额，月份必须为1—12；
+5. 将月度金额填入各底稿“明细表”中“折旧费”行的1—12月列；
+   模板没有“折旧费”时，使用明细区第一行空白行并写入该名称；
+6. 保留模板格式和既有公式，只写项目名称及12个月金额；
+7. 运行后输出：源数据行数、各类行数、未处理行数、各公司各类金额、
+   写入后底稿合计以及差异。
+
+请先复述字段、映射、输出目录和停止条件；我确认后再生成并运行代码。</code></pre>
+<div class="prompt-notes"><h3>停止条件</h3><ul><li>工作表或四个字段不存在</li><li>月份不在 1—12 范围</li><li>金额不能转换为数字</li><li>找不到明细表或可用明细行</li><li>写入后底稿合计与源表汇总不一致</li></ul><p>输出必须保留公司代码、类别和月份三个维度，方便反向追溯。</p></div></div>
+<div class="module">现场补充案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="4" data-section="现场补充案例" data-title="输出结构和验收口径要在运行前说清楚"><div class="brand-text">Grant Thornton</div><h1>输出结构和验收口径要在运行前说清楚</h1>
+<div class="two-col stretch"><div class="path-tree"><h3>每个公司代码得到同样的三份底稿</h3><pre><code>输出/
+├── 1010/
+│   ├── K8 销售费用.xlsx
+│   ├── K9 管理费用.xlsx
+│   └── I6 研发费用.xlsx
+├── 1020/
+│   └── …同样三份底稿
+└── …共 14 个公司代码文件夹</code></pre></div>
+<div class="panel accent"><h3>四层验收</h3><ol><li><b>行数：</b>15,964 条明细完整分类；其中制造类 1,268 条明确留在未处理清单。</li><li><b>金额：</b>按公司、类别、月份重新汇总，与程序结果逐项比较。</li><li><b>位置：</b>抽查 1010 等公司，确认金额进入正确底稿、正确月份和“折旧费”行。</li><li><b>文件：</b>14 个公司文件夹 × 3 份底稿；原始数据和模板修改时间不变。</li></ol></div></div>
+<div class="takeaway">“生成了 42 个文件”只证明程序跑完；行数、金额、位置和原件保护全部通过，结果才可以使用。</div><div class="module">现场补充案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="5" data-section="现场补充案例" data-title="提示词二：批量填写底稿目录 A1:A7"><div class="brand-text">Grant Thornton</div><h1>提示词二：批量填写底稿目录 A1:A7</h1>
+<div class="prompt-layout prompt-tight"><pre><code>请为已经生成的各公司底稿编写第二段独立 Python 工具。
+
+处理范围：只处理“输出”目录下各公司代码文件夹中的三份 xlsx。
+在每份工作簿的“底稿目录”工作表填写 A1:A7：
+A1 保留模板原说明；
+A2 = “被审计单位：” + 当前文件夹的公司代码；
+A3 = “会计期间：2025年度”；
+A4 = “编制人：” + [姓名]；
+A5 = “编制日期：” + [日期]；
+A6 = “复核人：” + [姓名或留空]；
+A7 = “复核日期：” + [日期或留空]。
+
+要求：先打印准备写入的公司文件夹、文件名和 A1:A7 预览；确认后再保存。
+保留公式、格式、合并单元格和其他工作表，不处理源模板；失败时记录文件名和原因。</code></pre>
+<div class="prompt-notes"><h3>运行前替换</h3><ul><li>会计期间</li><li>编制人和编制日期</li><li>复核人和复核日期</li><li>如有“公司代码—单位名称”映射，用单位名称替换代码</li></ul><h3>运行后抽查</h3><p>三类底稿首页信息一致，且各工作表引用“底稿目录”的表头同步显示。</p></div></div>
+<div class="module">现场补充案例</div><div class="slide-no"></div></section>
+
+<section class="slide section" data-min="2" data-section="中海物业案例" data-title="案例二｜把科目余额表填入两份 Word 报告">
+<div class="brand-text">Grant Thornton</div><div class="case-cover">
+<div class="eyebrow">CASE 2 · BALANCE TO REPORT</div>
+<h1>案例二｜中海物业报告模板填数</h1>
+<div class="case-route"><span>两期余额表</span><i>→</i><span>科目对应</span><i>→</i><span>定位 Word 表格</span><i>→</i><span>生成两份报告</span></div>
+<div class="case-note">课堂目标：完成四个科目位置的填数，理解其余科目如何按同一方法扩展。</div>
+</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="两份模板承担不同任务"><div class="brand-text">Grant Thornton</div><h1>两份模板承担不同任务</h1>
+<div class="separation-layout"><div class="separation-side logic"><div class="sep-title">01 审计报告正文</div><div class="sep-box"><b>填写内容</b><span>管理处名称、报告年度、报告编号、报告日期</span></div><div class="sep-box"><b>金额处理</b><span>科目金额不直接写入正文段落</span></div><div class="sep-result">输出：审计报告正文</div></div>
+<div class="separation-arrow">+</div><div class="separation-side data"><div class="sep-title">02 财务报表附注</div><div class="sep-box"><b>填写内容</b><span>各附注项目的本期和上期金额</span></div><div class="sep-box"><b>数据来源</b><span>2025、2024 科目余额表</span></div><div class="sep-result">输出：财务报表附注</div></div></div>
+<div class="takeaway">科目余额表的数字主要进入附注模板；正文模板主要替换基本信息。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="开始填数前先确认四项对应关系"><div class="brand-text">Grant Thornton</div><h1>开始填数前先确认四项对应关系</h1>
+<div class="process-row"><div class="process-card"><b>01</b><span>2025 填本期，2024 填上期</span></div><div class="process-card"><b>02</b><span>只取项目A管理处的数据</span></div><div class="process-card"><b>03</b><span>科目编码对应附注项目</span></div><div class="process-card"><b>04</b><span>附注标题对应 Word 表格</span></div></div>
+<div class="excel-window"><div class="excel-bar"><span>脱敏科目余额表｜实际字段截面</span><span>公司、项目范围和科目字段</span></div><img src="财务审计AI培训_案例数据/图示/01_项目范围与科目字段.png" alt="脱敏科目余额表中的公司、项目范围和科目字段"></div>
+<div class="takeaway">先把数据范围和填写位置固定下来，再批量处理全部科目。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="余额类和发生额类使用不同取数口径"><div class="brand-text">Grant Thornton</div><h1>余额类和发生额类使用不同取数口径</h1>
+<table class="feature-table"><thead><tr><th>附注类型</th><th>常见项目</th><th>科目余额表取数</th><th>Word 列</th></tr></thead><tbody>
+<tr><td>余额类</td><td>货币资金、应付账款</td><td>汇总“期末余额”</td><td>期末余额 / 上年年末余额</td></tr>
+<tr><td>发生额类</td><td>营业收入、成本、费用</td><td>本期借方金额减本期贷方金额，再按展示口径调整符号</td><td>本期发生额 / 上期发生额</td></tr>
+</tbody></table>
+<div class="excel-window"><div class="excel-bar"><span>脱敏科目余额表｜金额字段截面</span><span>期初、本期借贷、累计发生额和期末余额</span></div><img src="财务审计AI培训_案例数据/图示/02_金额字段与年度取数.png" alt="脱敏科目余额表中的金额字段"></div>
+<div class="takeaway">2025 表提供本期数字，2024 表提供上期数字；不能把期末余额直接当成本期发生额。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="示例一：货币资金从科目 1001、1002、1012 取数"><div class="brand-text">Grant Thornton</div><h1>示例一：货币资金从科目 1001、1002、1012 取数</h1>
+<table class="feature-table"><thead><tr><th>处理步骤</th><th>2025 年</th><th>2024 年</th><th>Word 指定位置</th></tr></thead><tbody>
+<tr><td>筛选科目编码开头</td><td>1001、1002、1012</td><td>1001、1002、1012</td><td>附注“货币资金”</td></tr>
+<tr><td>汇总期末余额</td><td>202,582.88</td><td>123,303.17</td><td>表格“银行存款”行</td></tr>
+<tr><td>填写列</td><td>期末余额</td><td>上年年末余额</td><td>同一行的第 2、3 列</td></tr>
+</tbody></table><div class="mapping-flow"><div class="mapping-box"><b>Excel 科目行</b><span>1002… 银行存款<br>2025 期末：202,582.88</span></div><div class="mapping-arrow">→</div><div class="mapping-box"><b>汇总规则</b><span>1001、1002、1012<br>取“期末余额”</span></div><div class="mapping-arrow">→</div><div class="mapping-box"><b>Word 指定位置</b><span>货币资金附注<br>银行存款行｜期末余额列</span></div></div><div class="takeaway">每个报告数字都保留“年度、科目范围、金额列、Word 位置”四项来源信息。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="示例二：收入和成本分别汇总后写入同一张表"><div class="brand-text">Grant Thornton</div><h1>示例二：收入和成本分别汇总后写入同一张表</h1>
+<table class="feature-table"><thead><tr><th>项目</th><th>科目范围</th><th>2025 年</th><th>2024 年</th></tr></thead><tbody>
+<tr><td>主营业务收入</td><td>6001、6051</td><td>291,057.14</td><td>311,009.55</td></tr>
+<tr><td>主营业务成本</td><td>6401、6402</td><td>320,269.93</td><td>264,861.36</td></tr>
+<tr><td>Word 位置</td><td colspan="3">附注“营业收入和营业成本” → “主营业务”行 → 本期收入、本期成本、上期收入、上期成本</td></tr>
+</tbody></table><div class="excel-pair"><div class="excel-window"><div class="excel-bar"><span>Excel 中先识别科目</span><span>编码 + 名称</span></div><img src="财务审计AI培训_案例数据/图示/03_科目编码与名称.png" alt="脱敏科目余额表中的科目编码和名称"></div><div class="excel-window"><div class="excel-bar"><span>Word 表内四个金额列</span><span>本期与上期</span></div><div style="padding:1.3vh .9vw"><table class="feature-table"><thead><tr><th>项目</th><th>本期</th><th>上期</th></tr></thead><tbody><tr><td>收入</td><td>291,057.14</td><td>311,009.55</td></tr><tr><td>成本</td><td>320,269.93</td><td>264,861.36</td></tr></tbody></table></div></div></div><div class="takeaway">一张 Word 表格可以接收多个科目组合，关键是先明确每一列的业务含义。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="定位 Word 位置时同时检查标题、表头和行名"><div class="brand-text">Grant Thornton</div><h1>定位 Word 位置时同时检查标题、表头和行名</h1>
+<div class="process-row"><div class="process-card"><b>01</b><span>找到“货币资金”等附注标题</span></div><div class="process-card"><b>02</b><span>确认后续表头符合预期</span></div><div class="process-card"><b>03</b><span>找到“银行存款”等明细行</span></div></div>
+<div class="prompt-layout"><pre><code>请打印准备填写位置的：
+1. 附注标题；
+2. 表格表头；
+3. 明细行名称；
+4. 准备写入的本期和上期金额。
+四项确认后再写入。</code></pre><div class="prompt-notes"><h3>为什么不固定表格序号</h3><ul><li>无余额章节可能删除</li><li>删除后表格序号会变化</li><li>文字含义比序号稳定</li></ul></div></div>
+<div class="takeaway">用内容定位表格，才能在模板调整或章节删除后继续正确填数。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="现场任务：先完成四个位置再生成两份报告"><div class="brand-text">Grant Thornton</div><h1>现场任务：先完成四个位置再生成两份报告</h1>
+<div class="prompt-layout"><pre><code>请读取项目A的 2024、2025 科目余额表和两份 Word 模板。
+先完成货币资金、应付账款、营业收入和营业成本、其他收益四处填数。
+使用“附注标题 + 表头 + 明细行名称”定位位置。
+输出数据来源、科目范围、计算过程、Word 位置和最终金额。
+金额与任务卡一致后，保存两份新报告，不覆盖原模板。</code></pre>
+<div class="prompt-notes"><h3>现场检查</h3><ul><li>读取两期正确文件</li><li>正文与附注分工正确</li><li>四处金额与任务卡一致</li><li>原模板没有被覆盖</li></ul></div></div>
+<div class="takeaway">先跑通四个有代表性的位置，再按同样方法扩展其他附注项目。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="金额或位置不对时按固定顺序排查"><div class="brand-text">Grant Thornton</div><h1>金额或位置不对时按固定顺序排查</h1>
+<table class="tall-table"><thead><tr><th>现象</th><th>先检查什么</th><th>需要输出什么</th></tr></thead><tbody>
+<tr><td>金额不一致</td><td>年度、利润中心、科目编码范围、金额列、正负号</td><td>命中的科目明细和汇总过程</td></tr>
+<tr><td>填错表格</td><td>附注标题、表头、明细行名称</td><td>写入前后的定位信息</td></tr>
+<tr><td>版式发生变化</td><td>是否重建表格或改变列数</td><td>实际修改的段落和单元格</td></tr>
+<tr><td>模板项目不存在</td><td>模板版本和章节名称</td><td>停止位置和未完成项目清单</td></tr>
+</tbody></table><div class="takeaway">发现差异时保留原口径，先把差异定位到数据范围、计算方法或 Word 位置。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="4" data-section="中海物业案例" data-title="最终交付两份报告和一份核对清单"><div class="brand-text">Grant Thornton</div><h1>最终交付两份报告和一份核对清单</h1>
+<div class="je-completeness"><div class="je-kpis"><div><b>2期</b><span>科目余额表</span></div><div><b>2份</b><span>Word 报告</span></div><div><b>4处</b><span>现场填数样例</span></div><div><b>0.00</b><span>核对差异</span></div></div>
+<div class="je-warning"><h3>核对清单至少记录</h3><p>年度、项目范围、科目编码、科目名称、取数字段、计算过程、附注标题、表头、明细行、填入金额和差异。</p><div class="je-reconcile"><span>源表金额</span><i>→</i><span>汇总结果</span><i>→</i><span>Word 金额</span><i>→</i><span>差异为零</span></div></div></div>
+<div class="takeaway">报告可以批量生成，但每个数字仍应能回到科目余额表和填写位置。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+
+<section class="slide" data-min="3" data-section="中海物业案例" data-title="把报告填数任务说成五句话"><div class="brand-text">Grant Thornton</div><h1>把报告填数任务说成五句话</h1>
+<table class="feature-table"><thead><tr><th>需要说清楚</th><th>本次案例</th></tr></thead><tbody>
+<tr><td>处理哪些文件</td><td>2024、2025 科目余额表和两份管理处报告模板</td></tr>
+<tr><td>处理哪个范围</td><td>测试物业公司A、项目A管理处</td></tr>
+<tr><td>如何对应</td><td>科目编码范围 → 附注标题 → 表头 → 明细行</td></tr>
+<tr><td>如何验收</td><td>四处参考数字一致，核对差异为零</td></tr>
+<tr><td>出错时怎么办</td><td>停止保存，列出差异位置和原因</td></tr>
+</tbody></table><div class="takeaway">文件、范围、对应关系、验收数字和停止条件明确后，任务才能稳定重复。</div><div class="module">中海物业案例</div><div class="slide-no"></div></section>
+<section class="slide" data-min="4" data-section="课后练习" data-title="课后用同一套脱敏训练数据完成四项练习">
+<div class="brand-text">Grant Thornton</div>
+<h1>课后用同一套脱敏训练数据完成四项练习</h1><table class="tall-table"><thead><tr><th>练习</th><th>需要完成的工作</th><th>验收重点</th></tr></thead><tbody><tr><td>01 文件盘点</td><td>让工具只读 12 个付款文件，形成字段和风险清单</td><td>没有修改输入；识别 12 个文件</td></tr><tr><td>02 脚本生成</td><td>生成并运行合并脚本，输出总体和数据质量清单</td><td>288 行；金额 26,374,350.00</td></tr><tr><td>03 SQL 导入</td><td>在 Navicat 中连接数据库副本，导入两个 CSV，再完成总体和重复查询</td><td>导入总体与 CSV 一致；查询可追溯</td></tr><tr><td>04 Word 报告填数</td><td>读取 2024、2025 科目余额表，按任务卡把四类项目填入管理处报告模板</td><td>两份新报告；四处参考数字一致；原模板未覆盖</td></tr></tbody></table><div class="takeaway">任务卡、脱敏训练数据和预期总体验证值应与练习输出一起保存到新目录，便于复核。</div>
+<div class="module">课后练习</div>
+<div class="slide-no"></div>
+</section>
+<section class="slide" data-min="5" data-section="方法沉淀" data-title="把验证有效的方法沉淀成可复用 Skill"><div class="brand-text">Grant Thornton</div><h1>把验证有效的方法沉淀成可复用 Skill</h1>
+<div class="skill-blueprint">
+<div class="skill-core">
+<b>可复用 Skill</b>
+<p>其他项目人员可以在明确的数据边界内按同一方法复跑。</p>
+</div>
+<div class="skill-ring">
+<span>适用场景</span><span>数据等级</span><span>字段要求</span><span>规则依据</span>
+<span>标准Prompt</span><span>代码/环境</span><span>参数</span><span>输出</span>
+<span>验证步骤</span><span>已知限制</span>
+</div>
+</div>
+<div class="skill-test"><b>发布前问一句：</b><span>下一位同事能否不问编制人，就理解什么时候能用、怎么运行、怎么验证、什么时候不能用？</span></div>
+<div class="takeaway">可复用 Skill 应包含经过验证的 Prompt、规则、代码、参数、输出、验证步骤和已知限制。</div><div class="module">方法沉淀</div><div class="slide-no"></div></section>
+<section class="slide" data-min="5" data-section="结语" data-title="最后明确三层分工"><div class="brand-text">Grant Thornton</div><h1>最后明确三层分工</h1>
+<div class="closing-roles">
+<div class="role ai-role"><b>AI</b><h3>理解与组织</h3><ul><li>梳理任务</li><li>解释字段</li><li>提出候选规则</li><li>形成方法和代码初稿</li></ul></div>
+<div class="role code-role"><b>SQL / Python</b><h3>稳定执行</h3><ul><li>按确定规则处理总体</li><li>保留结果和标签</li><li>形成运行日志</li><li>支持重复执行</li></ul></div>
+<div class="role human-role"><b>审计人员</b><h3>负责判断</h3><ul><li>确定项目口径</li><li>评价数据可靠性</li><li>验证结果</li><li>取得证据并形成结论</li></ul></div>
+</div>
+<div class="closing-rules"><span>真实数据受控</span><span>规则由人员确认</span><span>结果必须验证</span><span>异常需要进一步核查</span></div>
+<div class="closing-line">大模型主要降低审计需求转化为数据处理方法的成本；审计责任、证据边界和职业判断保持不变。</div>
+<div class="module">结语</div><div class="slide-no"></div></section></main>
+<div class="presenter-hint">← → 翻页 · M 导航 · Home / End · F 全屏</div>
+<script>
+let idx=0;
+const slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');
+document.querySelectorAll('.brand-text').forEach((brand)=>{
+ brand.innerHTML='<img src="grant-thornton-logo.png" alt="Grant Thornton">';
+});
+slides.forEach((slide,i)=>{
+ const marker=slide.querySelector('.slide-no');
+ if(marker) marker.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+});
+function show(i){
+ idx=Math.max(0,Math.min(slides.length-1,i));
+ slides.forEach((s,j)=>s.classList.toggle('active',j===idx));
+ document.getElementById('progress').style.width=((idx+1)/slides.length*100)+'%';
+ location.hash='s'+(idx+1); renderNav();
+}
+function renderNav(){
+ let h='',last='';
+ slides.forEach((s,i)=>{
+  if(s.dataset.section!==last){h+='<div class="nav-sec">'+s.dataset.section+'</div>';last=s.dataset.section;}
+  h+='<div class="nav-item '+(i===idx?'current':'')+'" onclick="show('+i+');toggleNav(false)"><b>'+String(i+1).padStart(2,'0')+'</b><span>'+s.dataset.title+'</span></div>';
+ });
+ nav.innerHTML=h;
+}
+function toggleNav(force){nav.classList.toggle('open',force===undefined?!nav.classList.contains('open'):force);}
+function reveal(btn){const a=btn.nextElementSibling;a.classList.toggle('show');btn.textContent=a.classList.contains('show')?'收起参考结构':'显示参考结构';}
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(idx+1);}
+ else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(idx-1);}
+ else if(e.key.toLowerCase()==='m')toggleNav();
+ else if(e.key==='Escape')toggleNav(false);
+ else if(e.key==='Home')show(0);
+ else if(e.key==='End')show(slides.length-1);
+ else if(e.key.toLowerCase()==='f')document.documentElement.requestFullscreen?.();
+});
+const hm=location.hash.match(/s(\d+)/); show(hm?Number(hm[1])-1:0);
+</script>
+</body></html>

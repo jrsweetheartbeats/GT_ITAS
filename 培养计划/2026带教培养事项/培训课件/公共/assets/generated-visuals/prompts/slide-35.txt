@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “C22四个测试领域”. Show this idea visually: A公司项目的金蝶云星空、小A系统和资金系统，C22 均按以上四个领域判断是否适用并实施测试。. Strategy: 以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=280, y=560, width=1100, height=304 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 8–12%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

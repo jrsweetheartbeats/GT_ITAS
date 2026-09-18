@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “模块七｜A公司综合案例”. Show this idea visually: 综合练习覆盖 Scope、测试程序、审计证据、异常判断和结论。案例围绕多平台订单、小A系统、金蝶及资金系统展开。. Strategy: 整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。
+
+Use the consistent cast: a 22–26 year old Asian female IT auditor with high ponytail dark-purple hair, violet eyes, white shirt, dark vest and purple lanyard; optionally a 25–30 year old Asian male audit senior with neat dark short hair, thin glasses, white shirt, dark vest or suit and purple lanyard. Keep characters small and subordinate to the teaching content. Do not include robots.
+
+Composition must reserve the measured safe region x=260, y=620, width=1120, height=244 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 85–100%. Background mode: 深色整页背景.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

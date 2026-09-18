@@ -1,0 +1,366 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LSQ 第1个月特别培养计划｜学员详细版</title><style>
+:root{--p:#4F2D7F;--p2:#6F4A96;--cyan:#35D0E6;--ink:#1e1725;--muted:#756c7e;--line:#e4ddec;--good:#176b63;--warn:#9a6515}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:#120a1d;color:#1e1725}
+#deck{width:100vw;height:100vh;overflow:hidden;background:#f5f2f8}.slide{display:none;width:100vw;height:100vh;padding:4.5vh 5.8vw 6.5vh;background:linear-gradient(135deg,#faf8fc,#f3eef7 55%,#ece5f3);position:relative;overflow:auto}.slide.active{display:block}
+.kicker{font-size:12.5px;letter-spacing:.15em;font-weight:800;color:var(--p2);margin-bottom:10px}h1{font-size:clamp(28px,3.7vw,52px);line-height:1.08;margin:0 0 19px;color:var(--ink)}h3{font-size:17px;margin:0 0 8px;color:var(--p)}.sub{margin-top:15px}
+p,li,td,th{font-size:13.8px;line-height:1.57}.lead{font-size:19px;line-height:1.5;max-width:1050px;color:#51475a}.note{font-size:12px;color:var(--muted);margin-top:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.lower{margin-top:13px}.cards{display:grid;gap:13px}.cols-5{grid-template-columns:repeat(5,1fr)}
+.card,.case{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 6px 20px rgba(54,29,72,.05)}.card.good{border-top:4px solid var(--good)}.card.warn{border-top:4px solid var(--warn)}.card.objective{border-left:4px solid var(--p);background:#fbf9fd}.card.evidence{background:#fbf9fd}.card.scenario{background:#f7fbfc;border-color:#cfe6e9}
+.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.metric b{display:block;font-size:30px;color:var(--p)}.metric span{font-size:12.5px;color:var(--muted)}
+.week{display:grid;grid-template-columns:.65fr 2.5fr .65fr;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:9px 0;font-size:13px}.week>div:first-child{color:var(--p);font-weight:800}
+.summary{margin-top:17px;padding:14px 17px;background:#eee7f5;border-left:4px solid var(--p);border-radius:8px;font-size:14px;line-height:1.6}.knowledge-id{display:inline-block;background:var(--p);color:#fff;border-radius:999px;padding:5px 10px;font-size:11.5px;letter-spacing:.04em;margin-bottom:11px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--p);color:#fff;font-size:12.5px}.biglist li{margin-bottom:7px}
+.footer{position:absolute;bottom:12px;left:5.8vw;right:5.8vw;display:flex;justify-content:space-between;color:#8a7f93;font-size:10.5px}.nav{position:fixed;right:15px;bottom:12px;z-index:30;display:flex;gap:7px;align-items:center;background:rgba(20,9,35,.91);padding:6px 9px;border-radius:999px;color:#fff}.nav button{border:0;background:#4f2d7f;color:#fff;width:31px;height:31px;border-radius:50%;font-size:17px;cursor:pointer}.nav span{font-size:11.5px;min-width:57px;text-align:center}
+@media(max-width:900px){.g2,.g3,.cols-5,.hero-grid{grid-template-columns:1fr}.week{grid-template-columns:1fr}.slide{padding:4vh 5vw 10vh}.footer{left:5vw;right:5vw}}
+@media print{.slide{display:block!important;page-break-after:always;width:100%;height:100vh}.nav{display:none}}
+</style></head><body><div id="deck"><section class="slide active"><div class="kicker">LSQ · MONTH 01</div><h1>LSQ｜第1个月特别培养计划</h1>
+<p class="lead">学习主线：企业系统最小技术地图 → PE（备份/批处理/日志）→ SA/PM/NS控制目标 → 陌生系统资料识别与取证。</p>
+<div class="hero-grid">
+<div class="metric"><b>4周</b><span>每周1次1对1训练</span></div>
+<div class="metric"><b>24项</b><span>详细学习知识点</span></div>
+<div class="metric"><b>8+</b><span>资料识别与案例练习</span></div>
+<div class="metric"><b>5项</b><span>月末正式成果</span></div>
+</div>
+<p class="note">每个知识点在ITAS中独立记录学习状态、练习结果、Review意见和是否通过。</p>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>1 / 40</span></div></section><section class="slide"><div class="kicker">MONTH OBJECTIVES</div><h1>第1个月学习目标</h1>
+<div class="cards cols-5">
+<div class="card"><h3>技术结构</h3><p>能区分应用、数据库、操作系统、认证、接口、日志、作业和备份。</p></div>
+<div class="card"><h3>PE</h3><p>能看懂备份、批处理、日志相关配置和执行证据，并知道各自证明什么。</p></div>
+<div class="card"><h3>SA / PM / NS</h3><p>能从控制目标出发理解访问、变更、开发实施和运维，而不是背检查点。</p></div>
+<div class="card"><h3>资料识别</h3><p>拿到陌生截图、配置和日志时，能判断技术层级、证据用途和缺口。</p></div>
+<div class="card"><h3>结论边界</h3><p>能说清现有证据支持到哪一步，以及还需要补什么资料。</p></div>
+</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>2 / 40</span></div></section><section class="slide"><div class="kicker">MONTH MAP</div><h1>4周安排</h1>
+<div class="week"><div><b>第1周</b></div><div><b>企业系统最小技术地图</b><br>应用、数据库、操作系统、认证、接口、日志、批处理、备份。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第2周</b></div><div><b>PE：备份 / 批处理 / 日志</b><br>配置、执行、失败、重跑、恢复、日志对象和证据边界。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第3周</b></div><div><b>SA / PM / NS控制目标</b><br>访问管理、认证、高权限、程序变更、开发实施、运维。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第4周</b></div><div><b>陌生系统取证演练</b><br>资料分类、证据强度、PBC、替代证据、结论边界和综合判断。</div><div>6个知识点</div></div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>3 / 40</span></div></section><section class="slide"><div class="kicker">W1 · OVERVIEW</div><h1>第1周｜企业系统最小技术地图</h1>
+<p class="lead">本周先建立一张能用于所有项目的技术地图。重点不是学运维，而是知道系统由哪些层组成、控制发生在哪里、资料应该去哪一层找。</p>
+<div class="summary"><b>本周成果：</b>画出1张通用系统架构图，并能用一个真实客户系统解释每一层。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>4 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 01</div><h1>应用系统、数据库与操作系统</h1>
+<div class="knowledge-id">LSQ-M1-W1-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解App、DB、OS三层关系，并判断不同技术资料属于哪一层。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>应用系统是业务人员直接使用的界面和功能，例如ERP、OA、WMS。</li><li>数据库保存业务数据、配置、用户和交易记录，常见有Oracle、SQL Server、MySQL等。</li><li>操作系统承载应用和数据库进程，例如Windows Server、Linux。</li><li>应用账号、数据库账号、操作系统账号属于不同权限层级。</li><li>数据库直接修改可能绕过应用控制，因此DB高权限通常需要单独关注。</li><li>理解三层的目的，是为了知道权限、日志、变更、备份分别应去哪一层取证。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认应用名称和业务用途。</li><li>确认数据库类型和部署方式。</li><li>确认操作系统。</li><li>识别各层管理员。</li><li>确认各层日志位置。</li><li>把每份客户资料归到App/DB/OS。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统架构图</li><li>管理员清单</li><li>应用配置</li><li>数据库账户/审计日志</li><li>操作系统账户/安全日志</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>ERP运行在Windows Server上，后台数据库为SQL Server。应用管理员只能配置ERP功能，DBA可直接查询数据库。需要分别识别两类权限和日志。</p><h3 class="sub">完成后应能回答</h3><ul><li>应用管理员和DBA分别能做什么？</li><li>为什么数据库权限可能绕过应用控制？</li><li>一张Windows截图能不能证明ERP应用权限？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>5 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 02</div><h1>账号认证与身份管理</h1>
+<div class="knowledge-id">LSQ-M1-W1-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解账号从建立、认证到授权的基本链路，并识别本地账号、AD/域账号和SSO差异。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>身份认证回答“你是谁”，授权回答“你能做什么”。</li><li>系统可能使用本地账号、Windows AD、LDAP、SSO或MFA。</li><li>本地账号由应用自身管理，域账号由集中身份平台管理。</li><li>SSO并不代表所有权限统一管理，应用内角色可能仍需单独维护。</li><li>MFA增强认证强度，但不能替代离职停用和权限审批。</li><li>审计需要明确认证源、账号生命周期和应用角色分别在哪管理。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认登录方式。</li><li>确认认证源。</li><li>确认账号新增/停用触发机制。</li><li>确认应用角色维护位置。</li><li>确认MFA和密码策略。</li><li>识别共享/服务账号。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>登录页面</li><li>AD/SSO配置</li><li>应用账号清单</li><li>角色清单</li><li>MFA配置</li><li>用户生命周期流程</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户ERP通过AD单点登录，但ERP角色仍由ERP管理员单独配置。离职时AD停用可阻止登录，但角色配置仍需理解。</p><h3 class="sub">完成后应能回答</h3><ul><li>认证与授权有什么区别？</li><li>SSO为什么不等于权限管理完成？</li><li>MFA可以解决哪些风险，不能解决哪些？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>6 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 03</div><h1>系统接口与数据流</h1>
+<div class="knowledge-id">LSQ-M1-W1-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解源系统、接口程序、目标系统和字段映射的基本关系。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>接口用于在系统之间自动传递数据。</li><li>接口可能实时、定时批处理或文件方式运行。</li><li>源系统产生原始业务数据，目标系统接收并进一步处理。</li><li>Mapping定义源字段如何对应目标字段。</li><li>接口失败可能造成漏传、重复、跨期或字段转换错误。</li><li>审计需要同时关注源数据、接口执行和目标落地。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>识别源系统和目标系统。</li><li>确认传输频率。</li><li>确认关键字段。</li><li>确认Mapping。</li><li>确认失败/重跑机制。</li><li>确认最终落地位置。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>接口清单</li><li>Mapping文档</li><li>接口日志</li><li>失败队列</li><li>源/目标明细</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>WMS每日将出库数据传ERP，ERP据此结转营业成本。需要知道接口什么时候跑、失败在哪里看、重跑后怎样证明最终落地。</p><h3 class="sub">完成后应能回答</h3><ul><li>Interface与应用系统有什么区别？</li><li>为什么只看“接口成功”还不够？</li><li>源系统和目标系统各自能证明什么？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>7 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 04</div><h1>日志是什么、分别记录什么</h1>
+<div class="knowledge-id">LSQ-M1-W1-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分登录日志、操作日志、数据库审计日志、系统日志和接口日志。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>登录日志记录谁在什么时候登录或退出。</li><li>操作日志记录用户在应用内执行的关键业务或配置动作。</li><li>数据库审计日志记录数据库层登录、DDL/DML等活动，取决于配置。</li><li>操作系统安全日志记录OS登录、服务和系统事件。</li><li>接口/作业日志记录批次执行、成功失败和错误信息。</li><li>不同日志证明不同事实，不能用一张日志截图代替全部层级。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先明确要证明什么。</li><li>确定该事件发生在哪一层。</li><li>找对应日志。</li><li>确认日志字段和时间。</li><li>确认日志保留期。</li><li>判断是否需要其他日志交叉验证。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>应用审计日志</li><li>数据库审计日志</li><li>Windows/Linux安全日志</li><li>接口日志</li><li>作业日志</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>要确认离职用户是否在离职后进入ERP，应用登录日志可能最直接；要确认DBA是否直接修改数据库，则需要数据库审计日志。</p><h3 class="sub">完成后应能回答</h3><ul><li>“系统有日志”为什么不够？</li><li>操作日志和登录日志有什么差别？</li><li>审计问题如何决定应该取哪类日志？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>8 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 05</div><h1>批处理、调度与后台作业</h1>
+<div class="knowledge-id">LSQ-M1-W1-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解定时任务如何自动执行接口、月结、备份和报表，并知道失败证据在哪里。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>批处理是系统在后台一次处理一批数据或任务。</li><li>调度器负责按时间、依赖关系触发作业。</li><li>常见作业包括接口同步、财务月结、报表生成、批量计算、备份。</li><li>作业需要有状态、开始/结束时间、错误信息和失败处理。</li><li>失败后的自动重试、人工重跑可能影响期间和数据完整性。</li><li>关键财务作业应关注是否有人监控。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>取得关键作业清单。</li><li>确认调度频率。</li><li>识别财务相关作业。</li><li>查看执行日志。</li><li>检查失败/重跑。</li><li>追最终业务和财务结果。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>作业调度截图</li><li>作业日志</li><li>失败告警</li><li>重跑记录</li><li>月结/接口结果</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>每天23:00执行WMS→ERP接口，12月31日失败、1月1日重跑。需要评估数据是否跨期。</p><h3 class="sub">完成后应能回答</h3><ul><li>批处理和Interface是什么关系？</li><li>作业“重跑成功”还需要验证什么？</li><li>哪些后台作业可能影响财务报表？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>9 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 06</div><h1>备份对象与备份链路</h1>
+<div class="knowledge-id">LSQ-M1-W1-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解应用文件、数据库、操作系统和虚拟机备份的差异。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>备份对象可能是数据库、应用文件、文件服务器、虚拟机或整机。</li><li>财务数据通常重点关注数据库，但恢复系统还可能依赖应用文件和配置。</li><li>全备、增量、日志备份具有不同恢复用途。</li><li>备份软件首页只能说明工具存在或当前状态，不证明策略、全年执行和可恢复。</li><li>备份频率和保留应结合RPO、业务重要性和数据可重建性。</li><li>备份应最终回答：发生故障后能否恢复到可接受状态。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认关键数据在哪里。</li><li>确认备份对象。</li><li>了解备份类型和频率。</li><li>确认保留周期。</li><li>查看执行状态。</li><li>了解恢复方法。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>备份策略</li><li>备份任务配置</li><li>执行日志</li><li>介质/存储说明</li><li>恢复测试记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户说ERP每天备份，但只给备份软件首页。需要继续确认具体备份的是ERP数据库、服务器还是文件，以及任务执行和恢复情况。</p><h3 class="sub">完成后应能回答</h3><ul><li>App、DB、OS是否都必须分别备份？</li><li>一张备份首页截图能证明什么？</li><li>备份频率怎样和业务要求连接？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>10 / 40</span></div></section><section class="slide"><div class="kicker">W1 · PRACTICE</div><h1>第1周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>课堂练习 LSQ-M1-W1-P01</h3><p>给出ERP、SQL Server、Windows Server、AD、WMS接口、备份软件和几类日志，现场画出技术关系并逐项归类。</p></div>
+<div class="card good"><h3>课后作业 LSQ-M1-W1-A01</h3><p>选择1个真实客户系统画“应用—数据库—OS—认证—接口—日志—作业—备份”技术地图，并标出每层管理员和可取得证据。</p></div>
+</div>
+<div class="summary"><b>周验收：</b>拿到任意一张客户技术截图，先判断它属于哪一层、证明什么、不能证明什么。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>11 / 40</span></div></section><section class="slide"><div class="kicker">W2 · OVERVIEW</div><h1>第2周｜PE：备份、批处理与日志</h1>
+<p class="lead">本周把原计划里最容易“看不懂客户资料”的PE内容拆细。每个主题固定回答四件事：它是什么、在哪里、怎么看、能证明什么。</p>
+<div class="summary"><b>本周成果：</b>备份、批处理、日志各完成1套“四格卡”+案例验证。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>12 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 01</div><h1>备份策略与备份任务</h1>
+<div class="knowledge-id">LSQ-M1-W2-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分制度层的备份策略和系统层的具体备份任务配置。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>备份策略说明企业要求：备什么、多久备一次、保留多久、保存在哪里。</li><li>备份任务配置说明某个数据库/服务器实际如何执行策略。</li><li>需要关注任务对象、计划时间、类型、保留和目标存储。</li><li>制度要求与配置不一致时，要确认实际执行和风险。</li><li>备份策略不能脱离系统重要性和恢复目标单独评价。</li><li>关键系统范围遗漏本身可能构成设计问题。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>获取备份制度。</li><li>列关键系统/数据库。</li><li>逐一对应备份任务。</li><li>核对频率/保留。</li><li>确认存储位置。</li><li>识别策略与配置差异。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>备份制度</li><li>备份任务配置</li><li>系统清单</li><li>数据库清单</li><li>RTO/RPO</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>制度要求核心数据库每日备份，但发现一个新上线ERP数据库未纳入备份任务。需要判断是否为范围遗漏。</p><h3 class="sub">完成后应能回答</h3><ul><li>策略与任务有什么区别？</li><li>怎样证明关键数据库都纳入备份？</li><li>保留周期应该依据什么判断？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>13 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 02</div><h1>备份执行日志与失败处理</h1>
+<div class="knowledge-id">LSQ-M1-W2-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从全年执行记录判断备份任务是否持续运行，并识别失败后的处理。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>当前成功截图只能证明当前或某一天状态。</li><li>全年执行有效性通常需要看期间日志或任务历史。</li><li>失败记录要关注发生日期、原因、告警、重跑和最终成功状态。</li><li>连续失败比偶发失败风险更高。</li><li>失败后无告警、无人处理可能说明监控控制不足。</li><li>最终要判断期间内是否存在未被覆盖的恢复窗口。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>获取期间任务历史。</li><li>筛选失败/警告。</li><li>抽取失败样本。</li><li>看告警。</li><li>看重跑/补备。</li><li>判断是否形成未覆盖期间。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>任务历史</li><li>失败日志</li><li>告警邮件</li><li>事件工单</li><li>重跑记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>全年备份历史有12次失败，其中11次当日重跑成功，1次直到3天后恢复。需要重点评价这3天窗口。</p><h3 class="sub">完成后应能回答</h3><ul><li>为什么不能只抽成功日志？</li><li>失败后重跑成功证明到哪一步？</li><li>如何评价长期未处理失败？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>14 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 03</div><h1>恢复测试与恢复能力</h1>
+<div class="knowledge-id">LSQ-M1-W2-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解备份成功和可恢复的区别，并设计恢复测试取证。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>备份文件存在不代表文件未损坏或可以恢复。</li><li>恢复测试验证备份介质、恢复步骤和数据是否可用。</li><li>测试应明确恢复对象、恢复时间和结果。</li><li>实际故障恢复、服务器迁移或灾备切换有时可作为替代证据。</li><li>恢复测试频率要结合系统重要性和风险。</li><li>恢复证据应证明恢复结果，而不只是“点击了恢复按钮”。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认是否有恢复测试要求。</li><li>获取最近恢复测试。</li><li>确认测试对象。</li><li>确认恢复过程。</li><li>确认恢复结果验证。</li><li>无正式测试时找实际恢复证据。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>恢复测试报告</li><li>恢复日志</li><li>恢复后验证截图</li><li>迁移工单</li><li>灾备演练</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户没有年度恢复演练，但半年前服务器迁移时从备份恢复数据库并完成业务验证。可以评估该记录是否提供部分恢复能力证据。</p><h3 class="sub">完成后应能回答</h3><ul><li>备份成功与恢复成功的差别是什么？</li><li>恢复测试最重要的结果证据是什么？</li><li>什么可以作为替代恢复证据？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>15 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 04</div><h1>批处理作业清单与关键作业</h1>
+<div class="knowledge-id">LSQ-M1-W2-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够识别哪些后台作业与财务数据相关，而不是要求客户把所有任务都拿来。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>企业可能有上百个后台任务，审计应聚焦财务报告相关作业。</li><li>关键作业可能包括业务接口、收入确认、成本计算、月结、数据同步。</li><li>需要了解作业名称、用途、频率、依赖和责任人。</li><li>作业清单完整性可与调度系统或应用配置核对。</li><li>关键作业变更可能影响处理逻辑。</li><li>非关键运维任务无需投入同等审计深度。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>了解重大业务流程。</li><li>询问相关后台处理。</li><li>取得调度作业清单。</li><li>筛选关键作业。</li><li>确认频率和依赖。</li><li>建立测试范围。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>调度任务清单</li><li>系统说明</li><li>业务流程</li><li>接口清单</li><li>月结作业</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>调度器有300个任务，但真正影响财务的可能只有WMS接口、成本计算和月结等十几个。</p><h3 class="sub">完成后应能回答</h3><ul><li>怎样判断一个作业是否关键？</li><li>为什么不需要检查全部批处理任务？</li><li>作业清单如何验证完整性？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>16 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 05</div><h1>作业失败、重跑与最终结果</h1>
+<div class="knowledge-id">LSQ-M1-W2-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从作业失败日志继续追踪重跑和最终业务/财务结果。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>作业失败本身是异常事件，不等于最终数据错误。</li><li>需要看是否及时告警、是否重跑、是否重复处理。</li><li>接口作业重跑可能造成重复传输或跨期。</li><li>成本/月结作业重跑可能改变财务数据。</li><li>最终应验证目标系统或输出结果，而不只看调度状态。</li><li>异常处理记录应能说明谁处理、何时处理、结果是什么。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>识别失败作业。</li><li>查看告警。</li><li>查看处理人和时间。</li><li>确认重跑方式。</li><li>检查目标结果。</li><li>判断是否有重复/遗漏/跨期。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>失败日志</li><li>告警</li><li>事件工单</li><li>重跑日志</li><li>目标系统结果</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>12月31日收入接口失败，1月1日重跑成功。必须继续核对ERP记账期间，而不是停在“接口已经成功”。</p><h3 class="sub">完成后应能回答</h3><ul><li>为什么作业成功不等于会计处理正确？</li><li>重跑最常见的两类风险是什么？</li><li>怎样证明异常已真正关闭？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>17 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 06</div><h1>日志范围、保留与可用性</h1>
+<div class="knowledge-id">LSQ-M1-W2-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够判断客户所说“有日志”是否真正覆盖需要调查的事件和审计期间。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>日志要先明确对象：登录、操作、配置、数据库、OS、接口、作业。</li><li>日志是否开启、记录哪些字段、保留多久都影响证据能力。</li><li>关键字段通常包括用户、时间、动作、对象、结果、来源。</li><li>保留期间不足可能使历史异常无法追踪。</li><li>日志可被管理员删除或修改时要考虑可靠性。</li><li>需要根据审计问题选择正确层级日志。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>明确审计事件。</li><li>定位对应日志。</li><li>检查日志配置。</li><li>检查字段。</li><li>检查保留期。</li><li>检查日志访问/修改权限。</li><li>抽样验证实际记录。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>日志配置</li><li>日志样本</li><li>保留策略</li><li>管理员权限</li><li>日志服务器/堡垒机</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>系统只保留30天应用操作日志，而审计需要回溯全年高权限操作。现有日志无法直接支持全年评价，需要寻找堡垒机、数据库或其他替代证据。</p><h3 class="sub">完成后应能回答</h3><ul><li>日志存在、日志开启和日志可用有什么区别？</li><li>保留期不足会限制什么结论？</li><li>日志本身的可靠性怎样判断？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>18 / 40</span></div></section><section class="slide"><div class="kicker">W2 · PRACTICE</div><h1>第2周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>四格卡 LSQ-M1-W2-P01</h3><p>针对“备份、批处理、日志”分别写：<b>它是什么｜在哪里｜怎么看｜证明什么</b>，并附1份真实资料截图说明。</p></div>
+<div class="card good"><h3>课后作业 LSQ-M1-W2-A01</h3><p>从真实项目选择1套备份或关键作业资料，完成：配置→执行→异常→恢复/结果的完整证据链。</p></div>
+</div>
+<div class="summary"><b>周验收：</b>给一张备份任务或日志截图，能判断现有证据支持到什么程度，还缺哪些资料。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>19 / 40</span></div></section><section class="slide"><div class="kicker">W3 · OVERVIEW</div><h1>第3周｜SA / PM / NS控制目标</h1>
+<p class="lead">本周不背底稿条款，先理解控制为什么存在，再看客户资料。目标是看到不同系统和不同截图时，仍能从控制目标判断证据是否合适。</p>
+<div class="summary"><b>本周成果：</b>完成4类控制目标案例，并能设计资料不足时的替代取证。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>20 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 01</div><h1>SA：用户新增、变更与离职</h1>
+<div class="knowledge-id">LSQ-M1-W3-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从“只有授权人员获得与职责相符权限”这一目标理解账号生命周期控制。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>新增账号应有业务需求、授权和适当角色。</li><li>权限变更应对应岗位/职责变化。</li><li>离职账号需要及时停用。</li><li>账号清单和HR人员清单通常需要做总体映射。</li><li>应用、数据库、OS各层账号生命周期可能不同。</li><li>测试重点是授权、及时性、实际权限和异常，而不是申请单格式。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>写控制目标。</li><li>了解客户实际流程。</li><li>取得账号总体。</li><li>取得HR总体。</li><li>抽样新增/变更/离职。</li><li>核对审批和实际权限。</li><li>处理异常。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>HR清单</li><li>账号清单</li><li>权限/角色清单</li><li>申请审批</li><li>登录日志</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>ERP使用AD登录，但数据库有独立DBA账号。离职停用测试应分别考虑AD和数据库高权账号管理。</p><h3 class="sub">完成后应能回答</h3><ul><li>访问管理的核心控制目标是什么？</li><li>为什么不能只检查ERP应用账号？</li><li>离职晚停用后还要看哪些日志？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>21 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 02</div><h1>SA：认证、密码与高权限</h1>
+<div class="knowledge-id">LSQ-M1-W3-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分认证强度问题和授权/高权限问题，并判断不同层级配置。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>密码策略、MFA、锁定策略属于认证控制。</li><li>高权限关注能否执行敏感操作或绕过一般控制。</li><li>应用管理员、DBA、OS root/admin风险不同。</li><li>共享账号主要影响责任追踪。</li><li>服务账号可能无需人工登录，但需限制交互式使用和密码管理。</li><li>高权限是否构成问题要结合授权、使用、日志和补偿控制。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认认证源。</li><li>查看密码/MFA配置。</li><li>取得高权限总体。</li><li>确认授权。</li><li>检查实际使用。</li><li>检查日志/堡垒机等补偿控制。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>认证配置</li><li>高权限清单</li><li>管理员授权</li><li>堡垒机日志</li><li>操作日志</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>DBA使用共享root账号，但必须通过实名堡垒机并全程录像。需要综合评价共享账号风险和责任追踪补偿。</p><h3 class="sub">完成后应能回答</h3><ul><li>密码策略和权限管理分别解决什么风险？</li><li>超级管理员名称能否直接决定问题严重程度？</li><li>堡垒机可以补偿什么、不能补偿什么？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>22 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 03</div><h1>PM：程序变更控制目标</h1>
+<div class="knowledge-id">LSQ-M1-W3-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从“只有授权、经过测试的变更进入生产”理解需求、开发、测试、审批和上线。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>变更风险是未经授权或错误程序影响业务和财务处理。</li><li>正常变更通常包括需求、授权、开发、测试、上线审批。</li><li>测试证据可以是UAT、系统测试、验证记录等，不局限固定模板。</li><li>开发与生产职责分离降低自行修改上线风险。</li><li>紧急变更可能走简化流程，但要有授权和事后复核。</li><li>变更内容越接近财务逻辑，风险越高。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>明确控制目标。</li><li>了解变更流程。</li><li>取得变更总体。</li><li>验证总体。</li><li>按风险抽样。</li><li>检查需求/测试/审批/上线。</li><li>处理紧急变更。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>变更工单</li><li>Git/发布记录</li><li>测试证据</li><li>上线审批</li><li>紧急变更记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户没有标准UAT模板，但提供业务负责人邮件确认和上线前测试截图。需要判断这些证据是否足以支持测试与授权。</p><h3 class="sub">完成后应能回答</h3><ul><li>PM真正要证明什么？</li><li>缺标准模板是否等于控制缺陷？</li><li>怎样验证变更总体完整？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>23 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 04</div><h1>NS：新系统开发与实施</h1>
+<div class="knowledge-id">LSQ-M1-W3-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解新系统实施中的需求、设计、测试、数据迁移和上线审批风险。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>新系统实施风险包括需求不完整、配置错误、迁移数据不完整、上线未验证。</li><li>用户需求和业务验收是核心证据之一。</li><li>数据迁移需要验证完整性和准确性。</li><li>权限、接口、关键配置应在上线前完成测试。</li><li>上线审批应基于测试和问题关闭状态。</li><li>NS不应只看“项目有验收报告”，还要理解关键实施风险是否覆盖。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>了解实施范围。</li><li>获取需求/设计。</li><li>识别关键数据迁移。</li><li>检查UAT。</li><li>检查接口/权限/配置测试。</li><li>检查上线审批。</li><li>关注遗留问题。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>需求说明</li><li>实施方案</li><li>UAT</li><li>迁移核对</li><li>上线审批</li><li>问题清单</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>企业从旧ERP迁移到新ERP，期初余额一致但客户/供应商主数据未做完整核对。需要判断迁移测试是否充分。</p><h3 class="sub">完成后应能回答</h3><ul><li>新系统实施和日常程序变更有什么区别？</li><li>数据迁移为什么是NS重点？</li><li>上线审批前应至少完成哪些验证？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>24 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 05</div><h1>PE与SA/PM/NS之间的关系</h1>
+<div class="knowledge-id">LSQ-M1-W3-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够理解不同ITGC领域并非孤立，技术层级和控制目标会相互影响。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>高权限SA问题可能影响PM，因为管理员可直接改程序或配置。</li><li>日志和运维PE控制可作为高权限操作的补偿证据。</li><li>程序变更后可能需要关注作业、接口和日志是否正常运行。</li><li>新系统上线后会转入日常SA/PM/PE控制环境。</li><li>备份恢复通常依赖数据库/OS权限与运维。</li><li>综合判断时应围绕风险，而不是按底稿章节完全割裂。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先识别核心风险。</li><li>找主要控制领域。</li><li>识别其他领域依赖。</li><li>取得跨领域证据。</li><li>综合评价剩余风险。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>跨领域控制矩阵</li><li>权限资料</li><li>变更记录</li><li>运维日志</li><li>备份/恢复资料</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>IT经理既是ERP超级管理员，又能直接部署生产变更。需要同时从SA授权和PM职责分离评价。</p><h3 class="sub">完成后应能回答</h3><ul><li>哪些ITGC领域最常相互影响？</li><li>为什么日志有时能成为高权限的补偿证据？</li><li>什么时候需要跨模块判断？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>25 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 06</div><h1>资料缺失时的替代证据</h1>
+<div class="knowledge-id">LSQ-M1-W3-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从控制目标出发寻找其他能支持相同事实的资料，而不是只认固定截图。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>底稿模板列的是常见证据，不是唯一证据形式。</li><li>先明确原本要证明什么，再寻找替代来源。</li><li>没有申请单时可能通过审批邮件、工单、系统日志组合验证。</li><li>没有正式恢复测试时可能有实际恢复/迁移记录。</li><li>没有UAT模板时可能有测试截图、邮件确认和上线核对。</li><li>替代证据仍需评价来源、期间、完整性和可靠性。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>明确控制目标。</li><li>列原期望证据。</li><li>说明为什么拿不到。</li><li>找替代证据。</li><li>评价每份证据能证明什么。</li><li>组合证据。</li><li>判断是否仍有缺口。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>邮件</li><li>工单</li><li>系统日志</li><li>第三方记录</li><li>实际恢复/迁移资料</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户程序变更没有UAT文档，但有测试环境截图、业务负责人邮件、发布记录和上线后核对。需要组合判断，而不是机械判“缺UAT”。</p><h3 class="sub">完成后应能回答</h3><ul><li>替代证据和客户解释有什么区别？</li><li>怎样判断替代证据是否足够？</li><li>什么时候资料缺失仍会限制结论？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>26 / 40</span></div></section><section class="slide"><div class="kicker">W3 · PRACTICE</div><h1>第3周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>控制目标练习 LSQ-M1-W3-P01</h3><p>分别完成SA、PE、PM、NS四张卡：<b>风险｜控制目标｜常见控制｜常见证据｜替代证据｜异常后进一步程序</b>。</p></div>
+<div class="card good"><h3>课后作业 LSQ-M1-W3-A01</h3><p>从真实项目选1个“资料形式与模板不一样”的案例，说明现有资料能否支持控制目标，以及还需要什么。</p></div>
+</div>
+<div class="summary"><b>周验收：</b>不看历史底稿，能够先说控制目标，再判断资料是否足够。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>27 / 40</span></div></section><section class="slide"><div class="kicker">W4 · OVERVIEW</div><h1>第4周｜陌生系统资料识别与取证</h1>
+<p class="lead">本周使用陌生系统和陌生截图进行综合训练。看到资料时先归类技术层级，再判断它能证明什么、不能证明什么，最后反推下一份PBC。</p>
+<div class="summary"><b>本周成果：</b>完成1套“资料识别 + 取证需求 + 结论边界”的综合输出。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>28 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 01</div><h1>资料先按技术层级分类</h1>
+<div class="knowledge-id">LSQ-M1-W4-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够把陌生资料快速归类为App、DB、OS、认证、接口、日志、作业、备份或其他。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>同一控制目标可能需要多层技术资料。</li><li>应用截图通常无法证明数据库或OS配置。</li><li>数据库客户端截图要区分客户端界面和实际服务器配置。</li><li>堡垒机资料属于访问/责任追踪的一部分，不等于目标系统权限清单。</li><li>备份软件、调度器、日志平台通常是外围基础设施工具。</li><li>归类后再判断资料与审计问题是否相关。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先看资料标题/界面。</li><li>识别产品或技术对象。</li><li>归入技术层级。</li><li>确定相关控制目标。</li><li>记录能证明什么。</li><li>记录仍需什么。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>客户截图</li><li>系统架构</li><li>产品名称/配置</li><li>管理员说明</li><li>日志样本</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户提供一张VMware快照截图、一张SQL Server备份记录和一张ERP用户列表。三份资料分别解决不同问题，不能都归为“备份/权限截图”。</p><h3 class="sub">完成后应能回答</h3><ul><li>如何快速识别资料属于哪一层？</li><li>同一张图可能支持多个结论吗？</li><li>为什么归类是证据判断的第一步？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>29 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 02</div><h1>截图、配置、日志与报表的证据强度</h1>
+<div class="knowledge-id">LSQ-M1-W4-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够区分不同资料形式适合证明的事实，避免一张截图支持过多结论。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>截图适合证明某时点配置或状态。</li><li>配置导出比单个截图更适合证明完整设置范围。</li><li>日志适合证明历史事件和执行情况。</li><li>系统报表可以支持总体或状态，但需验证IPE可靠性。</li><li>制度/流程说明证明设计要求，不证明实际执行。</li><li>访谈是理解来源，需要其他证据支撑关键执行结论。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>先写待证明事项。</li><li>判断所需证据类型。</li><li>评价现有资料。</li><li>判断时点/期间覆盖。</li><li>判断来源和完整性。</li><li>识别补充证据。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>截图</li><li>配置导出</li><li>日志</li><li>系统报表</li><li>制度</li><li>访谈纪要</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户用当前用户列表截图证明“全年离职账号均及时停用”。该截图只能证明当前状态，不能证明全年及时性。</p><h3 class="sub">完成后应能回答</h3><ul><li>截图最常见的局限是什么？</li><li>什么时候必须取得期间日志/历史记录？</li><li>制度和执行证据为什么不能混用？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>30 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 03</div><h1>PBC如何从控制目标反推</h1>
+<div class="knowledge-id">LSQ-M1-W4-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够写出具体、可执行且与审计目标对应的资料需求。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>PBC应说明系统、期间、范围和需要字段。</li><li>不要只写“提供备份资料”“提供日志”。</li><li>总体资料和样本资料应区分。</li><li>资料用途要清楚，便于客户理解为什么需要。</li><li>如果理想证据不存在，应设计替代资料。</li><li>PBC过度宽泛会增加客户沟通成本和无效资料。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>写控制目标。</li><li>列需要证明的事实。</li><li>逐项对应证据。</li><li>写清系统/期间/字段。</li><li>区分总体与样本。</li><li>准备替代证据。</li><li>确定优先级。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>PBC清单</li><li>控制目标卡</li><li>系统清单</li><li>证据模板</li><li>客户沟通记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>要测试数据库高权限，不应只写“请提供数据库权限截图”，而应明确数据库用户总体、角色/权限、高权授权、期间登录/操作日志等。</p><h3 class="sub">完成后应能回答</h3><ul><li>一个好的PBC最少包含哪些信息？</li><li>为什么PBC要写用途？</li><li>什么时候应提前准备替代资料需求？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>31 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 04</div><h1>资料不一致时如何判断</h1>
+<div class="knowledge-id">LSQ-M1-W4-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在客户说明、系统截图、清单和日志互相不一致时定位真实事实。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>客户说明与系统实际配置冲突时，应以可验证证据为基础。</li><li>名单类资料可能是人工整理，需要追溯系统来源。</li><li>当前配置与历史日志不一致可能说明期间发生变更。</li><li>多个系统时间戳可能因时区不同导致表面差异。</li><li>差异应先确定口径和数据来源，再判断控制问题。</li><li>不要为了“对上”而忽略无法解释差异。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>列出冲突的两类事实。</li><li>确认各资料来源。</li><li>确认期间/时区/口径。</li><li>寻找更直接证据。</li><li>解释差异。</li><li>保留未解决事项。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统原始记录</li><li>客户清单</li><li>日志</li><li>配置变更历史</li><li>访谈</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户权限表显示某用户3月1日停用，但系统日志显示3月5日仍登录。需要确认清单是否为人工维护、账号是否同名、时间口径等。</p><h3 class="sub">完成后应能回答</h3><ul><li>资料冲突时应优先相信什么？</li><li>人工整理清单有什么风险？</li><li>怎样避免为了消除差异直接接受解释？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>32 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 05</div><h1>证据不足与结论边界</h1>
+<div class="knowledge-id">LSQ-M1-W4-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够准确表达现有证据支持的范围，避免因为看不懂或资料不足而过度定性。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>资料不足不是自动等于控制缺陷。</li><li>证据只能证明当前配置时，不能写全年持续有效。</li><li>只证明有控制设计时，不能写执行有效。</li><li>无法取得关键历史证据时，应说明限制和替代程序。</li><li>结论可以是“目前无法支持依赖”而不是武断写“控制失效”。</li><li>结论边界本身应进入底稿。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>明确测试目标。</li><li>列现有证据。</li><li>逐项写能证明什么。</li><li>识别期间/总体缺口。</li><li>设计替代程序。</li><li>形成当前结论。</li><li>保留限制。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>证据清单</li><li>替代资料</li><li>限制说明</li><li>Review记录</li><li>底稿结论</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>客户只提供当前密码策略截图，但无法提供全年变更记录。可以评价当前配置，但全年持续有效性需要其他证据。</p><h3 class="sub">完成后应能回答</h3><ul><li>“资料不足”和“控制缺陷”有什么区别？</li><li>怎样写一个有边界的结论？</li><li>什么时候只能写“无法依赖”而不能写“失效”？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>33 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 06</div><h1>陌生系统综合取证</h1>
+<div class="knowledge-id">LSQ-M1-W4-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够面对陌生产品时，不依赖具体界面记忆，而是从技术对象和控制目标设计取证。</p></div>
+<div class="grid g2 lower">
+<div class="card"><h3>核心内容</h3><ul><li>不认识产品名称时先确认它的用途和技术层级。</li><li>界面位置可能不同，但控制目标不会因为产品不同而改变。</li><li>先问“要证明什么”，再找“哪里能看到”。</li><li>可以让客户演示、查产品文档或由IT解释，但关键事实仍需留证据。</li><li>陌生系统最容易出现把错误层级截图当作目标证据。</li><li>综合取证应保留系统名称、功能、版本、资料位置和判断。</li></ul></div>
+<div class="card"><h3>判断与执行步骤</h3><ol><li>确认系统用途。</li><li>画最小技术关系。</li><li>确定控制目标。</li><li>设计PBC。</li><li>现场看资料。</li><li>判断证据。</li><li>补取缺口。</li><li>形成结论。</li></ol></div>
+</div>
+<div class="grid g2 lower">
+<div class="card evidence"><h3>常用资料 / 审计证据</h3><ul><li>系统介绍</li><li>架构图</li><li>现场演示</li><li>产品配置</li><li>日志/导出</li><li>PBC记录</li></ul></div>
+<div class="card scenario"><h3>应用场景</h3><p>遇到一套从未见过的云ERP，不需要先熟悉所有菜单。先确认认证、用户权限、变更方式、日志、备份责任和关键接口，再围绕审计目标取证。</p><h3 class="sub">完成后应能回答</h3><ul><li>陌生产品时第一步是什么？</li><li>哪些信息与产品无关、每个系统都要问？</li><li>如何避免依赖AI猜界面和字段？</li></ul></div>
+</div><div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>34 / 40</span></div></section><section class="slide"><div class="kicker">W4 · PRACTICE</div><h1>第4周练习与验收</h1>
+<div class="grid g2">
+<div class="card"><h3>陌生资料练习 LSQ-M1-W4-P01</h3><p>给出一组混合资料：用户清单、AD配置、DB账户、备份任务、应用日志、接口日志、作业历史、系统截图。</p><p>逐项标记：技术层级｜控制目标｜能证明什么｜不能证明什么。</p></div>
+<div class="card good"><h3>课后作业 LSQ-M1-W4-A01</h3><p>完成1套陌生系统取证包：技术地图、PBC、资料识别表、证据缺口、替代证据、结论边界。</p></div>
+</div>
+<div class="summary"><b>周验收：</b>不依赖历史底稿和固定界面，能围绕控制目标完成取证。</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>35 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · CHECK</div><h1>月末综合验收｜陌生系统案例</h1>
+<div class="case"><p><b>场景：</b>某企业使用云ERP，数据库由厂商托管；企业通过SSO登录；每天有订单接口批处理；客户提供当前账号清单、SSO配置、接口失败截图、厂商备份说明和一份应用操作日志。</p></div>
+<ol class="biglist">
+<li>画出最小技术地图，标出企业与厂商责任边界。</li>
+<li>判断每份资料属于哪个技术层级。</li>
+<li>说明每份资料能证明什么、不能证明什么。</li>
+<li>针对SA、PE、PM至少各写1个控制目标。</li>
+<li>列出还需要的PBC及用途。</li>
+<li>如果关键历史证据拿不到，设计替代程序。</li>
+<li>形成有边界的初步结论。</li>
+</ol>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>36 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · DELIVERABLES</div><h1>第1个月正式成果</h1>
+<div class="cards cols-5">
+<div class="card good"><h3>01</h3><p>通用IT技术地图</p></div>
+<div class="card good"><h3>02</h3><p>备份/批处理/日志四格卡</p></div>
+<div class="card good"><h3>03</h3><p>SA/PE/PM/NS控制目标卡</p></div>
+<div class="card good"><h3>04</h3><p>陌生资料识别表</p></div>
+<div class="card good"><h3>05</h3><p>陌生系统取证与结论包</p></div>
+</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>37 / 40</span></div></section><section class="slide"><div class="kicker">ITAS · TRACKING</div><h1>ITAS学习进度记录</h1>
+<table>
+<tr><th>记录项</th><th>使用方式</th></tr>
+<tr><td>学习状态</td><td>未开始 / 学习中 / 已完成</td></tr>
+<tr><td>资料识别</td><td>技术层级判断正确 / 部分正确 / 需重做</td></tr>
+<tr><td>控制目标</td><td>能否脱离模板说明风险与控制目标</td></tr>
+<tr><td>证据判断</td><td>能证明什么 / 不能证明什么 / 缺口是否识别完整</td></tr>
+<tr><td>Review问题</td><td>App/DB/OS混淆、日志对象判断错误、备份证据过度、只按模板找资料、结论超过证据等标签</td></tr>
+<tr><td>下月强化</td><td>同类问题重复或周验收未通过时进入第2个月待强化项</td></tr>
+</table>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>38 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · RUBRIC</div><h1>月末评分</h1>
+<table>
+<tr><th>维度</th><th>权重</th><th>通过表现</th></tr>
+<tr><td>IT技术基础</td><td>30%</td><td>能区分App/DB/OS、认证、接口、日志、作业、备份。</td></tr>
+<tr><td>ITGC控制目标</td><td>25%</td><td>不背模板也能说明SA/PE/PM/NS风险和目标。</td></tr>
+<tr><td>资料识别与取证</td><td>25%</td><td>知道资料在哪一层、能证明什么、下一份PBC是什么。</td></tr>
+<tr><td>证据与结论</td><td>15%</td><td>能控制结论边界，并设计替代证据。</td></tr>
+<tr><td>表达与复盘</td><td>5%</td><td>能把技术资料转成Reviewer可理解的审计语言。</td></tr>
+</table>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>39 / 40</span></div></section><section class="slide"><div class="kicker">NEXT MONTH</div><h1>第2个月计划生成依据</h1>
+<p class="lead">第2个月根据本月对技术对象、资料和控制目标的掌握情况动态调整。</p>
+<div class="grid g3">
+<div class="card"><h3>技术骨架稳定</h3><p>如果陌生系统资料能够正确识别，第2个月减少基础技术课，直接增加真实ITGC模块承担。</p></div>
+<div class="card warn"><h3>证据判断仍弱</h3><p>如果仍习惯按截图/模板机械判断，第2个月继续安排陌生资料和替代证据训练。</p></div>
+<div class="card good"><h3>能力升级</h3><p>达到本月目标后，可进入更完整的SA/PM/PE执行，并增加ITAC、Interface/IPE和简单数据取证。</p></div>
+</div>
+<div class="footer"><span>LSQ 第1个月特别培养计划 · 学员详细版</span><span>40 / 40</span></div></section></div><div class="nav"><button id="prev">‹</button><span id="count">1 / 40</span><button id="next">›</button></div>
+<script>
+const s=[...document.querySelectorAll('.slide')];let i=0;
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,j)=>x.classList.toggle('active',j===i));document.getElementById('count').textContent=(i+1)+' / '+s.length;}
+document.getElementById('prev').onclick=()=>show(i-1);document.getElementById('next').onclick=()=>show(i+1);
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+</script></body></html>

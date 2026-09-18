@@ -1,0 +1,4 @@
+interface:
+  display_name: "中文培训课件自然表达"
+  short_description: "把培训课件改写成中国项目现场可直接讲、可直接用的自然中文"
+  default_prompt: "Use $write-natural-chinese-training-copy to rewrite this training deck in natural, concrete Chinese."

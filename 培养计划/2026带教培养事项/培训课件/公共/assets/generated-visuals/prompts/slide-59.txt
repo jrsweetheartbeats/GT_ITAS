@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “任务4：把 Interface 差异写成审计结论”. Show this idea visually: 差的写法发现平台与小A系统数据存在差异，Interface 存在风险，建议加强管理。更好的结构事实：涉及什么总体、期间、字段和差异类型。口径：如何排除退款、取消、跨期与币种影响。控制：预期的对账、失败处理与追踪机制。影响. Strategy: 沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=0, y=500, width=1536, height=280 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 12–25%. Background mode: 浅色边缘氛围/装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “操作系统与特权账号”. Show this idea visually: 万能钥匙类比：root /ruːt/ 和 Administrator /ədˈmɪnɪstreɪtər/ 像能打开整栋楼的总钥匙。可以存在，但要实名保管、经批准使用、记录开过哪些门，并由另一人检查。. Strategy: 在 240,560 起的 1140×304 安全区内放置轻量情境插图，其他区域保持干净。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=240, y=560, width=1140, height=304 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 12–25%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

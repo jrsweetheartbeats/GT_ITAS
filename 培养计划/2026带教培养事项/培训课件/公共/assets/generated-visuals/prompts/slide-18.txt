@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “控制依赖的传导关系”. Show this idea visually: A公司例子：若小A系统数据库高权限缺少独立日志复核，先定位哪些订单、出库或报表可能被绕过；它会削弱相关依赖路径，但不能直接推出“财务报表已经错了”。. Strategy: 沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。
+
+No human character; use restrained abstract systems, data and audit evidence motifs only. Do not include robots.
+
+Composition must reserve the measured safe region x=280, y=560, width=1100, height=304 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 12–25%. Background mode: 浅色边缘氛围/装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

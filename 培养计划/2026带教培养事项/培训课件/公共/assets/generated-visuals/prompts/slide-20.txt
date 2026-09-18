@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+A compact audit judgment scene in the lower-right part of a bright presentation canvas: the junior auditor notices one red warning triangle, while the senior separates observed facts, missing evidence and possible control impact using three purely visual translucent panels. Use only an evidence-dot cluster, a three-layer stack and a shield outline; no rows of marks, labels, checklists, forms, charts or pseudo-typography. The scene communicates that an anomaly is not automatically a control deficiency and more evidence may be needed. Keep the upper and central regions nearly white and empty for HTML table and callout content.
+
+Use the consistent cast: a 22–26 year old Asian female IT auditor with high ponytail dark-purple hair, violet eyes, white shirt, dark vest and purple lanyard; optionally a 25–30 year old Asian male audit senior with neat dark short hair, thin glasses, white shirt, dark vest or suit and purple lanyard. Keep characters small and subordinate to the teaching content. Do not include robots.
+
+Composition must reserve the measured safe region x=0, y=480, width=1536, height=300 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 12–18%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

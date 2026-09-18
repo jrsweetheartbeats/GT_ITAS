@@ -1,0 +1,5534 @@
+[
+  {
+    "page": 1,
+    "title": "IT审计基础能力训练营",
+    "section": "总览",
+    "page_type": "A｜封面主视觉",
+    "content_density": 0.156,
+    "primary_message": "适用于应届生、新入职人员，以及工作 1—3 年的助理/高级助理。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 706,
+        "y": 20,
+        "width": 124,
+        "height": 33,
+        "right": 830,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 138,
+        "height": 17,
+        "right": 173,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1015,
+      "x": 840,
+      "y": 200,
+      "width": 696,
+      "height": 580
+    },
+    "visual_strategy": "在 840,200 起的 696×580 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-01.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 2,
+    "title": "培训重做的原因",
+    "section": "总览",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.395,
+    "primary_message": "做过 ITGC / ITAC，却无法解释它与财务报表的关系",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 706,
+        "y": 20,
+        "width": 124,
+        "height": 33,
+        "right": 830,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 140,
+        "height": 17,
+        "right": 175,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".two-col",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 229,
+        "right": 1463,
+        "bottom": 404
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1232,
+      "x": 0,
+      "y": 460,
+      "width": 1536,
+      "height": 320
+    },
+    "visual_strategy": "在 0,460 起的 1536×320 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-02.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 3,
+    "title": "学员画像与共同要求",
+    "section": "总览",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.353,
+    "primary_message": "应届生 / 新入职主要问题：不知道为什么做。要求：理解基本的业务、系统、财务和审计关系，能在指导下完成练习。1—3年助理 / 高级助理主要问题：做过很多程序，但知识彼此割裂。要求：面对非标准场景，能说明判断依据并调整程序",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 706,
+        "y": 20,
+        "width": 124,
+        "height": 33,
+        "right": 830,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 140,
+        "height": 17,
+        "right": 175,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".cards",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 198,
+        "right": 1463,
+        "bottom": 373
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1386,
+      "x": 0,
+      "y": 420,
+      "width": 1536,
+      "height": 360
+    },
+    "visual_strategy": "在 0,420 起的 1536×360 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-03.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 4,
+    "title": "基础训练营的五项验收",
+    "section": "总览",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.5,
+    "primary_message": "02 IT审计为什么与财务报表审计有关",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 706,
+        "y": 20,
+        "width": 124,
+        "height": 33,
+        "right": 830,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 140,
+        "height": 17,
+        "right": 175,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 928,
+      "x": 220,
+      "y": 560,
+      "width": 1160,
+      "height": 304
+    },
+    "visual_strategy": "在 220,560 起的 1160×304 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-04.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 5,
+    "title": "IT审计英文缩写与常用术语",
+    "section": "总览",
+    "page_type": "C｜高密度内容页边缘装饰",
+    "content_density": 0.689,
+    "primary_message": "音标只在本页首次出现时标注。后文统一使用左侧英文缩写或术语，正文同时写清具体系统、资料和控制。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 706,
+        "y": 20,
+        "width": 124,
+        "height": 33,
+        "right": 830,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 140,
+        "height": 17,
+        "right": 175,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".abbr-board",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 444,
+        "right": 1463,
+        "bottom": 619
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 631,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 690
+      }
+    ],
+    "largest_safe_region": {
+      "area": 406,
+      "x": 220,
+      "y": 740,
+      "width": 1160,
+      "height": 124
+    },
+    "visual_strategy": "内容密度高，仅使用边缘微光、角落HUD纹理与低对比粒子，不放人物。",
+    "visual_coverage": "5–8%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-05.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 6,
+    "title": "一笔订单的系统旅程",
+    "section": "总览",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.27,
+    "primary_message": "贯穿问题：订单有没有漏？字段有没有变？异常有没有处理？最终凭证能不能追溯回平台交易？",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 706,
+        "y": 20,
+        "width": 124,
+        "height": 33,
+        "right": 830,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 140,
+        "height": 17,
+        "right": 175,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".dialogue",
+        "x": 848,
+        "y": 175,
+        "width": 615,
+        "height": 159,
+        "right": 1463,
+        "bottom": 334
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 246,
+        "width": 751,
+        "height": 86,
+        "right": 824,
+        "bottom": 332
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1540,
+      "x": 0,
+      "y": 380,
+      "width": 1536,
+      "height": 400
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-06.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 7,
+    "title": "模块一｜企业业务、财务与信息系统",
+    "section": "模块一",
+    "page_type": "B｜章节页深色赛博背景",
+    "content_density": 0.278,
+    "primary_message": "先回答一个问题：财务报表上的数字，到底是怎么来的？",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 339,
+        "width": 1390,
+        "height": 62,
+        "right": 1463,
+        "bottom": 401
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 313,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 329
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 682,
+        "y": 20,
+        "width": 173,
+        "height": 33,
+        "right": 854,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 184,
+        "height": 17,
+        "right": 219,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1429,
+        "y": 826,
+        "width": 72,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 728,
+      "x": 260,
+      "y": 620,
+      "width": 1120,
+      "height": 244
+    },
+    "visual_strategy": "整页深紫章节背景；左侧标题区保持低细节与高对比，右侧用业财系统数据流和审计角色形成章节记忆点。",
+    "visual_coverage": "85–100%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": false,
+    "image": "assets/generated-visuals/slide-07-bg.webp",
+    "prompt": "assets/generated-visuals/prompts/slide-07.txt",
+    "status": "generated_integrated_qa_passed"
+  },
+  {
+    "page": 8,
+    "title": "企业经营与财务记录",
+    "section": "模块一",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.21,
+    "primary_message": "平台下单→仓储发货→平台结算/收款→会计凭证→财务报表",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 682,
+        "y": 20,
+        "width": 173,
+        "height": 33,
+        "right": 854,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 186,
+        "height": 17,
+        "right": 221,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".pipeline",
+        "x": 73,
+        "y": 205,
+        "width": 1390,
+        "height": 65,
+        "right": 1463,
+        "bottom": 270
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1771,
+      "x": 0,
+      "y": 320,
+      "width": 1536,
+      "height": 460
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-08.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 9,
+    "title": "电商业务六大循环",
+    "section": "模块一",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.529,
+    "primary_message": "销售与收款平台订单 → 小A系统筛选 → 发货 → 平台结算 → 收款采购与付款备货/请购 → 采购 → 质检入库 → 请款 → 付款仓储与履约国内仓/平台仓 → 调拨 → 出库 → 物流同步 → 退货存货与成本库存变动",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 682,
+        "y": 20,
+        "width": 173,
+        "height": 33,
+        "right": 854,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 186,
+        "height": 17,
+        "right": 221,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".cards",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 360,
+        "right": 1463,
+        "bottom": 535
+      }
+    ],
+    "largest_safe_region": {
+      "area": 825,
+      "x": 280,
+      "y": 580,
+      "width": 1100,
+      "height": 284
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-09.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 10,
+    "title": "电商销售数据链",
+    "section": "模块一",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.48,
+    "primary_message": "IT审计真正关注的是：订单、发货、结算和凭证能否完整、准确地衔接，并可从财务结果追溯回原始交易。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 682,
+        "y": 20,
+        "width": 173,
+        "height": 33,
+        "right": 854,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 186,
+        "height": 17,
+        "right": 221,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".flow-lanes",
+        "x": 243,
+        "y": 175,
+        "width": 1050,
+        "height": 320,
+        "right": 1293,
+        "bottom": 495
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 517,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 576
+      }
+    ],
+    "largest_safe_region": {
+      "area": 715,
+      "x": 280,
+      "y": 620,
+      "width": 1100,
+      "height": 244
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-10.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 11,
+    "title": "IT审计所需的会计基础",
+    "section": "模块一",
+    "page_type": "H｜数字账本与业财场景",
+    "content_density": 0.398,
+    "primary_message": "收入、成本、存货、应收、应付、资金之间的关系",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 682,
+        "y": 20,
+        "width": 173,
+        "height": 33,
+        "right": 854,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 186,
+        "height": 17,
+        "right": 221,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1432,
+        "y": 826,
+        "width": 69,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".two-col",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 242,
+        "right": 1463,
+        "bottom": 417
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1232,
+      "x": 0,
+      "y": 460,
+      "width": 1536,
+      "height": 320
+    },
+    "visual_strategy": "以订单、数字账本、凭证粒子和报表网格建立业财联系，避开传统算盘与金币意象。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-11.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 12,
+    "title": "财务报表认定与常见错报",
+    "section": "模块一",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.256,
+    "primary_message": "完整性 平台已有订单，小A系统或金蝶却漏了一部分",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 682,
+        "y": 20,
+        "width": 173,
+        "height": 33,
+        "right": 854,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 186,
+        "height": 17,
+        "right": 221,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".dialogue",
+        "x": 73,
+        "y": 424,
+        "width": 1390,
+        "height": 106,
+        "right": 1463,
+        "bottom": 530
+      }
+    ],
+    "largest_safe_region": {
+      "area": 825,
+      "x": 280,
+      "y": 580,
+      "width": 1100,
+      "height": 284
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-12.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 13,
+    "title": "三个问题，分别从哪里查起",
+    "section": "模块一",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.13,
+    "primary_message": "展开分析 问题二｜平台订单少了 平台订单没有完整传入小A系统",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 682,
+        "y": 20,
+        "width": 173,
+        "height": 33,
+        "right": 854,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 185,
+        "height": 17,
+        "right": 220,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 2233,
+      "x": 0,
+      "y": 200,
+      "width": 1536,
+      "height": 580
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-13.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 14,
+    "title": "模块二｜财务审计逻辑与IT审计的连接",
+    "section": "模块二",
+    "page_type": "B｜章节页深色赛博背景",
+    "content_density": 0.279,
+    "primary_message": "IT审计不是在审“IT部门做得好不好”。我们要回答：系统是否值得财务审计依赖？",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 339,
+        "width": 1390,
+        "height": 62,
+        "right": 1463,
+        "bottom": 401
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 313,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 329
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 187,
+        "height": 17,
+        "right": 222,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 715,
+      "x": 280,
+      "y": 620,
+      "width": 1100,
+      "height": 244
+    },
+    "visual_strategy": "整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。",
+    "visual_coverage": "85–100%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-14.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 15,
+    "title": "审计判断链",
+    "section": "模块二",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.55,
+    "primary_message": "顺序不能倒：先有风险和控制目标，再决定程序和证据。抽样数量本身不能代替审计判断。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 189,
+        "height": 17,
+        "right": 224,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".two-col",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 384,
+        "right": 1463,
+        "bottom": 559
+      },
+      {
+        "element": ".dialogue",
+        "x": 782,
+        "y": 175,
+        "width": 681,
+        "height": 159,
+        "right": 1463,
+        "bottom": 334
+      },
+      {
+        "element": ".callout",
+        "x": 782,
+        "y": 356,
+        "width": 681,
+        "height": 86,
+        "right": 1463,
+        "bottom": 442
+      }
+    ],
+    "largest_safe_region": {
+      "area": 770,
+      "x": 280,
+      "y": 600,
+      "width": 1100,
+      "height": 264
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-15.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 16,
+    "title": "信息系统与财审依赖",
+    "section": "模块二",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.503,
+    "primary_message": "控制测试结论可能不可靠",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 189,
+        "height": 17,
+        "right": 224,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".two-col",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 328,
+        "right": 1463,
+        "bottom": 503
+      }
+    ],
+    "largest_safe_region": {
+      "area": 880,
+      "x": 280,
+      "y": 560,
+      "width": 1100,
+      "height": 304
+    },
+    "visual_strategy": "在 280,560 起的 1100×304 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-16.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 17,
+    "title": "ITGC、ITAC、Interface 与 IPE",
+    "section": "模块二",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.235,
+    "primary_message": "四者关系：ITGC 支撑系统环境；ITAC 在应用中执行具体控制；Interface 负责系统间传输；IPE 是审计拟使用的系统生成信息。用户清单、日志和工单等资料通常作为 PBC 提供。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 189,
+        "height": 17,
+        "right": 224,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1431,
+        "y": 826,
+        "width": 70,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 469,
+        "width": 1390,
+        "height": 86,
+        "right": 1463,
+        "bottom": 555
+      }
+    ],
+    "largest_safe_region": {
+      "area": 847,
+      "x": 0,
+      "y": 200,
+      "width": 1536,
+      "height": 220
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-17.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 18,
+    "title": "控制依赖的传导关系",
+    "section": "模块二",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.21,
+    "primary_message": "A公司例子：若小A系统数据库高权限缺少独立日志复核，先定位哪些订单、出库或报表可能被绕过；它会削弱相关依赖路径，但不能直接推出“财务报表已经错了”。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 189,
+        "height": 17,
+        "right": 224,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1429,
+        "y": 826,
+        "width": 72,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 458,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 517
+      }
+    ],
+    "largest_safe_region": {
+      "area": 880,
+      "x": 280,
+      "y": 560,
+      "width": 1100,
+      "height": 304
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-18.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 19,
+    "title": "审计证据｜够不够、靠不靠谱",
+    "section": "模块二",
+    "page_type": "F｜判断/互动页小型角色场景",
+    "content_density": 0.251,
+    "primary_message": "相关，但期间不够 离职清单 + 账号历史 用员工编号和停用时间核对，可评价离职账号是否及时关闭",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 189,
+        "height": 17,
+        "right": 224,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".dialogue",
+        "x": 73,
+        "y": 369,
+        "width": 1390,
+        "height": 106,
+        "right": 1463,
+        "bottom": 475
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1001,
+      "x": 0,
+      "y": 520,
+      "width": 1536,
+      "height": 260
+    },
+    "visual_strategy": "在 0,520 起的 1536×260 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-19.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 20,
+    "title": "异常、缺陷与证据边界",
+    "section": "模块二",
+    "page_type": "F｜判断/互动页小型角色场景",
+    "content_density": 0.419,
+    "primary_message": "定性前先问：控制目标是什么？现有事实能支持到什么程度？是否存在替代证据或补偿控制？",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 188,
+        "height": 17,
+        "right": 223,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".four-box",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 170,
+        "right": 1463,
+        "bottom": 345
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 367,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 426
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1155,
+      "x": 0,
+      "y": 480,
+      "width": 1536,
+      "height": 300
+    },
+    "visual_strategy": "仅在下方安全区放置小比例审计判断情境；用异常提示、证据碎片和复核动作表现“先补证据再定性”。",
+    "visual_coverage": "12–18%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": "assets/generated-visuals/slide-20-deco.webp",
+    "prompt": "assets/generated-visuals/prompts/slide-20.txt",
+    "status": "generated_integrated_qa_passed"
+  },
+  {
+    "page": 21,
+    "title": "IT结论的财审传递",
+    "section": "模块二",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.377,
+    "primary_message": "IT发现可能影响财审可能应对 用户权限控制失效未经授权交易/主数据修改风险评估相关自动控制依赖；增加实质性程序 变更管理失效关键程序逻辑可能未经批准修改评价具体变更、重新测试ITAC或转实质性 IPE可靠性不足审计样本总",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 189,
+        "height": 17,
+        "right": 224,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".matrix",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 211,
+        "right": 1463,
+        "bottom": 386
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1309,
+      "x": 0,
+      "y": 440,
+      "width": 1536,
+      "height": 340
+    },
+    "visual_strategy": "在 0,440 起的 1536×340 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-21.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 22,
+    "title": "超级管理员账号｜分支判断",
+    "section": "模块二",
+    "page_type": "F｜判断/互动页小型角色场景",
+    "content_density": 0.377,
+    "primary_message": "若日志缺失，不能停在“资料未提供”。还要继续问：有没有堡垒机记录、工单、数据库审计日志、变更记录或业务复核可以交叉印证？",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 680,
+        "y": 20,
+        "width": 175,
+        "height": 33,
+        "right": 856,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 189,
+        "height": 17,
+        "right": 224,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1429,
+        "y": 826,
+        "width": 72,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".scenario",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 224,
+        "right": 1463,
+        "bottom": 399
+      },
+      {
+        "element": ".callout",
+        "x": 102,
+        "y": 311,
+        "width": 1332,
+        "height": 59,
+        "right": 1434,
+        "bottom": 370
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1309,
+      "x": 0,
+      "y": 440,
+      "width": 1536,
+      "height": 340
+    },
+    "visual_strategy": "在 0,440 起的 1536×340 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-22.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 23,
+    "title": "模块三｜IT技术基础",
+    "section": "模块三",
+    "page_type": "B｜章节页深色赛博背景",
+    "content_density": 0.306,
+    "primary_message": "本模块完成后，应能画出系统与数据流向，区分应用、数据库、操作系统和 Interface，并列出需要取得的权限、变更、日志和备份证据。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 311,
+        "width": 1390,
+        "height": 62,
+        "right": 1463,
+        "bottom": 373
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 285,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 301
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 146,
+        "height": 17,
+        "right": 181,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 627,
+      "x": 240,
+      "y": 660,
+      "width": 1140,
+      "height": 204
+    },
+    "visual_strategy": "整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。",
+    "visual_coverage": "85–100%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-23.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 24,
+    "title": "A公司业务系统架构",
+    "section": "模块三",
+    "page_type": "C｜高密度内容页边缘装饰",
+    "content_density": 0.715,
+    "primary_message": "新人画图规则：方框写系统或层级，箭头写传什么数据；每条关键数据都要能找到来源、去向、对账字段和留痕。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 148,
+        "height": 17,
+        "right": 183,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".two-col",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 535,
+        "right": 1463,
+        "bottom": 710
+      },
+      {
+        "element": ".callout",
+        "x": 782,
+        "y": 479,
+        "width": 681,
+        "height": 102,
+        "right": 1463,
+        "bottom": 581
+      },
+      {
+        "element": ".arch",
+        "x": 73,
+        "y": 175,
+        "width": 681,
+        "height": 535,
+        "right": 754,
+        "bottom": 710
+      }
+    ],
+    "largest_safe_region": {
+      "area": 342,
+      "x": 240,
+      "y": 760,
+      "width": 1140,
+      "height": 104
+    },
+    "visual_strategy": "内容密度高，仅使用边缘微光、角落HUD纹理与低对比粒子，不放人物。",
+    "visual_coverage": "5–8%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-24.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 25,
+    "title": "身份认证、账号与授权",
+    "section": "模块三",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.564,
+    "primary_message": "🪪Account｜账号/əˈkaʊnt/像门禁卡上写着的名字，是人与系统身份的载体。审计例：共用管理员账号就像几个人共用一张无名门禁卡，事后很难追到具体人员。 🔐Authentication｜身份认证/ɔːˌθent",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 148,
+        "height": 17,
+        "right": 183,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".cards",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 270,
+        "right": 1463,
+        "bottom": 445
+      },
+      {
+        "element": ".dialogue",
+        "x": 73,
+        "y": 459,
+        "width": 1390,
+        "height": 106,
+        "right": 1463,
+        "bottom": 566
+      }
+    ],
+    "largest_safe_region": {
+      "area": 741,
+      "x": 240,
+      "y": 620,
+      "width": 1140,
+      "height": 244
+    },
+    "visual_strategy": "在 240,620 起的 1140×244 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-25.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 26,
+    "title": "数据库八个基本概念",
+    "section": "模块三",
+    "page_type": "G｜代码与数据空间",
+    "content_density": 0.229,
+    "primary_message": "为什么要懂：前台页面可能限制修改，但数据库高权限仍可能直接改表；审计需要知道数据从哪张表来、用什么主键关联、谁能写入。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 148,
+        "height": 17,
+        "right": 183,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".two-col",
+        "x": 73,
+        "y": 329,
+        "width": 1390,
+        "height": 86,
+        "right": 1463,
+        "bottom": 415
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 329,
+        "width": 681,
+        "height": 86,
+        "right": 754,
+        "bottom": 415
+      },
+      {
+        "element": ".callout",
+        "x": 782,
+        "y": 329,
+        "width": 681,
+        "height": 86,
+        "right": 1463,
+        "bottom": 415
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1232,
+      "x": 0,
+      "y": 460,
+      "width": 1536,
+      "height": 320
+    },
+    "visual_strategy": "以紫蓝数据空间、日志片段形态和分析光栅烘托技术感，不生成可读代码或文字。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-26.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 27,
+    "title": "SQL｜查询前的三个问题",
+    "section": "模块三",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.276,
+    "primary_message": "再问字段 每个字段代表什么业务事件",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 148,
+        "height": 17,
+        "right": 183,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1429,
+        "y": 826,
+        "width": 72,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".code-card",
+        "x": 278,
+        "y": 180,
+        "width": 980,
+        "height": 184,
+        "right": 1258,
+        "bottom": 364
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1386,
+      "x": 0,
+      "y": 420,
+      "width": 1536,
+      "height": 360
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-27.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 28,
+    "title": "操作系统与特权账号",
+    "section": "模块三",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.208,
+    "primary_message": "万能钥匙类比：root /ruːt/ 和 Administrator /ədˈmɪnɪstreɪtər/ 像能打开整栋楼的总钥匙。可以存在，但要实名保管、经批准使用、记录开过哪些门，并由另一人检查。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 148,
+        "height": 17,
+        "right": 183,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 454,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 513
+      }
+    ],
+    "largest_safe_region": {
+      "area": 912,
+      "x": 240,
+      "y": 560,
+      "width": 1140,
+      "height": 304
+    },
+    "visual_strategy": "在 240,560 起的 1140×304 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-28.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 29,
+    "title": "日志基础与分析步骤",
+    "section": "模块三",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.543,
+    "primary_message": "Log｜日志：系统按时间记录“谁在什么时候，对什么对象做了什么，结果如何”的事件轨迹。应用日志、数据库日志、操作系统日志、堡垒机日志证明的事实不同。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 147,
+        "height": 17,
+        "right": 182,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".two-col",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 367,
+        "right": 1463,
+        "bottom": 542
+      },
+      {
+        "element": ".dialogue",
+        "x": 73,
+        "y": 436,
+        "width": 681,
+        "height": 106,
+        "right": 754,
+        "bottom": 542
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 175,
+        "width": 681,
+        "height": 113,
+        "right": 754,
+        "bottom": 288
+      }
+    ],
+    "largest_safe_region": {
+      "area": 798,
+      "x": 240,
+      "y": 600,
+      "width": 1140,
+      "height": 264
+    },
+    "visual_strategy": "在 240,600 起的 1140×264 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-29.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 30,
+    "title": "A公司关键 Interface",
+    "section": "模块三",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.233,
+    "primary_message": "电商平台订单 / 结算单订单/结算 Interface漏传 · 重复 · 时差小A系统筛选 / 发货 / 回传出库/凭证 Interface映射 · 状态 · 金额金蝶云星空销售出库 / 凭证",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 148,
+        "height": 17,
+        "right": 183,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".interface-diagram",
+        "x": 73,
+        "y": 183,
+        "width": 1390,
+        "height": 96,
+        "right": 1463,
+        "bottom": 279
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1771,
+      "x": 0,
+      "y": 320,
+      "width": 1536,
+      "height": 460
+    },
+    "visual_strategy": "不新增第二张流程图；只在现有 Interface 主图外围增加克制的数据粒子、校验波纹和失败重传痕迹。",
+    "visual_coverage": "10–15%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": "assets/generated-visuals/slide-30-deco.webp",
+    "prompt": "assets/generated-visuals/prompts/slide-30.txt",
+    "status": "generated_integrated_qa_passed"
+  },
+  {
+    "page": 31,
+    "title": "系统变更流程",
+    "section": "模块三",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.543,
+    "primary_message": "审计证据：需求/缺陷说明、代码或配置变更、测试记录、业务审批、部署日志、版本号和上线验证。紧急变更还要检查事后补批与原因。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 148,
+        "height": 17,
+        "right": 183,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".cards",
+        "x": 73,
+        "y": 245,
+        "width": 1390,
+        "height": 220,
+        "right": 1463,
+        "bottom": 465
+      },
+      {
+        "element": ".pipeline",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 52,
+        "right": 1463,
+        "bottom": 227
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 487,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 546
+      }
+    ],
+    "largest_safe_region": {
+      "area": 798,
+      "x": 240,
+      "y": 600,
+      "width": 1140,
+      "height": 264
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-31.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 32,
+    "title": "备份与恢复｜四个基本名词",
+    "section": "模块三",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.417,
+    "primary_message": "审计还要看：备份范围、频率、失败处理、保留期限、异地或离线隔离，以及恢复测试的时间、环境和结果。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 146,
+        "height": 17,
+        "right": 181,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".cards",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 170,
+        "right": 1463,
+        "bottom": 345
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 465,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 524
+      }
+    ],
+    "largest_safe_region": {
+      "area": 855,
+      "x": 240,
+      "y": 580,
+      "width": 1140,
+      "height": 284
+    },
+    "visual_strategy": "在 240,580 起的 1140×284 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-32.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 33,
+    "title": "A公司IT审计资料清单",
+    "section": "模块三",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.317,
+    "primary_message": "A公司IT审计资料清单",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 699,
+        "y": 20,
+        "width": 137,
+        "height": 33,
+        "right": 837,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 144,
+        "height": 17,
+        "right": 179,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".evidence-map",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 160,
+        "right": 1463,
+        "bottom": 335
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1540,
+      "x": 0,
+      "y": 380,
+      "width": 1536,
+      "height": 400
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-33.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 34,
+    "title": "模块四｜IT一般控制（C22）",
+    "section": "模块四",
+    "page_type": "B｜章节页深色赛博背景",
+    "content_density": 0.309,
+    "primary_message": "本模块按 C22 四个领域学习：信息安全、运行维护、变更管理、系统开发。每个领域都从控制目标、执行证据和异常处理入手。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 311,
+        "width": 1390,
+        "height": 62,
+        "right": 1463,
+        "bottom": 373
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 285,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 301
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 673,
+        "y": 20,
+        "width": 190,
+        "height": 33,
+        "right": 863,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 200,
+        "height": 17,
+        "right": 235,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 605,
+      "x": 280,
+      "y": 660,
+      "width": 1100,
+      "height": 204
+    },
+    "visual_strategy": "整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。",
+    "visual_coverage": "85–100%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-34.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 35,
+    "title": "C22四个测试领域",
+    "section": "模块四",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.508,
+    "primary_message": "A公司项目的金蝶云星空、小A系统和资金系统，C22 均按以上四个领域判断是否适用并实施测试。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 673,
+        "y": 20,
+        "width": 190,
+        "height": 33,
+        "right": 863,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1385,
+        "y": 25,
+        "width": 120,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 201,
+        "height": 17,
+        "right": 236,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".cards",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 250,
+        "right": 1463,
+        "bottom": 425
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 447,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 506
+      }
+    ],
+    "largest_safe_region": {
+      "area": 880,
+      "x": 280,
+      "y": 560,
+      "width": 1100,
+      "height": 304
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-35.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 36,
+    "title": "访问管理：看完整生命周期",
+    "section": "模块四",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.127,
+    "primary_message": "访问管理：看完整生命周期",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 673,
+        "y": 20,
+        "width": 190,
+        "height": 33,
+        "right": 863,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 202,
+        "height": 17,
+        "right": 237,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 2233,
+      "x": 0,
+      "y": 200,
+      "width": 1536,
+      "height": 580
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-36.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 37,
+    "title": "SoD：不是看到冲突角色就自动认定缺陷",
+    "section": "模块四",
+    "page_type": "F｜判断/互动页小型角色场景",
+    "content_density": 0.211,
+    "primary_message": "判断职责分离必须结合：实际权限、业务职责、交易流程、审批层级、补偿控制、实际使用。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 673,
+        "y": 20,
+        "width": 190,
+        "height": 33,
+        "right": 863,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 202,
+        "height": 17,
+        "right": 237,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1429,
+        "y": 826,
+        "width": 72,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 349,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 408
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1232,
+      "x": 0,
+      "y": 460,
+      "width": 1536,
+      "height": 320
+    },
+    "visual_strategy": "在 0,460 起的 1536×320 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-37.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 38,
+    "title": "变更管理：审计程序为什么通常要覆盖这些证据",
+    "section": "模块四",
+    "page_type": "F｜判断/互动页小型角色场景",
+    "content_density": 0.42,
+    "primary_message": "证据要证明什么常见陷阱 需求/工单变更有明确业务原因事后补单 测试记录上线前验证功能只有“已测试”一句话 审批授权上线审批人与开发职责不合理 部署日志实际上线内容与批准一致无法证明谁、何时部署",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 673,
+        "y": 20,
+        "width": 190,
+        "height": 33,
+        "right": 863,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 202,
+        "height": 17,
+        "right": 237,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".matrix",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 263,
+        "right": 1463,
+        "bottom": 438
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1155,
+      "x": 0,
+      "y": 480,
+      "width": 1536,
+      "height": 300
+    },
+    "visual_strategy": "在 0,480 起的 1536×300 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-38.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 39,
+    "title": "IT运维：不要把所有IT管理问题都塞进财报IT审计",
+    "section": "模块四",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.127,
+    "primary_message": "IT运维：不要把所有IT管理问题都塞进财报IT审计",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 673,
+        "y": 20,
+        "width": 190,
+        "height": 33,
+        "right": 863,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 202,
+        "height": 17,
+        "right": 237,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 2233,
+      "x": 0,
+      "y": 200,
+      "width": 1536,
+      "height": 580
+    },
+    "visual_strategy": "在 0,200 起的 1536×580 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-39.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 40,
+    "title": "ITGC异常定性：建议使用四步法",
+    "section": "模块四",
+    "page_type": "F｜判断/互动页小型角色场景",
+    "content_density": 0.295,
+    "primary_message": "先判断是否登录、权限大小、系统关键性、是否有补偿监控，再定性",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 673,
+        "y": 20,
+        "width": 190,
+        "height": 33,
+        "right": 863,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 200,
+        "height": 17,
+        "right": 235,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1617,
+      "x": 0,
+      "y": 360,
+      "width": 1536,
+      "height": 420
+    },
+    "visual_strategy": "在 0,360 起的 1536×420 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-40.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 41,
+    "title": "模块五｜ITAC、Interface 与 IPE",
+    "section": "模块五",
+    "page_type": "B｜章节页深色赛博背景",
+    "content_density": 0.282,
+    "primary_message": "ITGC回答“系统环境是否受控”。ITAC / Interface / IPE回答“具体业务结果是否可靠”。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 339,
+        "width": 1390,
+        "height": 62,
+        "right": 1463,
+        "bottom": 401
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 313,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 329
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 656,
+        "y": 20,
+        "width": 223,
+        "height": 33,
+        "right": 880,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 228,
+        "height": 17,
+        "right": 263,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 689,
+      "x": 320,
+      "y": 620,
+      "width": 1060,
+      "height": 244
+    },
+    "visual_strategy": "整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。",
+    "visual_coverage": "85–100%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-41.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 42,
+    "title": "ITAC到底是什么：系统替人执行的关键控制",
+    "section": "模块五",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.217,
+    "primary_message": "关键：该控制是否直接降低重大错报风险，并且财审计划依赖。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 656,
+        "y": 20,
+        "width": 223,
+        "height": 33,
+        "right": 880,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 230,
+        "height": 17,
+        "right": 265,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 305,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 364
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1386,
+      "x": 0,
+      "y": 420,
+      "width": 1536,
+      "height": 360
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-42.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 43,
+    "title": "测试ITAC：四个核心问题",
+    "section": "模块五",
+    "page_type": "F｜概念页轻量情境化插图",
+    "content_density": 0.338,
+    "primary_message": "01控制逻辑是什么？02关键参数和配置由谁维护？03程序逻辑在期间内是否保持受控？04实际输入→处理→输出是否符合预期？",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 656,
+        "y": 20,
+        "width": 223,
+        "height": 33,
+        "right": 880,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 230,
+        "height": 17,
+        "right": 265,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".four-box",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 170,
+        "right": 1463,
+        "bottom": 345
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1463,
+      "x": 0,
+      "y": 400,
+      "width": 1536,
+      "height": 380
+    },
+    "visual_strategy": "在 0,400 起的 1536×380 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-43.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 44,
+    "title": "案例：金蝶月末加权平均成本",
+    "section": "模块五",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.469,
+    "primary_message": "需要理解：期初结存、本期入库与金额、库存变动、月结期间、计价参数及异常处理",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 656,
+        "y": 20,
+        "width": 223,
+        "height": 33,
+        "right": 880,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 230,
+        "height": 17,
+        "right": 265,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".case-board",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 286,
+        "right": 1463,
+        "bottom": 461
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1001,
+      "x": 0,
+      "y": 520,
+      "width": 1536,
+      "height": 260
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-44.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 45,
+    "title": "Interface：完整性与准确性要分开证明",
+    "section": "模块五",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.406,
+    "primary_message": "项目落点：平台订单/结算 ↔ 小A系统可按平台订单号、结算单号比对；小A系统 ↔ 金蝶可按单据编号、物料编码比对；小A系统 ↔ 资金系统可按付款单号比对。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 656,
+        "y": 20,
+        "width": 223,
+        "height": 33,
+        "right": 880,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 230,
+        "height": 17,
+        "right": 265,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".matrix",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 159,
+        "right": 1463,
+        "bottom": 334
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 356,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 415
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1232,
+      "x": 0,
+      "y": 460,
+      "width": 1536,
+      "height": 320
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-45.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 46,
+    "title": "从多系统数据生成可依赖的差异清单",
+    "section": "模块五",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.133,
+    "primary_message": "准确 订单号、结算单号、单据编号、数量金额是否正确",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 656,
+        "y": 20,
+        "width": 223,
+        "height": 33,
+        "right": 880,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 230,
+        "height": 17,
+        "right": 265,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 2233,
+      "x": 0,
+      "y": 200,
+      "width": 1536,
+      "height": 580
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-46.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 47,
+    "title": "销售穿行：一笔订单至少追过五个节点",
+    "section": "模块五",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.217,
+    "primary_message": "每个节点都要回答：业务主键是什么？控制在哪里发生？Interface 如何衔接？证据能否正反向追溯？",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 656,
+        "y": 20,
+        "width": 223,
+        "height": 33,
+        "right": 880,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 229,
+        "height": 17,
+        "right": 264,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 319,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 378
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1386,
+      "x": 0,
+      "y": 420,
+      "width": 1536,
+      "height": 360
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-47.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 48,
+    "title": "模块六｜CAATs与数据分析：从“会写代码”到“能形成审计证据”",
+    "section": "模块六",
+    "page_type": "B｜章节页深色赛博背景",
+    "content_density": 0.321,
+    "primary_message": "数据分析最常见的失败：技术上很漂亮，审计上没有结论。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 308,
+        "width": 1390,
+        "height": 124,
+        "right": 1463,
+        "bottom": 432
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 282,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 298
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 678,
+        "y": 20,
+        "width": 181,
+        "height": 33,
+        "right": 858,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 192,
+        "height": 17,
+        "right": 227,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 605,
+      "x": 280,
+      "y": 660,
+      "width": 1100,
+      "height": 204
+    },
+    "visual_strategy": "整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。",
+    "visual_coverage": "85–100%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": true,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-48.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 49,
+    "title": "一项合格的CAATs必须走完这条链",
+    "section": "模块六",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.21,
+    "primary_message": "任何一步断掉，CAATs就可能只是一张“异常清单”。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 678,
+        "y": 20,
+        "width": 181,
+        "height": 33,
+        "right": 858,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 193,
+        "height": 17,
+        "right": 228,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 285,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 344
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1463,
+      "x": 0,
+      "y": 400,
+      "width": 1536,
+      "height": 380
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": true,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-49.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 50,
+    "title": "多平台数据：先证明总体可靠，再开始分析",
+    "section": "模块六",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.341,
+    "primary_message": "来源平台订单/账单、小A系统订单/结算、金蝶出库/凭证分别从哪里取得？期间与范围是否覆盖审计期间、目标平台、店铺、账号及全部业务状态？业务主键平台订单号、结算单号、单据编号、物料编码能否稳定关联？完整性记录数、数量、金额",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 678,
+        "y": 20,
+        "width": 181,
+        "height": 33,
+        "right": 858,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 194,
+        "height": 17,
+        "right": 229,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".cards",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 170,
+        "right": 1463,
+        "bottom": 345
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1463,
+      "x": 0,
+      "y": 400,
+      "width": 1536,
+      "height": 380
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-50.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 51,
+    "title": "Interface 差异规则：命中不等于缺陷",
+    "section": "模块六",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.215,
+    "primary_message": "规则的价值来自风险逻辑 + 业务口径 + 可复核的差异解释，不是命中数量。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 678,
+        "y": 20,
+        "width": 181,
+        "height": 33,
+        "right": 858,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 194,
+        "height": 17,
+        "right": 229,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1430,
+        "y": 826,
+        "width": 71,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 397,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 456
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1078,
+      "x": 0,
+      "y": 500,
+      "width": 1536,
+      "height": 280
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-51.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 52,
+    "title": "Interface 差异分析应该回答什么",
+    "section": "模块六",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.131,
+    "primary_message": "Interface 差异分析应该回答什么",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 678,
+        "y": 20,
+        "width": 181,
+        "height": 33,
+        "right": 858,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 194,
+        "height": 17,
+        "right": 229,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 2233,
+      "x": 0,
+      "y": 200,
+      "width": 1536,
+      "height": 580
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-52.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 53,
+    "title": "AI在审计里的位置：辅助，不替代判断",
+    "section": "模块六",
+    "page_type": "F｜判断/互动页小型角色场景",
+    "content_density": 0.126,
+    "primary_message": "AI在审计里的位置：辅助，不替代判断",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 678,
+        "y": 20,
+        "width": 181,
+        "height": 33,
+        "right": 858,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 194,
+        "height": 17,
+        "right": 229,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 2233,
+      "x": 0,
+      "y": 200,
+      "width": 1536,
+      "height": 580
+    },
+    "visual_strategy": "在 0,200 起的 1536×580 安全区内放置轻量情境插图，其他区域保持干净。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": true,
+    "ai_robot": true,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-53.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 54,
+    "title": "模块七｜A公司综合案例",
+    "section": "模块七",
+    "page_type": "B｜章节页深色赛博背景",
+    "content_density": 0.278,
+    "primary_message": "综合练习覆盖 Scope、测试程序、审计证据、异常判断和结论。案例围绕多平台订单、小A系统、金蝶及资金系统展开。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 339,
+        "width": 1390,
+        "height": 62,
+        "right": 1463,
+        "bottom": 401
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 313,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 329
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 689,
+        "y": 20,
+        "width": 158,
+        "height": 33,
+        "right": 847,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 171,
+        "height": 17,
+        "right": 206,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 728,
+      "x": 260,
+      "y": 620,
+      "width": 1120,
+      "height": 244
+    },
+    "visual_strategy": "整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。",
+    "visual_coverage": "85–100%",
+    "background_mode": "深色整页背景",
+    "character": true,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-54.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 55,
+    "title": "案例背景：多平台电商业务的业财链路",
+    "section": "模块七",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.444,
+    "primary_message": "小A系统 → 金蝶 / 资金系统 财审关注 收入应收、存货成本、应付与资金及相关认定 第 55 / 60 页 M07 · A公司综合案例 · 02/06",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 689,
+        "y": 20,
+        "width": 158,
+        "height": 33,
+        "right": 847,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 172,
+        "height": 17,
+        "right": 207,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".case-company",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 276,
+        "right": 1463,
+        "bottom": 451
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1078,
+      "x": 0,
+      "y": 500,
+      "width": 1536,
+      "height": 280
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-55.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 56,
+    "title": "任务1：你会把哪些系统纳入IT审计Scope？",
+    "section": "模块七",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.318,
+    "primary_message": "请选择并说明理由：小A系统、金蝶云星空、资金系统、电商平台 Interface、办公邮箱、HR系统、代码仓库、门禁系统。 显示参考思路 优先关注小A系统、金蝶云星空、资金系统，以及承载订单/结算数据的相关平台 Inter",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 689,
+        "y": 20,
+        "width": 158,
+        "height": 33,
+        "right": 847,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 173,
+        "height": 17,
+        "right": 208,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".scenario",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 161,
+        "right": 1463,
+        "bottom": 336
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1540,
+      "x": 0,
+      "y": 380,
+      "width": 1536,
+      "height": 400
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-56.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 57,
+    "title": "任务2：收入流程你会设计哪些测试？",
+    "section": "模块七",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.486,
+    "primary_message": "关键系统 平台、小A系统、金蝶、资金系统分别处理什么",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 689,
+        "y": 20,
+        "width": 158,
+        "height": 33,
+        "right": 847,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 173,
+        "height": 17,
+        "right": 208,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1429,
+        "y": 826,
+        "width": 72,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".blank-canvas",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 318,
+        "right": 1463,
+        "bottom": 493
+      }
+    ],
+    "largest_safe_region": {
+      "area": 952,
+      "x": 260,
+      "y": 540,
+      "width": 1120,
+      "height": 324
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-57.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 58,
+    "title": "任务3：面对这些课堂假设，你如何判断？",
+    "section": "模块七",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.507,
+    "primary_message": "课堂假设，不代表项目实际结论。 不要先写“有/无缺陷”，先说事实边界、风险、还缺什么证据、可能的审计影响。",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 689,
+        "y": 20,
+        "width": 158,
+        "height": 33,
+        "right": 847,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 173,
+        "height": 17,
+        "right": 208,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".callout",
+        "x": 73,
+        "y": 453,
+        "width": 1390,
+        "height": 59,
+        "right": 1463,
+        "bottom": 512
+      },
+      {
+        "element": ".finding-list",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 256,
+        "right": 1463,
+        "bottom": 431
+      }
+    ],
+    "largest_safe_region": {
+      "area": 896,
+      "x": 260,
+      "y": 560,
+      "width": 1120,
+      "height": 304
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "8–12%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-58.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 59,
+    "title": "任务4：把 Interface 差异写成审计结论",
+    "section": "模块七",
+    "page_type": "D｜流程页轻量数据流",
+    "content_density": 0.444,
+    "primary_message": "差的写法发现平台与小A系统数据存在差异，Interface 存在风险，建议加强管理。更好的结构事实：涉及什么总体、期间、字段和差异类型。口径：如何排除退款、取消、跨期与币种影响。控制：预期的对账、失败处理与追踪机制。影响",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 689,
+        "y": 20,
+        "width": 158,
+        "height": 33,
+        "right": 847,
+        "bottom": 53
+      },
+      {
+        "element": ".case-ribbon",
+        "x": 1377,
+        "y": 25,
+        "width": 128,
+        "height": 35,
+        "right": 1505,
+        "bottom": 60
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 173,
+        "height": 17,
+        "right": 208,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1428,
+        "y": 826,
+        "width": 73,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      },
+      {
+        "element": ".before-after",
+        "x": 73,
+        "y": 175,
+        "width": 1390,
+        "height": 280,
+        "right": 1463,
+        "bottom": 455
+      }
+    ],
+    "largest_safe_region": {
+      "area": 1078,
+      "x": 0,
+      "y": 500,
+      "width": 1536,
+      "height": 280
+    },
+    "visual_strategy": "沿既有阅读方向增加微弱数据流和路径光效，不复制页面中的业务节点与箭头。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色边缘氛围/装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-59.txt",
+    "status": "analysis_only"
+  },
+  {
+    "page": 60,
+    "title": "最后回到最开始的 5 个问题",
+    "section": "结语",
+    "page_type": "E｜案例页电商基础设施场景",
+    "content_density": 0.5,
+    "primary_message": "✓ IT审计为什么影响财审",
+    "occupied_regions": [
+      {
+        "element": "h1",
+        "x": 73,
+        "y": 99,
+        "width": 1390,
+        "height": 46,
+        "right": 1463,
+        "bottom": 145
+      },
+      {
+        "element": ".kicker",
+        "x": 73,
+        "y": 73,
+        "width": 1390,
+        "height": 16,
+        "right": 1463,
+        "bottom": 89
+      },
+      {
+        "element": ".brand-logo",
+        "x": 29,
+        "y": 13,
+        "width": 126,
+        "height": 41,
+        "right": 155,
+        "bottom": 54
+      },
+      {
+        "element": ".chapter-chip",
+        "x": 706,
+        "y": 20,
+        "width": 124,
+        "height": 33,
+        "right": 830,
+        "bottom": 53
+      },
+      {
+        "element": ".module-index",
+        "x": 35,
+        "y": 826,
+        "width": 136,
+        "height": 17,
+        "right": 171,
+        "bottom": 843
+      },
+      {
+        "element": ".slide-no",
+        "x": 1427,
+        "y": 826,
+        "width": 74,
+        "height": 17,
+        "right": 1501,
+        "bottom": 843
+      }
+    ],
+    "largest_safe_region": {
+      "area": 928,
+      "x": 220,
+      "y": 560,
+      "width": 1160,
+      "height": 304
+    },
+    "visual_strategy": "以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。",
+    "visual_coverage": "12–25%",
+    "background_mode": "浅色局部装饰层",
+    "character": false,
+    "ai_robot": false,
+    "image": null,
+    "prompt": "assets/generated-visuals/prompts/slide-60.txt",
+    "status": "analysis_only"
+  }
+]

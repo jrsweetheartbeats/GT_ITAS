@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “三个问题，分别从哪里查起”. Show this idea visually: 展开分析 问题二｜平台订单少了 平台订单没有完整传入小A系统. Strategy: 以现代电商运营、云系统和履约设施为情境，人物与装饰只占安全空白区。
+
+Use the consistent cast: a 22–26 year old Asian female IT auditor with high ponytail dark-purple hair, violet eyes, white shirt, dark vest and purple lanyard; optionally a 25–30 year old Asian male audit senior with neat dark short hair, thin glasses, white shirt, dark vest or suit and purple lanyard. Keep characters small and subordinate to the teaching content. Do not include robots.
+
+Composition must reserve the measured safe region x=0, y=200, width=1536, height=580 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 12–25%. Background mode: 浅色局部装饰层.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

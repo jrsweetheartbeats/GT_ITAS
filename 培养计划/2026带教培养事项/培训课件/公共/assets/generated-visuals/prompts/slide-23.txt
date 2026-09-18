@@ -1,0 +1,9 @@
+16:9 landscape presentation visual, modern IT audit and cybersecurity aesthetic, cyber purple and electric blue accents, clean original Japanese corporate anime illustration, mature professional tone, precise HUD and data visualization language, no fantasy, no medieval or RPG elements, no logo, no watermark, absolutely no readable text, letters, numbers or pseudo-typography.
+
+Teaching topic: “模块三｜IT技术基础”. Show this idea visually: 本模块完成后，应能画出系统与数据流向，区分应用、数据库、操作系统和 Interface，并列出需要取得的权限、变更、日志和备份证据。. Strategy: 整页深色章节氛围；正文落点保持平静，视觉焦点布置在标题对侧。
+
+Use the consistent cast: a 22–26 year old Asian female IT auditor with high ponytail dark-purple hair, violet eyes, white shirt, dark vest and purple lanyard; optionally a 25–30 year old Asian male audit senior with neat dark short hair, thin glasses, white shirt, dark vest or suit and purple lanyard. Keep characters small and subordinate to the teaching content. Do not include robots.
+
+Composition must reserve the measured safe region x=240, y=660, width=1140, height=204 within a 1536×864 slide, and keep all title, logo, chapter chip, case ribbon and footer areas quiet. Visual coverage target 85–100%. Background mode: 深色整页背景.
+
+Production notes: crisp vector-like anime rendering with soft dimensional lighting; restrained gradients; presentation-ready; no embedded typography of any kind.

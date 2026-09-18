@@ -1,0 +1,735 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KZJ 第1个月特别培养计划｜学员详细版</title>
+<style>
+:root{--p:#4F2D7F;--p2:#6F4A96;--cyan:#35D0E6;--ink:#1e1725;--muted:#756c7e;--line:#e4ddec;--good:#176b63;--warn:#9a6515}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:#120a1d;color:#1e1725}
+#deck{width:100vw;height:100vh;overflow:hidden;background:#f5f2f8}.slide{display:none;width:100vw;height:100vh;padding:4.5vh 5.8vw 6.5vh;background:linear-gradient(135deg,#faf8fc 0%,#f3eef7 55%,#ece5f3 100%);position:relative;overflow:auto}.slide.active{display:block}
+.kicker{font-size:12.5px;letter-spacing:.15em;font-weight:800;color:var(--p2);margin-bottom:10px}h1{font-size:clamp(28px,3.7vw,52px);line-height:1.08;margin:0 0 19px;color:var(--ink)}h3{font-size:17px;margin:0 0 8px;color:var(--p)}.sub{margin-top:15px}
+p,li,td,th{font-size:13.8px;line-height:1.57}.lead{font-size:19px;line-height:1.5;max-width:1050px;color:#51475a}.note{font-size:12px;color:var(--muted);margin-top:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.lower{margin-top:13px}.cards{display:grid;gap:13px}.cols-5{grid-template-columns:repeat(5,1fr)}
+.card,.case{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 6px 20px rgba(54,29,72,.05)}.card.good{border-top:4px solid var(--good)}.card.warn{border-top:4px solid var(--warn)}.card.objective{border-left:4px solid var(--p);background:#fbf9fd}.card.evidence{background:#fbf9fd}.card.scenario{background:#f7fbfc;border-color:#cfe6e9}
+.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.metric b{display:block;font-size:30px;color:var(--p)}.metric span{font-size:12.5px;color:var(--muted)}
+.week{display:grid;grid-template-columns:.65fr 2.5fr .65fr;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:9px 0;font-size:13px}.week>div:first-child{color:var(--p);font-weight:800}
+.summary{margin-top:17px;padding:14px 17px;background:#eee7f5;border-left:4px solid var(--p);border-radius:8px;font-size:14px;line-height:1.6}.knowledge-id{display:inline-block;background:var(--p);color:#fff;border-radius:999px;padding:5px 10px;font-size:11.5px;letter-spacing:.04em;margin-bottom:11px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--p);color:#fff;font-size:12.5px}.biglist li{margin-bottom:7px}
+.footer{position:absolute;bottom:12px;left:5.8vw;right:5.8vw;display:flex;justify-content:space-between;color:#8a7f93;font-size:10.5px}.nav{position:fixed;right:15px;bottom:12px;z-index:30;display:flex;gap:7px;align-items:center;background:rgba(20,9,35,.91);padding:6px 9px;border-radius:999px;color:#fff}.nav button{border:0;background:#4f2d7f;color:#fff;width:31px;height:31px;border-radius:50%;font-size:17px;cursor:pointer}.nav span{font-size:11.5px;min-width:57px;text-align:center}
+@media(max-width:900px){.g2,.g3,.cols-5,.hero-grid{grid-template-columns:1fr}.week{grid-template-columns:1fr}.slide{padding:4vh 5vw 10vh}.footer{left:5vw;right:5vw}}
+@media print{.slide{display:block!important;page-break-after:always;width:100%;height:100vh}.nav{display:none}}
+</style></head><body><div id="deck"><section class="slide active"><div class="kicker">KZJ · MONTH 01</div><h1>KZJ｜第1个月特别培养计划</h1>
+<p class="lead">学习主线：任务理解与审计目标 → CAATs工程规范 → 数据可靠性与可复现 → 代码结果转化为审计证据和结论。</p>
+<div class="hero-grid">
+  <div class="metric"><b>4周</b><span>每周1次1对1训练</span></div>
+  <div class="metric"><b>24项</b><span>详细学习知识点</span></div>
+  <div class="metric"><b>8+</b><span>真实任务与重构练习</span></div>
+  <div class="metric"><b>1套</b><span>标准CAATs交付包</span></div>
+</div>
+<p class="note">每个知识点在ITAS中独立记录学习状态、练习结果、Review意见和是否通过。</p>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>1 / 40</span></div></section><section class="slide"><div class="kicker">MONTH OBJECTIVES</div><h1>第1个月学习目标</h1>
+<div class="cards cols-5">
+  <div class="card"><h3>任务理解</h3><p>收到模糊要求时，先明确审计问题、业务口径、输入、输出、限制和验收标准。</p></div>
+  <div class="card"><h3>工程规范</h3><p>脚本具备清晰结构、参数化、输入输出校验、异常处理、日志和版本记录。</p></div>
+  <div class="card"><h3>数据可靠性</h3><p>能够证明数据来源、总体完整性、字段口径和关键转换过程可靠。</p></div>
+  <div class="card"><h3>可复现</h3><p>另一名同事仅凭代码、说明和资料即可独立复现主要结果。</p></div>
+  <div class="card"><h3>审计化</h3><p>每条分析规则都有审计依据，异常经过核验，结论有边界并进入正式底稿。</p></div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>2 / 40</span></div></section><section class="slide"><div class="kicker">MONTH MAP</div><h1>4周安排</h1>
+<div class="week"><div><b>第1周</b></div><div><b>任务先拆再做</b><br>审计问题、业务口径、数据需求、输出与验收、限制与假设、需求确认。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第2周</b></div><div><b>CAATs工程规范</b><br>项目结构、参数化、输入校验、输出校验、异常处理、版本与运行记录。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第3周</b></div><div><b>数据可靠性与可复现</b><br>数据来源、总体完整性、字段口径、数据转换、核对节点、运行说明与复现实验。</div><div>6个知识点</div></div>
+<div class="week"><div><b>第4周</b></div><div><b>代码到审计结论</b><br>审计规则、异常分层、证据链、结论边界、底稿衔接、标准CAATs交付包。</div><div>6个知识点</div></div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>3 / 40</span></div></section><section class="slide"><div class="kicker">W1 · OVERVIEW</div><h1>第1周｜任务先拆再做</h1>
+<p class="lead">本周要求任何CAATs或数据任务在编码前先形成任务说明。代码实现放在第二步，第一步先确认到底要解决什么审计问题。</p>
+<div class="summary"><b>本周成果：</b>完成3份真实任务拆解卡；每份均包含审计目标、业务口径、输入、输出、限制、疑问点和验收标准。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>4 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 01</div><h1>从“需求描述”识别真正的审计问题</h1>
+<div class="knowledge-id">KZJ-M1-W1-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够把“帮我核一下”“找异常”“跑一下全年数据”等模糊要求转换成明确的审计问题。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>CAATs任务必须先有审计问题，例如验证接口完整性、识别未经授权交易、检查收入截止，而不是单纯“分析数据”。</li><li>同一句业务要求可能对应不同审计目标，例如“订单和收入核一下”可能关注完整性、准确性或截止。</li><li>审计问题应说明对象、期间、风险和期望回答的问题。</li><li>分析结果最终需要支持控制测试、实质性程序、异常调查或其他明确审计目的。</li><li>如果审计目标不清楚，后续数据范围、规则和异常标准都会发生偏差。</li><li>开始编码前应能用1-2句话向Reviewer复述任务目的。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>复述原始任务要求。</li><li>提取需要验证的业务/审计风险。</li><li>明确期间和对象。</li><li>判断最终要支持哪类审计结论。</li><li>写成1-2句话的审计问题。</li><li>与任务提出人确认后再设计数据方案。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>项目任务说明。</li><li>财审/IT审计程序。</li><li>业务流程和控制矩阵。</li><li>历史底稿仅作为背景参考。</li><li>项目负责人确认记录。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>任务要求：“把全年订单和财务收入核一下，看有没有漏传或者异常。”编码前需要明确究竟关注接口完整性、收入完整性、金额一致性还是年末截止。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>这项任务最终要支持什么审计结论？</li><li>如果审计目标从完整性变为截止，数据和规则会发生什么变化？</li><li>什么时候必须先回去确认需求而不能直接写SQL？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>5 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 02</div><h1>业务口径与分析范围</h1>
+<div class="knowledge-id">KZJ-M1-W1-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在取数和编码前明确订单、收入、退款、取消、发货等关键业务口径。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>业务口径决定一条记录是否应进入总体，是CAATs最常见的差异来源之一。</li><li>需要明确业务日期使用创建日、发货日、确认日还是会计记账日。</li><li>订单状态需要区分已取消、关闭、部分发货、退款、补发、测试单等。</li><li>金额口径需要明确含税/不含税、原币/本位币、折扣前/折扣后、正负方向。</li><li>跨系统字段名称相同不代表业务含义完全一致。</li><li>所有重要口径必须在代码之外形成文字说明，便于Review和后续复用。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>列出分析总体涉及的业务对象。</li><li>逐项定义关键状态。</li><li>定义期间口径。</li><li>定义金额和币种口径。</li><li>识别特殊交易和排除项。</li><li>把口径写入任务说明并确认。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>业务制度。</li><li>系统字段说明。</li><li>订单/交易状态字典。</li><li>会计政策。</li><li>客户访谈记录。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>小艾系统订单状态有“已发货、部分发货、已取消、退款完成”，金蝶收入按会计期间记录。若不先定义口径，年度订单与收入比较很容易产生大量假差异。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>为什么业务口径应该写在SQL之前？</li><li>日期字段不同会怎样影响截止测试？</li><li>哪些特殊交易应单独分析而不是直接排除？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>6 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 03</div><h1>数据需求与最小必要字段</h1>
+<div class="knowledge-id">KZJ-M1-W1-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从审计问题反推数据表、字段、主键和关联关系，不先拿一堆数据再决定怎么分析。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>数据需求必须服务审计问题，字段越多不代表分析越完整。</li><li>至少需要识别业务主键、时间字段、状态字段、金额字段和关联键。</li><li>跨系统核对前要确认是否存在一对一、一对多、多对一关系。</li><li>主键可能是订单号、订单行号、业务单号+行号等组合键。</li><li>字段缺失应在取数前暴露，否则编码到一半才发现无法验证。</li><li>对敏感或大体量数据应遵循最小必要原则，减少无关字段和处理成本。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>从审计问题列出需要验证的事实。</li><li>为每个事实确定字段。</li><li>确定源系统和表。</li><li>确认主键/关联键。</li><li>确认期间和总体字段。</li><li>形成数据需求清单。</li><li>在编码前完成字段可用性检查。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>数据库表结构。</li><li>数据字典。</li><li>字段样例。</li><li>接口Mapping。</li><li>业务人员/IT访谈记录。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>要核对订单到收入是否完整，至少需要订单/订单行标识、发货状态/日期、收入凭证或业务单号、金额、币种和会计期间；仅有订单号和金额通常不够。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>什么字段属于“最小必要字段”？</li><li>为什么订单号可能不是唯一主键？</li><li>一对多关系不先确认会导致什么结果？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>7 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 04</div><h1>预期输出与异常定义</h1>
+<div class="knowledge-id">KZJ-M1-W1-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在编码前明确最终交付是汇总、异常明细、核对结果还是可直接入底稿的证据表。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>同一分析可以输出总体统计、差异明细、异常分层和核验结果等不同层次。</li><li>预期输出要与使用者和审计程序匹配。</li><li>异常必须在编码前有初步定义，例如源有目标无、金额差异超过阈值、状态不一致、跨期。</li><li>输出应保留能够追溯到源数据的关键字段。</li><li>需要明确哪些属于真正异常，哪些只是待核验记录。</li><li>输出格式和字段要支持Reviewer复核，而不是只方便程序作者阅读。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>明确最终使用场景。</li><li>确定输出层级。</li><li>列出异常类型。</li><li>确定异常阈值或规则。</li><li>确定输出字段。</li><li>确定结果文件命名和存放。</li><li>与Reviewer确认验收标准。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>审计程序。</li><li>历史交付样例。</li><li>问题清单模板。</li><li>底稿格式。</li><li>Reviewer反馈。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>“核收入差异”最终可能需要三个输出：总体核对汇总、未匹配明细、金额差异明细。仅输出一张SQL结果表往往不足以支持底稿。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>谁会使用这个输出？</li><li>异常和待核验记录有什么区别？</li><li>哪些字段必须保留以便回溯源数据？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>8 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 05</div><h1>限制条件、假设与不可验证事项</h1>
+<div class="knowledge-id">KZJ-M1-W1-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在任务开始时识别数据、系统、期间和业务规则限制，避免把假设写成事实。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>常见限制包括数据缺失、字段口径不明、历史数据迁移、时区差异、接口留存不足。</li><li>假设可以暂时用于推进，但必须明确标记并后续验证。</li><li>无法验证的事项应说明对分析结论的影响。</li><li>历史底稿中的口径不能自动沿用到新客户或新期间。</li><li>技术可实现不等于审计上可接受，例如无法验证总体完整的数据分析不能直接支持完整性结论。</li><li>限制条件应进入底稿或运行说明，而不是只存在个人记忆中。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>列出当前已知限制。</li><li>标记使用的假设。</li><li>判断哪些假设必须确认。</li><li>评估限制对结论的影响。</li><li>确定替代数据或程序。</li><li>在任务说明和底稿留痕。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>数据缺口说明。</li><li>系统迁移说明。</li><li>字段定义。</li><li>历史底稿。</li><li>项目沟通记录。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>客户只能提供2025年3月以后接口日志，但审计期间为全年。程序仍可分析3-12月，但不能据此直接对全年接口运行作完整结论。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>什么属于可接受假设，什么必须先验证？</li><li>限制条件如何影响结论措辞？</li><li>技术结果正确但总体不完整时能支持什么结论？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>9 / 40</span></div></section><section class="slide"><div class="kicker">W1 · LEARNING 06</div><h1>需求确认与替代方案</h1>
+<div class="knowledge-id">KZJ-M1-W1-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在发现需求不明确或原方案不够优时，先确认硬性目标，再提出可比较的替代方案。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>需求确认应集中在会影响结论、范围或交付形式的关键问题。</li><li>不要把所有细节都变成反复询问；可自行判断的技术实现应自己推进。</li><li>当原要求并非最优时，应先确认必须满足的审计目标、时间和交付要求。</li><li>替代方案应说明优点、限制、额外成本和对结论的影响。</li><li>项目负责人最终决定后，按照确认版本执行并保留决策记录。</li><li>避免未经确认直接改变审计方法，即使技术方案看起来更好。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>识别不确定点。</li><li>区分必须确认与可自行判断事项。</li><li>形成初步方案。</li><li>准备替代方案。</li><li>说明两种方案差异。</li><li>向负责人确认。</li><li>记录最终范围并执行。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>任务拆解卡。</li><li>项目沟通记录。</li><li>邮件/即时通讯确认。</li><li>方案比较。</li><li>Review记录。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>项目原要求用订单号直接匹配收入，但实际存在一单多行和拆单发货。可以提出按订单行+发货批次匹配，但应先说明为什么原方法会产生误差并确认交付口径。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>哪些问题需要在编码前确认？</li><li>什么时候可以直接自行优化，什么时候必须确认？</li><li>提出替代方案时最少要说明哪些内容？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>10 / 40</span></div></section><section class="slide"><div class="kicker">W1 · PRACTICE</div><h1>第1周练习与验收</h1>
+<div class="grid g2">
+<div class="card">
+<h3>任务拆解练习 KZJ-M1-W1-P01</h3>
+<p>连续选择3个真实项目中的模糊任务，在编码前提交任务拆解卡：</p>
+<ul><li>审计问题</li><li>业务口径</li><li>输入数据</li><li>输出</li><li>限制/假设</li><li>验收标准</li><li>待确认事项</li></ul>
+</div>
+<div class="card good">
+<h3>课后作业 KZJ-M1-W1-A01</h3>
+<p>选择其中1个任务，对比“原始需求”与“确认后的任务说明”，说明哪些关键定义发生了变化，以及这些变化如何影响SQL/脚本。</p>
+</div>
+</div>
+<div class="summary"><b>周验收：</b>给出一句模糊任务要求，15分钟内形成可直接交给Reviewer确认的任务说明。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>11 / 40</span></div></section><section class="slide"><div class="kicker">W2 · OVERVIEW</div><h1>第2周｜CAATs工程规范</h1>
+<p class="lead">本周选一套自己以前写过的SQL或脚本做“代码体检”。目标不是追求复杂框架，而是让任何项目程序具备稳定的结构、校验、运行和追踪能力。</p>
+<div class="summary"><b>本周成果：</b>1份旧CAATs代码体检清单 + 1份明确的重构方案。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>12 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 01</div><h1>项目结构、文件命名与代码分层</h1>
+<div class="knowledge-id">KZJ-M1-W2-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够让CAATs项目的输入、代码、中间结果、输出和说明文件具有统一、清晰、可识别的结构。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>项目目录应区分原始输入、处理代码、中间数据、最终输出、日志和文档。</li><li>文件命名应包含项目/程序用途、期间、版本或运行日期等必要信息。</li><li>代码应按读取、清洗、规则、核验、输出等模块组织。</li><li>SQL长脚本应使用清晰CTE、临时表或分阶段表，不把所有逻辑挤在一个语句中。</li><li>中间结果是否保留取决于可复核需要和数据敏感性。</li><li>目录和命名的目标是让非作者能够快速找到数据来源、执行入口和最终结果。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>整理现有项目目录。</li><li>识别输入/代码/输出混放问题。</li><li>制定命名规则。</li><li>按处理阶段拆分代码。</li><li>明确最终执行入口。</li><li>补README说明目录结构。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>旧CAATs目录。</li><li>团队共享目录规范。</li><li>脚本文件。</li><li>历史输出。</li><li>README模板。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>一个项目目录里同时存在final.xlsx、final2.xlsx、最新.sql、最新改.sql、结果0821.xlsx。重构后需要让其他同事能够明确识别当前版本和运行顺序。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>一个标准CAATs目录至少应分哪些层？</li><li>文件名需要包含哪些信息？</li><li>什么时候应保留中间结果？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>13 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 02</div><h1>参数化与期间处理</h1>
+<div class="knowledge-id">KZJ-M1-W2-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够把期间、阈值、路径、组织和其他常变条件从核心逻辑中分离，减少硬编码。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>审计期间、公司编码、币种、阈值、文件路径等不应散落在代码各处。</li><li>参数应集中配置，并给出默认值、格式和允许范围。</li><li>日期边界要明确包含/不包含关系，避免月末和年末漏数。</li><li>多主体、多期间运行应避免复制多份脚本。</li><li>参数修改应被运行记录保存，确保结果可复现。</li><li>阈值属于审计规则时，还要记录业务/审计依据，而不仅是技术配置。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>找出所有硬编码参数。</li><li>分类业务参数和技术参数。</li><li>集中到配置区。</li><li>定义格式校验。</li><li>测试期间边界。</li><li>将实际运行参数写入日志。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>旧脚本。</li><li>项目期间。</li><li>审计规则说明。</li><li>配置文件。</li><li>运行日志。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>程序筛选12月异常时写死`date &gt;= &#x27;2025-12-01&#x27; and date &lt;= &#x27;2025-12-31&#x27;`。参数化后需考虑时间戳、跨时区以及下一年度复用。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>哪些内容最应该参数化？</li><li>阈值参数为什么需要审计依据？</li><li>运行日志为什么要保存实际参数？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>14 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 03</div><h1>输入数据校验</h1>
+<div class="knowledge-id">KZJ-M1-W2-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在程序正式执行前检查输入文件、字段、类型、期间、记录数和关键值是否符合预期。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>程序能读取文件不代表输入数据正确。</li><li>至少应校验文件/表是否存在、必需字段是否齐全、字段类型是否合理。</li><li>应检查数据期间、最小/最大日期、记录数、关键字段空值和重复情况。</li><li>业务主键重复可能是正常一对多，也可能是数据质量问题，需要结合口径。</li><li>输入总额、记录数等关键统计应形成运行日志或校验表。</li><li>输入异常应优先阻断程序或明确告警，避免静默产生错误输出。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>列出必需输入。</li><li>定义必需字段。</li><li>检查字段类型和空值。</li><li>检查期间。</li><li>检查主键/重复。</li><li>记录关键统计。</li><li>异常时停止或告警。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>原始数据。</li><li>字段字典。</li><li>历史数据规模。</li><li>总账/系统统计。</li><li>运行日志。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>订单文件正常读取，但缺少“取消状态”字段。程序如果继续执行，可能把已取消订单纳入总体并产生大量假差异，应在输入校验阶段直接发现。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>输入校验和业务核验有什么区别？</li><li>哪些异常应直接停止运行？</li><li>为什么记录数和期间统计要写进日志？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>15 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 04</div><h1>输出数据校验</h1>
+<div class="knowledge-id">KZJ-M1-W2-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够证明程序输出与输入和处理逻辑之间的数量、金额和异常变化合理。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>输出校验是防止程序逻辑错误的最后一道检查，不等于只看程序无报错。</li><li>应记录各处理阶段的记录数和关键金额变化。</li><li>过滤或Join后记录数异常增加/减少需要有可解释原因。</li><li>最终异常数应与规则条件和总体规模相匹配。</li><li>汇总结果应能追溯到明细，明细应能追溯到源数据。</li><li>必要时使用另一种独立方法或样本人工计算验证结果。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>建立输入基线统计。</li><li>在关键处理节点记录统计。</li><li>检查Join和过滤变化。</li><li>检查最终异常数量和金额。</li><li>抽样反向追源。</li><li>用独立方法复核关键结果。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>运行统计。</li><li>中间结果。</li><li>源数据。</li><li>异常明细。</li><li>独立核验表。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>订单表10万行与收入表9万行Join后结果变成40万行。即使SQL语法正确，也必须先判断是否因为一对多关联造成重复放大。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>哪些节点最需要做数量校验？</li><li>输出结果怎样反向追溯？</li><li>程序无报错为什么不能说明结果正确？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>16 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 05</div><h1>异常处理与运行日志</h1>
+<div class="knowledge-id">KZJ-M1-W2-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够处理文件缺失、字段变化、数据库连接失败、格式异常等情况，并留下完整运行记录。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>异常处理应让错误明确暴露，不应用空结果或默认值掩盖问题。</li><li>数据库/文件读取失败、字段缺失等关键错误通常应停止运行。</li><li>部分非关键异常可以记录warning后继续，但要说明影响。</li><li>运行日志至少记录开始时间、结束时间、代码版本、参数、输入统计、输出统计和错误。</li><li>日志应便于定位问题，而不是只打印技术堆栈。</li><li>异常处理和日志也属于审计程序可复现的一部分。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>列出常见失败场景。</li><li>区分fatal error与warning。</li><li>添加明确错误信息。</li><li>记录运行环境/参数。</li><li>记录输入输出统计。</li><li>保留日志文件。</li><li>模拟错误测试。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>错误日志。</li><li>运行日志。</li><li>数据库连接信息。</li><li>输入文件。</li><li>异常模拟结果。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>客户更换Excel模板导致列名变化。程序应明确提示缺少必需字段，而不是在后续逻辑中产生空值并输出错误异常。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>哪些错误必须阻断程序？</li><li>一份运行日志最少包含什么？</li><li>技术错误信息如何写得让非开发同事也能理解？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>17 / 40</span></div></section><section class="slide"><div class="kicker">W2 · LEARNING 06</div><h1>版本管理与变更记录</h1>
+<div class="knowledge-id">KZJ-M1-W2-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够明确知道哪一版代码生成了哪一份审计结果，并可以回溯重要逻辑变更。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>代码版本与结果文件必须建立对应关系。</li><li>使用Git时应保持有意义的commit，关键修改说明原因。</li><li>不使用Git时至少需要版本号、修改日期、修改人和变更说明。</li><li>审计期间已经使用的版本不应被无痕覆盖。</li><li>规则变化、字段变化、参数变化等影响结果的修改要特别记录。</li><li>最终底稿应引用实际执行版本。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>为程序建立版本号。</li><li>记录基线版本。</li><li>每次关键修改写变更说明。</li><li>保存运行对应版本。</li><li>标记最终审计版本。</li><li>在底稿引用版本。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>Git记录。</li><li>版本清单。</li><li>代码文件。</li><li>运行日志。</li><li>底稿引用。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>8月10日初版异常规则为差异&gt;1元，8月15日改成&gt;10元。如果不保留版本和规则变更记录，后续无法解释为什么两次异常数量不同。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>什么修改必须进入变更记录？</li><li>结果文件怎样与代码版本对应？</li><li>为什么审计项目不能简单覆盖“旧版代码”？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>18 / 40</span></div></section><section class="slide"><div class="kicker">W2 · PRACTICE</div><h1>第2周练习与验收</h1>
+<div class="grid g2">
+<div class="card">
+<h3>代码体检 KZJ-M1-W2-P01</h3>
+<p>选择一套旧SQL/脚本，至少检查：</p>
+<ul><li>目录与命名</li><li>参数</li><li>输入校验</li><li>输出校验</li><li>异常处理</li><li>日志</li><li>版本记录</li></ul>
+</div>
+<div class="card good">
+<h3>课后作业 KZJ-M1-W2-A01</h3>
+<p>形成《CAATs问题清单 + 重构方案》，按高/中/低优先级排列，并说明每项问题可能影响“结果正确性、可复现、审计证据”中的哪一项。</p>
+</div>
+</div>
+<div class="summary"><b>周验收：</b>能对自己的旧程序解释“为什么现在不适合直接交接，以及准备怎么改”。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>19 / 40</span></div></section><section class="slide"><div class="kicker">W3 · OVERVIEW</div><h1>第3周｜数据可靠性与可复现</h1>
+<p class="lead">本周从“程序本身”继续往审计证据延伸。重点证明：数据从哪里来、总体是否完整、字段是什么意思、处理过程有没有改变原始含义，以及别人能否复现。</p>
+<div class="summary"><b>本周成果：</b>完成旧程序重构，并让另一名同事仅凭运行说明复现主要结果。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>20 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 01</div><h1>数据来源与数据血缘</h1>
+<div class="knowledge-id">KZJ-M1-W3-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够清楚记录每个输入数据来自什么系统、模块、表/文件以及如何取得。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>审计证据首先要知道数据来源，不能只记录“客户提供Excel”。</li><li>应区分系统原始导出、数据库查询、客户二次整理文件和程序中间表。</li><li>数据血缘需要说明源系统→提取→清洗→转换→规则→输出的路径。</li><li>客户二次加工会引入字段修改、筛选、公式等额外风险。</li><li>数据库直接查询需要记录库、表、条件和提取时间。</li><li>数据来源信息应能够让Reviewer判断证据独立性和可靠性。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>为每个输入建立来源记录。</li><li>标明系统/模块/表或文件。</li><li>记录提取方式。</li><li>记录提取条件和时间。</li><li>标记是否经过客户加工。</li><li>画出必要的数据血缘。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>系统截图。</li><li>数据库查询。</li><li>原始文件。</li><li>提取说明。</li><li>数据血缘图。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>客户提供“销售明细最终版.xlsx”，但该文件由财务从ERP导出后手工补了平台字段和退款状态。使用前必须区分原始系统字段和人工补充字段。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>为什么“客户提供Excel”不算完整的数据来源描述？</li><li>哪些加工会改变证据可靠性？</li><li>数据库直接查询需要保留哪些信息？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>21 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 02</div><h1>总体完整性验证</h1>
+<div class="knowledge-id">KZJ-M1-W3-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够用独立依据证明分析数据覆盖了应分析期间和对象。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>总体完整性是CAATs支持审计结论的基础。</li><li>常用验证包括记录数、金额总额、期间范围、序号连续性和独立系统核对。</li><li>与总账金额一致可以支持金额总体，但不自动证明业务字段完整。</li><li>接口/业务总体可以与源系统统计、日志或其他独立数据交叉验证。</li><li>如果无法验证全年总体，应缩小结论范围。</li><li>完整性验证方法应在底稿中清楚记录。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>定义应有总体。</li><li>找独立完整性依据。</li><li>比较记录数/金额/期间。</li><li>调查差异。</li><li>记录未解决差异。</li><li>确定可支持的结论范围。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>总账。</li><li>系统统计报表。</li><li>源系统总体。</li><li>接口日志。</li><li>序号/批次记录。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>ERP销售明细总额与总账收入一致，但订单号字段存在大量空值。金额总体可能完整，但不能自动说明订单关联字段可用于订单级核对。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>金额对总账解决了什么完整性问题？</li><li>字段层面完整性怎样验证？</li><li>全年总体无法证明时结论要怎样调整？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>22 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 03</div><h1>字段口径与数据字典</h1>
+<div class="knowledge-id">KZJ-M1-W3-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够把程序依赖的关键字段定义成Reviewer可理解的业务含义，而不是只保留数据库列名。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>数据字典应说明字段名、业务含义、数据类型、示例值和来源。</li><li>关键状态值需要完整解释，例如0/1/2分别代表什么。</li><li>日期字段应说明创建、业务发生、发货、记账等不同含义。</li><li>金额字段应说明原币/本位币、含税/不含税、正负方向。</li><li>组合主键和关联字段要单独记录。</li><li>字段定义变化可能直接改变历史分析规则。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>筛选程序实际使用的关键字段。</li><li>向业务/IT确认含义。</li><li>记录状态枚举。</li><li>记录日期和金额口径。</li><li>标记主键/外键。</li><li>维护数据字典版本。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>字段说明。</li><li>数据库元数据。</li><li>业务人员确认。</li><li>接口Mapping。</li><li>样例数据。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>字段`status=5`在旧版系统表示“已完成”，系统升级后改为“已关闭”。如果程序沿用旧规则，结果会发生实质错误。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>哪些字段必须进数据字典？</li><li>字段名相同为什么不代表口径相同？</li><li>业务状态枚举变化怎么控制？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>23 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 04</div><h1>清洗与转换过程可追踪</h1>
+<div class="knowledge-id">KZJ-M1-W3-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够让数据清洗、Join、去重、转换和衍生字段的每一步都有明确依据和数量变化。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>清洗并非纯技术动作，每一步可能改变审计总体。</li><li>去重必须说明什么被认为是重复以及为什么可以删除。</li><li>Join需要明确关联键、关系类型和未匹配处理。</li><li>衍生字段应说明公式和业务含义。</li><li>币种转换、日期转换和金额正负处理要记录规则。</li><li>重要转换前后应保留记录数/金额校验点。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>列出所有清洗步骤。</li><li>逐步说明业务依据。</li><li>记录前后数量。</li><li>检查未匹配记录。</li><li>记录衍生字段公式。</li><li>保留关键中间校验。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>代码。</li><li>中间统计。</li><li>数据字典。</li><li>业务口径说明。</li><li>未匹配清单。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>订单表Join发货表时一笔订单可能多次发货。如果直接Join再汇总，可能重复订单金额；应先明确行级关系和汇总层级。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>去重操作为什么必须有业务依据？</li><li>Join后记录数变化怎样判断是否合理？</li><li>哪些中间校验值得保留在底稿？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>24 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 05</div><h1>关键核对节点与独立校验</h1>
+<div class="knowledge-id">KZJ-M1-W3-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在数据处理链路中设计若干关键检查点，尽早发现逻辑错误。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>关键核对节点通常包括输入、清洗后、Join后、规则前和最终输出。</li><li>每个节点可以记录记录数、金额、唯一主键数和异常数。</li><li>独立校验可使用另一条SQL、Excel Pivot、抽样手工重算或系统报表。</li><li>关键结果不应完全依赖同一段代码自证正确。</li><li>差异核对需记录原因和处理，不应简单“调平”。</li><li>核对过程本身应可复核。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>识别高风险处理节点。</li><li>定义校验指标。</li><li>运行并记录基线。</li><li>用独立方法验证关键结果。</li><li>调查差异。</li><li>将校验结果写入运行记录。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>运行统计。</li><li>Excel独立核对。</li><li>系统报表。</li><li>另一条SQL。</li><li>样本手工验证。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>最终识别153笔异常，可以随机抽10笔回溯源数据，同时用另一条简单汇总SQL核对异常总金额，避免全部结论只依赖主脚本。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>为什么关键结果需要独立校验？</li><li>什么是有效的核对节点？</li><li>差异被解释后需要如何留痕？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>25 / 40</span></div></section><section class="slide"><div class="kicker">W3 · LEARNING 06</div><h1>运行说明与同事复现实验</h1>
+<div class="knowledge-id">KZJ-M1-W3-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够编写不依赖口头解释的运行说明，并通过另一名同事复现验证交接质量。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>运行说明至少包括环境、依赖、输入文件、参数、执行顺序、输出和常见错误。</li><li>说明中应写明预期输入统计和预期输出位置。</li><li>数据库权限、Python/SQL版本等环境要求要写清。</li><li>如果运行仍依赖作者临时解释，说明文档尚未完成。</li><li>同事复现时记录遇到的所有阻塞点，并作为下一轮重构输入。</li><li>复现实验不仅验证代码能运行，也验证规则和结果能被理解。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>写README/runbook。</li><li>清理本机特有路径。</li><li>准备测试输入。</li><li>让同事独立执行。</li><li>记录问题。</li><li>修正文档/程序。</li><li>再次复现并签收。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>README。</li><li>环境说明。</li><li>依赖清单。</li><li>运行日志。</li><li>复现反馈。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>同事拿到代码后因不知道要先执行哪个SQL、输入文件放哪里、阈值在哪改而无法运行。说明即使代码正确，也尚未达到可交接标准。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>运行说明最少需要哪些内容？</li><li>什么情况算“复现成功”？</li><li>复现实验发现的问题如何反馈到程序规范？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>26 / 40</span></div></section><section class="slide"><div class="kicker">W3 · PRACTICE</div><h1>第3周练习与验收</h1>
+<div class="grid g2">
+<div class="card">
+<h3>重构任务 KZJ-M1-W3-A01</h3>
+<p>按照第2周问题清单完成重构，并补齐：</p>
+<ul><li>数据字典</li><li>数据来源/血缘</li><li>总体完整性验证</li><li>关键核对节点</li><li>运行说明</li><li>运行日志</li></ul>
+</div>
+<div class="card good">
+<h3>复现实验 KZJ-M1-W3-C01</h3>
+<p>让另一名同事仅凭代码、README和指定输入数据运行。不得实时口头指导。</p>
+<p>记录所有无法理解、无法运行和无法核对结果的点并再次修正。</p>
+</div>
+</div>
+<div class="summary"><b>周验收：</b>同事可独立复现主要结果，并能说明关键分析规则。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>27 / 40</span></div></section><section class="slide"><div class="kicker">W4 · OVERVIEW</div><h1>第4周｜把代码结果变成审计证据</h1>
+<p class="lead">本周不再关注代码是否“漂亮”，而是把整套CAATs放回审计底稿：为什么做、规则依据是什么、异常是否真实、证据支持到哪里、最终怎样写结论。</p>
+<div class="summary"><b>本周成果：</b>输出1套标准CAATs交付包：任务说明 + 数据说明 + 代码 + 运行记录 + 异常核验 + 审计底稿。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>28 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 01</div><h1>从审计风险到数据规则</h1>
+<div class="knowledge-id">KZJ-M1-W4-L01</div>
+<div class="card objective"><h3>学习目标</h3><p>能够让每条分析规则对应明确的审计风险、控制目标或财报认定。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>规则不是因为“能查”就应该执行，必须说明其审计目的。</li><li>权限规则可能对应未授权访问；接口规则可能对应完整性/准确性；交易规则可能对应发生、截止等认定。</li><li>规则阈值需要有制度、业务或审计依据。</li><li>规则应说明适用总体、条件和例外。</li><li>一个审计问题可有多条规则，多条规则也可能服务同一结论。</li><li>规则说明需要Reviewer不看代码也能理解。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>明确审计问题。</li><li>写风险/认定。</li><li>定义总体。</li><li>写规则逻辑。</li><li>说明阈值依据。</li><li>说明预期异常。</li><li>与程序和底稿交叉引用。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>审计程序。</li><li>控制制度。</li><li>业务规则。</li><li>财审认定。</li><li>规则说明。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>规则“离职日期后仍有系统登录”应明确用于验证离职后未授权访问风险；不能只因为能够关联HR和日志就做这个分析。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>每条规则最少要说明什么审计依据？</li><li>阈值怎么避免变成拍脑袋？</li><li>规则和审计结论有什么关系？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>29 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 02</div><h1>异常与误报的分层</h1>
+<div class="knowledge-id">KZJ-M1-W4-L02</div>
+<div class="card objective"><h3>学习目标</h3><p>能够把规则命中结果分为高风险异常、待核验、正常业务原因或数据问题。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>规则命中不等于审计问题。</li><li>需要识别误报来源，例如业务时间差、系统状态定义、重复数据、合理例外。</li><li>可按金额、权限、频率、期间、实际操作等维度分层。</li><li>高风险异常优先详细核验，中低风险可以抽样。</li><li>规则本身误报率过高时，应反过来优化规则。</li><li>分层过程应保留原始命中总体和每类处理结果。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>保留完整命中总体。</li><li>选择风险分层字段。</li><li>建立高/中/低分类。</li><li>抽取高风险核验。</li><li>抽样中低风险。</li><li>记录误报原因。</li><li>必要时迭代规则。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>异常总体。</li><li>权限/金额字段。</li><li>业务说明。</li><li>核验样本。</li><li>规则版本记录。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>筛出500个离职后Active账号，其中450个是从未启用的历史账号，30个无登录，20个有离职后登录。真正需要深入核验的重点应进一步集中。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>为什么异常数量不能直接等于问题数量？</li><li>误报率高说明什么？</li><li>规则优化后如何保留前后版本？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>30 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 03</div><h1>异常核验与审计证据链</h1>
+<div class="knowledge-id">KZJ-M1-W4-L03</div>
+<div class="card objective"><h3>学习目标</h3><p>能够从CAATs命中记录继续取得业务、系统和财务证据，形成完整证据链。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>CAATs通常用于识别异常，不自动完成异常定性。</li><li>核验需要回答谁、何时、做了什么、业务结果和财务结果。</li><li>权限异常可结合HR、角色、登录和操作日志。</li><li>接口异常可结合源系统、接口日志、目标系统和会计记录。</li><li>交易异常可结合业务单据、审批、凭证、银行或第三方证据。</li><li>证据链应支持Reviewer从异常结果追到最终判断。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>选取需核验异常。</li><li>写异常事实。</li><li>列所需补充证据。</li><li>关联业务/系统数据。</li><li>追踪财务结果。</li><li>识别仍有缺口。</li><li>形成初步定性。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>异常明细。</li><li>系统日志。</li><li>业务单据。</li><li>财务凭证。</li><li>第三方证据。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>程序发现12月31日5笔订单已发货但ERP无收入。还要检查发货是否真实、是否1月补记、金额以及财审截止影响。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>CAATs结果支持到哪一步？</li><li>什么情况下必须补业务证据？</li><li>异常如何继续追到财务科目和认定？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>31 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 04</div><h1>结论边界与停止条件</h1>
+<div class="knowledge-id">KZJ-M1-W4-L04</div>
+<div class="card objective"><h3>学习目标</h3><p>能够在证据足够时形成结论并停止继续分析，避免无边界扩展数据和规则。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>结论强度必须与数据总体和核验证据匹配。</li><li>无法证明全年总体时，不能写全年完整性无异常。</li><li>识别异常但未验证实际影响时，应写待核验或控制风险，不直接写财务错报。</li><li>停止条件应在分析前定义，例如高风险异常全部核验+中风险抽样达到预期。</li><li>继续增加字段或规则如果不会改变结论，应考虑停止。</li><li>未解决限制和残余风险必须明确披露。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>回顾审计问题。</li><li>检查总体可靠性。</li><li>检查异常核验覆盖。</li><li>判断是否达到停止条件。</li><li>形成结论。</li><li>列限制和未决事项。</li><li>停止无增量价值分析。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>总体校验。</li><li>异常核验结果。</li><li>审计程序。</li><li>限制说明。</li><li>Reviewer意见。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>接口分析5笔差异均已确认次日补传且不影响年末会计期间。继续增加十几个日志字段不会改变结论，应停止并形成底稿。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>什么时候可以停止分析？</li><li>什么情况下结论需要缩小范围？</li><li>如何表达“有异常但未影响审计结论”？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>32 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 05</div><h1>CAATs与审计底稿衔接</h1>
+<div class="knowledge-id">KZJ-M1-W4-L05</div>
+<div class="card objective"><h3>学习目标</h3><p>能够把程序目的、数据、规则、校验、异常和结论完整写入可复核底稿。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>底稿应先写审计目标和程序目的，不从代码截图开始。</li><li>数据部分记录来源、总体完整性和关键字段。</li><li>规则部分用业务语言说明，不要求Reviewer阅读代码才能理解。</li><li>程序执行应引用代码版本和运行日志。</li><li>结果部分包括总体、命中异常、核验和最终剩余异常。</li><li>结论部分说明对控制、科目/认定或财审程序的影响。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>写审计目标。</li><li>写数据来源和可靠性。</li><li>写分析规则。</li><li>引用程序/版本。</li><li>汇总结果。</li><li>记录异常核验。</li><li>形成结论和限制。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>标准工作底稿。</li><li>代码版本。</li><li>运行日志。</li><li>异常清单。</li><li>核验证据。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>工作底稿不能只写“执行SQL见附件，识别153笔异常”。需要让Reviewer知道153笔怎么来的、是否核验、剩余问题是什么。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>一份CAATs底稿最少要包含哪些内容？</li><li>哪些技术信息放README，哪些必须进入底稿？</li><li>Reviewer不看代码能否理解审计逻辑？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>33 / 40</span></div></section><section class="slide"><div class="kicker">W4 · LEARNING 06</div><h1>标准CAATs交付包与交接</h1>
+<div class="knowledge-id">KZJ-M1-W4-L06</div>
+<div class="card objective"><h3>学习目标</h3><p>能够形成可直接归档、Review、交接和后续项目复用的完整交付包。</p></div>
+<div class="grid g2 lower">
+  <div class="card">
+    <h3>核心内容</h3>
+    <ul><li>标准包至少包括任务说明、数据需求/字典、代码、参数、README、运行日志、结果和审计底稿。</li><li>原始输入与客户敏感数据按项目要求存储，不与代码随意打包复制。</li><li>需要标记最终审计版本和归档版本。</li><li>复用时先重新确认业务口径和审计目的，不直接复制规则。</li><li>交接需要说明已知限制、依赖环境和未解决事项。</li><li>月末标准包将作为后续CAATs规范模板的第一版。</li></ul>
+  </div>
+  <div class="card">
+    <h3>判断与执行步骤</h3>
+    <ol><li>整理最终目录。</li><li>删除无效临时文件。</li><li>标记最终版本。</li><li>核对底稿引用。</li><li>补交接说明。</li><li>让Reviewer按清单验收。</li><li>归档标准模板。</li></ol>
+  </div>
+</div>
+<div class="grid g2 lower">
+  <div class="card evidence">
+    <h3>常用资料 / 审计证据</h3>
+    <ul><li>任务说明。</li><li>数据字典。</li><li>代码/配置。</li><li>README。</li><li>运行日志。</li><li>结果/底稿。</li></ul>
+  </div>
+  <div class="card scenario">
+    <h3>应用场景</h3><p>项目结束后，另一名同事应能从标准包快速判断分析目的、重新运行程序、复核异常来源并理解最终结论，而不需要原作者口头讲解。</p>
+    <h3 class="sub">完成后应能回答</h3>
+    <ul><li>标准交付包最少有哪些文件？</li><li>哪些内容可以复用，哪些必须在新项目重新确认？</li><li>怎样判断一个CAATs程序真正达到“可交接”？</li></ul>
+  </div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>34 / 40</span></div></section><section class="slide"><div class="kicker">W4 · PRACTICE</div><h1>第4周练习与验收</h1>
+<div class="grid g2">
+<div class="card">
+<h3>审计化练习 KZJ-M1-W4-P01</h3>
+<p>选择重构后的程序，补齐：</p>
+<ul><li>审计问题</li><li>规则依据</li><li>数据可靠性</li><li>异常分层</li><li>异常核验</li><li>结论边界</li></ul>
+</div>
+<div class="card good">
+<h3>正式交付 KZJ-M1-W4-A01</h3>
+<p>提交1套标准CAATs包：</p>
+<ul><li>任务说明</li><li>数据字典/数据来源</li><li>代码+配置</li><li>README</li><li>运行日志</li><li>结果</li><li>审计底稿</li></ul>
+</div>
+</div>
+<div class="summary"><b>周验收：</b>Reviewer无需作者现场解释，即可理解审计逻辑、复核数据和异常，并能重新运行主要程序。</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>35 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · CHECK</div><h1>月末综合验收｜订单与收入CAATs案例</h1>
+<div class="case">
+<p><b>场景：</b>项目要求核对全年电商订单与ERP收入，识别漏传、重复、金额异常和年末截止问题。订单来自OMS，发货来自WMS，收入来自ERP，退款来自平台数据。</p>
+</div>
+<ol class="biglist">
+<li>先写任务说明：审计问题、业务口径、期间、输入、输出和限制。</li>
+<li>列出最小必要数据表、字段、主键和关联关系。</li>
+<li>设计输入和输出校验。</li>
+<li>设计至少3类异常规则并说明审计依据。</li>
+<li>说明如何验证总体完整性和字段可靠性。</li>
+<li>选1类异常设计后续核验证据链。</li>
+<li>说明最终底稿结论和停止条件。</li>
+</ol>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>36 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · DELIVERABLES</div><h1>第1个月正式成果</h1>
+<div class="cards cols-5">
+<div class="card good"><h3>01</h3><p>3份任务拆解卡</p></div>
+<div class="card good"><h3>02</h3><p>旧CAATs代码体检与重构方案</p></div>
+<div class="card good"><h3>03</h3><p>重构后的可复现程序</p></div>
+<div class="card good"><h3>04</h3><p>同事复现实验记录</p></div>
+<div class="card good"><h3>05</h3><p>标准CAATs交付包</p></div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>37 / 40</span></div></section><section class="slide"><div class="kicker">ITAS · TRACKING</div><h1>ITAS学习与Review记录</h1>
+<table>
+<tr><th>记录项</th><th>使用方式</th></tr>
+<tr><td>学习状态</td><td>未开始 / 学习中 / 已完成</td></tr>
+<tr><td>任务拆解</td><td>需求确认前是否已经编码；任务说明是否一次通过</td></tr>
+<tr><td>代码Review</td><td>结构、参数、输入校验、输出校验、异常处理、日志、版本</td></tr>
+<tr><td>复现实验</td><td>独立运行成功 / 需少量说明 / 无法复现</td></tr>
+<tr><td>审计化Review</td><td>规则无依据、总体未验证、异常未核验、结论过度、底稿无法复核等问题标签</td></tr>
+<tr><td>下月强化</td><td>同类问题重复出现或验收未通过时，自动进入第2个月待强化项</td></tr>
+</table>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>38 / 40</span></div></section><section class="slide"><div class="kicker">MONTH-END · RUBRIC</div><h1>月末评分</h1>
+<table>
+<tr><th>维度</th><th>权重</th><th>通过表现</th></tr>
+<tr><td>任务理解与拆解</td><td>25%</td><td>编码前能确认审计问题、口径、数据、输出和验收标准。</td></tr>
+<tr><td>代码规范与可复现</td><td>25%</td><td>结构清晰、参数化、异常处理完善，同事可独立运行。</td></tr>
+<tr><td>数据校验与可靠性</td><td>20%</td><td>能证明总体完整、字段可靠、转换过程可追踪。</td></tr>
+<tr><td>审计证据与结论</td><td>20%</td><td>规则有依据、异常有核验、结论有边界。</td></tr>
+<tr><td>交接与复盘</td><td>10%</td><td>交付包完整，可Review、可归档、可后续复用。</td></tr>
+</table>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>39 / 40</span></div></section><section class="slide"><div class="kicker">NEXT MONTH</div><h1>第2个月计划生成依据</h1>
+<p class="lead">第2个月不再单纯增加代码难度，而是根据本月实际结果决定往哪一层升级。</p>
+<div class="grid g3">
+<div class="card"><h3>工程规范稳定</h3><p>如果任务拆解和可复现已稳定，第2个月减少规范训练，直接要求新项目全部采用标准包。</p></div>
+<div class="card warn"><h3>审计判断仍弱</h3><p>如果规则、异常核验和结论仍依赖Reviewer，第2个月增加Scope、证据判断和财审连接训练。</p></div>
+<div class="card good"><h3>能力升级</h3><p>达到本月目标后，可进入权限/SoD、日志行为、接口一致性、会计分录等更复杂CAATs场景，并开始沉淀可复用框架。</p></div>
+</div>
+<div class="footer"><span>KZJ 第1个月特别培养计划 · 学员详细版</span><span>40 / 40</span></div></section></div><div class="nav"><button id="prev">‹</button><span id="count">1 / 40</span><button id="next">›</button></div>
+<script>
+const s=[...document.querySelectorAll('.slide')];let i=0;
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((x,j)=>x.classList.toggle('active',j===i));document.getElementById('count').textContent=(i+1)+' / '+s.length;}
+document.getElementById('prev').onclick=()=>show(i-1);document.getElementById('next').onclick=()=>show(i+1);
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1);});
+</script></body></html>
