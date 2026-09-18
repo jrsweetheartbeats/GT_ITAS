@@ -16,6 +16,11 @@ const STATUS_LABELS = {
   needs_revision: '修改中', completed: '完成', blocked: 'Blocked',
 };
 const TASK_TYPE_LABELS = { learning: '学习', quiz: '理解题', practice: '练习', project: '项目实操', assignment: '作业', self_check: '自检', review: '导师Review' };
+const TRAINING_MANAGER_ROLES = new Set(['admin', 'partner', 'quality', 'director', 'senior_manager', 'manager']);
+
+function canSelectTrainingPlan() {
+  return Boolean(state.me?.is_admin || TRAINING_MANAGER_ROLES.has(state.me?.role_code));
+}
 
 function dateValue(value) {
   if (!value) return null;
@@ -232,7 +237,10 @@ function render() {
   if (learnerMode) { renderLearner(); return; }
   if (!overview) { box.innerHTML = '<div class="empty">暂无已导入的培养计划</div>'; return; }
   const metrics = overview.metrics || {};
-  box.innerHTML = `<div class="training-plan-picker"><label>培养计划<select id="trainingPlanSelect">${plans.map(plan => `<option value="${plan.id}" ${plan.id === selectedPlanId ? 'selected' : ''}>${esc(plan.employeeName)} · ${esc(plan.title)} · ${esc(plan.period)}</option>`).join('')}</select></label><span class="muted">当前周：${overview.currentWeekNo ? `第${overview.currentWeekNo}周` : '不在计划周期内'}</span><button type="button" class="secondary" data-training-refresh><i class="ti ti-refresh"></i> 刷新</button></div>
+  const planPicker = canSelectTrainingPlan()
+    ? `<label>培养计划<select id="trainingPlanSelect">${plans.map(plan => `<option value="${plan.id}" ${plan.id === selectedPlanId ? 'selected' : ''}>${esc(plan.employeeName)} · ${esc(plan.title)} · ${esc(plan.period)}</option>`).join('')}</select></label>`
+    : `<span class="muted">当前培养计划：${esc(overview.plan.title || '我的培养计划')}</span>`;
+  box.innerHTML = `<div class="training-plan-picker">${planPicker}<span class="muted">当前周：${overview.currentWeekNo ? `第${overview.currentWeekNo}周` : '不在计划周期内'}</span><button type="button" class="secondary" data-training-refresh><i class="ti ti-refresh"></i> 刷新</button></div>
     <div class="training-plan-hero"><div><div class="training-eyebrow">员工</div><h2>${esc(overview.employee.name)}</h2><div class="muted">${esc(overview.plan.title)} · ${esc(dateText(overview.plan.startDate))} — ${esc(dateText(overview.plan.endDate))}</div><p>${esc(overview.plan.overallGoal || '未设置整体目标')}</p></div><div class="training-plan-status">${tag(statusLabel(overview.plan.status), overview.plan.status === 'completed' ? 'green' : '')}</div></div>
     <div class="training-metrics">${renderMetric('总任务', metrics.totalTasks || 0)}${renderMetric('已完成', metrics.completed || 0, 'done')}${renderMetric('待提交', metrics.pendingSubmission || 0, 'attention')}${renderMetric('待Review', metrics.pendingReview || 0, 'attention')}${renderMetric('Blocked', metrics.blocked || 0, 'risk')}</div>
     <div class="training-view-switch"><button type="button" class="${view === 'tasks' ? 'active' : 'secondary'}" data-training-view="tasks"><i class="ti ti-list-check"></i> 任务视图</button><button type="button" class="${view === 'gantt' ? 'active' : 'secondary'}" data-training-view="gantt"><i class="ti ti-chart-gantt"></i> 甘特图</button></div>
@@ -263,6 +271,10 @@ async function loadSelectedPlan() {
 }
 
 export async function loadDevelopmentOverview({silent = false} = {}) {
+  if (!canSelectTrainingPlan()) {
+    await loadLearner();
+    return;
+  }
   try {
     plans = await request('/api/development/training-plans');
     learnerMode = false;
