@@ -11,6 +11,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from ..core.config import WORKSPACE_ROOT
 from ..core.db import SessionLocal, ensure_database_exists, safe_database_label
 from ..models import Attachment, Project, Workpaper
 from ..services.attachments import file_type_for_path, guess_workpaper_for_file, safe_project_code, sanitize_workpaper_code
@@ -18,7 +19,7 @@ from ..services.project_scope import infer_audit_scope_from_file_rows
 from ..services.workpaper_metadata import merge_workpaper_metadata
 
 
-DEFAULT_SEARCH_ROOT = Path("/Users/lirui/PycharmProjects/PythonProject")
+DEFAULT_SEARCH_ROOT = Path(os.getenv("AUDIT_FLOW_SEARCH_ROOT", str(WORKSPACE_ROOT))).expanduser()
 DEFAULT_BACKUP_DIR = Path(__file__).resolve().parents[1] / "db_backups"
 WORKPAPER_EXTENSIONS = {".xlsx", ".xlsm", ".xls", ".docx", ".doc"}
 ATTACHMENT_EXTENSIONS = {".xlsx", ".xlsm", ".xls", ".docx", ".doc", ".pdf", ".png", ".jpg", ".jpeg", ".txt", ".csv"}

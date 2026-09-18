@@ -10,7 +10,7 @@ import subprocess
 import sys
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, File, Header, HTTPException, Query, Request, Response, UploadFile
+from fastapi import APIRouter, Depends, File, Header, HTTPException, Query, Response, UploadFile
 from fastapi.responses import FileResponse
 from docx import Document
 from openpyxl import load_workbook
@@ -71,8 +71,6 @@ from ..schemas import (
     ContactIn,
     DocumentRequestUploadIn,
     InitFromPriorIn,
-    ChangePasswordIn,
-    ForgotPasswordIn,
     LoginIn,
     MemberIn,
     PasswordPolicyIn,
@@ -100,12 +98,6 @@ from ..services.attachments import (
 )
 from ..services.materials import c22_document_requests_from_rules, save_upload_files
 from ..services.projects import copy_workpaper_file, replace_audit_year, seed_project_template_workpapers
-from ..services.audit_log import record_audit_log
-from ..services.password_accounts import (
-    find_active_user,
-    password_sync_message,
-    set_user_password,
-)
 from ..services.review import add_finding, run_external_rules, run_internal_review
 
 
@@ -163,67 +155,3 @@ def me(user: User = Depends(current_user), db: Session = Depends(get_db)) -> dic
     data["permissions"] = feature_permission_payload(db, user)
     data.pop("password_hash", None)
     return data
-
-
-def _confirmed_new_password(new_password: str, confirm_password: str) -> str:
-    password = str(new_password or "")
-    confirm = str(confirm_password or "")
-    if password != confirm:
-        raise HTTPException(status_code=400, detail="两次输入的新密码不一致")
-    return password
-
-
-@router.get("/api/password/policy")
-def public_password_policy(db: Session = Depends(get_db)) -> dict[str, Any]:
-    return get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY)
-
-
-@router.post("/api/password/change")
-def change_password(body: ChangePasswordIn, request: Request, db: Session = Depends(get_db)) -> dict[str, Any]:
-    user = find_active_user(db, body.username)
-    if user is None or user.status != "active" or not verify_password(body.old_password, user.password_hash):
-        raise HTTPException(status_code=401, detail="账号或原密码错误")
-    new_password = _confirmed_new_password(body.new_password, body.confirm_password)
-    policy = get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY)
-    try:
-        synced = set_user_password(db, user, new_password, policy=policy)
-        record_audit_log(
-            db,
-            request,
-            "password_change",
-            user=user,
-            target_type="user",
-            target_id=user.id,
-            details={"synced": synced},
-        )
-        db.commit()
-    except Exception:
-        db.rollback()
-        raise
-    return {"ok": True, "message": password_sync_message(synced), "synced": synced}
-
-
-@router.post("/api/password/forgot")
-def forgot_password(body: ForgotPasswordIn, request: Request, db: Session = Depends(get_db)) -> dict[str, Any]:
-    user = find_active_user(db, body.username)
-    expected_name = str(body.display_name or "").strip()
-    if user is None or user.status != "active" or str(user.display_name or "").strip() != expected_name:
-        raise HTTPException(status_code=400, detail="账号或姓名不匹配")
-    new_password = _confirmed_new_password(body.new_password, body.confirm_password)
-    policy = get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY)
-    try:
-        synced = set_user_password(db, user, new_password, policy=policy)
-        record_audit_log(
-            db,
-            request,
-            "password_reset",
-            user=user,
-            target_type="user",
-            target_id=user.id,
-            details={"synced": synced},
-        )
-        db.commit()
-    except Exception:
-        db.rollback()
-        raise
-    return {"ok": True, "message": password_sync_message(synced), "synced": synced}

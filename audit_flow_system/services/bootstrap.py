@@ -75,12 +75,6 @@ DEFAULT_AUDIT_USERS = [
     ("ita_lsq", "卢思齐", "preparer"),
     ("ita_hyt", "黄译潼", "preparer"),
     ("ita_wyx", "王勇轩", "preparer"),
-    ("ita_cyx", "陈亦浠", "preparer"),
-    ("ita_hhl", "黄惠玲", "preparer"),
-    ("ita_qmn", "邱美侬", "preparer"),
-    ("ita_xhx", "徐慧娴", "preparer"),
-    ("ita_zzq", "占志权", "quality"),
-    ("ita_yxm", "闫晓濛", "quality"),
 ]
 
 
@@ -145,14 +139,14 @@ def seed_defaults(db: Session) -> None:
         db.flush()
         if not admin_password:
             raise RuntimeError("首次初始化管理员请设置 AUDIT_FLOW_INITIAL_ADMIN_PASSWORD")
-        db.add(User(username="admin", display_name="系统管理员", role_id=roles[0].id, password_hash=hash_password(admin_password)))
+        db.add(User(username="ita_admin", display_name="系统管理员", role_id=roles[0].id, password_hash=hash_password(admin_password)))
     else:
-        admin = db.execute(select(User).where(User.username.in_(["admin", "ita_admin"]))).scalars().first()
+        admin = db.execute(select(User).where(User.username == "ita_admin")).scalar_one_or_none()
         admin_role = db.execute(select(Role).where(Role.code == "admin")).scalar_one_or_none()
         if admin is None and admin_role is not None:
             if not admin_password:
                 raise RuntimeError("首次初始化管理员请设置 AUDIT_FLOW_INITIAL_ADMIN_PASSWORD")
-            db.add(User(username="admin", display_name="系统管理员", role_id=admin_role.id, password_hash=hash_password(admin_password)))
+            db.add(User(username="ita_admin", display_name="系统管理员", role_id=admin_role.id, password_hash=hash_password(admin_password)))
         elif admin is not None and not admin.password_hash:
             raise RuntimeError("管理员账号缺少密码，请通过受控运维流程重置密码")
     if is_production_environment():
@@ -220,8 +214,7 @@ def seed_development_content(db: Session) -> None:
     employees = {row.code: row for row in db.execute(select(DevelopmentEmployee)).scalars().all()}
     users = db.execute(select(User)).scalars().all()
     users_by_name = {row.display_name: row for row in users}
-    users_by_code = {row.username.lower(): row for row in users}
-    mentor = users_by_code.get("lirui")
+    mentor = users_by_name.get("李瑞")
     for item in payload.get("employees", []):
         code = str(item["code"]).upper()
         row = employees.get(code)

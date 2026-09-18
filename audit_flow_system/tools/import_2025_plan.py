@@ -29,7 +29,7 @@ WORKBOOK_NS = {
     "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
 }
 DEFAULT_PLAN_PATH = WORKSPACE_ROOT / "IT 审计需求计划.xlsx"
-DEFAULT_SEARCH_ROOT = Path("/Users/lirui/PycharmProjects/PythonProject")
+DEFAULT_SEARCH_ROOT = Path(os.getenv("AUDIT_FLOW_SEARCH_ROOT", str(WORKSPACE_ROOT))).expanduser()
 SKIP_DIRS = {
     ".git",
     ".idea",
@@ -474,7 +474,7 @@ def import_projects(plan_path: Path, search_root: Path, max_depth: int, apply: b
     with SessionLocal() as db:
         require_migrated_database(db)
         seed_defaults(db)
-        admin = db.execute(select(User).where(User.username == "admin")).scalar_one_or_none()
+        admin = db.execute(select(User).where(User.username == "ita_admin")).scalar_one_or_none()
         for item in preview_items:
             plan: PlanProject = item["plan"]
             project_root = item["project_root"]

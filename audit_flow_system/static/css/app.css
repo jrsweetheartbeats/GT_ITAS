@@ -444,17 +444,6 @@ td.actions {
   color: #101828;
   letter-spacing: 0;
 }
-.login-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-}
-.login-tabs button {
-  width: 100%;
-}
-.login-hint {
-  line-height: 1.45;
-}
 .hidden { display: none !important; }
 .nowrap { white-space: nowrap; }
 .empty {
@@ -3003,6 +2992,17 @@ button.ghost:hover:not(:disabled) {
 .my-training-blocker-form { display:grid; gap:10px; margin-top:12px; padding:12px; border:1px solid #cbdaf1; border-radius:8px; background:#f8fbff; }
 .my-training-blocker-form label { display:grid; gap:5px; font-weight:600; }
 .my-training-month { margin-bottom:10px; }
+.training-batch-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.training-batch-card { display:block; min-height:174px; padding:18px; border:1px solid var(--line); border-radius:9px; background:#fff; color:var(--ink); box-shadow:none; text-align:left; }
+.training-batch-card:hover { border-color:#9fc0df; background:#f8fbff; box-shadow:0 5px 14px rgba(31,78,121,.09); transform:none; }
+.training-batch-card strong { display:block; margin:10px 0 4px; color:var(--primary-dark); font-size:16px; }
+.training-batch-card p { min-height:44px; margin:0; color:#475467; font-size:13px; line-height:1.55; }
+.training-batch-card-head, .training-batch-card-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.training-batch-card-head > span { color:var(--primary-dark); font-weight:700; font-size:13px; }
+.training-batch-card-meta { margin-top:10px; color:var(--muted); font-size:12px; }
+.my-training-batch-head { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:start; gap:16px; margin:4px 0 16px; padding:16px; border:1px solid var(--line); border-radius:10px; background:#f8fbff; }
+.my-training-batch-head h3 { margin:3px 0 5px; font-size:20px; }
+.my-training-batch-head p { margin:0 0 5px; color:#475467; }
 .training-task-loop-detail { margin-top:16px; padding:16px; border:1px solid #cbdaf1; border-radius:10px; background:#fbfdff; }
 .training-task-loop-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:14px 0; }
 .training-task-loop-grid > div { padding:10px; border:1px solid var(--line); border-radius:7px; background:#fff; }
@@ -3016,6 +3016,22 @@ button.ghost:hover:not(:disabled) {
 .training-material-item > div, .training-submission-version > div { display:grid; gap:3px; min-width:0; }
 .training-material-item span, .training-submission-version span { color:var(--muted); font-size:12px; }
 .training-material-frame { width:100%; min-height:360px; margin-top:10px; border:1px solid #dbe5f3; border-radius:8px; background:#fff; }
+.personal-handbook { padding-bottom:12px; background:linear-gradient(180deg,#fff,#f8fbff); }
+.training-personal-handbook { width:100%; height:min(78vh,940px); min-height:620px; border:1px solid #d6e1ec; border-radius:8px; background:#fff; }
+.training-assignment-backdrop { position:fixed; z-index:2000; inset:0; display:grid; place-items:center; padding:28px; background:rgba(15,23,42,.48); }
+.training-assignment-window { width:min(900px,100%); max-height:calc(100vh - 56px); overflow:auto; padding:22px; border:1px solid #cbd5e1; border-radius:12px; background:#fff; box-shadow:0 24px 70px rgba(15,23,42,.32); }
+.training-assignment-window .training-detail-head { position:sticky; top:-22px; z-index:1; margin:-22px -22px 16px; padding:22px; border-bottom:1px solid var(--line); background:#fff; }
+.training-assignment-body { display:grid; gap:14px; }
+.training-assignment-window .training-submission-form { padding:16px; border:1px solid #cbdaf1; border-radius:9px; background:#f8fbff; }
+.training-quiz-feedback { display:grid; gap:10px; padding:16px; border:1px solid #f0c36d; border-radius:9px; background:#fff8e8; }
+.training-quiz-feedback > strong { color:#8b5a13; }
+.training-quiz-feedback article { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:5px 12px; padding-top:10px; border-top:1px solid #eed9ad; }
+.training-quiz-feedback article:first-of-type { border-top:0; padding-top:0; }
+.training-quiz-feedback article > span { color:#a16207; font-size:12px; }
+.training-quiz-feedback article.training-quiz-feedback-correct > span { color:#15803d; }
+.training-quiz-feedback article.training-quiz-feedback-correct { border-color:#b9dfc5; }
+.training-quiz-feedback article p { grid-column:1 / -1; margin:0; color:#5c4a2b; font-size:13px; line-height:1.55; }
+.training-learning-complete { display:flex; align-items:center; gap:10px; margin-top:12px; padding-top:12px; border-top:1px solid var(--line); }
 #trainingTaskNoteForm textarea { width:100%; min-height:150px; resize:vertical; line-height:1.65; }
 .training-submission-version { flex-wrap:wrap; }
 .training-submission-reviews { flex-basis:100%; color:#475467; font-size:12px; }
@@ -3077,6 +3093,11 @@ button.ghost:hover:not(:disabled) {
 .training-quiz-option { display:flex; align-items:center; gap:9px; padding:10px 12px; border:1px solid var(--line); border-radius:7px; background:#fff; cursor:pointer; font-weight:500; }
 .training-quiz-option:hover { border-color:#9bb9e8; background:#f8fbff; }
 .training-quiz-option input { width:auto; min-height:auto; }
+.training-quiz-option-key { display:inline-grid; flex:0 0 24px; width:24px; height:24px; place-items:center; border:1px solid #b7c8e0; border-radius:50%; color:#1d4f91; background:#f2f7ff; font-size:12px; font-weight:750; }
+.training-quiz-success { display:grid; gap:8px; padding:16px; border:1px solid #8cc5a1; border-radius:9px; background:#f0fdf4; }
+.training-quiz-success strong { color:#166534; }
+.training-quiz-success p { margin:0; color:#166534; }
+.training-quiz-success .muted { color:#4b6354; }
 .training-quiz-question > input[type="text"] { max-width:560px; }
 
 #qualityDashboard.active,
@@ -3111,6 +3132,11 @@ button.ghost:hover:not(:disabled) {
 .mentor-student-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
 .mentor-student-card { display:grid; gap:12px; text-align:left; padding:15px; border:1px solid var(--line); background:#fff; color:var(--ink); box-shadow:var(--shadow-soft); }
 .mentor-student-card:hover { background:#f8fbff; box-shadow:var(--shadow-soft); }
+.mentor-student-card.selected { border-color:#2563eb; background:#eff6ff; box-shadow:0 0 0 2px rgba(37,99,235,.12); }
+.mentor-task-list { display:grid; gap:8px; }
+.mentor-task-item { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:12px; padding:11px 12px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+.mentor-task-item > div { display:grid; gap:3px; }
+.mentor-task-item small { color:var(--muted); }
 .mentor-student-card > div:first-child { display:grid; gap:3px; }
 .mentor-student-card span, .mentor-student-metrics { color:var(--muted); font-size:12px; }
 .mentor-student-metrics { display:grid; grid-template-columns:repeat(2,1fr); gap:5px; }
@@ -3166,6 +3192,11 @@ button.ghost:hover:not(:disabled) {
   .my-training-week, .my-training-head { flex-direction:column; }
   .my-training-week-progress { min-width:0; width:100%; text-align:left; }
   .my-training-two-col { grid-template-columns:1fr; }
+  .training-batch-grid { grid-template-columns:1fr; }
+  .my-training-batch-head { grid-template-columns:1fr; }
+  .training-assignment-backdrop { padding:10px; }
+  .training-assignment-window { max-height:calc(100vh - 20px); padding:16px; }
+  .training-assignment-window .training-detail-head { top:-16px; margin:-16px -16px 14px; padding:16px; }
   .my-training-task { grid-template-columns:1fr; }
   .my-training-task-state { justify-content:flex-start; }
   .my-training-submit-item { align-items:flex-start; flex-wrap:wrap; }
@@ -3258,3 +3289,8 @@ button.ghost:hover:not(:disabled) {
 .my-training-day { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: start; padding: 10px 0; border-top: 1px solid var(--border, #e5e7eb); }
 .my-training-day > strong { color: var(--text-secondary, #64748b); padding-top: 10px; }
 .my-training-day .my-training-task { margin: 0 0 8px; }
+
+.mentor-student-picker { display:grid; gap:10px; }
+.mentor-student-select { display:grid; grid-template-columns:minmax(120px,180px) minmax(280px,520px); align-items:center; gap:10px; color:#344054; font-weight:700; }
+.mentor-student-select select { width:100%; }
+@media (max-width:720px) { .mentor-student-select { grid-template-columns:1fr; } .mentor-task-item { grid-template-columns:1fr; align-items:start; } }

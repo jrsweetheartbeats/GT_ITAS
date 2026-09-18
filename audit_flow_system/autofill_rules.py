@@ -19,6 +19,8 @@ class EvidenceMatch:
 
 
 def load_rules(path: Path = RULES_PATH) -> dict[str, Any]:
+    if not path.is_file():
+        return {"version": "public-empty", "project_sources": [], "rules": []}
     return json.loads(path.read_text(encoding="utf-8"))
 
 

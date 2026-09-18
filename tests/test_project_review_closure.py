@@ -17,7 +17,7 @@ from audit_flow_system.routers.reviews import (
     update_review_finding,
 )
 from audit_flow_system.routers.workpapers import _ensure_existing_upload_allowed, _uploaded_workpaper_status
-from audit_flow_system.schemas import ReviewFindingPatchIn, ReviewFindingResponseIn
+from audit_flow_system.schemas import ReviewFindingIn, ReviewFindingPatchIn, ReviewFindingResponseIn
 from audit_flow_system.services.timeliness import is_open_like
 from audit_flow_system.routers.workflow import _workpaper_done
 from audit_flow_system.services.bootstrap import DEFAULT_ROLE_PERMISSIONS
@@ -28,6 +28,10 @@ def user(user_id: int, role_code: str = "preparer") -> SimpleNamespace:
 
 
 class ProjectReviewClosureTests(unittest.TestCase):
+    def test_manual_finding_schema_accepts_optional_assignee(self) -> None:
+        body = ReviewFindingIn(project_id=1, issue="密码策略结论不一致", assignee_user_id=2)
+        self.assertEqual(body.assignee_user_id, 2)
+
     def test_project_review_assignments_follow_configured_people(self) -> None:
         project = SimpleNamespace(
             project_leader_user_id=11,

@@ -96,7 +96,6 @@ from ..services.attachments import (
 )
 from ..services.materials import c22_document_requests_from_rules, save_upload_files
 from ..services.projects import copy_workpaper_file, replace_audit_year, seed_project_template_workpapers
-from ..services.password_accounts import set_user_password
 from ..services.review import add_finding, run_external_rules, run_internal_review
 
 
@@ -125,16 +124,9 @@ def create_user(body: UserIn, db: Session = Depends(get_db), user: User = Depend
     password = str(payload.pop("password") or "")
     if not password:
         raise HTTPException(status_code=422, detail="创建用户必须设置初始密码")
-    item = User(**payload, password_hash="")
+    validate_password_policy(password, get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY))
+    item = User(**payload, password_hash=hash_password(password))
     db.add(item)
-    db.flush()
-    set_user_password(
-        db,
-        item,
-        password,
-        policy=get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY),
-        invalidate_sessions=False,
-    )
     db.commit()
     db.refresh(item)
     data = obj_dict(item)
@@ -149,12 +141,8 @@ def update_user(user_id: int, body: UserIn, db: Session = Depends(get_db), user:
     password = payload.pop("password", None)
     apply_patch_to_model(item, payload)
     if password:
-        set_user_password(
-            db,
-            item,
-            str(password),
-            policy=get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY),
-        )
+        validate_password_policy(password, get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY))
+        item.password_hash = hash_password(password)
     db.commit()
     db.refresh(item)
     data = obj_dict(item)

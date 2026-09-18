@@ -32,20 +32,6 @@ class LoginIn(BaseModel):
     password: str
 
 
-class ChangePasswordIn(BaseModel):
-    username: str
-    old_password: str
-    new_password: str
-    confirm_password: str
-
-
-class ForgotPasswordIn(BaseModel):
-    username: str
-    display_name: str
-    new_password: str
-    confirm_password: str
-
-
 class PasswordPolicyIn(BaseModel):
     min_length: int = Field(default=6, ge=1, le=64)
     require_digit: bool = True
@@ -235,6 +221,7 @@ class ReviewFindingIn(BaseModel):
     review_stage: str = ""
     field_lead: str = ""
     project_reviewer: str = ""
+    assignee_user_id: Optional[int] = None
     status: str = "open"
     review_comment: str = ""
 

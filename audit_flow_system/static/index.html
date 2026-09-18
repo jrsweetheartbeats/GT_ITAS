@@ -6,43 +6,20 @@
   <title>ITAS</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-  <link rel="stylesheet" href="/static/css/app.css?v=20260908-password1">
+  <link rel="stylesheet" href="/static/css/app.css?v=20260918-training-courseware5">
 </head>
 <body>
   <div class="login-screen" id="loginScreen">
-    <div class="login-panel form-grid">
+    <form class="login-panel form-grid" id="loginForm">
       <div>
         <h1>ITAS</h1>
         <div class="muted">IT 审计项目生命周期平台</div>
       </div>
-      <div class="login-tabs segmented-control" id="loginTabs">
-        <button type="button" class="active" data-login-view="login">登录</button>
-        <button type="button" data-login-view="change">修改密码</button>
-        <button type="button" data-login-view="forgot">忘记密码</button>
-      </div>
-      <form class="form-grid" id="loginForm">
-        <label>账号<input name="username" autocomplete="username" required></label>
-        <label>密码<input name="password" type="password" autocomplete="current-password" required></label>
-        <button type="submit">登录</button>
-      </form>
-      <form class="form-grid hidden" id="changePasswordForm">
-        <div class="muted login-hint">将同步更新 ITAS、MariaDB 和 SQL Server 中的同名数据库账号密码。</div>
-        <label>账号<input name="username" autocomplete="username" required></label>
-        <label>原密码<input name="old_password" type="password" autocomplete="current-password" required></label>
-        <label>新密码<input name="new_password" type="password" autocomplete="new-password" required></label>
-        <label>确认新密码<input name="confirm_password" type="password" autocomplete="new-password" required></label>
-        <button type="submit">保存新密码</button>
-      </form>
-      <form class="form-grid hidden" id="forgotPasswordForm">
-        <div class="muted login-hint">请输入账号和系统中登记的姓名验证身份。重置后将同步 ITAS、MariaDB 和 SQL Server 同名账号。</div>
-        <label>账号<input name="username" autocomplete="username" required></label>
-        <label>登记姓名<input name="display_name" autocomplete="name" required></label>
-        <label>新密码<input name="new_password" type="password" autocomplete="new-password" required></label>
-        <label>确认新密码<input name="confirm_password" type="password" autocomplete="new-password" required></label>
-        <button type="submit">重置密码</button>
-      </form>
+      <label>账号<input name="username" autocomplete="username" required></label>
+      <label>密码<input name="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit">登录</button>
       <div class="muted" id="loginStatus">请输入账号和密码</div>
-    </div>
+    </form>
   </div>
   <div class="app hidden" id="appShell">
     <aside class="sidebar">
@@ -1154,6 +1131,6 @@
     </main>
   </div>
 
-  <script type="module" src="/static/js/app.js?v=20260918-training-role1"></script>
+  <script type="module" src="/static/js/app.js?v=20260918-training-courseware5"></script>
 </body>
 </html>

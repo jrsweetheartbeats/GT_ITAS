@@ -1,4 +1,4 @@
-import { login, publicJson, request, setUnauthorizedHandler } from './api.js?v=20260908-password1';
+import { login, request, setUnauthorizedHandler } from './api.js?v=20260630a';
 import { clearToken, defaultModuleOrder, setToken, state } from './state.js?v=20260630a';
 import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from './utils.js?v=20260630b';
 import { bindClients, openNewClientForm, renderClients } from './modules/clients.js?v=20260707a';
@@ -12,8 +12,8 @@ import { bindQualityModules, closeQualityFindingDrawer, openQualityFinding, refr
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
 import { bindWorkflowPrototype, loadWorkflowPrototypeData, refreshWorkflowReviewCenterData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260906-review-fix5';
 import { bindLearning, loadLearning } from './modules/learning.js?v=20260820a';
-import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260918-training-role1';
-import { bindMentorWorkbench } from './modules/mentorWorkbench.js?v=20260821-mentor1';
+import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260918-training-courseware5';
+import { bindMentorWorkbench } from './modules/mentorWorkbench.js?v=20260918-review-access3';
 
 let projectScopedRefreshSeq = 0;
 const TRAINING_MANAGER_ROLES = new Set(['admin', 'partner', 'quality', 'director', 'senior_manager', 'manager']);
@@ -758,36 +758,7 @@ function bindNavigation() {
   });
 }
 
-function setLoginView(view) {
-  const views = {
-    login: $('loginForm'),
-    change: $('changePasswordForm'),
-    forgot: $('forgotPasswordForm')
-  };
-  Object.entries(views).forEach(([key, form]) => {
-    form.classList.toggle('hidden', key !== view);
-  });
-  $('loginTabs').querySelectorAll('[data-login-view]').forEach(button => {
-    button.classList.toggle('active', button.dataset.loginView === view);
-  });
-  const hints = {
-    login: '请输入账号和密码',
-    change: '请输入账号、原密码和新密码',
-    forgot: '请输入账号、登记姓名和新密码'
-  };
-  if (!$('loginStatus').textContent.startsWith('ITAS 密码已更新')) {
-    $('loginStatus').textContent = hints[view] || hints.login;
-  }
-}
-
 function bindAuth() {
-  $('loginTabs').addEventListener('click', (event) => {
-    const button = event.target.closest('[data-login-view]');
-    if (button) {
-      $('loginStatus').textContent = '';
-      setLoginView(button.dataset.loginView);
-    }
-  });
   $('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
@@ -797,38 +768,6 @@ function bindAuth() {
       showApp();
       applyAuthUi();
       await refreshAll();
-    } catch (err) {
-      $('loginStatus').textContent = '错误：' + err.message;
-    }
-  });
-  $('changePasswordForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const payload = formData(e.target);
-    if (payload.new_password !== payload.confirm_password) {
-      $('loginStatus').textContent = '错误：两次输入的新密码不一致';
-      return;
-    }
-    try {
-      const result = await publicJson('/api/password/change', payload);
-      e.target.reset();
-      $('loginStatus').textContent = result.message || '密码已更新';
-      setLoginView('login');
-    } catch (err) {
-      $('loginStatus').textContent = '错误：' + err.message;
-    }
-  });
-  $('forgotPasswordForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const payload = formData(e.target);
-    if (payload.new_password !== payload.confirm_password) {
-      $('loginStatus').textContent = '错误：两次输入的新密码不一致';
-      return;
-    }
-    try {
-      const result = await publicJson('/api/password/forgot', payload);
-      e.target.reset();
-      $('loginStatus').textContent = result.message || '密码已重置';
-      setLoginView('login');
     } catch (err) {
       $('loginStatus').textContent = '错误：' + err.message;
     }

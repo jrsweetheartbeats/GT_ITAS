@@ -29,28 +29,22 @@ export async function request(path, options = {}) {
     }
     let detail = await res.text();
     try { detail = JSON.parse(detail).detail || detail; } catch {}
-    throw new Error(detail);
+    const message = detail && typeof detail === 'object' ? (detail.message || JSON.stringify(detail)) : detail;
+    const error = new Error(message);
+    error.detail = detail;
+    throw error;
   }
   if (res.status === 204) return null;
   return await res.json();
 }
 
-export async function publicJson(path, payload) {
-  const res = await fetch(api + path, {
+export async function login(payload) {
+  return fetch(api + '/api/login', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(payload)
+  }).then(async res => {
+    if (!res.ok) throw new Error((await res.json()).detail || '登录失败');
+    return res.json();
   });
-  if (!res.ok) {
-    let detail = await res.text();
-    try { detail = JSON.parse(detail).detail || detail; } catch {}
-    if (Array.isArray(detail)) detail = detail.map(item => item.msg || item).join('；');
-    throw new Error(detail || '请求失败');
-  }
-  if (res.status === 204) return null;
-  return res.json();
-}
-
-export async function login(payload) {
-  return publicJson('/api/login', payload);
 }

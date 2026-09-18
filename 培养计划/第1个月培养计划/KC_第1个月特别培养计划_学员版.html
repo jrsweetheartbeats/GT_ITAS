@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>况晨｜第1个月培养计划</title>
+<style>
+:root{--ink:#20242b;--muted:#5d6673;--paper:#fffdf8;--page:#edf1f5;--navy:#183b5b;--blue:#2a6f9e;--line:#d6dde5;--gold:#a66b22;--note:#edf5fb}*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font-family:Georgia,"Noto Serif SC","Songti SC","Microsoft YaHei",serif;line-height:1.8}main{max-width:980px;margin:30px auto 70px;background:var(--paper);box-shadow:0 12px 36px #183b5b18;padding:58px 76px}h1,h2,h3{font-family:"Noto Serif SC","Songti SC","Microsoft YaHei",serif;line-height:1.35;color:var(--navy)}h1{font-size:38px;margin:0 0 8px;border-bottom:3px solid var(--gold);padding-bottom:20px}h2{font-size:25px;margin:48px 0 16px;padding-left:14px;border-left:5px solid var(--gold)}h3{font-size:18px;margin:24px 0 8px}p{margin:10px 0}.subtitle{font-size:18px;color:var(--muted)}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:28px 0}.meta div{background:#fff;padding:14px 16px;font-size:14px}.label{display:block;color:var(--muted);font-size:12px;letter-spacing:.08em}.lead{font-size:18px;padding:22px 26px;background:#f6f1e8;border-left:5px solid var(--gold)}.box{background:var(--note);border:1px solid #c9ddeb;padding:18px 22px;margin:18px 0}.risk{background:#fff7e9;border:1px solid #ecd8ac;padding:18px 22px;margin:18px 0}.exercise{background:#f4f7f9;border:1px solid var(--line);padding:18px 22px;margin:18px 0}.exercise b,.box b,.risk b{color:var(--navy)}table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px}th{background:var(--navy);color:#fff;text-align:left;padding:10px}td{border:1px solid var(--line);padding:10px;vertical-align:top}ol,ul{padding-left:26px}li{margin:6px 0}.check li{list-style:"□  "}.small{font-size:14px;color:var(--muted)}.footer{margin-top:52px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}@media(max-width:700px){main{margin:0;padding:34px 22px}h1{font-size:29px}.meta{grid-template-columns:1fr}table{font-size:13px}}
+</style></head><body><main>
+<h1>况晨｜第1个月特别培养计划</h1><p class="subtitle">主题：底稿质量控制与复核闭环</p>
+<div class="meta"><div><span class="label">培养周期</span>第 1 个月，4 周</div><div><span class="label">学习场景</span>真实项目资料、底稿与复核记录</div><div><span class="label">月末成果</span>可复核的分析、程序和结论</div></div>
+<p class="lead">本月围绕“底稿质量控制与复核闭环”建立可执行的工作方法。学习材料应尽量取自当前项目；当项目资料不足时，可使用已脱敏的历史案例。每次练习都要留下判断依据、已核实事实、未解决问题和下一步程序，使导师能够复核推理过程。</p>
+<h2>一、先建立判断框架</h2>
+<p>IT 审计不是逐项核对系统功能，而是判断信息系统及其控制是否能够支持财务报告和经营数据的可靠性。面对一项事项，先回答四个问题：业务在什么时点发生；信息如何进入、处理和输出；哪些人员或程序能够改变结果；审计结论最终要支持哪项认定。</p>
+<table><tr><th>观察层面</th><th>应当识别的事实</th><th>没有识别时的风险</th></tr><tr><td>业务事实</td><td>主体、期间、系统名称、索引、证据与结论之间的一致性中的业务触发、责任人、单据与处理时点。</td><td>只描述系统页面，遗漏业务是否真实、完整或在正确期间发生。</td></tr><tr><td>系统处理</td><td>系统、接口、参数、主数据、权限和日志如何共同决定结果。</td><td>把人工操作当成自动控制，或忽略接口失败、参数变更和高权限绕过。</td></tr><tr><td>审计证据</td><td>证据来源、总体范围、生成逻辑、保存方式及其可追溯性。</td><td>报表看似完整，却无法证明期间、口径、字段和导出过程可靠。</td></tr><tr><td>结论边界</td><td>测试覆盖的总体、样本、期间与例外是否足以支持结论。</td><td>以局部事实写出过宽结论，导致底稿不能支撑审计意见。</td></tr></table>
+<div class="box"><b>复述练习。</b> 每周任选一个控制或报表，用不超过三分钟向同事说明：它解决的业务风险是什么；如果失效，错误如何进入财务数据；为什么所选证据能证明控制运行。说明后再对照底稿补充遗漏的前提条件。</div>
+<h2>二、第 1 周：看见流程中的风险传导</h2>
+<h3>学习目标</h3><p>选择一个与当前项目相关的场景，绘制从业务触发到财务报表的流程图。图中必须标明系统边界、关键输入、接口、人工干预点、关键报表和复核节点。建议从“访问权限测试底稿与 Review 意见”入手。</p>
+<h3>操作步骤</h3><ol><li>阅读业务流程说明、访谈纪要和已取得的制度，列出业务动作、责任岗位、使用系统及留痕。</li><li>把每一个动作放入时间顺序，标注数据首次录入、修改、审批、传输和汇总的地点。</li><li>针对每一个会影响金额、期间、完整性或权限的节点，写出“若该节点失效，可能发生什么”。</li><li>为每项风险补充现有控制、预期证据和仍需确认的事项。</li></ol>
+<div class="risk"><b>风险推导示例。</b> 若离职人员账号未及时停用，风险不只是“账号管理不规范”。该账号仍可能登录系统录入、修改或审批交易，且操作日志会显示为原账号，导致未授权处理难以及时识别。进一步要判断该账号权限、离职后的可用期间、实际登录记录，以及是否存在补偿性复核。</div>
+<div class="exercise"><b>本周作业：一页流程与风险说明。</b><br>交付物包括流程图、至少 5 个关键节点、每个节点的风险和控制、待获取资料清单。每个风险要使用“条件—可能错误—影响”表述，例如“接口失败未被识别，可能造成入库数据未完整传入 ERP，从而影响存货数量和成本完整性”。</div>
+<h2>三、第 2 周：把控制测试做成可复核的程序</h2>
+<p>控制测试的核心不是取得截图，而是验证控制在适当期间、针对适当总体、由适当人员或程序运行，并能够预防或发现相关错报。先写清控制目标，再设计资料和步骤；每一步都要说明希望证实的事实。</p>
+<table><tr><th>程序组成</th><th>应写内容</th><th>核查重点</th></tr><tr><td>控制目标</td><td>该控制要防止或发现的具体错误。</td><td>是否对应财务认定，而不是泛泛写“保证系统安全”。</td></tr><tr><td>控制描述</td><td>触发条件、执行人或系统、频率、输入、输出和例外处理。</td><td>描述是否能让未参与项目的人重复执行判断。</td></tr><tr><td>总体与样本</td><td>总体来源、期间、总量、抽样方法和样本选择过程。</td><td>总体是否完整；样本是否与频率、风险相匹配。</td></tr><tr><td>证据与结论</td><td>每一证据说明证明什么，例外如何处理。</td><td>结论是否只覆盖已测试的范围。</td></tr></table>
+<div class="box"><b>证据三问。</b> 对每张截图、报表、配置或访谈记录连续问三次：它直接证明了什么；它依赖哪些前提；还需要什么证据才能排除合理怀疑。答案写入测试记录，而不是只保留在口头讨论中。</div>
+<div class="exercise"><b>本周作业：完成一项控制测试设计。</b><br>从第 1 周选出的节点中选择一项控制，形成“目标—风险—程序—证据—预期例外—结论边界”六栏表。若是自动控制，增加程序版本、配置参数、运行日志和变更控制的验证安排；若依赖报表，增加报表生成逻辑、筛选条件、总体完整性和导出后修改风险的检查。</div>
+<h2>四、第 3 周：验证数据、报表与异常</h2>
+<p>系统导出的报表并不天然可靠。使用报表作为审计证据时，需要同时考虑信息从何处产生、字段如何计算、筛选条件是否正确、总体是否完整、导出后是否被改动，以及支撑该系统的相关 ITGC 是否有效。</p>
+<h3>报表可靠性检查顺序</h3><ol><li><b>确认来源：</b>记录系统名称、菜单路径、报表名称、执行账户、运行日期和期间。</li><li><b>确认逻辑：</b>取得字段定义、查询条件、账龄或金额计算规则；必要时以少量底层交易反查报表。</li><li><b>确认完整性：</b>将记录数、金额合计或控制总额与总账、子系统或独立总体核对。</li><li><b>确认准确性：</b>选择项目，追溯至原始单据、系统明细或可观察的系统运行过程。</li><li><b>确认保存：</b>保留原始文件、生成参数、导出时点及版本信息；若有人工加工，应同时保留加工步骤。</li></ol>
+<div class="risk"><b>为什么不能只核对金额合计。</b> 金额合计相等不能证明数据没有被排除、重复、错分期间或采用错误字段。例如应收账龄表可能金额正确，但账龄基准日、坏账状态或客户范围不正确，仍会使函证选样和减值判断偏离实际。</div>
+<div class="exercise"><b>本周作业：报表可靠性工作底稿。</b><br>选取一份实际使用的报表，完成来源、参数、字段、总体、准确性、导出后处理和 ITGC 依赖七项记录。至少列出两类可能异常，并说明用什么步骤验证，而不是直接将异常归为系统错误。</div>
+<h2>五、第 4 周：形成结论并接受复核</h2>
+<p>结论应从已确认事实自然推出，并保持与程序、证据、例外和影响范围一致。底稿中的“有效”“无异常”“已完成”都必须能够被进一步追问：测试了什么总体，覆盖什么期间，发现什么例外，例外为何不改变结论。</p>
+<h3>结论写作顺序</h3><ol><li>先写事实：系统、控制、期间、总体、样本和观察结果。</li><li>再写评价：该结果如何对应控制目标；例外是否单独、系统性或需要扩大程序。</li><li>最后写边界：本结论不覆盖哪些事项，哪些依赖条件仍需其他底稿支持。</li></ol>
+<div class="box"><b>横向检查。</b> 收到一条 Review 意见后，先判断它属于事实错误、证据不足、逻辑跳跃、表达过宽还是格式索引问题；随后在同一项目中检索可能重复出现的位置。这样做是为了防止同一缺陷在多份底稿中持续存在，而不是只修正被指出的一处。</div>
+<div class="exercise"><b>月末综合作业。</b><br>选取一个完整事项，提交流程风险说明、控制或报表测试记录、例外判断和最终结论。导师复核时应能按文件中的引用路径回到原始资料，并能看出哪些结论来自观察、哪些来自核对、哪些仍属待确认事项。</div>
+<h2>六、每周复盘记录</h2><table><tr><th>问题</th><th>记录要求</th></tr><tr><td>本周最重要的判断</td><td>写明结论、依据和未确认的前提，不写笼统感受。</td></tr><tr><td>出现的异常</td><td>区分数据异常、控制例外、资料不足和理解偏差；记录已采取的验证。</td></tr><tr><td>复核意见</td><td>记录意见的根因，并列出需要横向检查的底稿或项目环节。</td></tr><tr><td>下周行动</td><td>写成可执行动作，例如“取得 4 月至 6 月离职清单并与账号停用日志核对”，避免写“加强学习”。</td></tr></table>
+<h2>七、月末评价标准</h2><ul class="check"><li>能够说明关键控制或报表所应对的风险，并把风险传导到相应的业务或财务认定。</li><li>能够独立列出总体、期间、资料和程序，不依赖他人逐步指令。</li><li>证据来源、逻辑和限制得到记录；结论没有超出测试覆盖范围。</li><li>发现异常时先验证事实、分析影响、判断是否扩展程序，再提出结论。</li><li>同类 Review 意见能够形成检查规则，并在后续底稿中得到应用。</li></ul>
+<p class="footer">第 1 个月特别培养计划｜况晨。本手册与成长舱任务、学习笔记和作业记录配合使用。</p>
+</main></body></html>

@@ -8,5 +8,3 @@ PyMySQL
 python-multipart
 alembic
 requests>=2.31,<3
-tzdata
-pyodbc
