@@ -11,7 +11,6 @@ def _task(task_id, *, required, title, questions, sort_order):
         title=title,
         self_check_questions=questions,
         sort_order=sort_order,
-        training_week=None,
     )
 
 
@@ -24,17 +23,15 @@ def test_learning_task_points_to_its_weekly_submission_with_question_count():
         questions='[{"type":"choice","prompt":"题目","options":["A","B"],"answer":"A"}]',
         sort_order=20,
     )
-    week = SimpleNamespace(tasks=[learning_task, assignment])
-    learning_task.training_week = week
-    assignment.training_week = week
+    week_tasks = [learning_task, assignment]
 
-    assert _related_submission_task(learning_task) == {
+    assert _related_submission_task(learning_task, week_tasks) == {
         "id": 11,
         "title": "当周正式作业",
         "questionCount": 1,
         "submissionRequired": True,
     }
-    assert _related_submission_task(assignment) is None
+    assert _related_submission_task(assignment, week_tasks) is None
 
 
 def test_choice_answers_remain_required_before_submission():

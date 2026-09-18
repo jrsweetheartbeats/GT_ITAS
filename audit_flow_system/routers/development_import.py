@@ -210,7 +210,13 @@ def training_plan_overview(plan_id: int, db: Session = Depends(get_db), user: Us
     return _training_plan_overview(plan)
 
 
-def _learner_task_payload(task: DevelopmentTrainingTask, employee_id: int, today, prerequisites: Optional[list[dict[str, Any]]] = None) -> dict[str, Any]:
+def _learner_task_payload(
+    task: DevelopmentTrainingTask,
+    employee_id: int,
+    today,
+    prerequisites: Optional[list[dict[str, Any]]] = None,
+    week_tasks: Optional[list[DevelopmentTrainingTask]] = None,
+) -> dict[str, Any]:
     latest = _latest_submission(task, employee_id)
     latest_review = None
     if latest and latest.reviews:
@@ -229,7 +235,7 @@ def _learner_task_payload(task: DevelopmentTrainingTask, employee_id: int, today
         "prerequisites": prerequisites, "scheduledDate": task.start_date or task.due_date,
         "completionCriteria": task.completion_criteria, "submissionTitle": task.submission_title,
         "questionCount": len(_task_questions(task)),
-        "relatedSubmissionTask": _related_submission_task(task),
+        "relatedSubmissionTask": _related_submission_task(task, week_tasks or []),
     }
 
 
@@ -251,7 +257,10 @@ def my_training(db: Session = Depends(get_db), user: User = Depends(current_user
     all_tasks = [task for week in weeks for task in week.tasks]
     current_tasks = [task for task in (current_week.tasks if current_week else [])]
     task_by_id = {task.id: task for task in all_tasks}
-    payloads = [_learner_task_payload(task, user.id, today, _prerequisite_payload(db, task)) for task in current_tasks]
+    payloads = [
+        _learner_task_payload(task, user.id, today, _prerequisite_payload(db, task), current_tasks)
+        for task in current_tasks
+    ]
     for item, task in zip(payloads, current_tasks):
         item["blockedByPrerequisite"] = bool(item.get("prerequisites"))
         item["locked"] = item["blockedByPrerequisite"]
@@ -616,11 +625,19 @@ def _task_questions(task: DevelopmentTrainingTask) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
-def _related_submission_task(task: DevelopmentTrainingTask) -> Optional[dict[str, Any]]:
-    """Point a reading-only task at the actionable assignment in its week."""
-    if task.submission_required or task.training_week is None:
+def _related_submission_task(
+    task: DevelopmentTrainingTask, week_tasks: list[DevelopmentTrainingTask]
+) -> Optional[dict[str, Any]]:
+    """Point a reading-only task at the actionable assignment in its week.
+
+    Existing imported plans often split a week into a learning task and a
+    separate formal assignment.  The former deliberately has no quiz or
+    submission form, so exposing the latter prevents learners from reaching a
+    dead end after opening the learning task.
+    """
+    if task.submission_required:
         return None
-    candidates = sorted(task.training_week.tasks, key=lambda item: (item.sort_order, item.id))
+    candidates = sorted(week_tasks, key=lambda item: (item.sort_order, item.id))
     linked = next((item for item in candidates if item.id != task.id and item.submission_required), None)
     if linked is None:
         return None
@@ -681,6 +698,7 @@ def training_task_detail(task_id: int, db: Session = Depends(get_db), user: User
     read_material_ids = {row.material_id for row in db.execute(select(DevelopmentLearningMaterialRead).where(DevelopmentLearningMaterialRead.employee_id == user.id, DevelopmentLearningMaterialRead.material_id.in_([item.id for item in task.materials]))).scalars().all()} if task.materials else set()
     submissions = sorted(task.submissions, key=lambda item: item.version)
     prerequisites = _prerequisite_payload(db, task)
+    week = db.get(DevelopmentTrainingWeek, task.training_week_id)
     note = db.execute(select(DevelopmentTaskNote).where(DevelopmentTaskNote.task_id == task.id, DevelopmentTaskNote.employee_id == user.id)).scalar_one_or_none()
     return {
         "id": task.id, "taskCode": task.task_code, "title": task.title, "description": task.description,
@@ -691,7 +709,7 @@ def training_task_detail(task_id: int, db: Session = Depends(get_db), user: User
         "submissionRequirements": task.submission_requirements, "mentorReviewRequired": task.mentor_review_required,
         "status": task.status, "selfCheckQuestions": _public_task_questions(task),
         "questionCount": len(_task_questions(task)),
-        "relatedSubmissionTask": _related_submission_task(task),
+        "relatedSubmissionTask": _related_submission_task(task, week.tasks if week else []),
         "prerequisiteTaskIds": _prerequisite_ids(task), "prerequisites": prerequisites,
         "locked": bool(prerequisites), "lockedReason": "前置任务尚未完成" if prerequisites else None,
         "materials": [{"id": item.id, "title": item.title, "type": item.material_type, "courseScope": item.course_scope, "url": item.url, "description": item.description, "read": item.id in read_material_ids} for item in sorted(task.materials, key=lambda item: (item.sort_order, item.id))],
