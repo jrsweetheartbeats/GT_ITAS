@@ -37,6 +37,12 @@ from ..services.training_plan_protocol import (
     training_plan_json,
     validate_training_plan_payload,
 )
+from ..services.training_signals import (
+    LEARNER_SIGNAL_TYPES,
+    build_review_evidence,
+    record_learning_event,
+    record_quiz_attempt,
+)
 
 
 router = APIRouter(prefix="/api/development/import", tags=["development-import"])
@@ -377,6 +383,15 @@ def create_my_training_blocker(payload: dict[str, Any] = Body(...), db: Session 
     blocker = DevelopmentBlocker(task_id=task.id, employee_id=user.id, problem=values["problem"], confirmed_facts=values["confirmedFacts"], materials_checked=values["materialsChecked"], initial_judgment=values["initialJudgment"], attempted_solutions=values["attemptedSolutions"], missing_information=values["missingInformation"], mentor_question=values["mentorQuestion"], blocker_type=str(payload.get("blockerType") or "general"), self_analysis_complete=True, status="open")
     db.add(blocker)
     task.status = "blocked"
+    record_learning_event(
+        db,
+        employee_id=user.id,
+        event_type="blocker_submitted",
+        task=task,
+        skill_tag="independence",
+        source="learner",
+        payload={"blockerType": blocker.blocker_type, "selfAnalysisComplete": True},
+    )
     db.commit()
     db.refresh(blocker)
     return {"id": blocker.id, "status": blocker.status, "taskStatus": task.status, "message": "卡点已提交，任务已标记为 Blocked"}
@@ -431,6 +446,15 @@ def respond_training_blocker(blocker_id: int, payload: dict[str, Any] = Body(...
         row.resolved_by_user_id = user.id
         row.resolved_at = datetime.utcnow()
         if task: task.status = "in_progress"
+    record_learning_event(
+        db,
+        employee_id=row.employee_id,
+        event_type="blocker_resolved" if action == "resolved" else "blocker_continued",
+        task=task,
+        skill_tag="independence",
+        source="mentor",
+        payload={"action": action, "blockerId": row.id},
+    )
     db.commit()
     db.refresh(row)
     return {"message": "卡点处理结果已保存", "blocker": _blocker_payload(row), "taskStatus": task.status if task else None}
@@ -580,7 +604,17 @@ def _assessment_summary(db: Session, plan: DevelopmentTrainingPlan, assessment: 
             for review in submission.reviews:
                 reviews.append({"taskCode": task.task_code, "version": submission.version, "result": review.result, "score": review.score, "comments": review.comments, "reviewedAt": review.reviewed_at})
     blockers = db.execute(select(DevelopmentBlocker).where(DevelopmentBlocker.employee_id == plan.employee_id, DevelopmentBlocker.task_id.in_([task.id for task in tasks]) if tasks else False)).scalars().all()
-    return {"totalScore": assessment.total_score, "dimensions": [{"code": item.dimension_code, "name": item.dimension_name, "weight": item.weight, "score": item.score, "comments": item.comments} for item in sorted(assessment.dimensions, key=lambda item: item.sort_order)], "completedTasks": completed, "incompleteTasks": incomplete, "reviewHistory": reviews, "blockers": [_blocker_payload(item) for item in blockers], "mentorEvaluation": mentor_evaluation, "nextStageSuggestion": next_stage_suggestion}
+    return {
+        "totalScore": assessment.total_score,
+        "dimensions": [{"code": item.dimension_code, "name": item.dimension_name, "weight": item.weight, "score": item.score, "comments": item.comments} for item in sorted(assessment.dimensions, key=lambda item: item.sort_order)],
+        "completedTasks": completed,
+        "incompleteTasks": incomplete,
+        "reviewHistory": reviews,
+        "blockers": [_blocker_payload(item) for item in blockers],
+        "mentorEvaluation": mentor_evaluation,
+        "nextStageSuggestion": next_stage_suggestion,
+        "objectiveEvidence": build_review_evidence(db, plan),
+    }
 
 
 def _weighted_assessment_total(dimensions: list[Any]) -> float:
@@ -594,7 +628,24 @@ def mentor_assessment_detail(plan_id: int, db: Session = Depends(get_db), user: 
     if plan is None or not _mentor_can_access_plan(plan, user):
         raise HTTPException(status_code=404, detail="培养计划不存在或无权访问")
     assessment = _assessment_for_plan(db, plan)
-    return {"plan": {"id": plan.id, "employeeCode": plan.employee_code, "employeeName": plan.employee_name, "period": plan.period, "title": plan.title}, "assessment": _assessment_payload(assessment)}
+    evidence = build_review_evidence(db, plan)
+    db.commit()
+    return {
+        "plan": {"id": plan.id, "employeeCode": plan.employee_code, "employeeName": plan.employee_name, "period": plan.period, "title": plan.title},
+        "assessment": _assessment_payload(assessment),
+        "objectiveEvidence": evidence,
+    }
+
+
+@training_router.get("/mentor/plans/{plan_id}/review-evidence")
+def mentor_review_evidence(plan_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)) -> dict[str, Any]:
+    ensure_feature_permission(db, user, "development", "view")
+    plan = db.get(DevelopmentTrainingPlan, plan_id)
+    if plan is None or not _mentor_can_access_plan(plan, user):
+        raise HTTPException(status_code=404, detail="培养计划不存在或无权访问")
+    evidence = build_review_evidence(db, plan)
+    db.commit()
+    return evidence
 
 
 @training_router.put("/mentor/plans/{plan_id}/assessment")
@@ -624,7 +675,7 @@ def save_mentor_assessment(plan_id: int, payload: dict[str, Any] = Body(...), db
     next_stage_suggestion = str(payload.get("nextStageSuggestion") or suggestion).strip()
     summary = _assessment_summary(db, plan, assessment, mentor_evaluation, next_stage_suggestion)
     assessment.total_score = weighted_total
-    assessment.summary = json.dumps(summary, ensure_ascii=False)
+    assessment.summary = json.dumps(summary, ensure_ascii=False, default=str)
     assessment.status = "completed"
     assessment.assessed_at = datetime.utcnow()
     db.commit()
@@ -641,9 +692,14 @@ def export_mentor_assessment(plan_id: int, format: str = "json", db: Session = D
     assessment = _assessment_for_plan(db, plan)
     summary = json.loads(assessment.summary or "{}")
     if format.lower() == "markdown":
+        evidence = summary.get("objectiveEvidence") or {}
+        signals = evidence.get("objectiveSignals") or {}
+        quiz = signals.get("quiz") or {}
         lines = [f"# {plan.employee_name} {plan.period} 月度培养结果", f"- 总分：{assessment.total_score}", f"- Mentor评价：{summary.get('mentorEvaluation', '')}", f"- 下阶段建议：{summary.get('nextStageSuggestion', '')}", "", "## 能力维度"]
         lines.extend(f"- {item.get('name')}：{item.get('score')} / 100（权重 {item.get('weight')}%）" for item in summary.get("dimensions", []))
         lines.extend(["", "## 已完成任务"] + [f"- {item.get('taskCode')} {item.get('title')}" for item in summary.get("completedTasks", [])])
+        lines.extend(["", "## 客观学习信号", f"- 完成率：{(signals.get('completion') or {}).get('completionRate')}", f"- 选择题首过率：{quiz.get('firstPassRate')}", f"- 仍未过关题数：{quiz.get('stillWrongCount')}", f"- 卡点数：{(signals.get('blockers') or {}).get('count')}"])
+        lines.extend(["", "## 可引用能力对照"] + [f"- {item.get('label')}：{item.get('objectiveNote')}" for item in evidence.get("reviewHints", [])])
         return {"format": "markdown", "content": "\n".join(lines), "summary": summary}
     return {"format": "json", "content": summary, "summary": summary}
 
@@ -899,6 +955,8 @@ def training_task_courseware(task_id: int, db: Session = Depends(get_db), user: 
     plan = db.get(DevelopmentTrainingPlan, week.training_plan_id) if week else None
     if week is None or plan is None:
         raise HTTPException(status_code=404, detail="培养任务关联计划不存在")
+    record_learning_event(db, employee_id=user.id, event_type="courseware_opened", task=task, week=week, plan=plan, source="learner")
+    db.commit()
     return HTMLResponse(_task_courseware_html(task, week, plan))
 
 
@@ -956,6 +1014,8 @@ def save_training_task_note(task_id: int, payload: dict[str, Any] = Body(...), d
         db.add(note)
     else:
         note.content = content
+    if content:
+        record_learning_event(db, employee_id=user.id, event_type="note_saved", task=task, source="learner", payload={"chars": len(content)})
     db.commit()
     return {"taskId": task.id, "content": note.content, "updatedAt": note.updated_at}
 
@@ -973,6 +1033,7 @@ def mark_training_material_read(task_id: int, material_id: int, db: Session = De
         db.add(row)
     else:
         row.read_at = datetime.utcnow()
+    record_learning_event(db, employee_id=user.id, event_type="material_read", task=task, material_id=material.id, source="learner", payload={"materialTitle": material.title})
     db.commit()
     return {"materialId": material.id, "read": True, "readAt": row.read_at}
 
@@ -1000,8 +1061,39 @@ def complete_learning_task(task_id: int, db: Session = Depends(get_db), user: Us
     if unread:
         raise HTTPException(status_code=409, detail={"message": "请先完成并标记全部学习材料。", "unreadMaterials": unread})
     task.status = "completed"
+    record_learning_event(db, employee_id=user.id, event_type="learning_completed", task=task, source="learner")
     db.commit()
     return {"taskId": task.id, "status": task.status, "completed": True}
+
+
+@training_router.post("/tasks/{task_id}/signals")
+def record_training_task_signal(task_id: int, payload: dict[str, Any] = Body(...), db: Session = Depends(get_db), user: User = Depends(current_user)) -> dict[str, Any]:
+    """Reserved client telemetry hook for later monthly-review evidence."""
+    ensure_feature_permission(db, user, "development", "view")
+    task = _owned_training_task(db, task_id, user.id)
+    event_type = str(payload.get("eventType") or "").strip()
+    if event_type not in LEARNER_SIGNAL_TYPES:
+        raise HTTPException(status_code=422, detail="eventType 仅支持 courseware_heartbeat 或 task_focus")
+    duration = payload.get("durationSeconds")
+    duration_seconds = None
+    if duration not in (None, ""):
+        try:
+            duration_seconds = int(duration)
+        except (TypeError, ValueError) as exc:
+            raise HTTPException(status_code=422, detail="durationSeconds 必须是整数") from exc
+        if duration_seconds < 0:
+            raise HTTPException(status_code=422, detail="durationSeconds 不能为负数")
+    event = record_learning_event(
+        db,
+        employee_id=user.id,
+        event_type=event_type,
+        task=task,
+        source="learner",
+        duration_seconds=duration_seconds,
+        payload={"context": str(payload.get("context") or "")[:200]},
+    )
+    db.commit()
+    return {"recorded": True, "eventType": event_type, "eventId": event.id if event else None}
 
 
 @training_router.post("/tasks/{task_id}/submit")
@@ -1014,7 +1106,10 @@ def submit_training_task(task_id: int, payload: dict[str, Any] = Body(...), db: 
     questions = _task_questions(task)
     answers = payload.get("selfCheckAnswers") or {}
     missing, incorrect = _validate_task_questions(questions, answers)
+    feedback = _question_feedback(questions, answers)
     if missing or incorrect:
+        record_quiz_attempt(db, employee_id=user.id, task=task, questions=questions, answers=answers, feedback=feedback, passed_gate=False)
+        db.commit()
         raise HTTPException(status_code=422, detail=_question_error(questions, answers, missing, incorrect))
     content = str(payload.get("content") or "").strip()
     attachment = str(payload.get("attachment") or "").strip()
@@ -1025,10 +1120,21 @@ def submit_training_task(task_id: int, payload: dict[str, Any] = Body(...), db: 
     version = max((row.version for row in task.submissions if row.employee_id == user.id), default=0) + 1
     submission = DevelopmentSubmission(task_id=task.id, employee_id=user.id, submission_type=str(payload.get("submissionType") or task.submission_type or "assignment"), content=content, attachment=attachment, self_check_answers=json.dumps(answers, ensure_ascii=False), submitted_at=datetime.utcnow(), version=version, status="submitted")
     db.add(submission)
+    db.flush()
+    if feedback:
+        record_quiz_attempt(db, employee_id=user.id, task=task, questions=questions, answers=answers, feedback=feedback, passed_gate=True, submission_id=submission.id)
+    record_learning_event(
+        db,
+        employee_id=user.id,
+        event_type="task_submitted",
+        task=task,
+        submission_id=submission.id,
+        source="learner",
+        payload={"version": version, "contentChars": len(content), "hasAttachment": bool(attachment), "quizTotal": len(feedback), "quizCorrect": sum(1 for item in feedback if item.get("status") == "correct")},
+    )
     task.status = "completed" if not task.mentor_review_required else "submitted"
     db.commit()
     db.refresh(submission)
-    feedback = _question_feedback(questions, answers)
     return {"message": f"V{version} 已提交", "submission": _submission_payload(submission), "taskStatus": task.status, "questionFeedback": feedback, "quiz": {"total": len(feedback), "correctCount": sum(1 for item in feedback if item["status"] == "correct")}}
 
 
@@ -1091,6 +1197,16 @@ def review_training_submission(submission_id: int, payload: dict[str, Any] = Bod
     submission.status = "reviewed"
     if task:
         task.status = "completed" if result == "passed" else "needs_revision"
+    record_learning_event(
+        db,
+        employee_id=submission.employee_id,
+        event_type="review_recorded",
+        task=task,
+        submission_id=submission.id,
+        source="mentor",
+        skill_tag="quality",
+        payload={"result": result, "score": score, "hasComments": bool(comments)},
+    )
     db.commit()
     db.refresh(review)
     return {"message": "Review 已保存", "result": result, "taskStatus": task.status if task else None, "reviewId": review.id}

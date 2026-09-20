@@ -1192,6 +1192,64 @@ class DevelopmentAssessmentDimension(TimestampMixin, Base):
     sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
 
 
+class DevelopmentLearningEvent(TimestampMixin, Base):
+    """Append-only learner telemetry used later for personal monthly reviews."""
+    __tablename__ = "development_learning_events"
+    __table_args__ = (
+        Index("ix_development_learning_events_employee_time", "employee_id", "occurred_at"),
+        Index("ix_development_learning_events_plan_type_time", "training_plan_id", "event_type", "occurred_at"),
+        Index("ix_development_learning_events_task_type_time", "task_id", "event_type", "occurred_at"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    employee_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    training_plan_id: Mapped[Optional[int]] = mapped_column(ForeignKey("development_training_plans.id", ondelete="SET NULL"), nullable=True)
+    training_week_id: Mapped[Optional[int]] = mapped_column(ForeignKey("development_training_weeks.id", ondelete="SET NULL"), nullable=True)
+    task_id: Mapped[Optional[int]] = mapped_column(ForeignKey("development_training_tasks.id", ondelete="SET NULL"), nullable=True)
+    submission_id: Mapped[Optional[int]] = mapped_column(ForeignKey("development_submissions.id", ondelete="SET NULL"), nullable=True)
+    material_id: Mapped[Optional[int]] = mapped_column(ForeignKey("development_learning_materials.id", ondelete="SET NULL"), nullable=True)
+    event_type: Mapped[str] = mapped_column(String(80), nullable=False)
+    skill_tag: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    competency_code: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    source: Mapped[str] = mapped_column(String(40), default="system", nullable=False)
+    duration_seconds: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    payload_json: Mapped[str] = mapped_column(Text, default="{}", nullable=False)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+
+    employee: Mapped[User] = relationship(foreign_keys=[employee_id])
+
+
+class DevelopmentQuizItemResult(TimestampMixin, Base):
+    """Per-question attempt history, including failed gates that never became a submission."""
+    __tablename__ = "development_quiz_item_results"
+    __table_args__ = (
+        UniqueConstraint("employee_id", "task_id", "attempt_no", "question_index", name="uq_development_quiz_results_attempt"),
+        Index("ix_development_quiz_results_employee_task", "employee_id", "task_id", "occurred_at"),
+        Index("ix_development_quiz_results_knowledge", "employee_id", "knowledge_key", "occurred_at"),
+        Index("ix_development_quiz_results_plan_skill", "training_plan_id", "skill_tag"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    employee_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    training_plan_id: Mapped[Optional[int]] = mapped_column(ForeignKey("development_training_plans.id", ondelete="SET NULL"), nullable=True)
+    task_id: Mapped[int] = mapped_column(ForeignKey("development_training_tasks.id", ondelete="CASCADE"), nullable=False)
+    submission_id: Mapped[Optional[int]] = mapped_column(ForeignKey("development_submissions.id", ondelete="SET NULL"), nullable=True)
+    question_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    question_fingerprint: Mapped[str] = mapped_column(String(40), nullable=False)
+    knowledge_key: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    prompt: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    skill_tag: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    competency_code: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    status: Mapped[str] = mapped_column(String(20), nullable=False)
+    submitted_answer_json: Mapped[str] = mapped_column(Text, default="null", nullable=False)
+    correct_answer_json: Mapped[str] = mapped_column(Text, default="null", nullable=False)
+    attempt_no: Mapped[int] = mapped_column(Integer, nullable=False)
+    passed_gate: Mapped[bool] = mapped_column(default=False, nullable=False)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+
+    employee: Mapped[User] = relationship(foreign_keys=[employee_id])
+
+
 class ReviewFindingHistory(TimestampMixin, Base):
     __tablename__ = "review_finding_histories"
     __table_args__ = (

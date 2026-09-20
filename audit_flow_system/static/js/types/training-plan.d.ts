@@ -55,6 +55,8 @@ export interface TrainingQuizQuestion {
   prompt: string;
   options?: string[];
   answer: string | string[];
+  topic?: string;
+  knowledgeKey?: string;
 }
 
 export interface TrainingTask {

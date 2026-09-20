@@ -68,7 +68,9 @@
         "type": {"enum": ["choice", "fill_blank"]},
         "prompt": {"type": "string", "minLength": 1, "maxLength": 1000},
         "options": {"type": "array", "maxItems": 20, "items": {"type": "string"}},
-        "answer": {"oneOf": [{"type": "string"}, {"type": "array", "items": {"type": "string"}}]}
+        "answer": {"oneOf": [{"type": "string"}, {"type": "array", "items": {"type": "string"}}]},
+        "topic": {"type": "string", "maxLength": 40},
+        "knowledgeKey": {"type": "string", "maxLength": 80}
       }
     },
     "task": {

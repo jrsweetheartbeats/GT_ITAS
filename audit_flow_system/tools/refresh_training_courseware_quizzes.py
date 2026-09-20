@@ -7,10 +7,68 @@ from sqlalchemy import select
 
 from ..core.db import SessionLocal
 from ..models import DevelopmentTrainingTask, DevelopmentTrainingWeek
+from ..services.training_signals import infer_task_topic
 
 
-def choice(prompt: str, options: list[str], answer: str, explanation: str) -> dict[str, object]:
-    return {"type": "choice", "prompt": prompt, "options": options, "answer": answer, "explanation": explanation}
+def choice(prompt: str, options: list[str], answer: str, explanation: str, *, topic: str = "", knowledge_key: str = "") -> dict[str, object]:
+    item: dict[str, object] = {"type": "choice", "prompt": prompt, "options": options, "answer": answer, "explanation": explanation}
+    if topic:
+        item["topic"] = topic
+    if knowledge_key:
+        item["knowledgeKey"] = knowledge_key
+    return item
+
+
+QUESTION_KNOWLEDGE_KEYS = {
+    "finance": [
+        "finance.balance_sheet_point_in_time",
+        "finance.revenue_interface_completeness",
+        "finance.credit_sales_ar",
+        "finance.scope_material_systems",
+        "finance.business_to_assertion_chain",
+        "finance.profit_without_cash",
+    ],
+    "itgc": [
+        "itgc.sa_access_lifecycle",
+        "itgc.backup_vs_restore",
+        "itgc.change_evidence_chain",
+        "itgc.period_vs_period_end",
+        "itgc.interface_failure_monitoring",
+        "itgc.emergency_change",
+    ],
+    "itac": [
+        "itac.automated_control_period",
+        "itac.interface_cia",
+        "itac.ipe_definition",
+        "itac.report_as_evidence",
+        "itac.retransmission_without_recon",
+        "itac.parameter_change_control",
+    ],
+    "data": [
+        "data.define_population_first",
+        "data.join_key_quality",
+        "data.reproducibility",
+        "data.exception_traceability",
+        "data.runnable_not_correct",
+        "data.ai_output_verification",
+    ],
+    "quality": [
+        "quality.review_root_cause",
+        "quality.conclusion_supported",
+        "quality.amount_not_parameters",
+        "quality.exception_scope",
+        "quality.design_without_template",
+        "quality.reviewable_workpaper",
+    ],
+}
+
+
+def _stamp_question_keys(questions: list[dict[str, object]], topic: str) -> list[dict[str, object]]:
+    keys = QUESTION_KNOWLEDGE_KEYS.get(topic, [])
+    for question, knowledge_key in zip(questions, keys):
+        question["topic"] = topic
+        question["knowledgeKey"] = knowledge_key
+    return questions
 
 
 def finance_questions() -> list[dict[str, object]]:
@@ -88,16 +146,7 @@ def _shuffle_question_options(questions: list[dict[str, object]], seed: str) -> 
 
 
 def _courseware_topic(task: DevelopmentTrainingTask, week: DevelopmentTrainingWeek) -> str:
-    text = f"{week.title} {week.objective} {task.title} {task.description} {task.purpose}".lower()
-    if any(key in text for key in ("itac", "ipe", "interface", "接口", "自动控制", "自动计算")):
-        return "itac"
-    if any(key in text for key in ("itgc", "权限", "技术地图", "备份", "日志", "sa/pm/ns", "系统取证", "访问管理", "变更")):
-        return "itgc"
-    if any(key in text for key in ("caats", "代码", "数据", "sql", "交叉验证", "审计化", "数据技术")):
-        return "data"
-    if any(key in text for key in ("业务", "财审", "会计", "制造", "收入", "三大报表", "科目", "存货", "采购", "销售")):
-        return "finance"
-    return "quality"
+    return infer_task_topic(task, week)
 
 
 def _task_context_question(task: DevelopmentTrainingTask, topic: str) -> dict[str, object]:
@@ -114,6 +163,8 @@ def _task_context_question(task: DevelopmentTrainingTask, topic: str) -> dict[st
         f"围绕“{title}”完成本节任务时，最符合课件要求的起步方式是什么？",
         [correct, *wrong], correct,
         f"本节“{title}”要求把任务要求落实为风险、程序、证据和结论的完整链路；先完成这一拆解，后续的取证和判断才有明确方向。",
+        topic=topic,
+        knowledge_key=f"{topic}.task_start",
     )
 
 
@@ -138,7 +189,7 @@ def questions_for(task: DevelopmentTrainingTask, week: DevelopmentTrainingWeek) 
         "finance": finance_questions,
         "quality": quality_questions,
     }[topic]()
-    return _shuffle_question_options(_contextualize_questions(task, bank, topic), f"{week.id}:{task.id}")
+    return _shuffle_question_options(_contextualize_questions(task, _stamp_question_keys(bank, topic), topic), f"{week.id}:{task.id}")
 
 
 def refresh() -> int:

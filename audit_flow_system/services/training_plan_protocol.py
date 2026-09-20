@@ -54,6 +54,8 @@ class ProtocolQuizQuestion(ProtocolModel):
     prompt: str = Field(min_length=1, max_length=1000)
     options: list[str] = Field(default_factory=list, max_length=20)
     answer: Union[str, list[str]]
+    topic: str = Field(default="", max_length=40)
+    knowledge_key: str = Field(default="", alias="knowledgeKey", max_length=80)
 
 
 class ProtocolTask(ProtocolModel):

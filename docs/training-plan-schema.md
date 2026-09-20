@@ -124,7 +124,23 @@ GET /api/development/mentor/plans/{planId}/assessment/export?format=json
 GET /api/development/mentor/plans/{planId}/assessment/export?format=markdown
 ```
 
-月度评价维度、权重和 thresholds 均读取导入计划配置。ITAS 计算加权总分并输出 `nextStageSuggestion`，不会自动创建下月培养计划。
+月度评价维度、权重和 thresholds 均读取导入计划配置。ITAS 计算加权总分并输出 `nextStageSuggestion`，不会自动创建下月培养计划。保存评价时会把当时的客观学习信号一并写入 `summary.objectiveEvidence`，供之后生成个人月度复核引用。
+
+### 学习信号埋点
+
+ITAS 从学员操作中沉淀两类客观数据，不替代 Mentor 判断：
+
+- `development_learning_events`：课件打开、材料阅读、笔记、提交、完成学习、卡点、Review，以及预留的 `courseware_heartbeat` / `task_focus`
+- `development_quiz_item_results`：每一题的对错历史，**答错被拦下的尝试也会落库**，并带 `knowledgeKey` / `skillTag`
+
+选择题可在协议中传入可选字段 `topic`、`knowledgeKey`，便于跨任务汇总同一知识点。
+
+```http
+GET  /api/development/mentor/plans/{planId}/review-evidence
+POST /api/development/tasks/{taskId}/signals
+```
+
+`review-evidence` 会按完成率、首过率、错题、卡点、Review 返工和能力标签给出 `reviewHints`，对应月度复盘里的 B 段能力变化；C/D 项目复盘仍需结合当月项目，系统只提供 `projectContextHints`。
 
 ### assessment
 
