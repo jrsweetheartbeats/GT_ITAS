@@ -7,6 +7,9 @@ import unittest
 from unittest.mock import MagicMock
 
 from audit_flow_system.core.security import DEFAULT_MODULE_ORDER, normalize_module_order
+from audit_flow_system.services.project_directory_fields import split_project_description
+from audit_flow_system.routers.projects import _ims_contact_match_filters
+from audit_flow_system.models import User
 
 
 MODULE_PATH = Path(__file__).resolve().parents[1] / "tools" / "standalone" / "sync_directory_and_projects_from_remote.py"
@@ -48,6 +51,34 @@ class DirectorySyncHelperTests(unittest.TestCase):
         sql = str(conn.execute.call_args_list[-1].args[0])
         self.assertIn("UPDATE", sql)
         self.assertIn("username", sql)
+
+    def test_require_table_rejects_unknown_names(self) -> None:
+        with self.assertRaises(sync_tool.SyncError):
+            sync_tool.require_table("users; drop table users")
+
+
+class ProjectDirectoryFieldTests(unittest.TestCase):
+    def test_plain_description_stays_in_notes(self) -> None:
+        fields, leftover = split_project_description("2026年1-6月半年报 IT 审计项目。")
+        self.assertEqual(fields["department"], "")
+        self.assertEqual(leftover, "2026年1-6月半年报 IT 审计项目。")
+
+    def test_splits_home_fields_and_keeps_oa_metadata(self) -> None:
+        fields, leftover = split_project_description(
+            '{"department": "IT咨询", "charge_with_tax": "48,000.00", "oa_billid": 15311, "source": "oa"}'
+        )
+        self.assertEqual(fields["department"], "IT咨询")
+        self.assertEqual(fields["charge_with_tax"], "48,000.00")
+        self.assertIn("oa_billid", leftover)
+        self.assertNotIn("department", leftover)
+
+    def test_ims_contact_filters_use_user_emails_and_names(self) -> None:
+        users = [
+            User(id=1, username="a", display_name="张三", email="Ann@Firm.com", password_hash="x", role_id=1),
+            User(id=2, username="b", display_name="李四", email="", password_hash="x", role_id=1),
+        ]
+        filters = _ims_contact_match_filters(users)
+        self.assertEqual(len(filters), 2)
 
 
 if __name__ == "__main__":

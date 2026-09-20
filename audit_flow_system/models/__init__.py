@@ -82,7 +82,7 @@ class ImsContact(TimestampMixin, Base):
         Index("ix_ims_contacts_email", "email"),
     )
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=False)
     lastname: Mapped[str] = mapped_column(String(120), default="", nullable=False)
     workcode: Mapped[str] = mapped_column(String(80), default="", nullable=False)
     sex: Mapped[str] = mapped_column(String(20), default="", nullable=False)
@@ -205,6 +205,11 @@ class Project(TimestampMixin, Base):
     prior_project_id: Mapped[Optional[int]] = mapped_column(ForeignKey("projects.id"), nullable=True)
     project_root: Mapped[str] = mapped_column(Text, default="", nullable=False)
     description: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    department: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    scope_description: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    business_revenue: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    charge_with_tax: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    charge_without_tax: Mapped[str] = mapped_column(String(80), default="", nullable=False)
 
     client: Mapped[Optional[Client]] = relationship(foreign_keys=[client_id])
     creator: Mapped[Optional[User]] = relationship(foreign_keys=[creator_user_id])

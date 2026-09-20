@@ -9,7 +9,7 @@ import secrets
 import shutil
 import subprocess
 import sys
-from typing import Any, Optional
+from typing import Any, Optional, Sequence
 
 from fastapi import APIRouter, Body, Depends, File, Header, HTTPException, Query, Response, UploadFile
 from fastapi.responses import FileResponse
@@ -285,30 +285,6 @@ def list_home_projects(db: Session = Depends(get_db), user: User = Depends(curre
     return [_home_project_payload(row) for row in rows]
 
 
-def _home_project_metadata(project: Project) -> dict[str, Any]:
-    raw = str(project.description or "").strip()
-    if not raw:
-        return {}
-    try:
-        data = json.loads(raw)
-    except (TypeError, ValueError, json.JSONDecodeError):
-        return {"_legacy_notes": raw}
-    if isinstance(data, dict):
-        return data
-    return {"_legacy_notes": raw}
-
-
-def _write_home_project_metadata(project: Project, metadata: dict[str, Any]) -> None:
-    cleaned = {key: value for key, value in metadata.items() if str(value or "").strip()}
-    legacy = str(cleaned.pop("_legacy_notes", "") or "").strip()
-    if cleaned:
-        if legacy:
-            cleaned["_legacy_notes"] = legacy
-        project.description = json.dumps(cleaned, ensure_ascii=False)
-        return
-    project.description = legacy
-
-
 def _home_systems_from_it_overview(db: Session, project_id: int) -> tuple[list[str], str]:
     """Read system names from column B of the B22A-4-1 IT overview workbook."""
     workpapers = db.execute(
@@ -354,10 +330,26 @@ def _home_systems_from_it_overview(db: Session, project_id: int) -> tuple[list[s
     return [], "；".join(dict.fromkeys(errors)) or "未识别到公司系统清单。"
 
 
-def _home_staff_directory(db: Session) -> tuple[list[dict[str, Any]], dict[int, dict[str, Any]]]:
+def _ims_contact_match_filters(users: Sequence[User]):
+    emails = sorted({str(item.email or "").strip().casefold() for item in users if str(item.email or "").strip()})
+    names = sorted({str(item.display_name or "").strip() for item in users if str(item.display_name or "").strip()})
+    filters = []
+    if emails:
+        filters.append(func.lower(ImsContact.email).in_(emails))
+    if names:
+        filters.append(ImsContact.lastname.in_(names))
+    return filters
+
+
+def _home_staff_directory(
+    db: Session,
+    users: Sequence[User] | None = None,
+) -> tuple[list[dict[str, Any]], dict[int, dict[str, Any]]]:
     """Active ITAS users enriched with office and job fields from the IMS sync."""
-    users = db.execute(select(User).where(User.status == "active").order_by(User.display_name, User.id)).scalars().all()
-    contacts = db.execute(select(ImsContact)).scalars().all()
+    if users is None:
+        users = db.execute(select(User).where(User.status == "active").order_by(User.display_name, User.id)).scalars().all()
+    filters = _ims_contact_match_filters(users)
+    contacts = db.execute(select(ImsContact).where(or_(*filters))).scalars().all() if filters else []
     contact_by_email = {str(item.email or "").strip().casefold(): item for item in contacts if str(item.email or "").strip()}
     contacts_by_name: dict[str, list[ImsContact]] = defaultdict(list)
     for item in contacts:
@@ -387,7 +379,6 @@ def _home_staff_directory(db: Session) -> tuple[list[dict[str, Any]], dict[int, 
 
 
 def _home_project_payload(row: Project) -> dict[str, Any]:
-    metadata = _home_project_metadata(row)
     return {
         "id": row.id,
         "name": row.name,
@@ -405,9 +396,9 @@ def _home_project_payload(row: Project) -> dict[str, Any]:
         "project_leader_name": row.project_leader.display_name if row.project_leader else "",
         "manager_name": row.manager.display_name if row.manager else "",
         "field_leader_name": row.field_leader.display_name if row.field_leader else "",
-        "department": str(metadata.get("department") or ""),
-        "charge_with_tax": str(metadata.get("charge_with_tax") or ""),
-        "charge_without_tax": str(metadata.get("charge_without_tax") or ""),
+        "department": row.department or "",
+        "charge_with_tax": row.charge_with_tax or "",
+        "charge_without_tax": row.charge_without_tax or "",
         "can_edit_home": False,
     }
 
@@ -424,7 +415,13 @@ def get_home_project_detail(
     members = db.execute(
         select(ProjectMember).where(ProjectMember.project_id == project.id).order_by(ProjectMember.id)
     ).scalars().all()
-    staff_rows, staff_by_user_id = _home_staff_directory(db)
+    can_edit = bool(is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id})
+    if can_edit:
+        staff_rows, staff_by_user_id = _home_staff_directory(db)
+    else:
+        needed_ids = {item.user_id for item in members} | {user.id}
+        needed_users = db.execute(select(User).where(User.id.in_(needed_ids))).scalars().all() if needed_ids else []
+        staff_rows, staff_by_user_id = _home_staff_directory(db, users=needed_users)
     payload["members"] = [
         {
             "id": item.id,
@@ -441,16 +438,15 @@ def get_home_project_detail(
         }
         for item in members
     ]
-    metadata = _home_project_metadata(project)
     payload["scope"] = {
         "start": project.audit_scope_start.isoformat() if project.audit_scope_start else "",
         "end": project.audit_scope_end.isoformat() if project.audit_scope_end else "",
-        "description": str(metadata.get("scope_description") or metadata.get("_legacy_notes") or ""),
+        "description": project.scope_description or "",
     }
     systems, systems_message = _home_systems_from_it_overview(db, project.id)
     payload["systems"] = systems
-    payload["business_revenue"] = str(metadata.get("business_revenue") or "")
-    payload["can_edit_home"] = bool(is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id})
+    payload["business_revenue"] = project.business_revenue or ""
+    payload["can_edit_home"] = can_edit
     member_user_ids = {item.user_id for item in members}
     claim = db.execute(
         select(ProjectMemberClaim).where(
@@ -595,7 +591,6 @@ def update_home_project(
         raise HTTPException(status_code=403, detail="仅项目负责人、项目负责经理或管理员可修改首页项目资料")
 
     payload = body.model_dump(exclude_unset=True)
-    metadata_keys = {"department", "scope_description", "business_revenue"}
     member_workloads = payload.pop("member_workloads", None)
     role_fields = {
         "project_leader_user_id", "manager_user_id", "field_leader_user_id",
@@ -630,20 +625,15 @@ def update_home_project(
             if member is None:
                 raise HTTPException(status_code=400, detail="人员安排记录不属于当前项目")
             member.workload = str(item.get("workload") or "").strip()
-    metadata = _home_project_metadata(project)
-    for key in metadata_keys:
-        if key in payload:
-            metadata[key] = str(payload.pop(key) or "").strip()
     for key, value in payload.items():
         setattr(project, key, value.strip() if isinstance(value, str) else value)
     if project.start_date and project.end_date and project.start_date > project.end_date:
         raise HTTPException(status_code=400, detail="预计开始日期不能晚于预计结束日期")
     if project.audit_scope_start and project.audit_scope_end and project.audit_scope_start > project.audit_scope_end:
         raise HTTPException(status_code=400, detail="审计期间开始日期不能晚于结束日期")
-    _write_home_project_metadata(project, metadata)
     record_audit_log(
         db, None, "home_project_updated", user=user, target_type="project", target_id=project.id, project_id=project.id,
-        details={"fields": sorted([*payload.keys(), *(key for key in metadata_keys if key in body.model_fields_set), *( ["member_workloads"] if member_workloads is not None else [])])},
+        details={"fields": sorted([*payload.keys(), *(["member_workloads"] if member_workloads is not None else [])])},
     )
     db.commit()
     db.refresh(project)
