@@ -1,4 +1,4 @@
-import { clearToken, getToken } from './state.js?v=20260630a';
+import { clearToken, getToken } from './state.js?v=20260920-state12';
 
 export const api = location.origin;
 

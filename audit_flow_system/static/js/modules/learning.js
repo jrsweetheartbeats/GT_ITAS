@@ -1,5 +1,5 @@
-import { request } from '../api.js?v=20260816a';
-import { state } from '../state.js?v=20260816a';
+import { request } from '../api.js?v=20260920-state12';
+import { state } from '../state.js?v=20260920-state12';
 import { $, esc, setStatus, tag } from '../utils.js?v=20260816a';
 
 let learningLoadSequence = 0;

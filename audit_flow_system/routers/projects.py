@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime
+from collections import defaultdict
+from datetime import date, datetime
 import json
 from pathlib import Path
 import re
@@ -53,8 +54,10 @@ from ..models import (
     DocumentRequest,
     EnterpriseContact,
     LoginSession,
+    ImsContact,
     Project,
     ProjectMember,
+    ProjectMemberClaim,
     ReviewFinding,
     ReviewRun,
     ReviewStep,
@@ -75,6 +78,9 @@ from ..schemas import (
     DocumentRequestUploadIn,
     InitFromPriorIn,
     LoginIn,
+    HomeProjectMemberBatchIn,
+    HomeProjectClaimApprovalIn,
+    HomeProjectUpdateIn,
     MemberIn,
     PasswordPolicyIn,
     ProjectIn,
@@ -168,6 +174,36 @@ def _validate_project_reviewers(db: Session, payload: dict[str, Any]) -> None:
             raise HTTPException(status_code=400, detail="质控复核人所选人员角色不匹配")
 
 
+def _team_maps(db: Session, project_ids: set[int], user: User) -> tuple[dict[int, list[dict[str, Any]]], dict[int, list[dict[str, Any]]]]:
+    members_by_project: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    contacts_by_project: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    if not project_ids:
+        return members_by_project, contacts_by_project
+    supervised = supervised_project_ids(db, user)
+    member_rows = db.execute(
+        select(ProjectMember).where(ProjectMember.project_id.in_(project_ids)).order_by(ProjectMember.id)
+    ).scalars().all()
+    for row in member_rows:
+        if row.project_id not in supervised and row.user_id != user.id:
+            continue
+        members_by_project[int(row.project_id)].append({
+            "id": row.id,
+            "user_id": row.user_id,
+            "display_name": row.user.display_name if row.user else "",
+            "username": row.user.username if row.user else "",
+            "role_name": row.user.role.name if row.user and row.user.role else "",
+            "role_on_project": row.role_on_project or "",
+            "module": row.module or "",
+            "workload": row.workload or "",
+        })
+    contact_rows = db.execute(
+        select(EnterpriseContact).where(EnterpriseContact.project_id.in_(project_ids)).order_by(EnterpriseContact.id)
+    ).scalars().all()
+    for row in contact_rows:
+        contacts_by_project[int(row.project_id)].append(obj_dict(row))
+    return members_by_project, contacts_by_project
+
+
 @router.get("/api/projects")
 def list_projects(
     status: Optional[str] = Query(default=None),
@@ -195,6 +231,7 @@ def list_projects(
         db.execute(select(Attachment.project_id, func.count(Attachment.id)).group_by(Attachment.project_id)).all()
     )
     task_counts = dict(db.execute(select(Task.project_id, func.count(Task.id)).group_by(Task.project_id)).all())
+    members_by_project, contacts_by_project = _team_maps(db, project_ids, user)
     delivery_workpapers: dict[int, list[Workpaper]] = {}
     if includeDelivery and project_ids:
         delivery_rows = db.execute(
@@ -224,6 +261,8 @@ def list_projects(
         data["workpaper_count"] = int(workpaper_counts.get(row.id, 0))
         data["attachment_count"] = int(attachment_counts.get(row.id, 0))
         data["task_count"] = int(task_counts.get(row.id, 0))
+        data["members"] = members_by_project.get(row.id, [])
+        data["contacts"] = contacts_by_project.get(row.id, [])
         data["can_edit"] = can_edit_project(user, row)
         if includeDelivery:
             data["due_days"] = delivery.get("due_days")
@@ -236,6 +275,472 @@ def list_projects(
             data["delivery_source_workpaper_name"] = delivery.get("delivery_source_workpaper_name", "")
         payload.append(data)
     return payload
+
+
+@router.get("/api/home/projects")
+def list_home_projects(db: Session = Depends(get_db), user: User = Depends(current_user)) -> list[dict[str, Any]]:
+    """Return firm-wide project-directory fields for the homepage only."""
+    rows = db.execute(select(Project)).scalars().all()
+    rows.sort(key=lambda row: (row.start_date or row.audit_scope_start or date.min, row.id), reverse=True)
+    return [_home_project_payload(row) for row in rows]
+
+
+def _home_project_metadata(project: Project) -> dict[str, Any]:
+    raw = str(project.description or "").strip()
+    if not raw:
+        return {}
+    try:
+        data = json.loads(raw)
+    except (TypeError, ValueError, json.JSONDecodeError):
+        return {"_legacy_notes": raw}
+    if isinstance(data, dict):
+        return data
+    return {"_legacy_notes": raw}
+
+
+def _write_home_project_metadata(project: Project, metadata: dict[str, Any]) -> None:
+    cleaned = {key: value for key, value in metadata.items() if str(value or "").strip()}
+    legacy = str(cleaned.pop("_legacy_notes", "") or "").strip()
+    if cleaned:
+        if legacy:
+            cleaned["_legacy_notes"] = legacy
+        project.description = json.dumps(cleaned, ensure_ascii=False)
+        return
+    project.description = legacy
+
+
+def _home_systems_from_it_overview(db: Session, project_id: int) -> tuple[list[str], str]:
+    """Read system names from column B of the B22A-4-1 IT overview workbook."""
+    workpapers = db.execute(
+        select(Workpaper)
+        .where(Workpaper.project_id == project_id, Workpaper.code == "B22A-4-1")
+        .order_by(Workpaper.id.desc())
+    ).scalars().all()
+    if not workpapers:
+        return [], "未登记 B22A-4-1 IT概要底稿。"
+
+    errors: list[str] = []
+    for workpaper in workpapers:
+        file_path = Path(workpaper.file_path or "")
+        if file_path.suffix.lower() not in {".xlsx", ".xlsm"}:
+            errors.append("B22A-4-1 不是可读取的 Excel 文件")
+            continue
+        if not file_path.is_file():
+            errors.append("B22A-4-1 底稿文件不存在")
+            continue
+        try:
+            workbook = load_workbook(file_path, read_only=True, data_only=True, keep_vba=file_path.suffix.lower() == ".xlsm")
+        except Exception:
+            errors.append("B22A-4-1 底稿无法读取")
+            continue
+        try:
+            systems: list[str] = []
+            seen: set[str] = set()
+            for worksheet in workbook.worksheets:
+                for serial, system_name in worksheet.iter_rows(min_row=6, max_col=2, values_only=True):
+                    serial_text = str(serial or "").strip()
+                    if not serial_text or not serial_text.replace(".", "", 1).isdigit():
+                        continue
+                    name = str(system_name or "").strip()
+                    key = name.casefold()
+                    if name and key not in seen:
+                        seen.add(key)
+                        systems.append(name)
+            if systems:
+                return systems, ""
+            errors.append("B22A-4-1 的 B 列未识别到系统名称")
+        finally:
+            workbook.close()
+    return [], "；".join(dict.fromkeys(errors)) or "未识别到公司系统清单。"
+
+
+def _home_staff_directory(db: Session) -> tuple[list[dict[str, Any]], dict[int, dict[str, Any]]]:
+    """Active ITAS users enriched with office and job fields from the IMS sync."""
+    users = db.execute(select(User).where(User.status == "active").order_by(User.display_name, User.id)).scalars().all()
+    contacts = db.execute(select(ImsContact)).scalars().all()
+    contact_by_email = {str(item.email or "").strip().casefold(): item for item in contacts if str(item.email or "").strip()}
+    contacts_by_name: dict[str, list[ImsContact]] = defaultdict(list)
+    for item in contacts:
+        name = str(item.lastname or "").strip()
+        if name:
+            contacts_by_name[name].append(item)
+    rows: list[dict[str, Any]] = []
+    by_user_id: dict[int, dict[str, Any]] = {}
+    for item in users:
+        email_key = str(item.email or "").strip().casefold()
+        candidates = contacts_by_name.get(str(item.display_name or "").strip(), [])
+        contact = contact_by_email.get(email_key) or (candidates[0] if len(candidates) == 1 else None)
+        row = {
+            "id": item.id,
+            "name": item.display_name or item.username,
+            "username": item.username,
+            "role_code": item.role.code if item.role else "",
+            "role_name": item.role.name if item.role else "",
+            "office": contact.subcompany if contact else "",
+            "department": contact.department if contact else "",
+            "job_title": contact.job_title if contact else "",
+            "workcode": contact.workcode if contact else "",
+        }
+        rows.append(row)
+        by_user_id[item.id] = row
+    return rows, by_user_id
+
+
+def _home_project_payload(row: Project) -> dict[str, Any]:
+    metadata = _home_project_metadata(row)
+    return {
+        "id": row.id,
+        "name": row.name,
+        "code": row.code,
+        "oa_project_no": row.oa_project_no,
+        "ims_project_no": row.ims_project_no,
+        "entity_name": row.entity_name,
+        "client_name": row.client.entity_name if row.client else "",
+        "audit_year": row.audit_year,
+        "audit_scope_start": row.audit_scope_start.isoformat() if row.audit_scope_start else "",
+        "audit_scope_end": row.audit_scope_end.isoformat() if row.audit_scope_end else "",
+        "start_date": row.start_date.isoformat() if row.start_date else "",
+        "end_date": row.end_date.isoformat() if row.end_date else "",
+        "status": row.status,
+        "project_leader_name": row.project_leader.display_name if row.project_leader else "",
+        "manager_name": row.manager.display_name if row.manager else "",
+        "field_leader_name": row.field_leader.display_name if row.field_leader else "",
+        "department": str(metadata.get("department") or ""),
+        "charge_with_tax": str(metadata.get("charge_with_tax") or ""),
+        "charge_without_tax": str(metadata.get("charge_without_tax") or ""),
+        "can_edit_home": False,
+    }
+
+
+@router.get("/api/home/projects/{project_id}")
+def get_home_project_detail(
+    project_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    """Return directory-level project details for every signed-in user."""
+    project = get_or_404(db, Project, project_id, "项目")
+    payload = _home_project_payload(project)
+    members = db.execute(
+        select(ProjectMember).where(ProjectMember.project_id == project.id).order_by(ProjectMember.id)
+    ).scalars().all()
+    staff_rows, staff_by_user_id = _home_staff_directory(db)
+    payload["members"] = [
+        {
+            "id": item.id,
+            "user_id": item.user_id,
+            "name": item.user.display_name if item.user else "",
+            "username": item.user.username if item.user else "",
+            "role": item.role_on_project,
+            "module": item.module,
+            "workload": item.workload,
+            "office": staff_by_user_id.get(item.user_id, {}).get("office", ""),
+            "department": staff_by_user_id.get(item.user_id, {}).get("department", ""),
+            "job_title": staff_by_user_id.get(item.user_id, {}).get("job_title", ""),
+            "workcode": staff_by_user_id.get(item.user_id, {}).get("workcode", ""),
+        }
+        for item in members
+    ]
+    metadata = _home_project_metadata(project)
+    payload["scope"] = {
+        "start": project.audit_scope_start.isoformat() if project.audit_scope_start else "",
+        "end": project.audit_scope_end.isoformat() if project.audit_scope_end else "",
+        "description": str(metadata.get("scope_description") or metadata.get("_legacy_notes") or ""),
+    }
+    systems, systems_message = _home_systems_from_it_overview(db, project.id)
+    payload["systems"] = systems
+    payload["business_revenue"] = str(metadata.get("business_revenue") or "")
+    payload["can_edit_home"] = bool(is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id})
+    member_user_ids = {item.user_id for item in members}
+    claim = db.execute(
+        select(ProjectMemberClaim).where(
+            ProjectMemberClaim.project_id == project.id,
+            ProjectMemberClaim.user_id == user.id,
+        )
+    ).scalar_one_or_none()
+    payload["claim_status"] = "member" if user.id in member_user_ids else (claim.status if claim else "none")
+    if payload["can_edit_home"]:
+        pending_claims = db.execute(
+            select(ProjectMemberClaim)
+            .where(ProjectMemberClaim.project_id == project.id, ProjectMemberClaim.status == "pending")
+            .order_by(ProjectMemberClaim.created_at, ProjectMemberClaim.id)
+        ).scalars().all()
+        payload["pending_claims"] = [
+            {
+                "id": item.id,
+                "user_id": item.user_id,
+                "name": item.user.display_name if item.user else "",
+                "username": item.user.username if item.user else "",
+                "office": staff_by_user_id.get(item.user_id, {}).get("office", ""),
+                "department": staff_by_user_id.get(item.user_id, {}).get("department", ""),
+                "job_title": staff_by_user_id.get(item.user_id, {}).get("job_title", ""),
+                "workcode": staff_by_user_id.get(item.user_id, {}).get("workcode", ""),
+                "created_at": item.created_at.isoformat() if item.created_at else "",
+            }
+            for item in pending_claims
+        ]
+        payload["role_assignments"] = {
+            "project_leader_user_id": project.project_leader_user_id,
+            "manager_user_id": project.manager_user_id,
+            "field_leader_user_id": project.field_leader_user_id,
+            "quality_reviewer_user_id": project.quality_reviewer_user_id,
+            "director_user_id": project.director_user_id,
+            "partner_user_id": project.partner_user_id,
+        }
+        payload["available_users"] = staff_rows
+    payload["data_availability"] = {
+        "systems": systems_message,
+        "business_revenue": "未同步主营业务收入；项目收款金额不能替代被审计单位的主营业务收入。",
+    }
+    return payload
+
+
+@router.post("/api/home/projects/{project_id}/claims", status_code=201)
+def create_home_project_claim(
+    project_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    """Submit (or resubmit) the current user's request to join a project."""
+    project = get_or_404(db, Project, project_id, "项目")
+    if user.status != "active":
+        raise HTTPException(status_code=400, detail="仅在职账号可领用项目")
+    already_member = db.execute(
+        select(ProjectMember.id).where(ProjectMember.project_id == project.id, ProjectMember.user_id == user.id)
+    ).scalar_one_or_none()
+    if already_member:
+        return {"status": "member", "message": "您已在该项目成员中"}
+    claim = db.execute(
+        select(ProjectMemberClaim).where(
+            ProjectMemberClaim.project_id == project.id,
+            ProjectMemberClaim.user_id == user.id,
+        )
+    ).scalar_one_or_none()
+    if claim and claim.status == "pending":
+        return {"status": "pending", "message": "领用申请已提交，等待审批"}
+    if claim is None:
+        claim = ProjectMemberClaim(project_id=project.id, user_id=user.id, status="pending")
+        db.add(claim)
+    else:
+        claim.status = "pending"
+        claim.reviewer_user_id = None
+        claim.reviewed_at = None
+    db.flush()
+    record_audit_log(
+        db, None, "home_project_claim_submitted", user=user, target_type="project_member_claim",
+        target_id=claim.id, project_id=project.id, details={"claim_user_id": user.id},
+    )
+    db.commit()
+    return {"status": "pending", "id": claim.id, "message": "领用申请已提交，等待项目负责人、项目负责经理或管理员审批"}
+
+
+@router.post("/api/home/projects/{project_id}/claims/approve")
+def approve_home_project_claims(
+    project_id: int,
+    body: HomeProjectClaimApprovalIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    """Batch approve pending claims and create the corresponding project members."""
+    project = get_or_404(db, Project, project_id, "项目")
+    if not (is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id}):
+        raise HTTPException(status_code=403, detail="仅项目负责人、项目负责经理或管理员可审批领用申请")
+    claim_ids = list(dict.fromkeys(int(item) for item in body.claim_ids if int(item) > 0))
+    claims = db.execute(
+        select(ProjectMemberClaim).where(
+            ProjectMemberClaim.project_id == project.id,
+            ProjectMemberClaim.status == "pending",
+            ProjectMemberClaim.id.in_(claim_ids),
+        )
+    ).scalars().all()
+    if not claims:
+        raise HTTPException(status_code=400, detail="未找到可审批的领用申请")
+    existing_user_ids = set(db.execute(
+        select(ProjectMember.user_id).where(ProjectMember.project_id == project.id)
+    ).scalars().all())
+    created = 0
+    now = datetime.utcnow()
+    for claim in claims:
+        if claim.user_id not in existing_user_ids:
+            db.add(ProjectMember(
+                project_id=project.id,
+                user_id=claim.user_id,
+                role_on_project="项目成员",
+                module="待分工",
+                workload="",
+            ))
+            existing_user_ids.add(claim.user_id)
+            created += 1
+        claim.status = "approved"
+        claim.reviewer_user_id = user.id
+        claim.reviewed_at = now
+        record_audit_log(
+            db, None, "home_project_claim_approved", user=user, target_type="project_member_claim",
+            target_id=claim.id, project_id=project.id, details={"claim_user_id": claim.user_id},
+        )
+    db.commit()
+    return {"approved": len(claims), "members_created": created}
+
+
+@router.patch("/api/home/projects/{project_id}")
+def update_home_project(
+    project_id: int,
+    body: HomeProjectUpdateIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    """Update directory fields from the homepage for the assigned leaders or an administrator."""
+    project = get_or_404(db, Project, project_id, "项目")
+    if not (is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id}):
+        raise HTTPException(status_code=403, detail="仅项目负责人、项目负责经理或管理员可修改首页项目资料")
+
+    payload = body.model_dump(exclude_unset=True)
+    metadata_keys = {"department", "scope_description", "business_revenue"}
+    member_workloads = payload.pop("member_workloads", None)
+    role_fields = {
+        "project_leader_user_id", "manager_user_id", "field_leader_user_id",
+        "quality_reviewer_user_id", "director_user_id", "partner_user_id",
+    }
+    role_updates = {key: payload[key] for key in role_fields if key in payload}
+    for field, user_id in role_updates.items():
+        if user_id is not None:
+            assigned = get_or_404(db, User, int(user_id), "项目角色人员")
+            if assigned.status != "active":
+                raise HTTPException(status_code=400, detail="项目角色人员必须为在职账号")
+    changed_role_updates = {
+        field: user_id
+        for field, user_id in role_updates.items()
+        if user_id != getattr(project, field)
+    }
+    _validate_project_reviewers(db, changed_role_updates)
+    if "quality_reviewer_user_id" in role_updates:
+        selected_quality_id = role_updates["quality_reviewer_user_id"]
+        existing_quality_ids = _quality_reviewer_ids(project)
+        _set_quality_reviewer_ids(
+            project,
+            [selected_quality_id, *(item for item in existing_quality_ids if item != selected_quality_id)] if selected_quality_id else [],
+        )
+    if member_workloads is not None:
+        members = {
+            item.id: item
+            for item in db.execute(select(ProjectMember).where(ProjectMember.project_id == project.id)).scalars().all()
+        }
+        for item in member_workloads:
+            member = members.get(item["member_id"])
+            if member is None:
+                raise HTTPException(status_code=400, detail="人员安排记录不属于当前项目")
+            member.workload = str(item.get("workload") or "").strip()
+    metadata = _home_project_metadata(project)
+    for key in metadata_keys:
+        if key in payload:
+            metadata[key] = str(payload.pop(key) or "").strip()
+    for key, value in payload.items():
+        setattr(project, key, value.strip() if isinstance(value, str) else value)
+    if project.start_date and project.end_date and project.start_date > project.end_date:
+        raise HTTPException(status_code=400, detail="预计开始日期不能晚于预计结束日期")
+    if project.audit_scope_start and project.audit_scope_end and project.audit_scope_start > project.audit_scope_end:
+        raise HTTPException(status_code=400, detail="审计期间开始日期不能晚于结束日期")
+    _write_home_project_metadata(project, metadata)
+    record_audit_log(
+        db, None, "home_project_updated", user=user, target_type="project", target_id=project.id, project_id=project.id,
+        details={"fields": sorted([*payload.keys(), *(key for key in metadata_keys if key in body.model_fields_set), *( ["member_workloads"] if member_workloads is not None else [])])},
+    )
+    db.commit()
+    db.refresh(project)
+    return _home_project_payload(project)
+
+
+@router.post("/api/home/projects/{project_id}/members/batch", status_code=201)
+def create_home_project_members_batch(
+    project_id: int,
+    body: HomeProjectMemberBatchIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    project = get_or_404(db, Project, project_id, "项目")
+    if not (is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id}):
+        raise HTTPException(status_code=403, detail="仅项目负责人、项目负责经理或管理员可维护人员安排")
+    if not body.items:
+        raise HTTPException(status_code=400, detail="请至少选择一名成员")
+    existing = {
+        (item.user_id, str(item.module or "").strip())
+        for item in db.execute(select(ProjectMember).where(ProjectMember.project_id == project.id)).scalars().all()
+    }
+    pending: set[tuple[int, str]] = set()
+    prepared: list[MemberIn] = []
+    for item in body.items:
+        member_user = get_or_404(db, User, item.user_id, "成员")
+        if member_user.status != "active":
+            raise HTTPException(status_code=400, detail="仅可添加在职账号")
+        key = (item.user_id, str(item.module or "").strip())
+        if key in existing or key in pending:
+            raise HTTPException(status_code=400, detail="存在已安排或重复选择的成员及模块")
+        pending.add(key)
+        prepared.append(item)
+    records = [ProjectMember(project_id=project.id, **item.model_dump()) for item in prepared]
+    db.add_all(records)
+    db.flush()
+    for item in records:
+        record_audit_log(db, None, "home_project_member_added", user=user, target_type="project_member", target_id=item.id, project_id=project.id, details={"member_user_id": item.user_id})
+    db.commit()
+    return {"created": len(records)}
+
+
+@router.post("/api/home/projects/{project_id}/members", status_code=201)
+def create_home_project_member(
+    project_id: int,
+    body: MemberIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> dict[str, Any]:
+    project = get_or_404(db, Project, project_id, "项目")
+    if not (is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id}):
+        raise HTTPException(status_code=403, detail="仅项目负责人、项目负责经理或管理员可维护人员安排")
+    member_user = get_or_404(db, User, body.user_id, "成员")
+    if member_user.status != "active":
+        raise HTTPException(status_code=400, detail="仅可添加在职账号")
+    module = str(body.module or "").strip()
+    exists = db.execute(
+        select(ProjectMember.id).where(
+            ProjectMember.project_id == project.id,
+            ProjectMember.user_id == body.user_id,
+            ProjectMember.module == module,
+        )
+    ).scalar_one_or_none()
+    if exists:
+        raise HTTPException(status_code=400, detail="该成员已在当前项目的相同模块中")
+    item = ProjectMember(
+        project_id=project.id,
+        user_id=body.user_id,
+        role_on_project=str(body.role_on_project or "").strip(),
+        module=module,
+        workload=str(body.workload or "").strip(),
+    )
+    db.add(item)
+    db.flush()
+    record_audit_log(db, None, "home_project_member_added", user=user, target_type="project_member", target_id=item.id, project_id=project.id, details={"member_user_id": item.user_id})
+    db.commit()
+    db.refresh(item)
+    return {"id": item.id, "user_id": item.user_id, "role": item.role_on_project, "module": item.module, "workload": item.workload}
+
+
+@router.delete("/api/home/projects/{project_id}/members/{member_id}", status_code=204)
+def delete_home_project_member(
+    project_id: int,
+    member_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(current_user),
+) -> Response:
+    project = get_or_404(db, Project, project_id, "项目")
+    if not (is_admin(user) or user.id in {project.project_leader_user_id, project.manager_user_id}):
+        raise HTTPException(status_code=403, detail="仅项目负责人、项目负责经理或管理员可维护人员安排")
+    item = get_or_404(db, ProjectMember, member_id, "项目成员")
+    if item.project_id != project.id:
+        raise HTTPException(status_code=400, detail="人员安排记录不属于当前项目")
+    record_audit_log(db, None, "home_project_member_removed", user=user, target_type="project_member", target_id=item.id, project_id=project.id, details={"member_user_id": item.user_id})
+    db.delete(item)
+    db.commit()
+    return Response(status_code=204)
 
 
 @router.post("/api/projects", status_code=201)

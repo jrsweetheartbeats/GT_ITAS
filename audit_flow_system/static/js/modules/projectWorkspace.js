@@ -1,4 +1,4 @@
-import { state } from '../state.js?v=20260630a';
+import { state } from '../state.js?v=20260920-state12';
 import { $, activeProjectId, cleanClientDescription, esc, statusClass, tag } from '../utils.js?v=20260630a';
 
 const PROJECT_SECTIONS = [

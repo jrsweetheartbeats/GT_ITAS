@@ -1,5 +1,5 @@
-import { request } from '../api.js?v=20260630a';
-import { state } from '../state.js?v=20260630a';
+import { request } from '../api.js?v=20260920-state12';
+import { state } from '../state.js?v=20260920-state12';
 import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, statusClass, tag } from '../utils.js?v=20260630a';
 
 let refreshProjectScoped = async () => {};

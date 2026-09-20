@@ -73,6 +73,41 @@ class PersonnelProfile(TimestampMixin, Base):
     user: Mapped[Optional[User]] = relationship(foreign_keys=[user_id])
 
 
+class ImsContact(TimestampMixin, Base):
+    """Firm-wide IMS address book, synced from the production directory."""
+    __tablename__ = "ims_contacts"
+    __table_args__ = (
+        Index("ix_ims_contacts_workcode", "workcode"),
+        Index("ix_ims_contacts_lastname", "lastname"),
+        Index("ix_ims_contacts_email", "email"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    lastname: Mapped[str] = mapped_column(String(120), default="", nullable=False)
+    workcode: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    sex: Mapped[str] = mapped_column(String(20), default="", nullable=False)
+    department: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    department_id: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    subcompany: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    subcompany_id: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    job_title: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    job_activity: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    job_group: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    rank_name: Mapped[str] = mapped_column(String(120), default="", nullable=False)
+    status: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    location: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    mobile: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    telephone: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    email: Mapped[str] = mapped_column(String(255), default="", nullable=False)
+    fax: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    extension: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    manager: Mapped[str] = mapped_column(String(120), default="", nullable=False)
+    manager_id: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    dsporder: Mapped[str] = mapped_column(String(40), default="", nullable=False)
+    raw_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    synced_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+
+
 class AuditLog(Base):
     __tablename__ = "audit_logs"
     __table_args__ = (
@@ -232,6 +267,26 @@ class ProjectMember(TimestampMixin, Base):
     workload: Mapped[str] = mapped_column(Text, default="", nullable=False)
 
     user: Mapped[User] = relationship()
+
+
+class ProjectMemberClaim(TimestampMixin, Base):
+    """A staff member's request to join a project, pending project approval."""
+    __tablename__ = "project_member_claims"
+    __table_args__ = (
+        UniqueConstraint("project_id", "user_id", name="uq_project_member_claims_project_user"),
+        Index("ix_project_member_claims_project_status", "project_id", "status"),
+        Index("ix_project_member_claims_user_status", "user_id", "status"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    status: Mapped[str] = mapped_column(String(40), default="pending", nullable=False)
+    reviewer_user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    reviewed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+
+    user: Mapped[User] = relationship(foreign_keys=[user_id])
+    reviewer: Mapped[Optional[User]] = relationship(foreign_keys=[reviewer_user_id])
 
 
 class Task(TimestampMixin, Base):

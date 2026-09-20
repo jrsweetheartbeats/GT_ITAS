@@ -39,6 +39,7 @@ DEFAULT_PASSWORD_POLICY = {
 }
 
 DEFAULT_MODULE_ORDER = [
+    "home",
     "dashboard",
     "projectWorkspace",
     "qualityDashboard",
@@ -47,6 +48,7 @@ DEFAULT_MODULE_ORDER = [
     "development",
     "config",
 ]
+PINNED_NAV_MODULE = "home"
 
 
 def normalize_module_order(value: Any) -> list[str]:
@@ -55,9 +57,9 @@ def normalize_module_order(value: Any) -> list[str]:
     raw = [str(item) for item in value]
     if any(item not in DEFAULT_MODULE_ORDER for item in raw):
         return DEFAULT_MODULE_ORDER.copy()
-    ordered = ["dashboard"]
+    ordered = [PINNED_NAV_MODULE]
     for item in raw:
-        if item in DEFAULT_MODULE_ORDER and item != "dashboard" and item not in ordered:
+        if item in DEFAULT_MODULE_ORDER and item != PINNED_NAV_MODULE and item not in ordered:
             ordered.append(item)
     for item in DEFAULT_MODULE_ORDER:
         if item not in ordered:

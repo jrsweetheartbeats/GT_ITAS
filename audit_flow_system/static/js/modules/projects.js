@@ -1,5 +1,5 @@
-import { request } from '../api.js?v=20260630a';
-import { state } from '../state.js?v=20260630a';
+import { request } from '../api.js?v=20260920-state12';
+import { state } from '../state.js?v=20260920-state12';
 import { $, PROJECT_STATUS_OPTIONS, activeProjectId, closeModal, defaultAuditScope, esc, fillSelect, formData, isActiveProjectStatus, openModal, projectStatusLabel, setStatus, statusClass, tag } from '../utils.js?v=20260630b';
 
 export const projectMembersExtension = {
@@ -192,7 +192,14 @@ async function openProjectFromClientIssues(clientId) {
 }
 
 export function projectSearchLabel(p) {
-  return `${p.name || ''}${p.code ? ' / ' + p.code : ''}${p.audit_year ? ' / ' + p.audit_year : ''}`.trim();
+  return [
+    p.name,
+    p.entity_name,
+    p.code,
+    p.oa_project_no,
+    p.ims_project_no,
+    p.audit_year,
+  ].filter(value => value !== null && value !== undefined && String(value).trim()).join(' / ');
 }
 
 function projectById(id) {

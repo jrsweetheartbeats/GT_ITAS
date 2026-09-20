@@ -1,4 +1,5 @@
 export const defaultModuleOrder = [
+  'home',
   'dashboard',
   'projectWorkspace',
   'qualityDashboard',
@@ -13,6 +14,7 @@ export const state = {
   users: [],
   clients: [],
   projects: [],
+  homeProjects: [],
   members: [],
   workpapers: [],
   attachments: [],
@@ -40,7 +42,7 @@ export const state = {
   overviewWorkpapers: [],
   autofillRuns: [],
   issueDashboard: null,
-  activeSection: 'dashboard',
+  activeSection: 'home',
   activeProjectSubsection: 'projectWorkspace',
   activeBoardSubsection: 'issueDashboard',
   activeSystemSubsection: 'templates',

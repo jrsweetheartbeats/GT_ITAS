@@ -1,19 +1,20 @@
-import { login, request, setUnauthorizedHandler } from './api.js?v=20260630a';
-import { clearToken, defaultModuleOrder, setToken, state } from './state.js?v=20260630a';
+import { login, request, setUnauthorizedHandler } from './api.js?v=20260920-state12';
+import { clearToken, defaultModuleOrder, setToken, state } from './state.js?v=20260920-state12';
 import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from './utils.js?v=20260630b';
-import { bindClients, openNewClientForm, renderClients } from './modules/clients.js?v=20260707a';
-import { bindProjects, renderMembers, renderProjectSnapshot, renderProjects, setProjectFormMode, syncProjectPicker } from './modules/projects.js?v=20260905-project-switch1';
-import { bindWorkpapers, loadWorkpaperTree, renderWorkpaperTemplateTree, renderWorkpapers } from './modules/workpapers.js?v=20260906-p1-review1';
-import { bindMaterials, renderAttachments, renderMaterials } from './modules/materials.js?v=20260627a';
-import { bindReview, renderAutofillRuns, renderAutofillSummary, renderRuns } from './modules/review.js?v=20260823-deepseek1';
+import { bindClients, openNewClientForm, renderClients } from './modules/clients.js?v=20260920-state12';
+import { bindProjects, renderMembers, renderProjectSnapshot, renderProjects, setProjectFormMode, syncProjectPicker } from './modules/projects.js?v=20260920-state12';
+import { bindWorkpapers, loadWorkpaperTree, renderWorkpaperTemplateTree, renderWorkpapers } from './modules/workpapers.js?v=20260920-state12';
+import { bindMaterials, renderAttachments, renderMaterials } from './modules/materials.js?v=20260920-state12';
+import { bindReview, renderAutofillRuns, renderAutofillSummary, renderRuns } from './modules/review.js?v=20260920-state12';
 import { bindRuleInspection, loadRuleInspection } from './modules/ruleInspection.js';
-import { bindRuleVisualization, loadRuleVisualization } from './modules/ruleVisualization.js?v=20260701a';
-import { bindQualityModules, closeQualityFindingDrawer, openQualityFinding, refreshQualityModules, refreshQualityReviewData, renderQualityModules } from './modules/quality.js?v=20260907-drawer-draft1';
-import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260707b';
-import { bindWorkflowPrototype, loadWorkflowPrototypeData, refreshWorkflowReviewCenterData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260906-review-fix5';
-import { bindLearning, loadLearning } from './modules/learning.js?v=20260820a';
-import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260918-training-courseware5';
-import { bindMentorWorkbench } from './modules/mentorWorkbench.js?v=20260918-review-access3';
+import { bindRuleVisualization, loadRuleVisualization } from './modules/ruleVisualization.js?v=20260920-state12';
+import { bindQualityModules, closeQualityFindingDrawer, openQualityFinding, refreshQualityModules, refreshQualityReviewData, renderQualityModules } from './modules/quality.js?v=20260920-state12';
+import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260920-state12';
+import { bindWorkflowPrototype, loadWorkflowPrototypeData, refreshWorkflowReviewCenterData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260920-state12';
+import { bindLearning, loadLearning } from './modules/learning.js?v=20260920-state12';
+import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260920-state12';
+import { bindMentorWorkbench } from './modules/mentorWorkbench.js?v=20260920-state12';
+import { bindHome, renderHome } from './modules/home.js?v=20260920-home23';
 
 let projectScopedRefreshSeq = 0;
 const TRAINING_MANAGER_ROLES = new Set(['admin', 'partner', 'quality', 'director', 'senior_manager', 'manager']);
@@ -80,7 +81,7 @@ function applyAuthUi() {
   const can = canAccessModule;
   document.querySelectorAll('#nav button[data-tab]').forEach(button => {
     const module = button.dataset.tab;
-    button.classList.toggle('hidden', module !== 'dashboard' && !can(module, 'view'));
+    button.classList.toggle('hidden', !['home', 'dashboard'].includes(module) && !can(module, 'view'));
   });
   document.querySelectorAll('[data-project-section]').forEach(button => {
     button.classList.toggle('hidden', !can(button.dataset.projectSection, 'view'));
@@ -103,9 +104,9 @@ function applyAuthUi() {
     button.classList.toggle('hidden', !canManageTraining);
     button.disabled = !canManageTraining;
   });
-  const activePrimary = primaryForSection(state.activeSection || 'dashboard');
-  if (activePrimary !== 'dashboard' && !can(activePrimary, 'view')) {
-    activateSection(can('projectWorkspace', 'view') ? 'projectWorkspace' : 'dashboard');
+  const activePrimary = primaryForSection(state.activeSection || 'home');
+  if (!['home', 'dashboard'].includes(activePrimary) && !can(activePrimary, 'view')) {
+    activateSection(can('projectWorkspace', 'view') ? 'projectWorkspace' : 'home');
   }
   document.querySelectorAll('[data-dashboard-action="new-project"], #openProjectModalBtn').forEach(button => {
     button.disabled = !can('projects', 'edit');
@@ -114,11 +115,12 @@ function applyAuthUi() {
     button.disabled = !can('clients', 'edit');
   });
   $('currentUser').textContent = state.me ? `${state.me.display_name || state.me.username} / ${state.me.role_name || ''}` : '';
-  activateSection(state.activeSection || 'dashboard');
+  activateSection(state.activeSection || 'home');
 }
 
 function moduleLabel(tab) {
   const labels = {
+    home: '项目首页',
     dashboard: '项目监控',
     projectWorkspace: '项目执行',
     scopeCenter: '审计范围',
@@ -142,10 +144,10 @@ function moduleLabel(tab) {
 function normalizeModuleOrder(order) {
   const rawOrder = Array.isArray(order) ? order.map(String) : [];
   if (rawOrder.some(tab => !defaultModuleOrder.includes(tab))) return defaultModuleOrder.slice();
-  const seen = new Set(['dashboard']);
-  const normalized = ['dashboard'];
+  const seen = new Set(['home']);
+  const normalized = ['home'];
   rawOrder.forEach(tab => {
-    if (tab !== 'dashboard' && defaultModuleOrder.includes(tab) && !seen.has(tab)) {
+    if (tab !== 'home' && defaultModuleOrder.includes(tab) && !seen.has(tab)) {
       seen.add(tab);
       normalized.push(tab);
     }
@@ -299,6 +301,7 @@ function mergeProjectState(project) {
   renderProjectSnapshot();
   renderProjectWorkspace();
   renderDashboardHub();
+  renderHome();
   renderWorkflowPrototype();
 }
 
@@ -365,12 +368,14 @@ function loadDeferredStartupData() {
   void refreshQualityModules().then(() => {
     renderProjectWorkspace();
     renderDashboardHub();
+    renderHome();
     renderWorkflowPrototype();
   });
   void loadWorkflowPrototypeData({silent: true}).then(() => {
     renderProjects();
     renderProjectWorkspace();
     renderDashboardHub();
+    renderHome();
     renderWorkflowPrototype();
   });
   if (state.me?.is_admin || state.me?.permissions?.learning?.view || state.me?.permissions?.learning?.edit || state.me?.permissions?.learning?.manage) {
@@ -380,18 +385,28 @@ function loadDeferredStartupData() {
 
 export async function refreshAll() {
   setStatus('加载中');
+  const labels = ['概览', '角色', '用户', '客户', '项目执行权限', '首页项目台账'];
+  const results = await Promise.allSettled([
+    request('/api/overview'),
+    request('/api/roles'),
+    request('/api/users'),
+    request('/api/clients'),
+    request('/api/projects'),
+    request('/api/home/projects'),
+  ]);
+  const value = (index, fallback) => results[index].status === 'fulfilled' ? results[index].value : fallback;
+  const overview = value(0, {});
+  state.roles = value(1, state.roles || []);
+  state.users = value(2, state.users || []);
+  state.clients = value(3, state.clients || []);
+  state.projects = value(4, state.projects || []);
+  state.homeProjects = value(5, state.projects || []);
+
+  // 项目台账不依赖角色、通讯录或客户资料。优先渲染它，避免辅助接口失败时
+  // 将已成功返回的项目主数据误显示为“暂无项目”。
+  renderHome();
+
   try {
-    const [overview, roles, users, clients, projects] = await Promise.all([
-      request('/api/overview'),
-      request('/api/roles'),
-      request('/api/users'),
-      request('/api/clients'),
-      request('/api/projects')
-    ]);
-    state.roles = roles;
-    state.users = users;
-    state.clients = clients;
-    state.projects = projects;
     await loadModuleOrder();
     renderOverview(overview);
     renderClients();
@@ -399,12 +414,17 @@ export async function refreshAll() {
     renderPeople();
     renderProjectWorkspace();
     renderDashboardHub();
+    renderHome();
     renderWorkflowPrototype();
     applyAuthUi();
-    setStatus('基础数据已加载，项目明细后台加载中');
+    const failed = results
+      .map((result, index) => result.status === 'rejected' ? labels[index] : '')
+      .filter(Boolean);
+    setStatus(failed.length ? `项目数据已加载；${failed.join('、')}读取失败` : '基础数据已加载，项目明细后台加载中');
     loadDeferredStartupData();
   } catch (err) {
-    setStatus('错误：' + err.message);
+    // 项目主数据已经在上方单独渲染；保留其可用状态并只提示后续模块错误。
+    setStatus('项目数据已加载，其他模块初始化失败：' + err.message);
   }
 }
 
@@ -454,6 +474,7 @@ export async function refreshProjectScoped() {
   renderQualityModules();
   renderProjectWorkspace();
   renderDashboardHub();
+  renderHome();
   renderWorkflowPrototype();
   if (!pid) {
     state.projectScopedLoading = false;
@@ -483,6 +504,7 @@ export async function refreshProjectScoped() {
     renderAttachments();
     renderProjectWorkspace();
     renderDashboardHub();
+    renderHome();
     renderWorkflowPrototype();
   };
   let workpapersTimedOut = false;
@@ -501,6 +523,7 @@ export async function refreshProjectScoped() {
       renderMembers();
       renderProjectWorkspace();
       renderDashboardHub();
+      renderHome();
       renderWorkflowPrototype();
     }),
     loadPiece('底稿', () => withTimeout(workpapersRequest, 3500, '底稿台账', {soft: true}), data => {
@@ -515,6 +538,7 @@ export async function refreshProjectScoped() {
       renderAttachments();
       renderProjectWorkspace();
       renderDashboardHub();
+      renderHome();
       renderWorkflowPrototype();
     }),
     loadPiece('资料清单', () => request(`/api/projects/${pid}/document-requests`), data => {
@@ -539,6 +563,7 @@ export async function refreshProjectScoped() {
     renderProjects();
     renderProjectWorkspace();
     renderDashboardHub();
+    renderHome();
   });
   if (!isCurrentRefresh()) return;
   renderProjectSnapshot();
@@ -552,6 +577,7 @@ export async function refreshProjectScoped() {
   renderQualityModules();
   renderProjectWorkspace();
   renderDashboardHub();
+  renderHome();
   renderWorkflowPrototype();
   void Promise.allSettled([
     loadPiece('合规检核', () => loadRuleInspection({silent: true}), () => {}),
@@ -603,6 +629,7 @@ async function deleteRole(id) {
 }
 
 const sectionTitles = {
+  home: '项目首页',
   dashboard: '项目监控',
   projectWorkspace: '项目执行 / 项目总览',
   scopeCenter: '项目中心 / 审计范围识别',
@@ -646,8 +673,8 @@ export function activateSection(section) {
   if (section === 'qualityDashboard') section = 'dashboard';
   const requestedPrimary = primaryForSection(section);
   const ownFindingSelfService = section === 'quality' && canAccessModule('projectWorkspace', 'view');
-  if (requestedPrimary !== 'dashboard' && !ownFindingSelfService && !canAccessModule(requestedPrimary, 'view')) {
-    section = canAccessModule('projectWorkspace', 'view') ? 'projectWorkspace' : 'dashboard';
+  if (!['home', 'dashboard'].includes(requestedPrimary) && !ownFindingSelfService && !canAccessModule(requestedPrimary, 'view')) {
+    section = canAccessModule('projectWorkspace', 'view') ? 'projectWorkspace' : 'home';
   }
   const target = $(section);
   if (!target) return;
@@ -759,6 +786,7 @@ function bindNavigation() {
 }
 
 function bindAuth() {
+  window.__itasLoginHandlerBound = true;
   $('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
@@ -850,6 +878,17 @@ function bindPeopleAndConfig() {
 }
 
 function bindGlobalCompatibility() {
+  window.selectHomeProject = async (projectId) => {
+    const id = Number(projectId || 0);
+    if (!state.projects.some(project => Number(project.id) === id)) {
+      setStatus('当前账号无权进入该项目执行区');
+      return;
+    }
+    state.selectedProjectId = id;
+    if ($('activeProject')) $('activeProject').value = String(id);
+    await refreshProjectScoped();
+    activateSection('projectWorkspace');
+  };
   window.refreshAll = refreshAll;
   window.refreshProjectScoped = refreshProjectScoped;
   window.openModal = openModal;
@@ -888,9 +927,11 @@ function bindApp() {
   bindLearning();
   bindDevelopmentOverview();
   bindMentorWorkbench();
+  bindHome();
   bindPeopleAndConfig();
   $('dashRefresh')?.addEventListener('click', refreshAll);
-  activateSection('dashboard');
+  activateSection('home');
+  renderHome();
   renderWorkflowPrototype();
 }
 

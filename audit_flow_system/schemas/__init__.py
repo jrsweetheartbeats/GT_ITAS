@@ -88,6 +88,36 @@ class ProjectIn(BaseModel):
     description: str = ""
 
 
+class HomeProjectMemberWorkloadIn(BaseModel):
+    member_id: int
+    workload: str = Field(default="", max_length=120)
+
+
+class HomeProjectUpdateIn(BaseModel):
+    """Editable directory fields exposed from the homepage project detail."""
+    name: Optional[str] = None
+    code: Optional[str] = None
+    oa_project_no: Optional[str] = None
+    ims_project_no: Optional[str] = None
+    entity_name: Optional[str] = None
+    audit_year: Optional[int] = None
+    status: Optional[str] = None
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
+    audit_scope_start: Optional[date] = None
+    audit_scope_end: Optional[date] = None
+    project_leader_user_id: Optional[int] = None
+    manager_user_id: Optional[int] = None
+    field_leader_user_id: Optional[int] = None
+    quality_reviewer_user_id: Optional[int] = None
+    director_user_id: Optional[int] = None
+    partner_user_id: Optional[int] = None
+    member_workloads: Optional[list[HomeProjectMemberWorkloadIn]] = None
+    department: Optional[str] = None
+    scope_description: Optional[str] = None
+    business_revenue: Optional[str] = None
+
+
 class ContactIn(BaseModel):
     name: str
     title: str = ""
@@ -102,6 +132,14 @@ class MemberIn(BaseModel):
     role_on_project: str = ""
     module: str = ""
     workload: str = ""
+
+
+class HomeProjectMemberBatchIn(BaseModel):
+    items: list[MemberIn] = Field(default_factory=list, max_length=100)
+
+
+class HomeProjectClaimApprovalIn(BaseModel):
+    claim_ids: list[int] = Field(default_factory=list, min_length=1, max_length=100)
 
 
 class DocumentRequestUploadIn(BaseModel):

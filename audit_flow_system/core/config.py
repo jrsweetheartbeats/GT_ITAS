@@ -12,6 +12,26 @@ from sqlalchemy.engine import URL, make_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 WORKSPACE_ROOT = BASE_DIR.parent
 DEEPSEEK_LOCAL_CONFIG_PATH = BASE_DIR / "deepseek.local.json"
+
+
+def _load_env_file() -> None:
+    """Load KEY=VALUE pairs from .env without overriding a real process environment."""
+    for path in (WORKSPACE_ROOT / ".env", BASE_DIR / ".env"):
+        if not path.is_file():
+            continue
+        for raw in path.read_text(encoding="utf-8").splitlines():
+            line = raw.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip("'").strip('"')
+            if key and key not in os.environ:
+                os.environ[key] = value
+        break
+
+
+_load_env_file()
 PROJECTS_ROOT = Path(
     os.getenv("AUDIT_FLOW_PROJECTS_ROOT", str(WORKSPACE_ROOT / "项目文件"))
 ).expanduser()

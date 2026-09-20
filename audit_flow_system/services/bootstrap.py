@@ -38,6 +38,7 @@ from .projects import DEFAULT_TEMPLATE_FILES
 
 
 DEFAULT_FEATURE_MODULES = [
+    ("home", "项目首页", "全部项目主数据、团队成员和客户信息总览"),
     ("dashboard", "首页驾驶舱", "项目进度、资料缺口、复核退回和质量风险总览"),
     ("projectWorkspace", "项目工作台", "项目上下文、成员、范围和工作流入口"),
     ("scopeCenter", "审计范围", "系统清单、范围理由、置信度和风险识别"),
@@ -80,37 +81,37 @@ DEFAULT_AUDIT_USERS = [
 
 DEFAULT_ROLE_PERMISSIONS = {
     "partner": {
-        "view": {"dashboard", "projectWorkspace", "workpaperExecution", "workpapers", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning", "development"},
+        "view": {"home", "dashboard", "projectWorkspace", "workpaperExecution", "workpapers", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning", "development"},
         "edit": {"reviewCenter", "reviews", "quality"},
         "manage": set(),
     },
     "director": {
-        "view": {"dashboard", "projectWorkspace", "workpaperExecution", "workpapers", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning", "development"},
+        "view": {"home", "dashboard", "projectWorkspace", "workpaperExecution", "workpapers", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning", "development"},
         "edit": {"reviewCenter", "reviews", "quality"},
         "manage": set(),
     },
     "senior_manager": {
-        "view": {"dashboard", "projectWorkspace", "workpaperExecution", "workpapers", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning", "development"},
+        "view": {"home", "dashboard", "projectWorkspace", "workpaperExecution", "workpapers", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "templates", "architecture", "learning", "development"},
         "edit": {"reviewCenter", "reviews", "quality"},
         "manage": set(),
     },
     "quality": {
-        "view": {"dashboard", "projectWorkspace", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "workpapers", "attachments", "templates", "architecture", "learning", "development"},
+        "view": {"home", "dashboard", "projectWorkspace", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "reviewCenter", "reviews", "workpapers", "attachments", "templates", "architecture", "learning", "development"},
         "edit": {"reviewCenter", "reviews", "quality", "workpapers", "attachments", "development"},
         "manage": set(),
     },
     "manager": {
-        "view": {"dashboard", "projectWorkspace", "projects", "clients", "scopeCenter", "pbcCenter", "workpaperExecution", "attachments", "autoCheck", "reviewCenter", "findingKanban", "workpapers", "ruleVisualization", "ruleInspection", "reviews", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "resourcePlan", "templates", "architecture", "learning", "development"},
+        "view": {"home", "dashboard", "projectWorkspace", "projects", "clients", "scopeCenter", "pbcCenter", "workpaperExecution", "attachments", "autoCheck", "reviewCenter", "findingKanban", "workpapers", "ruleVisualization", "ruleInspection", "reviews", "qualityDashboard", "issueDashboard", "projectOverview", "quality", "resourcePlan", "templates", "architecture", "learning", "development"},
         "edit": {"projects", "clients", "scopeCenter", "pbcCenter", "workpaperExecution", "attachments", "autoCheck", "reviewCenter", "findingKanban", "workpapers", "ruleVisualization", "reviews", "quality", "resourcePlan", "development"},
         "manage": set(),
     },
     "preparer": {
-        "view": {"dashboard", "projectWorkspace", "scopeCenter", "pbcCenter", "workpaperExecution", "attachments", "autoCheck", "findingKanban", "workpapers", "reviews", "templates", "architecture", "learning", "development"},
+        "view": {"home", "dashboard", "projectWorkspace", "scopeCenter", "pbcCenter", "workpaperExecution", "attachments", "autoCheck", "findingKanban", "workpapers", "reviews", "templates", "architecture", "learning", "development"},
         "edit": {"workpaperExecution", "attachments", "findingKanban", "workpapers", "learning", "development"},
         "manage": set(),
     },
     "client_contact": {
-        "view": {"dashboard", "projectWorkspace", "pbcCenter", "attachments"},
+        "view": {"home", "dashboard", "projectWorkspace", "pbcCenter", "attachments"},
         "edit": {"attachments"},
         "manage": set(),
     },

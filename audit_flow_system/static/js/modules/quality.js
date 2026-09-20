@@ -1,5 +1,5 @@
-import { api, authHeaders, request } from '../api.js?v=20260630a';
-import { state } from '../state.js?v=20260630a';
+import { api, authHeaders, request } from '../api.js?v=20260920-state12';
+import { state } from '../state.js?v=20260920-state12';
 import { $, PROJECT_STATUS_OPTIONS, activeProjectId, closeModal, esc, fillSelect, formData, isActiveProjectStatus, openModal, projectStatusLabel, setStatus, statusClass, tag } from '../utils.js?v=20260904-project-filter1';
 
 const ISSUE_TYPE_OPTIONS = [
