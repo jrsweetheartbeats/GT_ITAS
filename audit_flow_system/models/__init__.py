@@ -1165,7 +1165,8 @@ class PasswordResetChallenge(TimestampMixin, Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    phone: Mapped[str] = mapped_column(String(20), nullable=False)
+    phone: Mapped[str] = mapped_column(String(20), default="", nullable=False)
+    email: Mapped[str] = mapped_column(String(255), default="", nullable=False)
     code_hash: Mapped[str] = mapped_column(Text, nullable=False)
     expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     attempt_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)

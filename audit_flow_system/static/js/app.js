@@ -1,4 +1,4 @@
-import { login, postPublic, request, setUnauthorizedHandler } from './api.js?v=20260921-notes1';
+import { login, postPublic, request, setUnauthorizedHandler } from './api.js?v=20260921-mail1';
 import { clearToken, defaultModuleOrder, setToken, state } from './state.js?v=20260920-state12';
 import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from './utils.js?v=20260630b';
 import { bindClients, openNewClientForm, renderClients } from './modules/clients.js?v=20260920-state12';
@@ -806,31 +806,66 @@ function bindAuth() {
     showLogin();
   });
   const loginForm = $('loginForm');
+  const changeForm = $('passwordChangeForm');
   const resetForm = $('passwordResetForm');
+  const changeStatus = $('changeStatus');
   const resetStatus = $('resetStatus');
-  const showReset = () => {
-    loginForm.classList.add('hidden');
-    resetForm.classList.remove('hidden');
+  const copyUsername = (form) => {
     const username = loginForm.elements.username?.value || '';
-    if (username && !resetForm.elements.username.value) resetForm.elements.username.value = username;
-    resetStatus.textContent = '请先输入账号并获取验证码';
+    if (username && !form.elements.username.value) form.elements.username.value = username;
   };
   const showLoginForm = () => {
+    changeForm.classList.add('hidden');
     resetForm.classList.add('hidden');
     loginForm.classList.remove('hidden');
   };
-  $('showPasswordReset')?.addEventListener('click', showReset);
-  $('backToLogin')?.addEventListener('click', showLoginForm);
+  $('showPasswordChange')?.addEventListener('click', () => {
+    loginForm.classList.add('hidden');
+    resetForm.classList.add('hidden');
+    changeForm.classList.remove('hidden');
+    copyUsername(changeForm);
+    changeStatus.textContent = '请输入账号和旧密码';
+  });
+  $('showPasswordReset')?.addEventListener('click', () => {
+    loginForm.classList.add('hidden');
+    changeForm.classList.add('hidden');
+    resetForm.classList.remove('hidden');
+    copyUsername(resetForm);
+    resetStatus.textContent = '请先输入账号并获取验证码';
+  });
+  document.querySelectorAll('[data-back-to-login]').forEach(button => button.addEventListener('click', showLoginForm));
   $('sendResetCode')?.addEventListener('click', async () => {
     const username = String(resetForm.elements.username.value || '').trim();
     if (!username) { resetStatus.textContent = '请先填写账号'; return; }
     try {
       resetStatus.textContent = '正在发送验证码…';
       const result = await postPublic('/api/password-reset/request', {username});
-      $('resetPhoneHint').textContent = result.maskedPhone ? `已发送至 ${result.maskedPhone}` : '';
-      resetStatus.textContent = result.debugCode ? `${result.message}，验证码 ${result.debugCode}` : (result.message || '验证码已发送');
+      $('resetEmailHint').textContent = result.maskedEmail ? `已发送至 ${result.maskedEmail}` : '';
+      resetStatus.textContent = result.message || '验证码已发送';
     } catch (err) {
       resetStatus.textContent = '错误：' + err.message;
+    }
+  });
+  changeForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const payload = formData(changeForm);
+    if (payload.new_password !== payload.confirm_password) {
+      changeStatus.textContent = '两次输入的新密码不一致';
+      return;
+    }
+    try {
+      changeStatus.textContent = '正在更新密码…';
+      const result = await postPublic('/api/password-change', {
+        username: payload.username,
+        old_password: payload.old_password,
+        new_password: payload.new_password,
+      });
+      loginForm.elements.username.value = payload.username;
+      loginForm.elements.password.value = '';
+      $('loginStatus').textContent = result.message || '密码已更新，请使用新密码登录';
+      showLoginForm();
+    } catch (err) {
+      changeStatus.textContent = '错误：' + err.message;
     }
   });
   resetForm?.addEventListener('submit', async (event) => {
@@ -847,10 +882,9 @@ function bindAuth() {
         code: payload.code,
         new_password: payload.new_password,
       });
-      resetStatus.textContent = result.message || '密码已更新';
       loginForm.elements.username.value = payload.username;
       loginForm.elements.password.value = '';
-      $('loginStatus').textContent = '密码已更新，请使用新密码登录';
+      $('loginStatus').textContent = result.message || '密码已更新，请使用新密码登录';
       showLoginForm();
     } catch (err) {
       resetStatus.textContent = '错误：' + err.message;

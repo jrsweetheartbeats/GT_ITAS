@@ -74,6 +74,7 @@ from ..schemas import (
     InitFromPriorIn,
     LoginIn,
     MemberIn,
+    PasswordChangeIn,
     PasswordPolicyIn,
     PasswordResetConfirmIn,
     PasswordResetRequestIn,
@@ -100,9 +101,8 @@ from ..services.attachments import (
     scan_project_attachment_files,
 )
 from ..services.materials import c22_document_requests_from_rules, save_upload_files
+from ..services.mail import MailError, mask_email, normalize_email, send_verification_email
 from ..services.projects import copy_workpaper_file, replace_audit_year, seed_project_template_workpapers
-from ..services.review import add_finding, run_external_rules, run_internal_review
-from ..services.sms import SmsError, mask_mobile, normalize_cn_mobile, send_verification_sms
 
 
 router = APIRouter()
@@ -143,12 +143,25 @@ def _active_user_by_username(db: Session, username: str) -> User:
     return user
 
 
+@router.post("/api/password-change")
+def change_password_with_old(body: PasswordChangeIn, db: Session = Depends(get_db)) -> dict[str, Any]:
+    user = _active_user_by_username(db, body.username)
+    if not verify_password(body.old_password, user.password_hash):
+        raise HTTPException(status_code=400, detail="旧密码不正确")
+    if body.new_password == body.old_password:
+        raise HTTPException(status_code=400, detail="新密码不能与旧密码相同")
+    validate_password_policy(body.new_password, get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY))
+    user.password_hash = hash_password(body.new_password)
+    db.commit()
+    return {"ok": True, "message": "密码已更新，请使用新密码登录"}
+
+
 @router.post("/api/password-reset/request")
 def request_password_reset(body: PasswordResetRequestIn, db: Session = Depends(get_db)) -> dict[str, Any]:
     user = _active_user_by_username(db, body.username)
-    phone = normalize_cn_mobile(user.phone)
-    if not phone:
-        raise HTTPException(status_code=400, detail="该账号未登记手机号，请联系管理员在用户资料中补充")
+    email = normalize_email(user.email)
+    if not email:
+        raise HTTPException(status_code=400, detail="该账号未登记邮箱，请联系管理员在用户资料中补充")
     latest = db.execute(
         select(PasswordResetChallenge)
         .where(PasswordResetChallenge.user_id == user.id)
@@ -159,26 +172,27 @@ def request_password_reset(body: PasswordResetRequestIn, db: Session = Depends(g
     code = f"{secrets.randbelow(1000000):06d}"
     db.add(PasswordResetChallenge(
         user_id=user.id,
-        phone=phone,
+        phone="",
+        email=email,
         code_hash=hash_password(code),
         expires_at=datetime.utcnow() + timedelta(minutes=5),
     ))
     try:
-        sms = send_verification_sms(phone, code)
-    except SmsError as exc:
+        mail = send_verification_email(email, code, display_name=user.display_name)
+    except MailError as exc:
         db.rollback()
         raise HTTPException(status_code=502, detail=str(exc)) from exc
     db.commit()
     payload = {
         "ok": True,
-        "maskedPhone": mask_mobile(phone),
+        "maskedEmail": mask_email(email),
         "expiresInSeconds": 300,
-        "provider": sms.provider,
-        "message": f"验证码已发送至 {mask_mobile(phone)}",
+        "provider": mail.provider,
+        "message": f"验证码已发送至 {mask_email(email)}",
     }
-    if sms.debug_code:
-        payload["debugCode"] = sms.debug_code
-        payload["message"] += "（当前为本地调试模式，未走收费短信通道）"
+    if mail.debug_code:
+        payload["debugCode"] = mail.debug_code
+        payload["message"] += "（当前未配置 SMTP，验证码仅用于本地调试）"
     return payload
 
 

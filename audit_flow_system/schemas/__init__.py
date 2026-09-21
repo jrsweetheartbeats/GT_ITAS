@@ -32,6 +32,12 @@ class LoginIn(BaseModel):
     password: str
 
 
+class PasswordChangeIn(BaseModel):
+    username: str = Field(min_length=1, max_length=120)
+    old_password: str = Field(min_length=1, max_length=120)
+    new_password: str = Field(min_length=3, max_length=120)
+
+
 class PasswordResetRequestIn(BaseModel):
     username: str = Field(min_length=1, max_length=120)
 

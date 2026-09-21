@@ -4,7 +4,7 @@ import unittest
 from types import SimpleNamespace
 
 from audit_flow_system.services.courseware_notes import chapter_payload, group_notes_by_module
-from audit_flow_system.services.sms import mask_mobile, normalize_cn_mobile
+from audit_flow_system.services.mail import mask_email, normalize_email
 
 
 class CoursewareNoteHelperTests(unittest.TestCase):
@@ -23,11 +23,11 @@ class CoursewareNoteHelperTests(unittest.TestCase):
         self.assertEqual(by_key["orientation"]["content"], "")
 
 
-class SmsHelperTests(unittest.TestCase):
-    def test_normalizes_and_masks_mobile(self) -> None:
-        self.assertEqual(normalize_cn_mobile("+86 133-7840-9051"), "13378409051")
-        self.assertEqual(mask_mobile("13378409051"), "133****9051")
-        self.assertEqual(mask_mobile("not-a-phone"), "")
+class MailHelperTests(unittest.TestCase):
+    def test_masks_email_local_part(self) -> None:
+        self.assertEqual(normalize_email("  lirui5@cn.gt.com  "), "lirui5@cn.gt.com")
+        self.assertEqual(mask_email("lirui5@cn.gt.com"), "li***@cn.gt.com")
+        self.assertEqual(mask_email("ab@cn.gt.com"), "a*@cn.gt.com")
 
 
 if __name__ == "__main__":
