@@ -198,6 +198,16 @@ function renderLearningCompletion(task) {
   return `<div class="training-learning-complete"><button type="button" data-training-complete-learning="${task.id}">完成学习任务</button></div>`;
 }
 
+function renderCoursewareNotes(task) {
+  const modules = task.coursewareNoteModules || [];
+  const filled = modules.some(module => (module.chapters || []).some(item => String(item.content || '').trim()));
+  const chapterBlocks = modules.map(module => {
+    const chapters = (module.chapters || []).map(item => `<label class="courseware-note-card"><span>${esc(item.title)}</span><textarea data-courseware-note="${esc(item.key)}" placeholder="这一章的课件笔记会同步到这里">${esc(item.content || '')}</textarea><small data-courseware-note-status="${esc(item.key)}">${item.content ? '已从课件同步' : '可在课件右侧边栏实时记录'}</small></label>`).join('');
+    return `<section class="courseware-note-module"><h4>${esc(module.module)}</h4>${chapters}</section>`;
+  }).join('');
+  return `<div class="courseware-note-board">${chapterBlocks || '<div class="empty">打开课件后，各章节笔记会按模块汇总到这里。</div>'}${filled ? '' : '<p class="muted">先打开右侧课件，在每一章右边的空白框里记笔记；这里会按模块自动整理。</p>'}<form id="trainingTaskNoteForm"><label>综合笔记<textarea name="content" placeholder="跨章节的判断口径、易错点和待确认问题…">${esc(task.note || '')}</textarea></label><div class="actions"><button type="submit" class="secondary">保存综合笔记</button></div></form></div>`;
+}
+
 function renderTaskLoopDetail() {
   const task = taskDetail;
   if (!task) return '';
@@ -206,7 +216,7 @@ function renderTaskLoopDetail() {
   return `<aside class="training-task-loop-detail"><div class="training-detail-head"><div><h3>${esc(task.title)}</h3></div><button type="button" class="secondary" data-training-close-detail>关闭</button></div>
     <div class="training-task-loop-grid"><div><span class="muted">任务目标</span><p>${esc(task.description || '暂无任务说明')}</p></div><div><span class="muted">预计耗时 / 截止</span><p>${esc(task.estimatedHours ?? '—')} 小时 · ${esc(dateText(task.dueDate))}</p></div><div><span class="muted">完成标准</span><p>${esc(task.completionCriteria || '未设置')}</p></div><div><span class="muted">为什么要学</span><p>${esc(task.purpose || task.description || '未设置')}</p></div></div>
     <div class="training-detail-section"><strong>学习材料</strong>${renderLearningMaterials(task.materials || [])}<p class="muted">完成阅读后，请逐项标记已阅读，再点击“完成学习任务”解锁后续作业。</p>${renderLearningCompletion(task)}</div>
-    <div class="training-detail-section"><strong>学习笔记</strong><form id="trainingTaskNoteForm"><textarea name="content" placeholder="记录关键概念、判断依据、易错点和待确认问题…">${esc(task.note || '')}</textarea><div class="actions"><button type="submit" class="secondary">保存笔记</button></div></form></div>
+    <div class="training-detail-section"><strong>学习笔记</strong>${renderCoursewareNotes(task)}</div>
     <div class="training-detail-section"><strong>学习与执行步骤</strong><p>${esc(task.instructions || '未设置')}</p><p class="muted">请按步骤阅读材料、完成每道选择题，再提交任务。全部答对后系统才会判定本日任务过关。</p></div>
     ${task.submissionRequired ? `<div class="training-detail-section"><strong>作业提交</strong><p>${esc(task.submissionTitle || task.title)}<br>${esc(task.submissionRequirements || '请按任务要求提交')}</p><p class="muted">允许形式：${esc(task.submissionType || '文本 / 文件 / 链接')}；${questions.length ? `本作业含 ${questions.length} 道必答题。` : '本作业不含自检题。'}</p>${task.locked ? `<div class="empty">前置任务尚未完成，完成${(task.prerequisites || []).map(item => `「${esc(item.title)}」`).join('、')}后解锁。<div class="actions">${(task.prerequisites || []).map(item => `<button type="button" data-training-task="${item.id}">进入前置任务</button>`).join('')}</div></div>` : renderSubmissionForm(task, questions)}</div>` : `<div class="training-detail-section"><strong>作业提交</strong><p class="muted">这是学习/练习任务，不单独提交作业。</p>${relatedSubmission ? `<div class="practice-notice"><strong>下一步</strong>：请进入「${esc(relatedSubmission.title)}」完成 ${esc(relatedSubmission.questionCount || 0)} 道题并提交作业。<div class="actions"><button type="button" data-training-task="${relatedSubmission.id}">进入本周正式作业</button></div></div>` : '<p class="muted">本周尚未配置需要提交的正式作业。</p>'}</div>`}
     <div class="training-detail-section"><strong>提交历史</strong><div class="training-submission-history">${(task.submissions || []).map(item => `<div class="training-submission-version"><div><strong>V${item.version}</strong><span>${esc(dateText(item.submittedAt))} · ${esc(item.submissionType)}</span></div>${tag(item.status, item.status === 'passed' ? 'green' : item.status === 'revision_required' ? 'amber' : '')}<div class="training-submission-reviews">${(item.reviews || []).map(review => `<p>${review.result === 'passed' ? '通过' : '要求修改'}：${esc(review.comments || '无评语')}</p>`).join('')}</div></div>`).join('') || '<div class="empty">尚未提交。</div>'}</div></div>
@@ -405,16 +415,9 @@ export function bindDevelopmentOverview() {
     if (event.target.closest('[data-training-close-detail]')) { selectedTaskId = null; taskDetail = null; render(); return; }
     const coursewareButton = event.target.closest('[data-training-open-courseware]');
     if (coursewareButton) {
-      const coursewareWindow = window.open('', '_blank');
-      if (!coursewareWindow) { setStatus('浏览器阻止了课程窗口，请允许本站点打开新窗口后重试。'); return; }
-      coursewareWindow.opener = null;
-      try {
-        const response = await fetch(`${api}${coursewareButton.dataset.trainingOpenCourseware}`, {headers: authHeaders()});
-        if (!response.ok) throw new Error('课程内容加载失败');
-        const url = URL.createObjectURL(await response.blob());
-        coursewareWindow.location.replace(url);
-        window.setTimeout(() => URL.revokeObjectURL(url), 60000);
-      } catch (error) { coursewareWindow.close(); setStatus(`打开课程失败：${error.message}`); }
+      const match = String(coursewareButton.dataset.trainingOpenCourseware || '').match(/\/tasks\/(\d+)\/courseware/);
+      if (!match) { setStatus('课件地址无效'); return; }
+      window.open(`/static/courseware-viewer.html?task=${match[1]}`, '_blank', 'noopener');
       return;
     }
     const materialButton = event.target.closest('[data-training-material-read]');
@@ -479,6 +482,25 @@ export function bindDevelopmentOverview() {
     payload.taskId = Number(payload.taskId);
     try { await request('/api/development/my-training/blockers', {method: 'POST', body: JSON.stringify(payload)}); blockerFormOpen = false; await loadLearner(); }
     catch (error) { setStatus(`错误：${error.message}`); }
+  });
+  const chapterSaveTimers = new Map();
+  box.addEventListener('input', event => {
+    const textarea = event.target.closest('[data-courseware-note]');
+    if (!textarea || !taskDetail) return;
+    const key = textarea.dataset.coursewareNote;
+    const status = box.querySelector(`[data-courseware-note-status="${key}"]`);
+    if (status) status.textContent = '正在保存…';
+    clearTimeout(chapterSaveTimers.get(key));
+    chapterSaveTimers.set(key, setTimeout(async () => {
+      try {
+        const result = await request(`/api/development/tasks/${taskDetail.id}/courseware-notes`, {method: 'PUT', body: JSON.stringify({chapterKey: key, content: textarea.value})});
+        taskDetail.coursewareNotes = result.notes || taskDetail.coursewareNotes;
+        taskDetail.coursewareNoteModules = result.modules || taskDetail.coursewareNoteModules;
+        if (status) status.textContent = '已自动保存';
+      } catch (error) {
+        if (status) status.textContent = error.message;
+      }
+    }, 500));
   });
 }
 

@@ -429,6 +429,12 @@ td.actions {
     radial-gradient(circle at bottom right, rgba(14, 165, 233, .14), transparent 24rem),
     #f8fafc;
 }
+.login-reset-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .login-panel {
   width: min(440px, 100%);
   background: rgba(255, 255, 255, .92);
@@ -2924,6 +2930,12 @@ button.ghost:hover:not(:disabled) {
 .training-detail-section ul { margin:7px 0 0; padding-left:18px; }
 .training-detail-section li { margin:4px 0; }
 .training-detail-section li .muted { margin-left:7px; }
+.courseware-note-board { display:grid; gap:12px; }
+.courseware-note-module { padding:12px; border:1px solid #dbe7f6; border-radius:10px; background:#fff; }
+.courseware-note-module h4 { margin:0 0 8px; color:#174f8a; }
+.courseware-note-card { display:grid; gap:6px; margin-top:10px; }
+.courseware-note-card span { font-size:13px; color:var(--muted); }
+.courseware-note-card textarea, #trainingTaskNoteForm textarea { width:100%; min-height:90px; }
 .training-gantt-legend { display:flex; flex-wrap:wrap; gap:12px 18px; margin:5px 0 12px; color:#475467; font-size:12px; }
 .training-gantt-legend span { display:inline-flex; align-items:center; gap:5px; }
 .training-legend-dot { width:10px; height:10px; border-radius:3px; display:inline-block; border:1px solid transparent; }

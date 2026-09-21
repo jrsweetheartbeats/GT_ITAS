@@ -50,6 +50,7 @@ from ..models import (
     DocumentRequest,
     EnterpriseContact,
     LoginSession,
+    PasswordResetChallenge,
     Project,
     ProjectMember,
     ReviewFinding,
@@ -74,6 +75,8 @@ from ..schemas import (
     LoginIn,
     MemberIn,
     PasswordPolicyIn,
+    PasswordResetConfirmIn,
+    PasswordResetRequestIn,
     ProjectIn,
     ReviewDecisionIn,
     ReviewRunIn,
@@ -99,6 +102,7 @@ from ..services.attachments import (
 from ..services.materials import c22_document_requests_from_rules, save_upload_files
 from ..services.projects import copy_workpaper_file, replace_audit_year, seed_project_template_workpapers
 from ..services.review import add_finding, run_external_rules, run_internal_review
+from ..services.sms import SmsError, mask_mobile, normalize_cn_mobile, send_verification_sms
 
 
 router = APIRouter()
@@ -130,6 +134,81 @@ def login(body: LoginIn, db: Session = Depends(get_db)) -> dict[str, Any]:
     data["permissions"] = feature_permission_payload(db, user)
     data.pop("password_hash", None)
     return {"token": token, "user": data}
+
+
+def _active_user_by_username(db: Session, username: str) -> User:
+    user = db.execute(select(User).where(User.username == username.strip())).scalar_one_or_none()
+    if user is None or user.status != "active":
+        raise HTTPException(status_code=400, detail="账号不存在或已停用")
+    return user
+
+
+@router.post("/api/password-reset/request")
+def request_password_reset(body: PasswordResetRequestIn, db: Session = Depends(get_db)) -> dict[str, Any]:
+    user = _active_user_by_username(db, body.username)
+    phone = normalize_cn_mobile(user.phone)
+    if not phone:
+        raise HTTPException(status_code=400, detail="该账号未登记手机号，请联系管理员在用户资料中补充")
+    latest = db.execute(
+        select(PasswordResetChallenge)
+        .where(PasswordResetChallenge.user_id == user.id)
+        .order_by(PasswordResetChallenge.created_at.desc(), PasswordResetChallenge.id.desc())
+    ).scalars().first()
+    if latest and latest.consumed_at is None and latest.created_at and datetime.utcnow() - latest.created_at < timedelta(seconds=60):
+        raise HTTPException(status_code=429, detail="验证码已发送，请 60 秒后再试")
+    code = f"{secrets.randbelow(1000000):06d}"
+    db.add(PasswordResetChallenge(
+        user_id=user.id,
+        phone=phone,
+        code_hash=hash_password(code),
+        expires_at=datetime.utcnow() + timedelta(minutes=5),
+    ))
+    try:
+        sms = send_verification_sms(phone, code)
+    except SmsError as exc:
+        db.rollback()
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    db.commit()
+    payload = {
+        "ok": True,
+        "maskedPhone": mask_mobile(phone),
+        "expiresInSeconds": 300,
+        "provider": sms.provider,
+        "message": f"验证码已发送至 {mask_mobile(phone)}",
+    }
+    if sms.debug_code:
+        payload["debugCode"] = sms.debug_code
+        payload["message"] += "（当前为本地调试模式，未走收费短信通道）"
+    return payload
+
+
+@router.post("/api/password-reset/confirm")
+def confirm_password_reset(body: PasswordResetConfirmIn, db: Session = Depends(get_db)) -> dict[str, Any]:
+    user = _active_user_by_username(db, body.username)
+    if body.new_password != body.new_password.strip() or not body.new_password.strip():
+        raise HTTPException(status_code=400, detail="请输入新密码")
+    validate_password_policy(body.new_password, get_setting(db, "password_policy", DEFAULT_PASSWORD_POLICY))
+    challenge = db.execute(
+        select(PasswordResetChallenge)
+        .where(
+            PasswordResetChallenge.user_id == user.id,
+            PasswordResetChallenge.consumed_at.is_(None),
+            PasswordResetChallenge.expires_at > datetime.utcnow(),
+        )
+        .order_by(PasswordResetChallenge.created_at.desc(), PasswordResetChallenge.id.desc())
+    ).scalars().first()
+    if challenge is None:
+        raise HTTPException(status_code=400, detail="验证码无效或已过期，请重新获取")
+    if int(challenge.attempt_count or 0) >= 5:
+        raise HTTPException(status_code=400, detail="验证码错误次数过多，请重新获取")
+    challenge.attempt_count = int(challenge.attempt_count or 0) + 1
+    if not verify_password(str(body.code).strip(), challenge.code_hash):
+        db.commit()
+        raise HTTPException(status_code=400, detail="验证码不正确")
+    user.password_hash = hash_password(body.new_password)
+    challenge.consumed_at = datetime.utcnow()
+    db.commit()
+    return {"ok": True, "message": "密码已更新，请使用新密码登录"}
 
 
 @router.post("/api/logout", status_code=204)

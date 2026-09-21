@@ -6,7 +6,7 @@
   <title>ITAS</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-  <link rel="stylesheet" href="/static/css/app.css?v=20260920-home23">
+  <link rel="stylesheet" href="/static/css/app.css?v=20260921-notes1">
 </head>
 <body>
   <div class="login-screen" id="loginScreen">
@@ -18,7 +18,25 @@
       <label>账号<input name="username" autocomplete="username" required></label>
       <label>密码<input name="password" type="password" autocomplete="current-password" required></label>
       <button type="submit">登录</button>
+      <button type="button" class="secondary" id="showPasswordReset">修改密码</button>
       <div class="muted" id="loginStatus">请输入账号和密码</div>
+    </form>
+    <form class="login-panel form-grid hidden" id="passwordResetForm">
+      <div>
+        <h1>修改密码</h1>
+        <div class="muted">验证码会发送到账号在系统中登记的手机号</div>
+      </div>
+      <label>账号<input name="username" autocomplete="username" required></label>
+      <div class="login-reset-row">
+        <button type="button" class="secondary" id="sendResetCode">发送验证码</button>
+        <span class="muted" id="resetPhoneHint"></span>
+      </div>
+      <label>验证码<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label>
+      <label>新密码<input name="new_password" type="password" autocomplete="new-password" required></label>
+      <label>确认新密码<input name="confirm_password" type="password" autocomplete="new-password" required></label>
+      <button type="submit">确认修改</button>
+      <button type="button" class="secondary" id="backToLogin">返回登录</button>
+      <div class="muted" id="resetStatus">请先输入账号并获取验证码</div>
     </form>
   </div>
   <div class="app hidden" id="appShell">
@@ -1163,6 +1181,6 @@
       });
     })();
   </script>
-  <script type="module" src="/static/js/app.js?v=20260920-home23"></script>
+  <script type="module" src="/static/js/app.js?v=20260921-notes1"></script>
 </body>
 </html>

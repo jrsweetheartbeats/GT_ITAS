@@ -20,6 +20,7 @@ from ..models import (
     DevelopmentAssessmentDimension,
     DevelopmentBlocker,
     DevelopmentEmployee,
+    DevelopmentCoursewareNote,
     DevelopmentLearningMaterial,
     DevelopmentLearningMaterialRead,
     DevelopmentTaskNote,
@@ -31,6 +32,7 @@ from ..models import (
     DevelopmentTrainingWeek,
     User,
 )
+from ..services.courseware_notes import CHAPTER_BY_KEY, chapter_payload, group_notes_by_module
 from ..services.training_plan_protocol import (
     ProtocolQuizQuestion,
     TrainingPlanDocument,
@@ -943,8 +945,8 @@ def _task_courseware_html(task: DevelopmentTrainingTask, week: DevelopmentTraini
         if (task.completion_criteria or "").strip() != (task.instructions or task.description or "").strip()
         else "<p>本任务的完成要求已在“学习要求”中列明。提交时应进一步说明所采用的程序、取得的事实、例外评价和结论边界。</p>"
     )
-    task_application = '''<h2>四、结合本任务进行推演</h2><h3>把要求拆成可执行问题</h3><p>将本节学习要求拆为四个问题：需要确认的业务或系统事实是什么；可能发生的错误是什么；现有控制如何预防或发现该错误；用什么资料能够证明控制在适用期间内实际运行。这样拆解后，工作不会停留在“收集资料”层面，而能形成清晰的测试逻辑。</p><h3>从一项事实走到一项结论</h3><p>先选择一笔具有代表性的业务、一次系统处理或一项配置作为切入点，沿着输入、处理、输出和后续核验追踪。记录交易或资料的唯一标识、发生日期、责任岗位、系统功能和关键字段。若发现结果与预期不一致，不应立即定性；需要先排除期间差异、汇总层级、主数据变化、例外审批或重处理等合理原因，再判断是否形成控制例外。</p><h3>判断范围而非只判断单点</h3><p>一个样本能证明该样本发生了什么，不能自动证明整个期间都有效。需要根据控制频率、总体数量、系统变更、异常情况和样本测试结果判断是否需要扩大程序。若控制依赖报表、接口或系统配置，也要分别评价这些依赖信息的完整性和准确性。这样得出的结论才能与证据范围相匹配。</p><h3>形成可复核的工作记录</h3><p>记录应使未参与现场工作的复核人能够理解判断过程。每一项引用应能定位到具体文件、系统页面、报表版本或交易编号；每一个结论应能回指到对应的程序和事实。对于口头访谈，应记录访谈对象、日期、关键陈述以及后续验证方式。对于系统截图，应同时说明截图反映的功能、参数、期间和与测试目标的关系，避免只有图片而没有证据含义。</p><p>当资料之间出现矛盾时，应优先回到原始业务记录和系统日志，分析差异是由取数时点、处理状态、汇总口径还是实际异常造成。将差异分析留在底稿中，能够说明项目组不是简单接受解释，而是完成了必要的核验。</p><p>完成初稿后，应以复核人的视角回读：不了解现场情况的人，能否仅依据本页记录识别业务背景、测试总体、所取证据、已发现例外以及结论边界。若其中任何一项无法定位，应补充引用或事实说明后再提交。对需要后续跟进的事项，应明确责任人、预计完成时间和复核方式，确保异常处理形成闭环。</p><div class="example"><strong>本任务输出应体现的结构</strong><p>先写风险和控制目标，再写程序与样本选择依据；随后列明取得的事实和例外；最后说明例外是否影响控制目标、是否存在补偿控制以及结论的适用范围。完成标准请以本课件末尾的“提交前自查”为准。</p></div>'''
-    return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>{title}｜学习课件</title><style>body{{max-width:920px;margin:0 auto;padding:42px 26px;font:16px/1.9 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;color:#1f2937;background:#f8fafc}}main{{background:#fff;border:1px solid #dbe4ee;border-radius:14px;padding:38px;box-shadow:0 8px 24px rgba(15,23,42,.06)}}.meta{{color:#64748b;font-size:14px}}h1{{margin:10px 0 4px;color:#0f3f78}}h2{{margin-top:36px;padding-bottom:8px;border-bottom:1px solid #dbe4ee;color:#174f8a;font-size:20px}}h3{{margin:22px 0 6px;color:#334155;font-size:17px}}p{{margin:10px 0;white-space:pre-wrap}}li{{margin:9px 0}}.notice,.risk,.example{{margin:20px 0;padding:16px 18px;border-radius:6px}}.notice{{border-left:4px solid #d97706;background:#fffbeb}}.risk{{border-left:4px solid #b91c1c;background:#fef2f2}}.example{{border-left:4px solid #2563eb;background:#eff6ff}}.toc{{margin:22px 0;padding:16px 20px;background:#f1f5f9;border-radius:8px}}.toc li{{margin:3px 0}}</style></head><body><main><div class="meta">{employee} · {batch} · 专属学习课件</div><h1>{title}</h1><div class="toc"><strong>本节内容</strong><ol><li>本节定位与学习目标</li><li>核心概念与工作机制</li><li>审计程序与证据判断</li><li>任务推演与工作输出</li><li>注意事项、风险实质与自查</li></ol></div><h2>一、本节定位与学习目标</h2>{introduction_text}{objective_text}<div class="example"><strong>学习完成后应达到的程度</strong><p>不仅能够复述本节术语，还应能结合当前任务解释：风险发生在何处、系统或人员如何处理该风险、应取得哪些资料，以及这些资料为何能够支持审计判断。</p></div><h2>二、核心概念：{html_escape(concept)}</h2><h3>概念边界</h3><p>{text(chapter["definition"])}</p><h3>工作机制</h3><p>{text(chapter["mechanism"])}</p><p>{html_escape(principle)}</p><h2>三、如何落实到审计工作</h2><h3>本任务的学习要求</h3><p>{instructions}</p><h3>推荐的执行顺序</h3><p>{text(chapter["procedure"])}</p><h3>证据应当回答什么问题</h3><p>{text(chapter["evidence"])}</p>{task_application}<div class="notice"><strong>注意事项</strong><ol>{pitfalls}<li>先确认资料来源、适用期间、总体范围和关键字段口径，再对结果作出判断。</li><li>区分已确认事实、管理层解释和审计结论；未取得的资料不能替代为既定事实。</li></ol></div><h2>五、风险实质与影响传导</h2><div class="risk"><strong>本节重点风险</strong><p>{html_escape(risk)}</p></div><p>风险的实质在于：关键处理、控制或数据传递一旦失效而未被及时发现，业务记录可能发生遗漏、重复、错误或未经授权的变动。该问题可能先表现为操作层面的异常，随后影响系统数据、会计记录、财务报表认定和审计结论。因此，审计程序既要识别异常，也要确认异常的范围、原因、补偿控制和最终影响。</p><h2>六、完成标准与提交前自查</h2>{completion_text}<ol><li>能用自己的语言说明本任务对应的业务或系统环节，以及该环节要防范的错误。</li><li>能列明执行程序、资料来源、适用期间和关键判断，而不只列出资料名称。</li><li>能说明例外发生后应如何判断影响范围、取得补充证据并记录结论边界。</li><li>完成在线选择题后，逐题阅读答案与解析，再提交作业。</li></ol></main></body></html>'''
+    task_application = '''<h2 data-chapter-key="walkthrough" data-chapter-module="任务推演">四、结合本任务进行推演</h2><h3>把要求拆成可执行问题</h3><p>将本节学习要求拆为四个问题：需要确认的业务或系统事实是什么；可能发生的错误是什么；现有控制如何预防或发现该错误；用什么资料能够证明控制在适用期间内实际运行。这样拆解后，工作不会停留在“收集资料”层面，而能形成清晰的测试逻辑。</p><h3>从一项事实走到一项结论</h3><p>先选择一笔具有代表性的业务、一次系统处理或一项配置作为切入点，沿着输入、处理、输出和后续核验追踪。记录交易或资料的唯一标识、发生日期、责任岗位、系统功能和关键字段。若发现结果与预期不一致，不应立即定性；需要先排除期间差异、汇总层级、主数据变化、例外审批或重处理等合理原因，再判断是否形成控制例外。</p><h3>判断范围而非只判断单点</h3><p>一个样本能证明该样本发生了什么，不能自动证明整个期间都有效。需要根据控制频率、总体数量、系统变更、异常情况和样本测试结果判断是否需要扩大程序。若控制依赖报表、接口或系统配置，也要分别评价这些依赖信息的完整性和准确性。这样得出的结论才能与证据范围相匹配。</p><h3>形成可复核的工作记录</h3><p>记录应使未参与现场工作的复核人能够理解判断过程。每一项引用应能定位到具体文件、系统页面、报表版本或交易编号；每一个结论应能回指到对应的程序和事实。对于口头访谈，应记录访谈对象、日期、关键陈述以及后续验证方式。对于系统截图，应同时说明截图反映的功能、参数、期间和与测试目标的关系，避免只有图片而没有证据含义。</p><p>当资料之间出现矛盾时，应优先回到原始业务记录和系统日志，分析差异是由取数时点、处理状态、汇总口径还是实际异常造成。将差异分析留在底稿中，能够说明项目组不是简单接受解释，而是完成了必要的核验。</p><p>完成初稿后，应以复核人的视角回读：不了解现场情况的人，能否仅依据本页记录识别业务背景、测试总体、所取证据、已发现例外以及结论边界。若其中任何一项无法定位，应补充引用或事实说明后再提交。对需要后续跟进的事项，应明确责任人、预计完成时间和复核方式，确保异常处理形成闭环。</p><div class="example"><strong>本任务输出应体现的结构</strong><p>先写风险和控制目标，再写程序与样本选择依据；随后列明取得的事实和例外；最后说明例外是否影响控制目标、是否存在补偿控制以及结论的适用范围。完成标准请以本课件末尾的“提交前自查”为准。</p></div>'''
+    return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>{title}｜学习课件</title><style>body{{max-width:920px;margin:0 auto;padding:42px 26px;font:16px/1.9 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;color:#1f2937;background:#f8fafc}}main{{background:#fff;border:1px solid #dbe4ee;border-radius:14px;padding:38px;box-shadow:0 8px 24px rgba(15,23,42,.06)}}.meta{{color:#64748b;font-size:14px}}h1{{margin:10px 0 4px;color:#0f3f78}}h2{{margin-top:36px;padding-bottom:8px;border-bottom:1px solid #dbe4ee;color:#174f8a;font-size:20px}}h3{{margin:22px 0 6px;color:#334155;font-size:17px}}p{{margin:10px 0;white-space:pre-wrap}}li{{margin:9px 0}}.notice,.risk,.example{{margin:20px 0;padding:16px 18px;border-radius:6px}}.notice{{border-left:4px solid #d97706;background:#fffbeb}}.risk{{border-left:4px solid #b91c1c;background:#fef2f2}}.example{{border-left:4px solid #2563eb;background:#eff6ff}}.toc{{margin:22px 0;padding:16px 20px;background:#f1f5f9;border-radius:8px}}.toc li{{margin:3px 0}}</style></head><body><main><div class="meta">{employee} · {batch} · 专属学习课件</div><h1>{title}</h1><div class="toc"><strong>本节内容</strong><ol><li>本节定位与学习目标</li><li>核心概念与工作机制</li><li>审计程序与证据判断</li><li>任务推演与工作输出</li><li>注意事项、风险实质与自查</li></ol></div><h2 data-chapter-key="orientation" data-chapter-module="定位与目标">一、本节定位与学习目标</h2>{introduction_text}{objective_text}<div class="example"><strong>学习完成后应达到的程度</strong><p>不仅能够复述本节术语，还应能结合当前任务解释：风险发生在何处、系统或人员如何处理该风险、应取得哪些资料，以及这些资料为何能够支持审计判断。</p></div><h2 data-chapter-key="concept" data-chapter-module="核心概念">二、核心概念：{html_escape(concept)}</h2><h3>概念边界</h3><p>{text(chapter["definition"])}</p><h3>工作机制</h3><p>{text(chapter["mechanism"])}</p><p>{html_escape(principle)}</p><h2 data-chapter-key="practice" data-chapter-module="程序与证据">三、如何落实到审计工作</h2><h3>本任务的学习要求</h3><p>{instructions}</p><h3>推荐的执行顺序</h3><p>{text(chapter["procedure"])}</p><h3>证据应当回答什么问题</h3><p>{text(chapter["evidence"])}</p>{task_application}<div class="notice"><strong>注意事项</strong><ol>{pitfalls}<li>先确认资料来源、适用期间、总体范围和关键字段口径，再对结果作出判断。</li><li>区分已确认事实、管理层解释和审计结论；未取得的资料不能替代为既定事实。</li></ol></div><h2 data-chapter-key="risk" data-chapter-module="风险实质">五、风险实质与影响传导</h2><div class="risk"><strong>本节重点风险</strong><p>{html_escape(risk)}</p></div><p>风险的实质在于：关键处理、控制或数据传递一旦失效而未被及时发现，业务记录可能发生遗漏、重复、错误或未经授权的变动。该问题可能先表现为操作层面的异常，随后影响系统数据、会计记录、财务报表认定和审计结论。因此，审计程序既要识别异常，也要确认异常的范围、原因、补偿控制和最终影响。</p><h2 data-chapter-key="checklist" data-chapter-module="完成标准">六、完成标准与提交前自查</h2>{completion_text}<ol><li>能用自己的语言说明本任务对应的业务或系统环节，以及该环节要防范的错误。</li><li>能列明执行程序、资料来源、适用期间和关键判断，而不只列出资料名称。</li><li>能说明例外发生后应如何判断影响范围、取得补充证据并记录结论边界。</li><li>完成在线选择题后，逐题阅读答案与解析，再提交作业。</li></ol></main></body></html>'''
 
 
 @training_router.get("/tasks/{task_id}/courseware")
@@ -982,6 +984,12 @@ def training_task_detail(task_id: int, db: Session = Depends(get_db), user: User
     prerequisites = _prerequisite_payload(db, task)
     week = db.get(DevelopmentTrainingWeek, task.training_week_id)
     note = db.execute(select(DevelopmentTaskNote).where(DevelopmentTaskNote.task_id == task.id, DevelopmentTaskNote.employee_id == user.id)).scalar_one_or_none()
+    courseware_notes = db.execute(
+        select(DevelopmentCoursewareNote).where(
+            DevelopmentCoursewareNote.task_id == task.id,
+            DevelopmentCoursewareNote.employee_id == user.id,
+        )
+    ).scalars().all()
     unread_material_count = sum(1 for item in task.materials if item.id not in read_material_ids)
     return {
         "id": task.id, "taskCode": task.task_code, "title": task.title, "description": task.description,
@@ -1000,6 +1008,8 @@ def training_task_detail(task_id: int, db: Session = Depends(get_db), user: User
         "canCompleteLearning": not task.submission_required and task.status != "completed" and not prerequisites and unread_material_count == 0,
         "submissions": [_submission_payload(item) for item in submissions],
         "note": note.content if note else "",
+        "coursewareNotes": chapter_payload(courseware_notes),
+        "coursewareNoteModules": group_notes_by_module(chapter_payload(courseware_notes)),
     }
 
 
@@ -1018,6 +1028,56 @@ def save_training_task_note(task_id: int, payload: dict[str, Any] = Body(...), d
         record_learning_event(db, employee_id=user.id, event_type="note_saved", task=task, source="learner", payload={"chars": len(content)})
     db.commit()
     return {"taskId": task.id, "content": note.content, "updatedAt": note.updated_at}
+
+
+def _task_courseware_notes(db: Session, task_id: int, employee_id: int) -> list[DevelopmentCoursewareNote]:
+    return db.execute(
+        select(DevelopmentCoursewareNote).where(
+            DevelopmentCoursewareNote.task_id == task_id,
+            DevelopmentCoursewareNote.employee_id == employee_id,
+        )
+    ).scalars().all()
+
+
+@training_router.get("/tasks/{task_id}/courseware-notes")
+def list_courseware_notes(task_id: int, db: Session = Depends(get_db), user: User = Depends(current_user)) -> dict[str, Any]:
+    ensure_feature_permission(db, user, "development", "view")
+    task = _owned_training_task(db, task_id, user.id)
+    notes = chapter_payload(_task_courseware_notes(db, task.id, user.id))
+    return {"taskId": task.id, "notes": notes, "modules": group_notes_by_module(notes)}
+
+
+@training_router.put("/tasks/{task_id}/courseware-notes")
+def save_courseware_note(task_id: int, payload: dict[str, Any] = Body(...), db: Session = Depends(get_db), user: User = Depends(current_user)) -> dict[str, Any]:
+    ensure_feature_permission(db, user, "development", "view")
+    task = _owned_training_task(db, task_id, user.id)
+    chapter_key = str(payload.get("chapterKey") or payload.get("chapter_key") or "").strip()
+    chapter = CHAPTER_BY_KEY.get(chapter_key)
+    if chapter is None:
+        raise HTTPException(status_code=400, detail="未知的课件章节")
+    content = str(payload.get("content") or "")
+    if len(content) > 8000:
+        raise HTTPException(status_code=400, detail="单章笔记不能超过 8000 字")
+    note = db.execute(
+        select(DevelopmentCoursewareNote).where(
+            DevelopmentCoursewareNote.task_id == task.id,
+            DevelopmentCoursewareNote.employee_id == user.id,
+            DevelopmentCoursewareNote.chapter_key == chapter_key,
+        )
+    ).scalar_one_or_none()
+    if note is None:
+        note = DevelopmentCoursewareNote(task_id=task.id, employee_id=user.id, chapter_key=chapter_key, content=content)
+        db.add(note)
+    else:
+        note.content = content
+    if content.strip():
+        record_learning_event(
+            db, employee_id=user.id, event_type="note_saved", task=task, source="learner",
+            payload={"chars": len(content), "chapterKey": chapter_key},
+        )
+    db.commit()
+    notes = chapter_payload(_task_courseware_notes(db, task.id, user.id))
+    return {"taskId": task.id, "note": {"key": chapter_key, "title": chapter["title"], "module": chapter["module"], "content": note.content}, "notes": notes, "modules": group_notes_by_module(notes)}
 
 
 @training_router.post("/tasks/{task_id}/materials/{material_id}/read")

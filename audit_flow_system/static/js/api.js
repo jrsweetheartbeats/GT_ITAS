@@ -39,12 +39,15 @@ export async function request(path, options = {}) {
 }
 
 export async function login(payload) {
-  return fetch(api + '/api/login', {
+  return postPublic('/api/login', payload);
+}
+
+export async function postPublic(path, payload) {
+  const res = await fetch(api + path, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(payload)
-  }).then(async res => {
-    if (!res.ok) throw new Error((await res.json()).detail || '登录失败');
-    return res.json();
   });
+  if (!res.ok) throw new Error((await res.json()).detail || '请求失败');
+  return res.json();
 }

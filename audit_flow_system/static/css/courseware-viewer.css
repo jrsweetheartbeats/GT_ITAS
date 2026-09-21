@@ -1,0 +1,102 @@
+:root {
+  --ink: #1f2937;
+  --muted: #64748b;
+  --line: #dbe4ee;
+  --brand: #0f3f78;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #f8fafc;
+  color: var(--ink);
+  font: 16px/1.8 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+}
+.hidden { display: none !important; }
+.status {
+  max-width: 720px;
+  margin: 48px auto;
+  padding: 18px 22px;
+  color: var(--muted);
+}
+.viewer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
+.viewer-head {
+  margin-bottom: 18px;
+}
+.viewer-head .meta { color: var(--muted); font-size: 14px; }
+.viewer-head h1 { margin: 8px 0 0; color: var(--brand); font-size: 28px; }
+.toc {
+  margin: 18px 0 8px;
+  padding: 16px 20px;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+.toc li { margin: 3px 0; }
+.chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.9fr);
+  gap: 16px;
+  align-items: start;
+  margin-top: 22px;
+}
+.chapter-body, .chapter-note {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .05);
+}
+.chapter-body { padding: 22px 26px 28px; }
+.chapter-body h2 {
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  color: #174f8a;
+  font-size: 20px;
+}
+.chapter-body h3 { margin: 22px 0 6px; color: #334155; font-size: 17px; }
+.chapter-body p { margin: 10px 0; white-space: pre-wrap; }
+.chapter-body li { margin: 9px 0; }
+.notice, .risk, .example {
+  margin: 20px 0;
+  padding: 16px 18px;
+  border-radius: 6px;
+}
+.notice { border-left: 4px solid #d97706; background: #fffbeb; }
+.risk { border-left: 4px solid #b91c1c; background: #fef2f2; }
+.example { border-left: 4px solid #2563eb; background: #eff6ff; }
+.chapter-note {
+  position: sticky;
+  top: 16px;
+  padding: 16px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chapter-note label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #174f8a;
+}
+.chapter-note textarea {
+  width: 100%;
+  min-height: 180px;
+  flex: 1;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  line-height: 1.6;
+}
+.chapter-note small { color: var(--muted); min-height: 1.2em; }
+.chapter-note small.saved { color: #15803d; }
+.chapter-note small.error { color: #b91c1c; }
+@media (max-width: 960px) {
+  .chapter { grid-template-columns: 1fr; }
+  .chapter-note { position: static; }
+}

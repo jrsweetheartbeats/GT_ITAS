@@ -1,4 +1,4 @@
-import { login, request, setUnauthorizedHandler } from './api.js?v=20260920-state12';
+import { login, postPublic, request, setUnauthorizedHandler } from './api.js?v=20260921-notes1';
 import { clearToken, defaultModuleOrder, setToken, state } from './state.js?v=20260920-state12';
 import { $, activeProjectId, closeModal, esc, fillSelect, formData, openModal, setStatus, tag } from './utils.js?v=20260630b';
 import { bindClients, openNewClientForm, renderClients } from './modules/clients.js?v=20260920-state12';
@@ -12,7 +12,7 @@ import { bindQualityModules, closeQualityFindingDrawer, openQualityFinding, refr
 import { renderDashboardHub, renderProjectContext, renderProjectWorkspace } from './modules/projectWorkspace.js?v=20260920-state12';
 import { bindWorkflowPrototype, loadWorkflowPrototypeData, refreshWorkflowReviewCenterData, renderWorkflowPrototype } from './modules/workflowPrototype.js?v=20260920-state12';
 import { bindLearning, loadLearning } from './modules/learning.js?v=20260920-state12';
-import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260920-state12';
+import { bindDevelopmentOverview, loadDevelopmentOverview, loadLearner } from './modules/developmentOverview.js?v=20260921-notes1';
 import { bindMentorWorkbench } from './modules/mentorWorkbench.js?v=20260920-state12';
 import { bindHome, renderHome } from './modules/home.js?v=20260920-home23';
 
@@ -804,6 +804,57 @@ function bindAuth() {
     try { await request('/api/logout', {method: 'POST', body: '{}'}); } catch {}
     clearToken();
     showLogin();
+  });
+  const loginForm = $('loginForm');
+  const resetForm = $('passwordResetForm');
+  const resetStatus = $('resetStatus');
+  const showReset = () => {
+    loginForm.classList.add('hidden');
+    resetForm.classList.remove('hidden');
+    const username = loginForm.elements.username?.value || '';
+    if (username && !resetForm.elements.username.value) resetForm.elements.username.value = username;
+    resetStatus.textContent = '请先输入账号并获取验证码';
+  };
+  const showLoginForm = () => {
+    resetForm.classList.add('hidden');
+    loginForm.classList.remove('hidden');
+  };
+  $('showPasswordReset')?.addEventListener('click', showReset);
+  $('backToLogin')?.addEventListener('click', showLoginForm);
+  $('sendResetCode')?.addEventListener('click', async () => {
+    const username = String(resetForm.elements.username.value || '').trim();
+    if (!username) { resetStatus.textContent = '请先填写账号'; return; }
+    try {
+      resetStatus.textContent = '正在发送验证码…';
+      const result = await postPublic('/api/password-reset/request', {username});
+      $('resetPhoneHint').textContent = result.maskedPhone ? `已发送至 ${result.maskedPhone}` : '';
+      resetStatus.textContent = result.debugCode ? `${result.message}，验证码 ${result.debugCode}` : (result.message || '验证码已发送');
+    } catch (err) {
+      resetStatus.textContent = '错误：' + err.message;
+    }
+  });
+  resetForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const payload = formData(resetForm);
+    if (payload.new_password !== payload.confirm_password) {
+      resetStatus.textContent = '两次输入的新密码不一致';
+      return;
+    }
+    try {
+      resetStatus.textContent = '正在更新密码…';
+      const result = await postPublic('/api/password-reset/confirm', {
+        username: payload.username,
+        code: payload.code,
+        new_password: payload.new_password,
+      });
+      resetStatus.textContent = result.message || '密码已更新';
+      loginForm.elements.username.value = payload.username;
+      loginForm.elements.password.value = '';
+      $('loginStatus').textContent = '密码已更新，请使用新密码登录';
+      showLoginForm();
+    } catch (err) {
+      resetStatus.textContent = '错误：' + err.message;
+    }
   });
 }
 

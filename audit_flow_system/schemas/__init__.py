@@ -32,6 +32,21 @@ class LoginIn(BaseModel):
     password: str
 
 
+class PasswordResetRequestIn(BaseModel):
+    username: str = Field(min_length=1, max_length=120)
+
+
+class PasswordResetConfirmIn(BaseModel):
+    username: str = Field(min_length=1, max_length=120)
+    code: str = Field(min_length=4, max_length=8)
+    new_password: str = Field(min_length=3, max_length=120)
+
+
+class CoursewareNoteIn(BaseModel):
+    chapterKey: str = Field(min_length=1, max_length=80)
+    content: str = ""
+
+
 class PasswordPolicyIn(BaseModel):
     min_length: int = Field(default=6, ge=1, le=64)
     require_digit: bool = True

@@ -1145,6 +1145,35 @@ class DevelopmentTaskNote(TimestampMixin, Base):
     content: Mapped[str] = mapped_column(Text, default="", nullable=False)
 
 
+class DevelopmentCoursewareNote(TimestampMixin, Base):
+    __tablename__ = "development_courseware_notes"
+    __table_args__ = (
+        UniqueConstraint("task_id", "employee_id", "chapter_key", name="uq_courseware_notes_task_employee_chapter"),
+        Index("ix_courseware_notes_employee_task", "employee_id", "task_id"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    task_id: Mapped[int] = mapped_column(ForeignKey("development_training_tasks.id", ondelete="CASCADE"), nullable=False)
+    employee_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    chapter_key: Mapped[str] = mapped_column(String(80), nullable=False)
+    content: Mapped[str] = mapped_column(Text, default="", nullable=False)
+
+
+class PasswordResetChallenge(TimestampMixin, Base):
+    __tablename__ = "password_reset_challenges"
+    __table_args__ = (Index("ix_password_reset_challenges_user_time", "user_id", "created_at"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False)
+    code_hash: Mapped[str] = mapped_column(Text, nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    attempt_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    consumed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+
+    user: Mapped[User] = relationship()
+
+
 class DevelopmentSubmission(TimestampMixin, Base):
     __tablename__ = "development_submissions"
     __table_args__ = (
